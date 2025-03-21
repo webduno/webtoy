@@ -1,0 +1,33 @@
+.helloWorld {
+  font-size: 24px;
+  color: #333;
+  padding: 20px;
+  border: 2px solid #666;
+  border-radius: 8px;
+  background-color: #f0f0f0;
+}
+
+.playerList {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.playerList h2 {
+  color: #444;
+  margin-bottom: 10px;
+}
+
+.playerList ul {
+  list-style: none;
+  padding: 0;
+}
+
+.playerList li {
+  padding: 8px 12px;
+  margin: 4px 0;
+  background-color: #e9ecef;
+  border-radius: 4px;
+} 
