@@ -4,7 +4,7 @@ import MultiPlayerPage from '@/dom/MultiPlayerPage'
 
 export default async function MultiPlayer() {
   const response = await generateMetadata()
-  
+  console.log("MultiPlayer response", response)
   return (
     <main className="flex-col gap-2 flex-justify-center flex-align-center w-100vw h-100vh">
       <MultiPlayerPage myip={response.myip} />
