@@ -31,7 +31,7 @@ export default function TransformControls({
     cursor: 'pointer',
     transition: 'all 0.2s ease',
     boxShadow: '0 3px 5px rgba(0, 0, 0, 0.1)',
-    textTransform: 'uppercase',
+    // textTransform: 'uppercase',
     letterSpacing: '1px',
     marginBottom: '8px',
     width: '120px',
