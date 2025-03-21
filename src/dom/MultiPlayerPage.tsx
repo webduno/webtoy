@@ -47,13 +47,20 @@ export default function MultiPlayerPage() {
       >
         Add New
       </div>
+
+      {/* if only 1 friend (self) show message */}
+      {friends.length === 1 && (
+        <div style={{textAlign: 'center', }}>
+          <div>Add a friend <br /> to start playing!</div>
+          
       <div className={styles.playerList}
-        style={{ position: 'absolute', top: '0', right: '0', margin: '10px', zIndex: 1000 }}
+        style={{  }}
       >
-        <h2>Connected Players</h2>
+        {/* <h2>Connected Players</h2> */}
         {myip && <>
           <ul>
-            {friends.map(friend => (
+            {/* dont show myself */}
+            {friends.filter(friend => friend.id !== myip).map(friend => (
               <li key={friend.id}>{friend.name}</li>
             ))}
             {/* add new friend input   */}
@@ -88,11 +95,6 @@ export default function MultiPlayerPage() {
           </ul>
           </>}
         </div>
-
-      {/* if only 1 friend (self) show message */}
-      {friends.length === 1 && (
-        <div style={{textAlign: 'center', }}>
-          <div>Add a friend <br /> to start playing!</div>
         </div>
       )}
 
