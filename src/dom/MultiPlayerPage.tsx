@@ -1,5 +1,5 @@
 "use client"
-import { useRef, useState  } from 'react'
+import { useEffect, useRef, useState  } from 'react'
 import styles from '../app/multi/page.module.css'
 import MultiPlayerStage, { MultiPlayerStageHandle } from '@/scenes/MultiPlayerStage'
 
@@ -9,11 +9,23 @@ interface Friend {
   online: boolean;
 }
 
-export default function MultiPlayerPage({myip}: {myip: string}) {
+export default function MultiPlayerPage() {
+  const [myip, setMyip] = useState<string>()
+  const fetchMyip = async () => {
+    console.log("fetchMyip")
+    const response = await fetch('/api/single')
+    const data = await response.json()
+    setMyip(data.ip)
+    setFriends([
+      { id: data.ip ?? '-', name: data.ip ?? '-', online: true }, // myself
+    ])
+    console.log("fetchMyip", data.ip)
+  }
+  useEffect(() => {
+    fetchMyip()
+  }, [])
   const stageRef = useRef<MultiPlayerStageHandle>(null)
-  const [friends, setFriends] = useState<Friend[]>([
-    { id: myip, name: myip, online: true }, // myself
-  ])
+  const [friends, setFriends] = useState<Friend[]>([])
   const [newFriendName, setNewFriendName] = useState<string>('')
 
   const handleHelloClick = () => {
@@ -38,21 +50,23 @@ export default function MultiPlayerPage({myip}: {myip: string}) {
         style={{ position: 'absolute', top: '0', right: '0', margin: '10px', zIndex: 1000 }}
       >
         <h2>Connected Players</h2>
-        <ul>
-          {friends.map(friend => (
-            <li key={friend.id}>{friend.name}</li>
-          ))}
-          {/* add new friend input   */}
-          <li>
-            <input
-              type="text"
-              value={newFriendName}
-              onChange={(e) => setNewFriendName(e.target.value)}
-            />
-            <button onClick={handleAddFriend}>Add</button>
-          </li>
-        </ul>
-      </div>
+        {myip && <>
+          <ul>
+            {friends.map(friend => (
+              <li key={friend.id}>{friend.name}</li>
+            ))}
+            {/* add new friend input   */}
+            <li>
+              <input
+                type="text"
+                value={newFriendName}
+                onChange={(e) => setNewFriendName(e.target.value)}
+              />
+              <button onClick={handleAddFriend}>Add</button>
+            </li>
+          </ul>
+          </>}
+        </div>
 
       {/* if only 1 friend (self) show message */}
       {friends.length === 1 && (
