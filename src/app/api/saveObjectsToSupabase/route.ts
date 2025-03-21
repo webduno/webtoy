@@ -25,17 +25,19 @@ export async function GET(request: Request) {
       const sortedUsers = [...users].reverse().join(',');
       alternativeKey = `${basePart}>>>${sortedUsers}`;
     }
-
+    console.log('storageKey', storageKey, 'alternativeKey', alternativeKey);
+    const testresponse = await supabase.from('objects').select().match({ storage_key: storageKey })
+    console.log("testresponse", testresponse);
     const response1 = await supabase.from('objects').select().match({ storage_key: storageKey }).single();
     const response2 = await supabase.from('objects').select().match({ storage_key: alternativeKey }).single();
 
     const error = response1.error || response2.error;
     const data = response1.data || response2.data;
 
-    if (error) {
+    if (response1.error && response2.error) {
       console.error('Supabase database error:', error);
       return NextResponse.json(
-        { error: error.message },
+        { error: response1.error?.message || response2.error?.message },
         { status: 500 }
       );
     }
