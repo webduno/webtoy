@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { headers } from 'next/headers'
 
 export async function GET(req: NextRequest) {
-  console.log("GET" , "GET")
+  const someip = (req.headers.get('x-forwarded-for') ?? '127.0.0.1').split(',')[0]
+  console.log("GET" , "GET", someip)
   
   // Get the headers object
   const headersList = headers()
@@ -11,7 +12,9 @@ export async function GET(req: NextRequest) {
   const forwardedFor = headersList.get('x-forwarded-for')
   const realIp = headersList.get('x-real-ip')
   const cfConnectingIp = headersList.get('cf-connecting-ip')
-  
+  console.log("forwardedFor", forwardedFor)
+  console.log("realIp", realIp)
+  console.log("cfConnectingIp", cfConnectingIp)
   // Use the first available IP or fallback to default
   let ip = '127.0.0.1'
   if (forwardedFor) {
