@@ -22,7 +22,7 @@ export async function generateMetadata() {
 
 export async function getObjectsFromSupabase(storageKey: string) {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ? process.env.NEXT_PUBLIC_BASE_URL + ':' + (process.env.PORT || 3001) + '/' : ('http://localhost' + ':' + (process.env.PORT || 3001) + '/');
-  const response = await fetch(`${baseUrl}/api/saveObjectsToSupabase?storageKey=${storageKey}`);
+  const response = await fetch(`${baseUrl}api/saveObjectsToSupabase?storageKey=${storageKey}`);
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);
   }
@@ -33,7 +33,7 @@ export async function getObjectsFromSupabase(storageKey: string) {
 export async function saveObjectsToSupabase(objList: any[], storageKey: string) {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ? process.env.NEXT_PUBLIC_BASE_URL + ':' + (process.env.PORT || 3001) + '/' : ('http://localhost' + ':' + (process.env.PORT || 3001) + '/');
   console.log('baseUrl', baseUrl, objList, storageKey);
-  const response = await fetch(`${baseUrl}/api/saveObjectsToSupabase`, {
+  const response = await fetch(`${baseUrl}api/saveObjectsToSupabase`, {
     method: 'POST',
     body: JSON.stringify({ objList, storageKey })
   })
