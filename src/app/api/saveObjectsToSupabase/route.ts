@@ -25,14 +25,13 @@ export async function GET(request: Request) {
       const sortedUsers = [...users].reverse().join(',');
       alternativeKey = `${basePart}>>>${sortedUsers}`;
     }
-    console.log('storageKey', storageKey, 'alternativeKey', alternativeKey);
-    const testresponse = await supabase.from('objects').select().match({ storage_key: storageKey })
-    console.log("testresponse", testresponse);
-    const response1 = await supabase.from('objects').select().match({ storage_key: storageKey }).single();
-    const response2 = await supabase.from('objects').select().match({ storage_key: alternativeKey }).single();
+    const response1 = await supabase.from('objects').select().match({ storage_key: storageKey })
+    const response2 = await supabase.from('objects').select().match({ storage_key: alternativeKey })
+    console.log("testresponse1", response1);
+    console.log("testresponse2", response2);
 
     const error = response1.error || response2.error;
-    const data = response1.data || response2.data;
+    const data = response1?.data?.length ? response1.data : response2.data;
 
     if (response1.error && response2.error) {
       console.error('Supabase database error:', error);
@@ -41,6 +40,7 @@ export async function GET(request: Request) {
         { status: 500 }
       );
     }
+    console.log("testdata", data);
 
     if (!data || data.length === 0) {
       return NextResponse.json(
