@@ -55,12 +55,14 @@ export default function MultiPlayerPage() {
 
   return (
     <>
+    {friends.length > 1 && (
       <div className={styles.helloWorld + ' opaci-chov--75'}
         style={{ position: 'absolute', top: '0', left: '0', margin: '10px', zIndex: 1000, cursor: 'pointer' }}
         onClick={handleHelloClick}
       >
         Add New
       </div>
+    )}
 
       {/* Google Login button in top right */}
       <div
@@ -145,7 +147,9 @@ export default function MultiPlayerPage() {
         <MultiPlayerStage ref={stageRef} friends={friends} />
       )}
       
-      <Logo />
+      {friends.length === 1 &&
+        <Logo />
+      }
 
 
       {/* put ip in the bottom right if its not logged with google */}
