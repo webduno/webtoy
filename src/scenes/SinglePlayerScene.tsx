@@ -74,10 +74,8 @@ const SinglePlayerScene = forwardRef<SinglePlayerSceneHandle, SinglePlayerSceneP
       <SimpleScene>
         <group ref={sceneRef}>
           <mesh onClick={(e) => {
-            console.log('clicked')
             if (!isMoving && !selectedObject) {
               const clickedObject = e.object
-              console.log('clicked', clickedObject)
             } else if (selectedObject) {
               e.stopPropagation()
             }

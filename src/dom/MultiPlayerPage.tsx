@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState  } from 'react'
 import styles from '../app/multi/page.module.css'
 import MultiPlayerStage, { MultiPlayerStageHandle } from '@/scenes/MultiPlayerStage'
+import Logo from '@/components/Logo'
 
 interface Friend {
   id: string;
@@ -40,11 +41,11 @@ export default function MultiPlayerPage() {
 
   return (
     <>
-      <div className={styles.helloWorld}
+      <div className={styles.helloWorld + ' opaci-chov--75'}
         style={{ position: 'absolute', top: '0', left: '0', margin: '10px', zIndex: 1000, cursor: 'pointer' }}
         onClick={handleHelloClick}
       >
-        Hello World - Multiplayer!
+        Add New
       </div>
       <div className={styles.playerList}
         style={{ position: 'absolute', top: '0', right: '0', margin: '10px', zIndex: 1000 }}
@@ -56,13 +57,33 @@ export default function MultiPlayerPage() {
               <li key={friend.id}>{friend.name}</li>
             ))}
             {/* add new friend input   */}
-            <li>
+            <li className="flex-row gap-2 flex-align-center">
               <input
+                className="tx-altfont-1 py-1  bord-r-10"
                 type="text"
                 value={newFriendName}
                 onChange={(e) => setNewFriendName(e.target.value)}
               />
-              <button onClick={handleAddFriend}>Add</button>
+              <button 
+                onClick={handleAddFriend}
+                style={{
+                  backgroundColor: '#4a90e2',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '4px',
+                  padding: '6px 12px',
+                  marginLeft: '8px',
+                  cursor: 'pointer',
+                  fontFamily: '"Bytesized", sans-serif',
+                  boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
+                  transition: 'all 0.2s ease-in-out'
+                }}
+                className="tx-altfont-3 opaci-chov--75"
+                onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+                onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+              >
+                Add
+              </button>
             </li>
           </ul>
           </>}
@@ -79,6 +100,8 @@ export default function MultiPlayerPage() {
       {friends.length > 1 && (
         <MultiPlayerStage ref={stageRef} friends={friends} />
       )}
+      
+      <Logo />
     </>
   )
 } 
