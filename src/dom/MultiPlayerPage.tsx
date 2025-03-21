@@ -64,10 +64,11 @@ export default function MultiPlayerPage() {
       </div>
     )}
 
-      {/* Google Login button in top right */}
-      <div
-        style={{ position: 'absolute', top: '0', right: '0', margin: '10px', zIndex: 1000 }}
-      >
+      {/* Google Login button in top right only if not logged in */}
+      {!session && (
+        <div
+          style={{ position: 'absolute', top: '0', right: '0', margin: '10px', zIndex: 1000 }}
+        >
         <button
           onClick={loginWithGoogle}
           disabled={loading}
@@ -91,6 +92,7 @@ export default function MultiPlayerPage() {
           Login
         </button>
       </div>
+      )}
 
       {/* if only 1 friend (self) show message */}
       {friends.length === 1 && (
