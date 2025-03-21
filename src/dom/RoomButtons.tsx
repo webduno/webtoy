@@ -3,22 +3,25 @@ import Link from 'next/link';
 import './styles.css';
 import { useState } from 'react';
 import { signIn, signOut, useSession } from 'next-auth/react';
+
 export function RoomButtons({myip}: {myip: string}) {
   const { data: session } = useSession();
   const [loggedPlayer, setLoggedPlayer] = useState<{id:string, name:string} | null>({
     id:myip,
     name: myip
   });
+  const [loading, setLoading] = useState<string | null>(null);
 
   const loginWithGoogle = async () => {
-    alert("google");
+    setLoading('google');
     try {
       await signIn("google");
     } catch (error) {
       console.error(error);
       alert("error");
+    } finally {
+      setLoading(null);
     }
-
 
     setLoggedPlayer({
       id:session?.user?.email ?? "",
@@ -26,6 +29,9 @@ export function RoomButtons({myip}: {myip: string}) {
     });
   }
 
+  const handleNavigation = (destination: string) => {
+    setLoading(destination);
+  };
 
   return (<>
     <div className="flex-row gap-2 flex-wrap flex-justify-center flex-align-center">
@@ -35,6 +41,7 @@ export function RoomButtons({myip}: {myip: string}) {
           color: 'inherit',
         }} 
         href={`/single/`}
+        onClick={() => handleNavigation('single')}
       >
         <button
           style={{
@@ -45,15 +52,19 @@ export function RoomButtons({myip}: {myip: string}) {
             backgroundColor: '#4a90e2',
             border: 'none',
             borderRadius: '8px',
-            cursor: 'pointer',
+            cursor: loading === 'single' ? 'wait' : 'pointer',
             transition: 'all 0.2s ease',
             boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
             textTransform: 'uppercase',
             letterSpacing: '1px',
+            opacity: loading === 'single' ? 0.7 : 1,
           }}
           className="room-select-button"
+          disabled={loading !== null}
         >
-          Single <br /> Player
+          {loading === 'single' ? 'Loading...' : (
+            <>Single <br /> Player</>
+          )}
         </button>
       </Link>
       <Link 
@@ -62,6 +73,7 @@ export function RoomButtons({myip}: {myip: string}) {
           color: 'inherit',
         }} 
         href={`/multi`}
+        onClick={() => handleNavigation('multi')}
       >
         <button
           style={{
@@ -72,15 +84,19 @@ export function RoomButtons({myip}: {myip: string}) {
             backgroundColor: '#e24a4a',
             border: 'none',
             borderRadius: '8px',
-            cursor: 'pointer',
+            cursor: loading === 'multi' ? 'wait' : 'pointer',
             transition: 'all 0.2s ease',
             boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
             textTransform: 'uppercase',
             letterSpacing: '1px',
+            opacity: loading === 'multi' ? 0.7 : 1,
           }}
           className="room-select-button"
+          disabled={loading !== null}
         >
-          Multi <br /> Player
+          {loading === 'multi' ? 'Loading...' : (
+            <>Multi <br /> Player</>
+          )}
           <div style={{
             color: 'white',
             textShadow: '0 0 10px rgba(0, 0, 0, 0.75)',
@@ -103,14 +119,16 @@ export function RoomButtons({myip}: {myip: string}) {
           backgroundColor: '#ff9900',
           border: 'none',
           borderRadius: '8px',
-          cursor: 'pointer',
+          cursor: loading === 'google' ? 'wait' : 'pointer',
           transition: 'all 0.2s ease',
           boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
           textTransform: 'uppercase',
+          opacity: loading === 'google' ? 0.7 : 1,
         }}
         onClick={loginWithGoogle}
+        disabled={loading !== null}
       >
-        Login with Google
+        {loading === 'google' ? 'Logging in...' : 'Login with Google'}
       </button>
     </div>
    </>
