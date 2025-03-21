@@ -13,24 +13,25 @@ interface Friend {
 
 export default function MultiPlayerPage() {
   const [myip, setMyip] = useState<string>()
+  const [friends, setFriends] = useState<Friend[]>([])
+  const [newFriendName, setNewFriendName] = useState<string>('')
+  const { data: session } = useSession()
+  const [loading, setLoading] = useState<boolean>(false)
+  const stageRef = useRef<MultiPlayerStageHandle>(null)
+
   const fetchMyip = async () => {
     console.log("fetchMyip")
     const response = await fetch('/api/single')
     const data = await response.json()
     setMyip(data.ip)
     setFriends([
-      { id: data.ip ?? '-', name: data.ip ?? '-', online: true }, // myself
+      { id: data.ip ?? '-', name: session?.user?.email || (data.ip ?? '-'), online: true }, // myself
     ])
     console.log("fetchMyip", data.ip)
   }
   useEffect(() => {
     fetchMyip()
-  }, [])
-  const stageRef = useRef<MultiPlayerStageHandle>(null)
-  const [friends, setFriends] = useState<Friend[]>([])
-  const [newFriendName, setNewFriendName] = useState<string>('')
-  const { data: session } = useSession()
-  const [loading, setLoading] = useState<boolean>(false)
+  }, [session])
 
   const handleHelloClick = () => {
     stageRef.current?.createObject([0, 0, 0])
