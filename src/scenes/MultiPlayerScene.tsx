@@ -5,6 +5,7 @@ import { Object3D, BoxGeometry, MeshStandardMaterial, Mesh, Group } from 'three'
 import { TransformControls } from '@react-three/drei'
 import { createObject, getTransformMode, loadObjects, saveObjects } from '@/scripts/sceneHelpers'
 import { getObjectsFromSupabase, saveObjectsToSupabase } from '../../scripts/service'
+import { useSession } from 'next-auth/react'
 
 export interface MultiPlayerSceneHandle {
   createObject: (position: [number, number, number]) => Object3D
@@ -27,13 +28,14 @@ const STORAGE_KEY = 'multiplayer_scene'
 const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProps>((props, ref) => {
   const { isMoving = false, setIsMoving, selectedObject, setSelectedObject, transformMode = 'move', color, friends = [] } = props
   const sceneRef = useRef<Group>(null)
-
-  // Function to get storage key based on friends data
+  const { data: session } = useSession()
   const getStorageKey = () => {
-    if (friends.length > 0) {
-      const friendIds = friends.map(f => f.id).sort().join(',');
-      console.log('friends, using storage key', `${STORAGE_KEY}@${friendIds}`);
-      return `${STORAGE_KEY}@${friendIds}`;
+    if (friends.length > 1) {
+      const otherFriends = friends.slice(1);
+      const friendIds = otherFriends.map(f => f.id).sort().join(',');
+      // if session then email, else ip
+      const myid = session ? session.user?.email : friends[0].id;
+      return `${STORAGE_KEY}@${myid},${friendIds}`;
     }
     console.log('no friends, using storage key', STORAGE_KEY);
     return STORAGE_KEY;
