@@ -22,25 +22,15 @@ export async function GET(request: Request) {
     if (storageKey.includes('>>>') && storageKey.includes(',')) {
       const [basePart, usersPart] = storageKey.split('>>>');
       const users = usersPart.split(',');
-      const sortedUsers = [...users].sort().join(',');
+      const sortedUsers = [...users].sort().reverse().join(',');
       alternativeKey = `${basePart}>>>${sortedUsers}`;
     }
 
-    // Query for the objects with the specified storage key or its alternative
-    let query = supabase
-      .from('objects')
-      .select('*')
-      .order('created_at', { ascending: false })
-      .limit(1);
-      
-    // If we have an alternative key and it's different from the original
-    if (alternativeKey && alternativeKey !== storageKey) {
-      query = query.or(`storage_key.eq.${storageKey},storage_key.eq.${alternativeKey}`);
-    } else {
-      query = query.eq('storage_key', storageKey);
-    }
+    const response1 = await supabase.from('objects').select('*').eq('storage_key', storageKey).limit(1);
+    const response2 = await supabase.from('objects').select('*').eq('storage_key', alternativeKey).limit(1);
 
-    const { data, error } = await query;
+    const error = response1.error || response2.error;
+    const data = response1.data || response2.data;
 
     if (error) {
       console.error('Supabase database error:', error);
