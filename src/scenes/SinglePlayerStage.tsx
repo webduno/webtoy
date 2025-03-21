@@ -46,6 +46,7 @@ const SinglePlayerStage = forwardRef<SinglePlayerStageHandle, {}>((props, ref) =
               handleDone={handleDone}
               color={color}
               setColor={setColor}
+              setTransformMode={setTransformMode}
             />
         )}
       <SinglePlayerScene 
