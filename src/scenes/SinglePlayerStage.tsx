@@ -7,7 +7,7 @@ import TransformControls from '@/dom/TransformControls'
 type TransformMode = 'move' | 'scale' | 'rotate';
 
 export interface SinglePlayerStageHandle {
-  createObject: (position: [number, number, number]) => void
+  createObject: (position: [number, number, number], scale: [number, number, number], rotation: [number, number, number]) => void
 }
 
 const SinglePlayerStage = forwardRef<SinglePlayerStageHandle, {}>((props, ref) => {
@@ -32,8 +32,8 @@ const SinglePlayerStage = forwardRef<SinglePlayerStageHandle, {}>((props, ref) =
   }
 
   useImperativeHandle(ref, () => ({
-    createObject: (position: [number, number, number]) => {
-      sceneRef.current?.createObject(position)
+    createObject: (position: [number, number, number], scale: [number, number, number], rotation: [number, number, number]) => {
+      sceneRef.current?.createObject(position, scale, rotation)
     }
   }))
 

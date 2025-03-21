@@ -14,7 +14,7 @@ interface Friend {
 }
 
 export interface MultiPlayerStageHandle {
-  createObject: (position: [number, number, number]) => void
+  createObject: (position: [number, number, number], scale: [number, number, number], rotation: [number, number, number]) => void
 }
 
 const MultiPlayerStage = forwardRef<MultiPlayerStageHandle, {friends: Friend[]}>((props, ref) => {
@@ -40,9 +40,9 @@ const MultiPlayerStage = forwardRef<MultiPlayerStageHandle, {friends: Friend[]}>
   }
 
   useImperativeHandle(ref, () => ({
-    createObject: (position: [number, number, number]) => {
+    createObject: (position: [number, number, number], scale: [number, number, number], rotation: [number, number, number]) => {
       console.log("222createObjectcreateObjectcreateObject222")
-      sceneRef.current?.createObject(position)
+      sceneRef.current?.createObject(position, scale, rotation)
     }
   }))
 

@@ -8,7 +8,7 @@ export default function SinglePlayerPage() {
   const stageRef = useRef<SinglePlayerStageHandle>(null)
 
   const handleHelloClick = () => {
-    stageRef.current?.createObject([0, 0, 0])
+    stageRef.current?.createObject([0, 0, 0], [1, 1, 1], [0, 0, 0])
   }
 
   return (

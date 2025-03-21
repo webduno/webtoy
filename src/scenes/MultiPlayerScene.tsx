@@ -8,7 +8,7 @@ import { getObjectsFromSupabase, saveObjectsToSupabase } from '../../scripts/ser
 import { useSession } from 'next-auth/react'
 
 export interface MultiPlayerSceneHandle {
-  createObject: (position: [number, number, number]) => Object3D
+  createObject: (position: [number, number, number], scale: [number, number, number], rotation: [number, number, number]) => Object3D
   saveObjects: () => void
 }
 
@@ -47,7 +47,7 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
     const objectsData = objects.data;
     // load objects into scene
     objectsData.forEach((object: any) => {
-      createObject(object.position, "#"+object.color, sceneRef, setIsMoving, setSelectedObject, isMoving);
+      createObject(object.position, object.scale, object.rotation, "#"+object.color, sceneRef, setIsMoving, setSelectedObject, isMoving);
     });
     setSelectedObject(null);
     setIsMoving(false);
@@ -83,10 +83,11 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
   }, [friends]);
   
   // Create object wrapper to use shared function
-  const handleCreateObject = (position: [number, number, number]) => {
-    console.log("3333handleCreateObjecthandleCreateObjecthandleCreateObject33333")
+  const handleCreateObject = (position: [number, number, number], scale: [number, number, number], rotation: [number, number, number]) => {
     return createObject(
       position, 
+      scale,
+      rotation,
       color, 
       sceneRef, 
       setIsMoving, 

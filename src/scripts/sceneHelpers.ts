@@ -12,6 +12,8 @@ export const getTransformMode = (transformMode: TransformMode = 'move'): Transfo
 // Create a new 3D box object
 export const createObject = (
   position: [number, number, number], 
+  scale: [number, number, number],
+  rotation: [number, number, number],
   color: string, 
   sceneRef: React.RefObject<Group>,
   setIsMoving: (isMoving: boolean) => void,
@@ -26,6 +28,8 @@ export const createObject = (
   const material = new MeshStandardMaterial({ color })
   const mesh = new Mesh(geometry, material)
   mesh.position.set(...position)
+  mesh.scale.set(...scale)
+  mesh.rotation.set(...rotation)
   
   sceneRef.current?.add(mesh)
   setSelectedObject(mesh)

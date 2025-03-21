@@ -6,7 +6,7 @@ import { TransformControls } from '@react-three/drei'
 import { createObject, getTransformMode, loadObjects, saveObjects } from '@/scripts/sceneHelpers'
 
 export interface SinglePlayerSceneHandle {
-  createObject: (position: [number, number, number]) => Object3D
+  createObject: (position: [number, number, number], scale: [number, number, number], rotation: [number, number, number]) => Object3D
   saveObjects: () => void
 }
 
@@ -44,9 +44,11 @@ const SinglePlayerScene = forwardRef<SinglePlayerSceneHandle, SinglePlayerSceneP
   }, []);
   
   // Create object wrapper to use shared function
-  const handleCreateObject = (position: [number, number, number]) => {
+  const handleCreateObject = (position: [number, number, number], scale: [number, number, number], rotation: [number, number, number]) => {
     return createObject(
       position, 
+      scale,
+      rotation,
       color, 
       sceneRef, 
       setIsMoving, 
