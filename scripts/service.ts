@@ -1,8 +1,8 @@
 
 export async function generateMetadata() {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || ('http://localhost' + ':' + (process.env.PORT || 3001));
-    const response = await fetch(`${baseUrl}/api/single`);
+    // const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || ('http://localhost' + ':' + (process.env.PORT || 3001));
+    const response = await fetch(`/api/single`);
     
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -21,8 +21,8 @@ export async function generateMetadata() {
 }
 
 export async function getObjectsFromSupabase(storageKey: string) {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ? process.env.NEXT_PUBLIC_BASE_URL + ':' + (process.env.PORT || 3001) + '/' : ('http://localhost' + ':' + (process.env.PORT || 3001) + '/');
-  const response = await fetch(`${baseUrl}api/saveObjectsToSupabase?storageKey=${storageKey}`);
+  // const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ? process.env.NEXT_PUBLIC_BASE_URL + ':' + (process.env.PORT || 3001) + '/' : ('http://localhost' + ':' + (process.env.PORT || 3001) + '/');
+  const response = await fetch(`/api/saveObjectsToSupabase?storageKey=${storageKey}`);
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);
   }
@@ -31,9 +31,9 @@ export async function getObjectsFromSupabase(storageKey: string) {
 }
 
 export async function saveObjectsToSupabase(objList: any[], storageKey: string) {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ? process.env.NEXT_PUBLIC_BASE_URL + ':' + (process.env.PORT || 3001) + '/' : ('http://localhost' + ':' + (process.env.PORT || 3001) + '/');
-  console.log('baseUrl', baseUrl, objList, storageKey);
-  const response = await fetch(`${baseUrl}api/saveObjectsToSupabase`, {
+  // const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ? process.env.NEXT_PUBLIC_BASE_URL + ':' + (process.env.PORT || 3001) + '/' : ('http://localhost' + ':' + (process.env.PORT || 3001) + '/');
+  // console.log('baseUrl', baseUrl, objList, storageKey);
+  const response = await fetch(`/api/saveObjectsToSupabase`, {
     method: 'POST',
     body: JSON.stringify({ objList, storageKey })
   })
