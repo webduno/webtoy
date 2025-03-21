@@ -18,6 +18,7 @@ export const createObject = (
   setSelectedObject: (object: Object3D | null) => void,
   isMoving: boolean
 ): Object3D => {
+  console.log("isMoving", isMoving)
   if (isMoving) return new Object3D();
 
   setIsMoving(true)

@@ -50,6 +50,7 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
       createObject(object.position, "#"+object.color, sceneRef, setIsMoving, setSelectedObject, isMoving);
     });
     setSelectedObject(null);
+    setIsMoving(false);
   }
 
 
@@ -83,6 +84,7 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
   
   // Create object wrapper to use shared function
   const handleCreateObject = (position: [number, number, number]) => {
+    console.log("3333handleCreateObjecthandleCreateObjecthandleCreateObject33333")
     return createObject(
       position, 
       color, 

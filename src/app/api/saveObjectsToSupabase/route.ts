@@ -84,28 +84,56 @@ export async function POST(request: Request) {
 
     // Normalize the storageKey by sorting the user list
     let normalizedStorageKey = storageKey;
+    let alternativeKey = null;
+    
     if (storageKey.includes('>>>') && storageKey.includes(',')) {
       const [basePart, usersPart] = storageKey.split('>>>');
       const users = usersPart.split(',');
+      
+      // Create normalized key with sorted users
       const sortedUsers = [...users].sort().join(',');
       normalizedStorageKey = `${basePart}>>>${sortedUsers}`;
+      
+      // Create alternative key with reversed users
+      const reversedUsers = [...users].reverse().join(',');
+      alternativeKey = `${basePart}>>>${reversedUsers}`;
     }
 
-    // Insert the data as a row in the database
-    const { data, error } = await supabase
-      .from('objects')
-      .insert([
-        { 
-          content: JSON.stringify(objList),
-          storage_key: normalizedStorageKey,
-          created_at: new Date().toISOString()
-        }
-      ]);
+    // Check if either key exists in the database
+    const response1 = await supabase.from('objects').select('id').match({ storage_key: normalizedStorageKey });
+    const response2 = alternativeKey ? await supabase.from('objects').select('id').match({ storage_key: alternativeKey }) : { data: null };
 
-    if (error) {
-      console.error('Supabase database error:', error);
+    const existingRecord = response1?.data?.[0] || response2?.data?.[0];
+    const existingKey = response1?.data?.[0] ? normalizedStorageKey : (response2?.data?.[0] ? alternativeKey : null);
+
+    let result;
+    
+    if (existingRecord) {
+      // Update existing record
+      result = await supabase
+        .from('objects')
+        .update({ 
+          content: JSON.stringify(objList),
+          created_at: new Date().toISOString()
+        })
+        .match({ storage_key: existingKey });
+    } else {
+      // Insert new record
+      result = await supabase
+        .from('objects')
+        .insert([
+          { 
+            content: JSON.stringify(objList),
+            storage_key: normalizedStorageKey,
+            created_at: new Date().toISOString()
+          }
+        ]);
+    }
+
+    if (result.error) {
+      console.error('Supabase database error:', result.error);
       return NextResponse.json(
-        { error: error.message },
+        { error: result.error.message },
         { status: 500 }
       );
     }

@@ -41,6 +41,7 @@ const MultiPlayerStage = forwardRef<MultiPlayerStageHandle, {friends: Friend[]}>
 
   useImperativeHandle(ref, () => ({
     createObject: (position: [number, number, number]) => {
+      console.log("222createObjectcreateObjectcreateObject222")
       sceneRef.current?.createObject(position)
     }
   }))
