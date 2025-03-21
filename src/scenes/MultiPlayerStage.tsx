@@ -54,6 +54,7 @@ const MultiPlayerStage = forwardRef<MultiPlayerStageHandle, {friends: Friend[]}>
               handleDone={handleDone}
               color={color}
               setColor={setColor}
+              setTransformMode={setTransformMode}
             />
         )}
       <MultiPlayerScene 
