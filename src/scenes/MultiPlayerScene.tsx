@@ -35,7 +35,7 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
       const friendIds = otherFriends.map(f => f.id).sort().join(',');
       // if session then email, else ip
       const myid = session ? session.user?.email : friends[0].id;
-      return `${STORAGE_KEY}@${myid},${friendIds}`;
+      return `${STORAGE_KEY}>>>${myid},${friendIds}`;
     }
     console.log('no friends, using storage key', STORAGE_KEY);
     return STORAGE_KEY;

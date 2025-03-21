@@ -19,11 +19,11 @@ export async function GET(request: Request) {
 
     // Parse the storageKey to handle different user orders
     let alternativeKey = null;
-    if (storageKey.includes('@') && storageKey.includes(',')) {
-      const [basePart, usersPart] = storageKey.split('@');
+    if (storageKey.includes('>>>') && storageKey.includes(',')) {
+      const [basePart, usersPart] = storageKey.split('>>>');
       const users = usersPart.split(',');
       const sortedUsers = [...users].sort().join(',');
-      alternativeKey = `${basePart}@${sortedUsers}`;
+      alternativeKey = `${basePart}>>>${sortedUsers}`;
     }
 
     // Query for the objects with the specified storage key or its alternative
