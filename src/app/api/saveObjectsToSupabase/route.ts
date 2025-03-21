@@ -22,12 +22,12 @@ export async function GET(request: Request) {
     if (storageKey.includes('>>>') && storageKey.includes(',')) {
       const [basePart, usersPart] = storageKey.split('>>>');
       const users = usersPart.split(',');
-      const sortedUsers = [...users].sort().reverse().join(',');
+      const sortedUsers = [...users].reverse().join(',');
       alternativeKey = `${basePart}>>>${sortedUsers}`;
     }
 
-    const response1 = await supabase.from('objects').select('*').eq('storage_key', storageKey).limit(1);
-    const response2 = await supabase.from('objects').select('*').eq('storage_key', alternativeKey).limit(1);
+    const response1 = await supabase.from('objects').select().match({ storage_key: storageKey }).single();
+    const response2 = await supabase.from('objects').select().match({ storage_key: alternativeKey }).single();
 
     const error = response1.error || response2.error;
     const data = response1.data || response2.data;
@@ -82,11 +82,11 @@ export async function POST(request: Request) {
 
     // Normalize the storageKey by sorting the user list
     let normalizedStorageKey = storageKey;
-    if (storageKey.includes('@') && storageKey.includes(',')) {
-      const [basePart, usersPart] = storageKey.split('@');
+    if (storageKey.includes('>>>') && storageKey.includes(',')) {
+      const [basePart, usersPart] = storageKey.split('>>>');
       const users = usersPart.split(',');
       const sortedUsers = [...users].sort().join(',');
-      normalizedStorageKey = `${basePart}@${sortedUsers}`;
+      normalizedStorageKey = `${basePart}>>>${sortedUsers}`;
     }
 
     // Insert the data as a row in the database
