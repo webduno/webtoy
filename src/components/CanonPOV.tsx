@@ -296,13 +296,14 @@ function PhysicsScene({ position, sceneObjects, onExit, isMobile }: PhysicsScene
     const handleLookMove = (e: TouchEvent) => {
       const touch = e.touches[0]
       const dx = (touch.clientX - lastTouchPosition.current.x) * 0.01
-      const dy = (touch.clientY - lastTouchPosition.current.y) * 0.01
       
       if (camera) {
+        // Only allow horizontal rotation (y-axis)
         camera.rotation.y -= dx
-        // Limit vertical rotation to avoid flipping
-        const newXRotation = camera.rotation.x - dy
-        camera.rotation.x = Math.max(-Math.PI/2, Math.min(Math.PI/2, newXRotation))
+        
+        // Lock vertical rotation and prevent dutch angles
+        camera.rotation.x = 0
+        camera.rotation.z = 0
       }
       
       lastTouchPosition.current = {
