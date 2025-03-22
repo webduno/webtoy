@@ -26,14 +26,24 @@ const ClickHandler = ({
     const raycaster = new Raycaster()
     const mouse = new Vector2()
     
-    // Handle clicks on the canvas
-    const handleClick = (event: MouseEvent) => {
+    // Handle pointer events (mouse clicks or touch)
+    const handlePointerEvent = (event: MouseEvent | TouchEvent) => {
       // Calculate mouse position in normalized device coordinates
       const canvas = event.target as HTMLCanvasElement
       const rect = canvas.getBoundingClientRect()
       
-      mouse.x = ((event.clientX - rect.left) / canvas.width) * 2 - 1
-      mouse.y = -((event.clientY - rect.top) / canvas.height) * 2 + 1
+      // Handle both mouse and touch events
+      if ('clientX' in event) {
+        // Mouse event
+        mouse.x = ((event.clientX - rect.left) / canvas.width) * 2 - 1
+        mouse.y = -((event.clientY - rect.top) / canvas.height) * 2 + 1
+      } else if (event.touches && event.touches.length > 0) {
+        // Touch event
+        mouse.x = ((event.touches[0].clientX - rect.left) / canvas.width) * 2 - 1
+        mouse.y = -((event.touches[0].clientY - rect.top) / canvas.height) * 2 + 1
+      } else {
+        return
+      }
       
       // Update the raycaster
       raycaster.setFromCamera(mouse, camera)
@@ -44,7 +54,7 @@ const ClickHandler = ({
       // Log the first intersection
       if (intersects.length > 0) {
         const object = intersects[0].object
-        console.log('Object clicked:', object)
+        console.log('Object clicked/touched:', object)
         
         // If the object has a click handler in userData, call it
         if (object.userData.onClick) {
@@ -66,10 +76,13 @@ const ClickHandler = ({
     // Get the canvas element
     const canvas = document.querySelector('canvas')
     if (canvas) {
-      canvas.addEventListener('click', handleClick)
+      // Add both mouse and touch event listeners
+      canvas.addEventListener('click', handlePointerEvent)
+      canvas.addEventListener('touchend', handlePointerEvent)
       
       return () => {
-        canvas.removeEventListener('click', handleClick)
+        canvas.removeEventListener('click', handlePointerEvent)
+        canvas.removeEventListener('touchend', handlePointerEvent)
       }
     }
   }, [scene, camera, deleteMode, setSelectedObject, setIsMoving])

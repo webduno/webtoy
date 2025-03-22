@@ -179,7 +179,7 @@ export default function MultiPlayerPage() {
           </ul>
           </>}
               {lastFriend && (<>
-              <div className='tx-start '>
+              <div className='tx-end '>
                 <div className='opaci-50 tx-sm'>Last added: </div> 
                 <span 
                   onClick={() => {
@@ -191,7 +191,6 @@ export default function MultiPlayerPage() {
                     textDecoration: 'underline',
                     color: '#4a90e2',
                     fontSize: '0.9rem',
-                    marginRight: '8px'
                   }}
                   className="opaci-chov--75 tx-start"
                 >
