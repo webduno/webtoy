@@ -14,6 +14,7 @@ interface Friend {
 
 export default function MultiPlayerPage() {
   const [myip, setMyip] = useState<string>()
+  const [lastFriend, setLastFriend] = useState<string>('')
   const fetchMyip = async () => {
     console.log("fetchMyip")
     const response = await fetch('/api/single')
@@ -22,6 +23,13 @@ export default function MultiPlayerPage() {
     setFriends([
       { id: data.ip ?? '-', name: data.ip ?? '-', online: true }, // myself
     ])
+    
+    // Load last friend from localStorage
+    const savedFriend = localStorage.getItem('lastFriend')
+    if (savedFriend) {
+      setLastFriend(savedFriend)
+    }
+    
     console.log("fetchMyip", data.ip)
   }
   useEffect(() => {
@@ -41,9 +49,15 @@ export default function MultiPlayerPage() {
   const handleOpenSettings = () => {
     setShowSettings(!showSettings)
   }
-  const handleAddFriend = () => {
-    if (newFriendName.trim() === '') return;
-    setFriends([...friends, { id: newFriendName, name: newFriendName, online: true }])
+  const handleAddFriend = (newAltFriend = "") => {
+    const theNewName = newFriendName || newAltFriend
+    if (theNewName.trim() === '') return;
+    setFriends([...friends, { id: theNewName, name: theNewName, online: true }])
+    
+    // Save to localStorage
+    localStorage.setItem('lastFriend', theNewName)
+    setLastFriend(theNewName)
+    
     setNewFriendName('')
   }
   const handleResetScene = () => {
@@ -128,6 +142,7 @@ export default function MultiPlayerPage() {
             ))}
             {/* add new friend input   */}
             <li className="flex-row gap-2 flex-align-center">
+              <div className='flex-col'>
               <input
                 className="tx-altfont-1 py-1  bord-r-10"
                 type="text"
@@ -139,8 +154,9 @@ export default function MultiPlayerPage() {
                 value={newFriendName}
                 onChange={(e) => setNewFriendName(e.target.value)}
               />
+              </div>
               <button 
-                onClick={handleAddFriend}
+                onClick={() => handleAddFriend()}
                 style={{
                   backgroundColor: '#4a90e2',
                   color: 'white',
@@ -162,6 +178,27 @@ export default function MultiPlayerPage() {
             </li>
           </ul>
           </>}
+              {lastFriend && (<>
+              <div className='tx-start '>
+                <div className='opaci-50 tx-sm'>Last added: </div> 
+                <span 
+                  onClick={() => {
+                    handleAddFriend(lastFriend)
+                    // setTimeout(() => handleAddFriend(), 100)
+                  }}
+                  style={{
+                    cursor: 'pointer',
+                    textDecoration: 'underline',
+                    color: '#4a90e2',
+                    fontSize: '0.9rem',
+                    marginRight: '8px'
+                  }}
+                  className="opaci-chov--75 tx-start"
+                >
+                  {lastFriend}
+                </span> 
+                </div>
+              </> )}
         </div>
         </div>
       )}
