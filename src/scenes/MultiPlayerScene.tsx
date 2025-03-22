@@ -1,14 +1,18 @@
 "use client"
 import SimpleScene from '@/scenes/SimpleScene'
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react'
-import { Object3D, BoxGeometry, MeshStandardMaterial, Mesh, Group, Raycaster, Vector2 } from 'three'
+import { Object3D, BoxGeometry, MeshStandardMaterial, Mesh, Group, Raycaster, Vector2, Color, ColorRepresentation, Vector3 } from 'three'
 import { MapControls, OrbitControls, TransformControls } from '@react-three/drei'
 import { createObject, getTransformMode, loadObjects, saveObjects } from '@/scripts/sceneHelpers'
 import { getObjectsFromSupabase, saveObjectsToSupabase } from '../../scripts/service'
 import { useSession } from 'next-auth/react'
 import { useThree } from '@react-three/fiber'
 
-
+interface Friend {
+  id: string;
+  name: string;
+  online: boolean;
+}
 
 export interface MultiPlayerSceneHandle {
   createObject: (position: [number, number, number], scale: [number, number, number], rotation: [number, number, number]) => Object3D
@@ -16,6 +20,7 @@ export interface MultiPlayerSceneHandle {
   resetScene: () => void
   copyContent: () => void
   pasteContent: () => void
+  autorotate: () => void
 }
 
 const CONST_HOUSE = [{"position":[0,0,0],"rotation":[0,0,0],"scale":[1,1,1],"color":"ffffff"},{"position":[0,0,0],"rotation":[0,0,0],"scale":[2.956146961721767,0.0728632018415375,2.956146961721767],"color":"00ff00"},{"position":[0,0.44807445271031,0],"rotation":[0,0,-0.738686876404],"scale":[0.7451969334831007,0.6139987992530138,0.7451969334831007],"color":"ff9900"},{"position":[0,0,0.3803046332551081],"rotation":[0,0,0],"scale":[0.32441853028981427,0.6500689591631309,0.32441853028981427],"color":"333333"}]
@@ -23,22 +28,24 @@ const CONST_HOUSE = [{"position":[0,0,0],"rotation":[0,0,0],"scale":[1,1,1],"col
 type TransformMode = 'move' | 'scale' | 'rotate';
 
 interface MultiPlayerSceneProps {
-  isMoving?: boolean
-  setIsMoving: (isMoving: boolean) => void
   selectedObject: Object3D | null
   setSelectedObject: (object: Object3D | null) => void
   transformMode?: TransformMode
   color: string
-  friends?: Array<{id: string, name: string, online: boolean}>
+  isAdding?: boolean
+  setIsAdding: (isAdding: boolean) => void
+  friends?: Friend[]
   deleteMode?: boolean
 }
 
 const STORAGE_KEY = 'multiplayer_scene'
 const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProps>((props, ref) => {
-  const { isMoving = false, setIsMoving, selectedObject, setSelectedObject, transformMode = 'move', color, friends = [], deleteMode = false } = props
+  const { isAdding = false, setIsAdding, selectedObject, setSelectedObject, transformMode = 'move', color, friends = [], deleteMode = false } = props
   const sceneRef = useRef<Group>(null)
   const mapControlsRef = useRef<typeof OrbitControls>(null)
   const { data: session } = useSession()
+  const [autoRotating, setAutoRotating] = useState(false)
+
   const getStorageKey = () => {
     if (friends.length > 1) {
       const otherFriends = friends.slice(1);
@@ -57,10 +64,10 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
     const objectsData = objects.data;
     // load objects into scene
     objectsData.forEach((object: any) => {
-      createObject(object.position, object.scale, object.rotation, "#"+object.color, sceneRef, setIsMoving, setSelectedObject, isMoving);
+      createObject(object.position, object.scale, object.rotation, "#"+object.color, sceneRef, setIsAdding, setSelectedObject, isAdding);
     });
     setSelectedObject(null);
-    setIsMoving(false);
+    setIsAdding(false);
   }
 
   // Load objects when the component mounts and scene is ready
@@ -77,7 +84,7 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
       }
       // Reset selected object
       setSelectedObject(null);
-      setIsMoving(false);
+      setIsAdding(false);
       // Load objects with the new storage key
       loadSupabaseObjects(sceneRef);
       hasLoaded = true;
@@ -112,9 +119,9 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
       rotation,
       color, 
       sceneRef, 
-      setIsMoving, 
+      setIsAdding, 
       setSelectedObject, 
-      isMoving
+      isAdding
     );
   }
 
@@ -162,9 +169,9 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
             object.rotation, 
             "#" + object.color, 
             sceneRef, 
-            setIsMoving, 
+            setIsAdding, 
             setSelectedObject, 
-            isMoving
+            isAdding
           );
         });
       }
@@ -174,11 +181,25 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
       
       // Reset selection
       setSelectedObject(null);
-      setIsMoving(false);
+      setIsAdding(false);
     } catch (error) {
       console.error('Error pasting content:', error);
     }
   }
+  
+  const handleAutorotate = () => {
+    setAutoRotating(prevState => !prevState);
+  }
+
+  // Enable/disable autorotation when the autoRotating state changes
+  useEffect(() => {
+    if (mapControlsRef.current) {
+      // @ts-ignore - OrbitControls does have the autoRotate property
+      mapControlsRef.current.autoRotate = autoRotating;
+      // @ts-ignore - Set a slow rotation speed
+      mapControlsRef.current.autoRotateSpeed = 1.0;
+    }
+  }, [autoRotating]);
   
   if (selectedObject && selectedObject instanceof Mesh && selectedObject.material instanceof MeshStandardMaterial) {
     selectedObject.material.color.set(color);
@@ -189,7 +210,8 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
     saveObjects: handleSaveObjects,
     resetScene: handleResetScene,
     copyContent: handleCopyContent,
-    pasteContent: handlePasteContent
+    pasteContent: handlePasteContent,
+    autorotate: handleAutorotate
   }))
   
   
@@ -204,8 +226,8 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
       <SimpleScene>
         <CameraClickControls sceneRef={sceneRef} mapControlsRef={mapControlsRef} deleteMode={deleteMode} />
         {/* @ts-ignore */}
-        <MapControls enablePan={false} minDistance={0.1} maxDistance={50} ref={mapControlsRef} />
-        {/* <OrbitControls enableRotate={!isMoving} ref={mapControlsRef} /> */}
+        <MapControls enablePan={!isAdding} minDistance={0.1} maxDistance={50} ref={mapControlsRef} />
+        {/* <OrbitControls enableRotate={!isAdding} ref={mapControlsRef} /> */}
         <group ref={sceneRef}>
           {selectedObject && (
             <TransformControls 

@@ -12,14 +12,14 @@ export interface SinglePlayerStageHandle {
 
 const SinglePlayerStage = forwardRef<SinglePlayerStageHandle, {}>((props, ref) => {
   const sceneRef = useRef<SinglePlayerSceneHandle>(null)
-  const [isMoving, setIsMoving] = useState(false)
+  const [isAdding, setIsAdding] = useState(false)
   const [selectedObject, setSelectedObject] = useState<Object3D | null>(null)
   const [transformMode, setTransformMode] = useState<TransformMode>('move')
   const [color, setColor] = useState<string>('#0000ff')
 
   const handleDone = () => {
     sceneRef.current?.saveObjects()
-    setIsMoving(false)
+    setIsAdding(false)
     setSelectedObject(null)
   }
 
@@ -39,7 +39,7 @@ const SinglePlayerStage = forwardRef<SinglePlayerStageHandle, {}>((props, ref) =
 
   return (
     <div className="scene-container">
-        {isMoving && (
+        {isAdding && (
             <TransformControls
               transformMode={transformMode}
               cycleTransformMode={cycleTransformMode}
@@ -47,12 +47,14 @@ const SinglePlayerStage = forwardRef<SinglePlayerStageHandle, {}>((props, ref) =
               color={color}
               setColor={setColor}
               setTransformMode={setTransformMode}
+              isAdding={isAdding}
+              setIsAdding={setIsAdding}
             />
         )}
       <SinglePlayerScene 
         ref={sceneRef} 
-        isMoving={isMoving} 
-        setIsMoving={setIsMoving} 
+        isAdding={isAdding} 
+        setIsAdding={setIsAdding} 
         selectedObject={selectedObject}
         setSelectedObject={setSelectedObject}
         transformMode={transformMode}

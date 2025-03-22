@@ -18,19 +18,20 @@ export interface MultiPlayerStageHandle {
   resetScene: () => void
   copyContent: () => void
   pasteContent: () => void
+  autorotate: () => void
 }
 
 const MultiPlayerStage = forwardRef<MultiPlayerStageHandle, {friends: Friend[], deleteMode: boolean}>((props, ref) => {
   const {friends, deleteMode} = props
   const sceneRef = useRef<MultiPlayerSceneHandle>(null)
-  const [isMoving, setIsMoving] = useState(false)
+  const [isAdding, setIsAdding] = useState(false)
   const [selectedObject, setSelectedObject] = useState<Object3D | null>(null)
   const [transformMode, setTransformMode] = useState<TransformMode>('move')
   const [color, setColor] = useState<string>('#0000ff')
 
   const handleDone = () => {
     sceneRef.current?.saveObjects()
-    setIsMoving(false)
+    setIsAdding(false)
     setSelectedObject(null)
   }
 
@@ -55,12 +56,15 @@ const MultiPlayerStage = forwardRef<MultiPlayerStageHandle, {friends: Friend[], 
     },
     pasteContent: () => {
       sceneRef.current?.pasteContent()
+    },
+    autorotate: () => {
+      sceneRef.current?.autorotate()
     }
   }))
 
   return (
     <div className="scene-container">
-        {isMoving && (
+        {isAdding && (
             <TransformControls
               transformMode={transformMode}
               cycleTransformMode={cycleTransformMode}
@@ -72,8 +76,8 @@ const MultiPlayerStage = forwardRef<MultiPlayerStageHandle, {friends: Friend[], 
         )}
       <MultiPlayerScene 
         ref={sceneRef} 
-        isMoving={isMoving} 
-        setIsMoving={setIsMoving} 
+        isAdding={isAdding} 
+        setIsAdding={setIsAdding} 
         selectedObject={selectedObject}
         setSelectedObject={setSelectedObject}
         transformMode={transformMode}

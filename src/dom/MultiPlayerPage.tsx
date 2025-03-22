@@ -75,6 +75,12 @@ export default function MultiPlayerPage() {
     // close settings
     setShowSettings(false)
   }
+  const handleAutorotate = () => {
+    stageRef.current?.autorotate()
+    // close settings
+    setShowSettings(false)
+  }
+
 
   const loginWithGoogle = async () => {
     return signIn("google");
@@ -94,6 +100,7 @@ export default function MultiPlayerPage() {
       <button onClick={handleResetScene} className='noborder bg-trans tx-white tx-lg py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1 underline'>Reset Scene</button>
       <button onClick={handleCopyContent} className='noborder bg-trans tx-white tx-lg py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1 underline'>Copy Content</button>
       <button onClick={handlePasteContent} className='noborder bg-trans tx-white tx-lg py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1 underline'>Paste Content</button>
+      <button onClick={handleAutorotate} className='noborder bg-trans tx-white tx-lg py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1 underline'>Autorotate</button>
       <div className='tx-white tx-lg py-2  tx-shadow-5 tx-altfont-1 opaci-50'>Add via AI (Soon)</div>
     </div>
     </>)

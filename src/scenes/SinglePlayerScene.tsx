@@ -2,7 +2,7 @@
 import SimpleScene from '@/scenes/SimpleScene'
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react'
 import { Object3D, BoxGeometry, MeshStandardMaterial, Mesh, Group } from 'three'
-import { TransformControls } from '@react-three/drei'
+import { MapControls, TransformControls } from '@react-three/drei'
 import { createObject, getTransformMode, loadObjects, saveObjects } from '@/scripts/sceneHelpers'
 
 export interface SinglePlayerSceneHandle {
@@ -13,18 +13,18 @@ export interface SinglePlayerSceneHandle {
 type TransformMode = 'move' | 'scale' | 'rotate';
 
 interface SinglePlayerSceneProps {
-  isMoving?: boolean
-  setIsMoving: (isMoving: boolean) => void
   selectedObject: Object3D | null
   setSelectedObject: (object: Object3D | null) => void
   transformMode?: TransformMode
   color: string
+  isAdding?: boolean
+  setIsAdding: (isAdding: boolean) => void
 }
 const STORAGE_KEY = 'singleplayer_scene'
 const SinglePlayerScene = forwardRef<SinglePlayerSceneHandle, SinglePlayerSceneProps>((props, ref) => {
-  const { isMoving = false, setIsMoving, selectedObject, setSelectedObject, transformMode = 'move', color } = props
+  const { isAdding = false, setIsAdding, selectedObject, setSelectedObject, transformMode = 'move', color } = props
   const sceneRef = useRef<Group>(null)
-
+  const mapControlsRef = useRef<typeof MapControls>(null)
   // Load objects when the component mounts and scene is ready
   useEffect(() => {
     // Check if the scene is available now
@@ -51,9 +51,9 @@ const SinglePlayerScene = forwardRef<SinglePlayerSceneHandle, SinglePlayerSceneP
       rotation,
       color, 
       sceneRef, 
-      setIsMoving, 
+      setIsAdding, 
       setSelectedObject, 
-      isMoving
+      isAdding
     );
   }
 
@@ -74,9 +74,12 @@ const SinglePlayerScene = forwardRef<SinglePlayerSceneHandle, SinglePlayerSceneP
   return (
     <div style={{ width: '100vw', height: '100vh', position: 'absolute', top: 0, left: 0 }}>
       <SimpleScene>
+        {/* @ts-ignore */}
+        <MapControls enablePan={!isAdding} minDistance={0.1} maxDistance={50} ref={mapControlsRef} />
+        
         <group ref={sceneRef}>
           {/* <mesh onClick={(e) => {
-            if (!isMoving && !selectedObject) {
+            if (!isAdding && !selectedObject) {
               const clickedObject = e.object
             } else if (selectedObject) {
               e.stopPropagation()

@@ -16,14 +16,14 @@ export const createObject = (
   rotation: [number, number, number],
   color: string, 
   sceneRef: React.RefObject<Group>,
-  setIsMoving: (isMoving: boolean) => void,
+  setIsAdding: (isAdding: boolean) => void,
   setSelectedObject: (object: Object3D | null) => void,
-  isMoving: boolean
+  isAdding: boolean
 ): Object3D => {
-  // console.log("isMoving", isMoving)
-  if (isMoving) return new Object3D();
+  // console.log("isAdding", isAdding)
+  if (isAdding) return new Object3D();
 
-  setIsMoving(true)
+  setIsAdding(true)
   const geometry = new BoxGeometry(1, 1, 1)
   const material = new MeshStandardMaterial({ color })
   const mesh = new Mesh(geometry, material)
