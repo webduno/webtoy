@@ -205,7 +205,7 @@ function PhysicsScene({ position, sceneObjects, onExit }: CanonPOVProps) {
       playerApi.velocity.set(newVelX, currentVelocity[1], newVelZ)
     } else if (Math.abs(currentVelocity[0]) > 0.1 || Math.abs(currentVelocity[2]) > 0.1) {
       // Apply friction/deceleration when no input is given
-      const frictionFactor = 0.7 // Almost no deceleration
+      const frictionFactor = 0.5 // Almost no deceleration
       playerApi.velocity.set(
         currentVelocity[0] * frictionFactor,
         currentVelocity[1],
@@ -275,7 +275,7 @@ function PhysicsScene({ position, sceneObjects, onExit }: CanonPOVProps) {
       rotation: [-Math.PI / 2, 0, 0], // Rotated to be horizontal
       position: [0, 0, 0],
       type: 'Static',
-      material: { friction: 0.3 }
+      material: { friction: 0.5 }
     }))
     
     return (
@@ -360,7 +360,7 @@ function PhysicalBox({ position, rotation, scale, geometry, material }: any) {
     position: position,
     rotation: rotation,
     type: 'Static',
-    material: { friction: 0 },
+    material: { friction: 0.5 },
   }), meshRef)
   
   return (
