@@ -129,10 +129,11 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
     setIsMoving(false);
   }
 
-
-
   // Load objects when the component mounts and scene is ready
   useEffect(() => {
+    // Flag to prevent double loading
+    let hasLoaded = false;
+    
     // Check if the scene is available now
     if (sceneRef.current) {
       // Clear existing objects first
@@ -145,17 +146,28 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
       setIsMoving(false);
       // Load objects with the new storage key
       loadSupabaseObjects(sceneRef);
+      hasLoaded = true;
     } else {
       // Use requestAnimationFrame for a more efficient approach than setTimeout
       const checkSceneReady = () => {
-        if (sceneRef.current) {
+        if (sceneRef.current && !hasLoaded) {
+          // Clear existing objects first
+          while (sceneRef.current.children.length > 1) { // Keep the floor
+            const child = sceneRef.current.children[1];
+            sceneRef.current.remove(child);
+          }
           loadSupabaseObjects(sceneRef);
-        } else {
+          hasLoaded = true;
+        } else if (!hasLoaded) {
           requestAnimationFrame(checkSceneReady);
         }
       };
       requestAnimationFrame(checkSceneReady);
     }
+    
+    return () => {
+      hasLoaded = true; // Prevent loading if unmounted
+    };
   }, [friends]);
   
   // Create object wrapper to use shared function
