@@ -39,7 +39,7 @@ export default function CanonPOV({ position, sceneObjects, onExit }: CanonPOVPro
   
   return (
     <div style={{ width: '100vw', height: '100vh', position: 'absolute', top: 0, left: 0 }}>
-      <Canvas camera={{ position: position, fov: 75 }}>
+      <Canvas camera={{ position: position, fov: 125 }} shadows>
         <Physics 
           gravity={[0, -30, 0]} 
           defaultContactMaterial={{ friction: 0, restitution: 0.2 }}
@@ -167,7 +167,7 @@ function PhysicsScene({ position, sceneObjects, onExit, isMobile }: PhysicsScene
   const lastTouchPosition = useRef<{x: number, y: number}>({x: 0, y: 0})
   
   // Player physics properties
-  const playerHeight = 0.5
+  const playerHeight = 0.3
   const playerRadius = 0.1
   const moveSpeed = 5
   const jumpForce = 5
@@ -217,6 +217,10 @@ function PhysicsScene({ position, sceneObjects, onExit, isMobile }: PhysicsScene
   useEffect(() => {
     if (camera) {
       camera.position.set(position[0] || 0, position[1] + playerHeight || 0, position[2] || 0)
+      
+      // Lock camera rotation to only horizontal movement
+      camera.rotation.x = 0
+      camera.rotation.z = 0
     }
   }, [camera, position, playerHeight])
   
@@ -525,7 +529,7 @@ function PhysicsScene({ position, sceneObjects, onExit, isMobile }: PhysicsScene
                 key={index}
                 position={meshPosition}
                 rotation={meshRotation}
-                scale={meshScale.map(s => s * 1.1 || 1)}
+                scale={meshScale.map(s => s * 1.05 || 1)}
                 geometry={obj.geometry}
                 material={obj.material}
               />
@@ -556,7 +560,14 @@ function PhysicsScene({ position, sceneObjects, onExit, isMobile }: PhysicsScene
   
   return (
     <>
-      {!isMobile && <PointerLockControls ref={controlsRef} />}
+      {!isMobile && (
+        <PointerLockControls 
+          ref={controlsRef}
+          // Disable vertical rotation (looking up/down)
+          maxPolarAngle={Math.PI / 2}
+          minPolarAngle={Math.PI / 2}
+        />
+      )}
       <SceneObjects />
       {/* <Ground /> */}
       

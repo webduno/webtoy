@@ -14,7 +14,7 @@ export default function SimpleScene({ children }: SimpleSceneProps) {
       style={{
         width: '100%', height: '100%',
       }}
-      camera={{ position: [-5, 5, 5], fov: 50 }}
+      camera={{ position: [-10, 10, 10], fov: 30 }}
       shadows
     >
       <ambientLight intensity={0.5} />
