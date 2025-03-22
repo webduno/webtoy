@@ -6,6 +6,13 @@ import { Object3D, Vector3, Mesh, MeshStandardMaterial } from 'three'
 import { useKeyboardControls } from '@/hooks/useKeyboardControls'
 import { Physics, useCylinder, useBox, usePlane } from '@react-three/cannon'
 
+// Add mobile detection helper
+function isMobile() {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    typeof navigator !== 'undefined' ? navigator.userAgent : ''
+  )
+}
+
 interface CanonPOVProps {
   position: [number, number, number]
   sceneObjects: Object3D[]
@@ -14,6 +21,12 @@ interface CanonPOVProps {
 
 export default function CanonPOV({ position, sceneObjects, onExit }: CanonPOVProps) {
   const [showControls, setShowControls] = useState(true)
+  const [isMobileDevice, setIsMobileDevice] = useState(false)
+  
+  // Check if client is mobile on component mount
+  useEffect(() => {
+    setIsMobileDevice(isMobile())
+  }, [])
   
   // Hide controls after a few seconds
   useEffect(() => {
@@ -33,12 +46,17 @@ export default function CanonPOV({ position, sceneObjects, onExit }: CanonPOVPro
         >
           <ambientLight intensity={0.5} />
           <directionalLight position={[5, 5, 5]} intensity={1} />
-          <PhysicsScene position={position} sceneObjects={sceneObjects} onExit={onExit} />
+          <PhysicsScene 
+            position={position} 
+            sceneObjects={sceneObjects} 
+            onExit={onExit} 
+            isMobile={isMobileDevice} 
+          />
         </Physics>
       </Canvas>
       
       {/* Controls hint UI */}
-      {showControls && (
+      {showControls && !isMobileDevice && (
         <div style={{
           position: 'absolute',
           bottom: '20px',
@@ -56,16 +74,97 @@ export default function CanonPOV({ position, sceneObjects, onExit }: CanonPOVPro
           <p style={{ margin: '0' }}>WASD: Move | SPACE: Jump | ESC: Exit</p>
         </div>
       )}
+      
+      {/* Mobile Controls */}
+      {isMobileDevice && (
+        <>
+          {/* Movement joystick */}
+          <div id="joystick-container" style={{
+            position: 'absolute',
+            left: '30px',
+            bottom: '30px',
+            width: '120px',
+            height: '120px',
+            borderRadius: '60px',
+            backgroundColor: 'rgba(0, 0, 0, 0.3)',
+            touchAction: 'none',
+            zIndex: 1000
+          }} />
+          
+          {/* Jump button */}
+          <div id="jump-button" style={{
+            position: 'absolute',
+            right: '30px',
+            bottom: '30px',
+            width: '80px',
+            height: '80px',
+            borderRadius: '40px',
+            backgroundColor: 'rgba(0, 0, 0, 0.3)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            color: 'white',
+            fontFamily: 'Arial, sans-serif',
+            fontSize: '16px',
+            touchAction: 'none',
+            zIndex: 1000
+          }}>
+            JUMP
+          </div>
+          
+          {/* Look area - for camera rotation */}
+          <div id="look-area" style={{
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            width: '50%',
+            height: '100%',
+            touchAction: 'none',
+            zIndex: 999
+          }} />
+          
+          {/* Exit button */}
+          <div 
+            onClick={onExit}
+            style={{
+              position: 'absolute',
+              top: '20px',
+              right: '20px',
+              backgroundColor: 'rgba(0, 0, 0, 0.7)',
+              color: 'white',
+              padding: '10px 15px',
+              borderRadius: '5px',
+              fontFamily: 'Arial, sans-serif',
+              fontSize: '14px',
+              zIndex: 1000,
+              cursor: 'pointer'
+            }}
+          >
+            EXIT
+          </div>
+        </>
+      )}
     </div>
   )
 }
 
-function PhysicsScene({ position, sceneObjects, onExit }: CanonPOVProps) {
+interface PhysicsSceneProps extends CanonPOVProps {
+  isMobile: boolean
+}
+
+function PhysicsScene({ position, sceneObjects, onExit, isMobile }: PhysicsSceneProps) {
   const controlsRef = useRef<any>(null)
   const { camera } = useThree()
   const [isLocked, setIsLocked] = useState(false)
   const [showHitbox, setShowHitbox] = useState(true)
   const [isOnGround, setIsOnGround] = useState(false)
+  
+  // Mobile touch controls state
+  const [touchMove, setTouchMove] = useState<{x: number, y: number}>({x: 0, y: 0})
+  const [touchJump, setTouchJump] = useState(false)
+  const [touchLook, setTouchLook] = useState<{x: number, y: number}>({x: 0, y: 0})
+  const joystickActive = useRef(false)
+  const lastTouchPosition = useRef<{x: number, y: number}>({x: 0, y: 0})
   
   // Player physics properties
   const playerHeight = 0.5
@@ -111,7 +210,7 @@ function PhysicsScene({ position, sceneObjects, onExit }: CanonPOVProps) {
     useRef<Mesh>(null)
   )
   
-  // Setup keyboard controls
+  // Setup keyboard controls for non-mobile
   const { moveForward, moveBackward, moveLeft, moveRight, jump } = useKeyboardControls()
   
   // Set initial player position
@@ -121,8 +220,132 @@ function PhysicsScene({ position, sceneObjects, onExit }: CanonPOVProps) {
     }
   }, [camera, position, playerHeight])
   
-  // Handle pointer lock change
+  // Mobile touch controls setup
   useEffect(() => {
+    if (!isMobile) return
+    
+    const joystickContainer = document.getElementById('joystick-container')
+    const jumpButton = document.getElementById('jump-button')
+    const lookArea = document.getElementById('look-area')
+    
+    if (!joystickContainer || !jumpButton || !lookArea) return
+    
+    // Joystick handlers
+    const handleJoystickStart = (e: TouchEvent) => {
+      joystickActive.current = true
+      const touch = e.touches[0]
+      const rect = joystickContainer.getBoundingClientRect()
+      lastTouchPosition.current = {
+        x: touch.clientX,
+        y: touch.clientY
+      }
+      e.preventDefault()
+    }
+    
+    const handleJoystickMove = (e: TouchEvent) => {
+      if (!joystickActive.current) return
+      const touch = e.touches[0]
+      const rect = joystickContainer.getBoundingClientRect()
+      const centerX = rect.left + rect.width / 2
+      const centerY = rect.top + rect.height / 2
+      
+      // Calculate joystick displacement
+      const dx = (touch.clientX - centerX) / (rect.width / 2)
+      const dy = (touch.clientY - centerY) / (rect.height / 2)
+      
+      // Normalize and clamp values to -1 to 1
+      const magnitude = Math.sqrt(dx * dx + dy * dy)
+      const normalizedX = magnitude > 1 ? dx / magnitude : dx
+      const normalizedY = magnitude > 1 ? dy / magnitude : dy
+      
+      setTouchMove({
+        x: normalizedX,
+        y: normalizedY
+      })
+      
+      e.preventDefault()
+    }
+    
+    const handleJoystickEnd = (e: TouchEvent) => {
+      joystickActive.current = false
+      setTouchMove({x: 0, y: 0})
+      e.preventDefault()
+    }
+    
+    // Jump button handlers
+    const handleJumpStart = (e: TouchEvent) => {
+      setTouchJump(true)
+      e.preventDefault()
+    }
+    
+    const handleJumpEnd = (e: TouchEvent) => {
+      setTouchJump(false)
+      e.preventDefault()
+    }
+    
+    // Look area handlers for camera rotation
+    const handleLookStart = (e: TouchEvent) => {
+      const touch = e.touches[0]
+      lastTouchPosition.current = {
+        x: touch.clientX,
+        y: touch.clientY
+      }
+      e.preventDefault()
+    }
+    
+    const handleLookMove = (e: TouchEvent) => {
+      const touch = e.touches[0]
+      const dx = (touch.clientX - lastTouchPosition.current.x) * 0.01
+      const dy = (touch.clientY - lastTouchPosition.current.y) * 0.01
+      
+      if (camera) {
+        camera.rotation.y -= dx
+        // Limit vertical rotation to avoid flipping
+        const newXRotation = camera.rotation.x - dy
+        camera.rotation.x = Math.max(-Math.PI/2, Math.min(Math.PI/2, newXRotation))
+      }
+      
+      lastTouchPosition.current = {
+        x: touch.clientX,
+        y: touch.clientY
+      }
+      
+      e.preventDefault()
+    }
+    
+    // Add event listeners
+    joystickContainer.addEventListener('touchstart', handleJoystickStart)
+    joystickContainer.addEventListener('touchmove', handleJoystickMove)
+    joystickContainer.addEventListener('touchend', handleJoystickEnd)
+    joystickContainer.addEventListener('touchcancel', handleJoystickEnd)
+    
+    jumpButton.addEventListener('touchstart', handleJumpStart)
+    jumpButton.addEventListener('touchend', handleJumpEnd)
+    jumpButton.addEventListener('touchcancel', handleJumpEnd)
+    
+    lookArea.addEventListener('touchstart', handleLookStart)
+    lookArea.addEventListener('touchmove', handleLookMove)
+    
+    // Cleanup
+    return () => {
+      joystickContainer.removeEventListener('touchstart', handleJoystickStart)
+      joystickContainer.removeEventListener('touchmove', handleJoystickMove)
+      joystickContainer.removeEventListener('touchend', handleJoystickEnd)
+      joystickContainer.removeEventListener('touchcancel', handleJoystickEnd)
+      
+      jumpButton.removeEventListener('touchstart', handleJumpStart)
+      jumpButton.removeEventListener('touchend', handleJumpEnd)
+      jumpButton.removeEventListener('touchcancel', handleJumpEnd)
+      
+      lookArea.removeEventListener('touchstart', handleLookStart)
+      lookArea.removeEventListener('touchmove', handleLookMove)
+    }
+  }, [isMobile, camera])
+  
+  // Handle pointer lock change for desktop mode
+  useEffect(() => {
+    if (isMobile) return // Skip for mobile
+    
     const handleLockChange = () => {
       if (document.pointerLockElement) {
         setIsLocked(true)
@@ -137,7 +360,7 @@ function PhysicsScene({ position, sceneObjects, onExit }: CanonPOVProps) {
     return () => {
       document.removeEventListener('pointerlockchange', handleLockChange)
     }
-  }, [onExit])
+  }, [onExit, isMobile])
   
   // Connect player mesh to camera
   useEffect(() => {
@@ -175,56 +398,100 @@ function PhysicsScene({ position, sceneObjects, onExit }: CanonPOVProps) {
   
   // Player movement using physics
   useFrame(() => {
-    if (!isLocked || !controlsRef.current) return
-    
-    // Calculate movement direction based on camera rotation
-    const direction = new Vector3()
-    const frontVector = new Vector3(0, 0, moveBackward ? 1 : moveForward ? -1 : 0)
-    const sideVector = new Vector3(moveLeft ? 1 : moveRight ? -1 : 0, 0, 0)
-    
-    direction
-      .subVectors(frontVector, sideVector)
-      .normalize()
-      .multiplyScalar(moveSpeed)
-      .applyEuler(camera.rotation)
-    
-    // Apply horizontal movement with max speed limit and smoothing
-    const currentVelocity = velocityRef.current
-    
-    // Only change velocity if there's input
-    if (frontVector.length() > 0 || sideVector.length() > 0) {
-      // Apply smoothing factor for gradual acceleration
-      const smoothFactor = 0.3 // Increased for faster acceleration
-      const targetVelX = Math.max(Math.min(direction.x, maxVelocity), -maxVelocity)
-      const targetVelZ = Math.max(Math.min(direction.z, maxVelocity), -maxVelocity)
+    if (isMobile) {
+      // Mobile controls logic
+      const direction = new Vector3()
       
-      // Blend current velocity with target velocity for smoother acceleration
-      const newVelX = currentVelocity[0] + (targetVelX - currentVelocity[0]) * smoothFactor
-      const newVelZ = currentVelocity[2] + (targetVelZ - currentVelocity[2]) * smoothFactor
+      // Use joystick input for movement direction
+      const frontVector = new Vector3(0, 0, touchMove.y)
+      const sideVector = new Vector3(-touchMove.x, 0, 0)
       
-      playerApi.velocity.set(newVelX, currentVelocity[1], newVelZ)
-    } else if (Math.abs(currentVelocity[0]) > 0.1 || Math.abs(currentVelocity[2]) > 0.1) {
-      // Apply friction/deceleration when no input is given
-      const frictionFactor = 0.5 // Almost no deceleration
-      playerApi.velocity.set(
-        currentVelocity[0] * frictionFactor,
-        currentVelocity[1],
-        currentVelocity[2] * frictionFactor
-      )
-    }
-    
-    // Handle jumping - check if on ground using collision detection
-    if (jump && isOnGround) {
-      playerApi.velocity.set(currentVelocity[0], jumpForce, currentVelocity[2])
-      setIsOnGround(false)
+      direction
+        .subVectors(frontVector, sideVector)
+        .normalize()
+        .multiplyScalar(moveSpeed)
+        .applyEuler(camera.rotation)
+      
+      const currentVelocity = velocityRef.current
+      
+      // Only change velocity if there's input
+      if (Math.abs(touchMove.x) > 0.1 || Math.abs(touchMove.y) > 0.1) {
+        // Apply smoothing factor for gradual acceleration
+        const smoothFactor = 0.3 // Increased for faster acceleration
+        const targetVelX = Math.max(Math.min(direction.x, maxVelocity), -maxVelocity)
+        const targetVelZ = Math.max(Math.min(direction.z, maxVelocity), -maxVelocity)
+        
+        // Blend current velocity with target velocity for smoother acceleration
+        const newVelX = currentVelocity[0] + (targetVelX - currentVelocity[0]) * smoothFactor
+        const newVelZ = currentVelocity[2] + (targetVelZ - currentVelocity[2]) * smoothFactor
+        
+        playerApi.velocity.set(newVelX, currentVelocity[1], newVelZ)
+      } else if (Math.abs(currentVelocity[0]) > 0.1 || Math.abs(currentVelocity[2]) > 0.1) {
+        // Apply friction/deceleration when no input is given
+        const frictionFactor = 0.5 // Almost no deceleration
+        playerApi.velocity.set(
+          currentVelocity[0] * frictionFactor,
+          currentVelocity[1],
+          currentVelocity[2] * frictionFactor
+        )
+      }
+      
+      // Handle jumping with touch button
+      if (touchJump && isOnGround) {
+        playerApi.velocity.set(currentVelocity[0], jumpForce, currentVelocity[2])
+        setIsOnGround(false)
+      }
+    } else {
+      // Desktop controls logic
+      if (!isLocked || !controlsRef.current) return
+      
+      // Calculate movement direction based on camera rotation
+      const direction = new Vector3()
+      const frontVector = new Vector3(0, 0, moveBackward ? 1 : moveForward ? -1 : 0)
+      const sideVector = new Vector3(moveLeft ? 1 : moveRight ? -1 : 0, 0, 0)
+      
+      direction
+        .subVectors(frontVector, sideVector)
+        .normalize()
+        .multiplyScalar(moveSpeed)
+        .applyEuler(camera.rotation)
+      
+      // Apply horizontal movement with max speed limit and smoothing
+      const currentVelocity = velocityRef.current
+      
+      // Only change velocity if there's input
+      if (frontVector.length() > 0 || sideVector.length() > 0) {
+        // Apply smoothing factor for gradual acceleration
+        const smoothFactor = 0.3 // Increased for faster acceleration
+        const targetVelX = Math.max(Math.min(direction.x, maxVelocity), -maxVelocity)
+        const targetVelZ = Math.max(Math.min(direction.z, maxVelocity), -maxVelocity)
+        
+        // Blend current velocity with target velocity for smoother acceleration
+        const newVelX = currentVelocity[0] + (targetVelX - currentVelocity[0]) * smoothFactor
+        const newVelZ = currentVelocity[2] + (targetVelZ - currentVelocity[2]) * smoothFactor
+        
+        playerApi.velocity.set(newVelX, currentVelocity[1], newVelZ)
+      } else if (Math.abs(currentVelocity[0]) > 0.1 || Math.abs(currentVelocity[2]) > 0.1) {
+        // Apply friction/deceleration when no input is given
+        const frictionFactor = 0.5 // Almost no deceleration
+        playerApi.velocity.set(
+          currentVelocity[0] * frictionFactor,
+          currentVelocity[1],
+          currentVelocity[2] * frictionFactor
+        )
+      }
+      
+      // Handle jumping - check if on ground using collision detection
+      if (jump && isOnGround) {
+        playerApi.velocity.set(currentVelocity[0], jumpForce, currentVelocity[2])
+        setIsOnGround(false)
+      }
     }
     
     // If falling, we're definitely not on ground
-    if (currentVelocity[1] < -0.1) {
+    if (velocityRef.current[1] < -0.1) {
       setIsOnGround(false)
     }
-    
-    // Escape key handling is already managed by PointerLockControls
   })
   
   // Create physical objects from scene objects
@@ -288,7 +555,7 @@ function PhysicsScene({ position, sceneObjects, onExit }: CanonPOVProps) {
   
   return (
     <>
-      <PointerLockControls ref={controlsRef} />
+      {!isMobile && <PointerLockControls ref={controlsRef} />}
       <SceneObjects />
       {/* <Ground /> */}
       
