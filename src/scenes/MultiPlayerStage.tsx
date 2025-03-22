@@ -15,6 +15,9 @@ interface Friend {
 
 export interface MultiPlayerStageHandle {
   createObject: (position: [number, number, number], scale: [number, number, number], rotation: [number, number, number]) => void
+  resetScene: () => void
+  copyContent: () => void
+  pasteContent: () => void
 }
 
 const MultiPlayerStage = forwardRef<MultiPlayerStageHandle, {friends: Friend[]}>((props, ref) => {
@@ -43,6 +46,15 @@ const MultiPlayerStage = forwardRef<MultiPlayerStageHandle, {friends: Friend[]}>
     createObject: (position: [number, number, number], scale: [number, number, number], rotation: [number, number, number]) => {
       console.log("222createObjectcreateObjectcreateObject222")
       sceneRef.current?.createObject(position, scale, rotation)
+    },
+    resetScene: () => {
+      sceneRef.current?.resetScene()
+    },
+    copyContent: () => {
+      sceneRef.current?.copyContent()
+    },
+    pasteContent: () => {
+      sceneRef.current?.pasteContent()
     }
   }))
 

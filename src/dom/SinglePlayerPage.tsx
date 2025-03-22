@@ -14,7 +14,7 @@ export default function SinglePlayerPage() {
   return (
     <>
       <div className={styles.helloWorld + ' opaci-chov--75'} 
-        style={{ position: 'absolute', top: '0', left: '0', margin: '10px', zIndex: 1000, cursor: 'pointer' }}
+        style={{ position: 'absolute', top: '0', right: '0', margin: '10px', zIndex: 1000, cursor: 'pointer' }}
         onClick={handleHelloClick}
     >
       Add New

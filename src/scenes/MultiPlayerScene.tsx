@@ -10,7 +10,12 @@ import { useSession } from 'next-auth/react'
 export interface MultiPlayerSceneHandle {
   createObject: (position: [number, number, number], scale: [number, number, number], rotation: [number, number, number]) => Object3D
   saveObjects: () => void
+  resetScene: () => void
+  copyContent: () => void
+  pasteContent: () => void
 }
+
+const CONST_HOUSE = [{"position":[0,0,0],"rotation":[0,0,0],"scale":[1,1,1],"color":"ffffff"},{"position":[0,0,0],"rotation":[0,0,0],"scale":[2.956146961721767,0.0728632018415375,2.956146961721767],"color":"00ff00"},{"position":[0,0.44807445271031,0],"rotation":[0,0,-0.738686876404],"scale":[0.7451969334831007,0.6139987992530138,0.7451969334831007],"color":"ff9900"},{"position":[0,0,0.3803046332551081],"rotation":[0,0,0],"scale":[0.32441853028981427,0.6500689591631309,0.32441853028981427],"color":"333333"}]
 
 type TransformMode = 'move' | 'scale' | 'rotate';
 
@@ -103,6 +108,60 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
     const res = await saveObjectsToSupabase(objects, getStorageKey());
     console.log('res', res);
   }
+  const handleResetScene = () => {
+    // clear scene
+    sceneRef.current?.clear();
+  }
+  const handleCopyContent = () => {
+    // copy content
+    console.log('copy content') 
+    // copy json but like they are saved to supabase content to clipboard
+    const objects = saveObjects(sceneRef, getStorageKey());
+    const json = JSON.stringify(objects);
+    navigator.clipboard.writeText(json);
+  }
+
+  const handlePasteContent = async () => {
+    // Reset the scene first
+    handleResetScene();
+    
+    try {
+      // Get content from clipboard
+      const clipboardText = await navigator.clipboard.readText();
+      const objects = JSON.parse(clipboardText);
+      
+      // Clear existing objects
+      if (sceneRef.current) {
+        while (sceneRef.current.children.length > 1) { // Keep the floor
+          const child = sceneRef.current.children[1];
+          sceneRef.current.remove(child);
+        }
+        
+        // Import objects from clipboard
+        objects.forEach((object: any) => {
+          createObject(
+            object.position, 
+            object.scale, 
+            object.rotation, 
+            "#" + object.color, 
+            sceneRef, 
+            setIsMoving, 
+            setSelectedObject, 
+            isMoving
+          );
+        });
+      }
+      
+      // Save the imported objects
+      handleSaveObjects();
+      
+      // Reset selection
+      setSelectedObject(null);
+      setIsMoving(false);
+    } catch (error) {
+      console.error('Error pasting content:', error);
+    }
+  }
   
   if (selectedObject && selectedObject instanceof Mesh && selectedObject.material instanceof MeshStandardMaterial) {
     selectedObject.material.color.set(color);
@@ -110,14 +169,17 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
   
   useImperativeHandle(ref, () => ({
     createObject: handleCreateObject,
-    saveObjects: handleSaveObjects
+    saveObjects: handleSaveObjects,
+    resetScene: handleResetScene,
+    copyContent: handleCopyContent,
+    pasteContent: handlePasteContent
   }))
 
   return (
     <div style={{ width: '100vw', height: '100vh', position: 'absolute', top: 0, left: 0 }}>
       <SimpleScene>
         <group ref={sceneRef}>
-          <mesh onClick={(e) => {
+          {/* <mesh onClick={(e) => {
             console.log('clicked')
             if (!isMoving && !selectedObject) {
               const clickedObject = e.object
@@ -128,7 +190,7 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
           }}>
             <boxGeometry args={[10, 0.1, 10]} />
             <meshStandardMaterial color="grey" />
-          </mesh>
+          </mesh> */}
           {selectedObject && (
             <TransformControls 
               object={selectedObject} 

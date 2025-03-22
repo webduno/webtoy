@@ -75,7 +75,7 @@ const SinglePlayerScene = forwardRef<SinglePlayerSceneHandle, SinglePlayerSceneP
     <div style={{ width: '100vw', height: '100vh', position: 'absolute', top: 0, left: 0 }}>
       <SimpleScene>
         <group ref={sceneRef}>
-          <mesh onClick={(e) => {
+          {/* <mesh onClick={(e) => {
             if (!isMoving && !selectedObject) {
               const clickedObject = e.object
             } else if (selectedObject) {
@@ -84,7 +84,7 @@ const SinglePlayerScene = forwardRef<SinglePlayerSceneHandle, SinglePlayerSceneP
           }}>
             <boxGeometry args={[10, 0.1, 10]} />
             <meshStandardMaterial color="grey" />
-          </mesh>
+          </mesh> */}
           {selectedObject && (
             <TransformControls 
               object={selectedObject} 

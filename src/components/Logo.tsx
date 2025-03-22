@@ -9,14 +9,14 @@ export default function Logo({ className }: LogoProps) {
     <div 
       style={{ 
         position: 'absolute', 
-        bottom: '20px', 
-        left: '20px', 
+        top: '0px', 
+        left: '0px', 
         zIndex: 1000,
         fontWeight: 'bold',
         fontSize: '20px',
         color: 'white',
       }}
-      className={className}
+      className={className || "pa-2 px-3"}
     >
       <Link className="tx-altfont-3 nodeco opaci-chov--50" href="/"
       style={{

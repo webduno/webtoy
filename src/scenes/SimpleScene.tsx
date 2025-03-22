@@ -16,7 +16,7 @@ export default function SimpleScene({ children }: SimpleSceneProps) {
       }}
       camera={{ position: [-5, 5, 5], fov: 50 }}
     >
-      <MapControls enablePan={false} enableZoom={false} />
+      <MapControls enablePan={false} minDistance={0.1} maxDistance={50} />
       <ambientLight intensity={0.5} />
       <directionalLight position={[5, 5, 5]} intensity={1} />
       
