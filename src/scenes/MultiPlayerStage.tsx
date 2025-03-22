@@ -44,7 +44,7 @@ const MultiPlayerStage = forwardRef<MultiPlayerStageHandle, {friends: Friend[], 
 
   useImperativeHandle(ref, () => ({
     createObject: (position: [number, number, number], scale: [number, number, number], rotation: [number, number, number]) => {
-      console.log("222createObjectcreateObjectcreateObject222")
+      // console.log("222createObjectcreateObjectcreateObject222")
       sceneRef.current?.createObject(position, scale, rotation)
     },
     resetScene: () => {

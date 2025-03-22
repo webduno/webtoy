@@ -20,7 +20,7 @@ export const createObject = (
   setSelectedObject: (object: Object3D | null) => void,
   isMoving: boolean
 ): Object3D => {
-  console.log("isMoving", isMoving)
+  // console.log("isMoving", isMoving)
   if (isMoving) return new Object3D();
 
   setIsMoving(true)
@@ -32,9 +32,9 @@ export const createObject = (
   mesh.rotation.set(...rotation)
   
   // Store a simple click handler in userData
-  mesh.userData.onClick = () => {
-    console.log('Object clicked:', mesh);
-  }
+  // mesh.userData.onClick = () => {
+  //   console.log('Object clicked --->>>', mesh);
+  // }
   
   // Add the mesh to the scene
   sceneRef.current?.add(mesh)

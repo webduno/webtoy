@@ -16,7 +16,7 @@ export default function MultiPlayerPage() {
   const [myip, setMyip] = useState<string>()
   const [lastFriend, setLastFriend] = useState<string>('')
   const fetchMyip = async () => {
-    console.log("fetchMyip")
+    // console.log("fetchMyip")
     const response = await fetch('/api/single')
     const data = await response.json()
     setMyip(data.ip)
@@ -30,7 +30,7 @@ export default function MultiPlayerPage() {
       setLastFriend(savedFriend)
     }
     
-    console.log("fetchMyip", data.ip)
+    // console.log("fetchMyip", data.ip)
   }
   useEffect(() => {
     fetchMyip()
@@ -43,7 +43,7 @@ export default function MultiPlayerPage() {
   const [showSettings, setShowSettings] = useState<boolean>(false)
   const [deleteMode, setDeleteMode] = useState<boolean>(false)
   const handleHelloClick = () => {
-    console.log("handleHelloClickhandleHelloClickhandleHelloClick")
+    // console.log("handleHelloClickhandleHelloClickhandleHelloClick")
     stageRef.current?.createObject([0, 0, 0], [1, 1, 1], [0, 0, 0])
   }
   const handleOpenSettings = () => {

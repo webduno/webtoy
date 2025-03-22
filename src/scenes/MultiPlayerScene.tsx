@@ -2,93 +2,13 @@
 import SimpleScene from '@/scenes/SimpleScene'
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react'
 import { Object3D, BoxGeometry, MeshStandardMaterial, Mesh, Group, Raycaster, Vector2 } from 'three'
-import { TransformControls } from '@react-three/drei'
+import { MapControls, OrbitControls, TransformControls } from '@react-three/drei'
 import { createObject, getTransformMode, loadObjects, saveObjects } from '@/scripts/sceneHelpers'
 import { getObjectsFromSupabase, saveObjectsToSupabase } from '../../scripts/service'
 import { useSession } from 'next-auth/react'
 import { useThree } from '@react-three/fiber'
 
-// A component that will handle object interactions
-const ClickHandler = ({ 
-  deleteMode,
-  setSelectedObject,
-  setIsMoving
-}: { 
-  deleteMode?: boolean,
-  setSelectedObject: (object: Object3D | null) => void,
-  setIsMoving: (isMoving: boolean) => void
-}) => {
-  const { scene, camera } = useThree()
-  
-  // Add direct event listeners to the scene
-  useEffect(() => {
-    // Create a raycaster
-    const raycaster = new Raycaster()
-    const mouse = new Vector2()
-    
-    // Handle pointer events (mouse clicks or touch)
-    const handlePointerEvent = (event: MouseEvent | TouchEvent) => {
-      // Calculate mouse position in normalized device coordinates
-      const canvas = event.target as HTMLCanvasElement
-      const rect = canvas.getBoundingClientRect()
-      
-      // Handle both mouse and touch events
-      if ('clientX' in event) {
-        // Mouse event
-        mouse.x = ((event.clientX - rect.left) / canvas.width) * 2 - 1
-        mouse.y = -((event.clientY - rect.top) / canvas.height) * 2 + 1
-      } else if (event.touches && event.touches.length > 0) {
-        // Touch event
-        mouse.x = ((event.touches[0].clientX - rect.left) / canvas.width) * 2 - 1
-        mouse.y = -((event.touches[0].clientY - rect.top) / canvas.height) * 2 + 1
-      } else {
-        return
-      }
-      
-      // Update the raycaster
-      raycaster.setFromCamera(mouse, camera)
-      
-      // Find intersections with objects in the scene
-      const intersects = raycaster.intersectObjects(scene.children, true)
-      
-      // Log the first intersection
-      if (intersects.length > 0) {
-        const object = intersects[0].object
-        console.log('Object clicked/touched:', object)
-        
-        // If the object has a click handler in userData, call it
-        if (object.userData.onClick) {
-          object.userData.onClick()
-        }
-        
-        // If deleteMode is true, remove the object from the scene
-        if (deleteMode && object.parent) {
-          // If this is the currently selected object, deselect it
-          setSelectedObject(null)
-          // Reset isMoving state
-          setIsMoving(false)
-          // Remove the object from the scene
-          object.parent.remove(object)
-        }
-      }
-    }
-    
-    // Get the canvas element
-    const canvas = document.querySelector('canvas')
-    if (canvas) {
-      // Add both mouse and touch event listeners
-      canvas.addEventListener('click', handlePointerEvent)
-      canvas.addEventListener('touchend', handlePointerEvent)
-      
-      return () => {
-        canvas.removeEventListener('click', handlePointerEvent)
-        canvas.removeEventListener('touchend', handlePointerEvent)
-      }
-    }
-  }, [scene, camera, deleteMode, setSelectedObject, setIsMoving])
-  
-  return null
-}
+
 
 export interface MultiPlayerSceneHandle {
   createObject: (position: [number, number, number], scale: [number, number, number], rotation: [number, number, number]) => Object3D
@@ -117,6 +37,7 @@ const STORAGE_KEY = 'multiplayer_scene'
 const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProps>((props, ref) => {
   const { isMoving = false, setIsMoving, selectedObject, setSelectedObject, transformMode = 'move', color, friends = [], deleteMode = false } = props
   const sceneRef = useRef<Group>(null)
+  const mapControlsRef = useRef<typeof OrbitControls>(null)
   const { data: session } = useSession()
   const getStorageKey = () => {
     if (friends.length > 1) {
@@ -126,13 +47,13 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
       const myid = session ? session.user?.email : friends[0].id;
       return `${STORAGE_KEY}>>>${myid},${friendIds}`;
     }
-    console.log('no friends, using storage key', STORAGE_KEY);
+    // console.log('no friends, using storage key', STORAGE_KEY);
     return STORAGE_KEY;
   };
 
   const loadSupabaseObjects = async (sceneRef: React.RefObject<Group>) => {
     const objects = await getObjectsFromSupabase(getStorageKey());
-    console.log('objects', objects);
+    // console.log('objects', objects);
     const objectsData = objects.data;
     // load objects into scene
     objectsData.forEach((object: any) => {
@@ -202,7 +123,7 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
     const objects = saveObjects(sceneRef, getStorageKey());
     // also save to supabase
     const res = await saveObjectsToSupabase(objects, getStorageKey());
-    console.log('res', res);
+    // console.log('res', res);
   }
   const handleResetScene = () => {
     // clear scene
@@ -210,7 +131,7 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
   }
   const handleCopyContent = () => {
     // copy content
-    console.log('copy content') 
+    // console.log('copy content') 
     // copy json but like they are saved to supabase content to clipboard
     const objects = saveObjects(sceneRef, getStorageKey());
     const json = JSON.stringify(objects);
@@ -270,15 +191,20 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
     copyContent: handleCopyContent,
     pasteContent: handlePasteContent
   }))
+  
+  
+  
+  
+  
+  
+  
 
   return (
     <div style={{ width: '100vw', height: '100vh', position: 'absolute', top: 0, left: 0 }}>
       <SimpleScene>
-        <ClickHandler 
-          deleteMode={deleteMode} 
-          setSelectedObject={setSelectedObject}
-          setIsMoving={setIsMoving}
-        />
+        <CameraClickControls sceneRef={sceneRef} mapControlsRef={mapControlsRef} deleteMode={deleteMode} />
+        <MapControls enablePan={false} minDistance={0.1} maxDistance={50} ref={mapControlsRef} />
+        {/* <OrbitControls enableRotate={!isMoving} ref={mapControlsRef} /> */}
         <group ref={sceneRef}>
           {selectedObject && (
             <TransformControls 
@@ -298,3 +224,47 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
 MultiPlayerScene.displayName = 'MultiPlayerScene'
 
 export default MultiPlayerScene 
+
+
+const CameraClickControls = ({sceneRef, mapControlsRef, deleteMode}: {sceneRef: React.RefObject<Group>, mapControlsRef: React.RefObject<typeof OrbitControls>, deleteMode: boolean}) => {
+  const handleClick = (event: MouseEvent) => {
+    const raycaster = new Raycaster();
+    const mouse = new Vector2();
+    const canvas = document.querySelector('canvas')
+    if (canvas) {
+      const rect = canvas.getBoundingClientRect();
+      mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1
+      mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1
+      // console.log('mouse', mouse)
+      raycaster.setFromCamera(mouse, mapControlsRef.current?.object)
+      // sole.log('raycaster to', mapControlsRef.current?.object)
+      const intersects = raycaster.intersectObjects(sceneRef.current?.children, true)
+      // console.log('intersects', intersects)
+      if (intersects.length > 0) {
+        const object = intersects[0].object
+        // console.log('object', object)
+        if (object instanceof Mesh) {
+          console.log('object is a mesh')
+          // if isdeleting then delete the object
+          if (deleteMode) {
+            object.parent?.remove(object)
+            console.log('object is a mesh', object)
+          }
+        } else {
+          // console.log('object is not a mesh', typeof object)
+        }
+      } else {
+        // console.log('no intersects')
+      }
+    }
+  }
+  //add raycaster to detect clicks on the canvas
+  useEffect(() => {
+    const canvas = document.querySelector('canvas')
+    if (canvas) {
+      canvas.addEventListener('click', handleClick)
+    }
+  }, [deleteMode])  
+  return null
+}
+

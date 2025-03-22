@@ -1,5 +1,5 @@
 "use client"
-import { Dispatch, SetStateAction } from 'react'
+import { Dispatch, SetStateAction, useEffect } from 'react'
 
 type TransformMode = 'move' | 'scale' | 'rotate';
 
@@ -36,6 +36,26 @@ export default function TransformControls({
     marginBottom: '8px',
     width: '120px',
   };
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      const key = event.key.toLowerCase();
+      
+      if (key === 'g') {
+        setTransformMode('move');
+      } else if (key === 'r') {
+        setTransformMode('rotate');
+      } else if (key === 's') {
+        setTransformMode('scale');
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [setTransformMode]);
 
   return (
     <div style={{ 
@@ -94,7 +114,7 @@ export default function TransformControls({
           onClick={() => setTransformMode('move')}
           className="flex-col"
         >
-          🔄
+          G 🚶‍♂️
         </button>
         
         <button 
@@ -106,7 +126,7 @@ export default function TransformControls({
           onClick={() => setTransformMode('rotate')}
           className="flex-col"
         >
-          🔄
+          R 🔄
         </button>
         
         <button 
@@ -118,7 +138,7 @@ export default function TransformControls({
           onClick={() => setTransformMode('scale')}
           className="flex-col"
         >
-          📏
+          S 📏
         </button>
       </div>
     </div>
