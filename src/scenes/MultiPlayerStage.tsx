@@ -20,8 +20,8 @@ export interface MultiPlayerStageHandle {
   pasteContent: () => void
 }
 
-const MultiPlayerStage = forwardRef<MultiPlayerStageHandle, {friends: Friend[]}>((props, ref) => {
-  const {friends} = props
+const MultiPlayerStage = forwardRef<MultiPlayerStageHandle, {friends: Friend[], deleteMode: boolean}>((props, ref) => {
+  const {friends, deleteMode} = props
   const sceneRef = useRef<MultiPlayerSceneHandle>(null)
   const [isMoving, setIsMoving] = useState(false)
   const [selectedObject, setSelectedObject] = useState<Object3D | null>(null)
@@ -79,6 +79,7 @@ const MultiPlayerStage = forwardRef<MultiPlayerStageHandle, {friends: Friend[]}>
         transformMode={transformMode}
         color={color}
         friends={friends}
+        deleteMode={deleteMode}
       />
     </div>
   )

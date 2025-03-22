@@ -1,11 +1,81 @@
 "use client"
 import SimpleScene from '@/scenes/SimpleScene'
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react'
-import { Object3D, BoxGeometry, MeshStandardMaterial, Mesh, Group } from 'three'
+import { Object3D, BoxGeometry, MeshStandardMaterial, Mesh, Group, Raycaster, Vector2 } from 'three'
 import { TransformControls } from '@react-three/drei'
 import { createObject, getTransformMode, loadObjects, saveObjects } from '@/scripts/sceneHelpers'
 import { getObjectsFromSupabase, saveObjectsToSupabase } from '../../scripts/service'
 import { useSession } from 'next-auth/react'
+import { useThree } from '@react-three/fiber'
+
+// A component that will handle object interactions
+const ClickHandler = ({ 
+  deleteMode,
+  setSelectedObject,
+  setIsMoving
+}: { 
+  deleteMode?: boolean,
+  setSelectedObject: (object: Object3D | null) => void,
+  setIsMoving: (isMoving: boolean) => void
+}) => {
+  const { scene, camera } = useThree()
+  
+  // Add direct event listeners to the scene
+  useEffect(() => {
+    // Create a raycaster
+    const raycaster = new Raycaster()
+    const mouse = new Vector2()
+    
+    // Handle clicks on the canvas
+    const handleClick = (event: MouseEvent) => {
+      // Calculate mouse position in normalized device coordinates
+      const canvas = event.target as HTMLCanvasElement
+      const rect = canvas.getBoundingClientRect()
+      
+      mouse.x = ((event.clientX - rect.left) / canvas.width) * 2 - 1
+      mouse.y = -((event.clientY - rect.top) / canvas.height) * 2 + 1
+      
+      // Update the raycaster
+      raycaster.setFromCamera(mouse, camera)
+      
+      // Find intersections with objects in the scene
+      const intersects = raycaster.intersectObjects(scene.children, true)
+      
+      // Log the first intersection
+      if (intersects.length > 0) {
+        const object = intersects[0].object
+        console.log('Object clicked:', object)
+        
+        // If the object has a click handler in userData, call it
+        if (object.userData.onClick) {
+          object.userData.onClick()
+        }
+        
+        // If deleteMode is true, remove the object from the scene
+        if (deleteMode && object.parent) {
+          // If this is the currently selected object, deselect it
+          setSelectedObject(null)
+          // Reset isMoving state
+          setIsMoving(false)
+          // Remove the object from the scene
+          object.parent.remove(object)
+        }
+      }
+    }
+    
+    // Get the canvas element
+    const canvas = document.querySelector('canvas')
+    if (canvas) {
+      canvas.addEventListener('click', handleClick)
+      
+      return () => {
+        canvas.removeEventListener('click', handleClick)
+      }
+    }
+  }, [scene, camera, deleteMode, setSelectedObject, setIsMoving])
+  
+  return null
+}
 
 export interface MultiPlayerSceneHandle {
   createObject: (position: [number, number, number], scale: [number, number, number], rotation: [number, number, number]) => Object3D
@@ -27,11 +97,12 @@ interface MultiPlayerSceneProps {
   transformMode?: TransformMode
   color: string
   friends?: Array<{id: string, name: string, online: boolean}>
+  deleteMode?: boolean
 }
 
 const STORAGE_KEY = 'multiplayer_scene'
 const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProps>((props, ref) => {
-  const { isMoving = false, setIsMoving, selectedObject, setSelectedObject, transformMode = 'move', color, friends = [] } = props
+  const { isMoving = false, setIsMoving, selectedObject, setSelectedObject, transformMode = 'move', color, friends = [], deleteMode = false } = props
   const sceneRef = useRef<Group>(null)
   const { data: session } = useSession()
   const getStorageKey = () => {
@@ -178,19 +249,12 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
   return (
     <div style={{ width: '100vw', height: '100vh', position: 'absolute', top: 0, left: 0 }}>
       <SimpleScene>
+        <ClickHandler 
+          deleteMode={deleteMode} 
+          setSelectedObject={setSelectedObject}
+          setIsMoving={setIsMoving}
+        />
         <group ref={sceneRef}>
-          {/* <mesh onClick={(e) => {
-            console.log('clicked')
-            if (!isMoving && !selectedObject) {
-              const clickedObject = e.object
-              console.log('clicked', clickedObject)
-            } else if (selectedObject) {
-              e.stopPropagation()
-            }
-          }}>
-            <boxGeometry args={[10, 0.1, 10]} />
-            <meshStandardMaterial color="grey" />
-          </mesh> */}
           {selectedObject && (
             <TransformControls 
               object={selectedObject} 

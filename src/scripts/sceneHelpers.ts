@@ -31,6 +31,12 @@ export const createObject = (
   mesh.scale.set(...scale)
   mesh.rotation.set(...rotation)
   
+  // Store a simple click handler in userData
+  mesh.userData.onClick = () => {
+    console.log('Object clicked:', mesh);
+  }
+  
+  // Add the mesh to the scene
   sceneRef.current?.add(mesh)
   setSelectedObject(mesh)
 

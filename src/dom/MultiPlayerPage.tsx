@@ -33,6 +33,7 @@ export default function MultiPlayerPage() {
   const { data: session } = useSession()
   const [loading, setLoading] = useState<boolean>(false)
   const [showSettings, setShowSettings] = useState<boolean>(false)
+  const [deleteMode, setDeleteMode] = useState<boolean>(false)
   const handleHelloClick = () => {
     console.log("handleHelloClickhandleHelloClickhandleHelloClick")
     stageRef.current?.createObject([0, 0, 0], [1, 1, 1], [0, 0, 0])
@@ -72,6 +73,7 @@ export default function MultiPlayerPage() {
     {showSettings && (<>
     <div className='pos-abs  flex-col flex-align-center 2 z-1000 bg-b-90 pa-4 bord-r-10' >
       <div className='tx-white  pb-5 opaci-25 tx-altfont-1 tx-ls-3'>SETTINGS</div>
+      <button onClick={() => setDeleteMode(!deleteMode)} className='noborder bg-trans tx-white tx-lg py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1 underline'>Delete  Mode: {deleteMode ? 'ON' : 'OFF'}</button>
       <button onClick={handleResetScene} className='noborder bg-trans tx-white tx-lg py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1 underline'>Reset Scene</button>
       <button onClick={handleCopyContent} className='noborder bg-trans tx-white tx-lg py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1 underline'>Copy Content</button>
       <button onClick={handlePasteContent} className='noborder bg-trans tx-white tx-lg py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1 underline'>Paste Content</button>
@@ -155,7 +157,7 @@ export default function MultiPlayerPage() {
 
       {/* only if more than 1 friend */}
       {friends.length > 1 && (
-        <MultiPlayerStage ref={stageRef} friends={friends} />
+        <MultiPlayerStage ref={stageRef} friends={friends} deleteMode={deleteMode} />
       )}
       
         <Logo />
