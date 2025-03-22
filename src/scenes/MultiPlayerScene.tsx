@@ -206,7 +206,7 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
 
   const handlePasteContent = async () => {
     // Reset the scene first
-    handleResetScene();
+    // handleResetScene();
     
     try {
       // Get content from clipboard

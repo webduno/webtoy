@@ -41,7 +41,7 @@ export default function TransformControls({
     <div style={{ 
       zIndex: 1000, 
       position: 'absolute', 
-      top: '10px', 
+      top: '130px', 
       right: '10px',
       display: 'flex',
       flexDirection: 'column',

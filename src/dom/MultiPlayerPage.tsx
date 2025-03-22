@@ -76,7 +76,7 @@ export default function MultiPlayerPage() {
       <button onClick={() => {
         setDeleteMode(!deleteMode)
         setShowSettings(false)
-      }} className='noborder bg-trans tx-white tx-lg py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1 underline'>Delete  Mode: {deleteMode ? 'ON' : 'OFF'}</button>
+      }} className='noborder bg-trans tx-red tx-lg py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1 '>Delete  Mode: {deleteMode ? 'ON' : 'OFF'}</button>
       <button onClick={handleResetScene} className='noborder bg-trans tx-white tx-lg py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1 underline'>Reset Scene</button>
       <button onClick={handleCopyContent} className='noborder bg-trans tx-white tx-lg py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1 underline'>Copy Content</button>
       <button onClick={handlePasteContent} className='noborder bg-trans tx-white tx-lg py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1 underline'>Paste Content</button>
@@ -84,13 +84,21 @@ export default function MultiPlayerPage() {
     </div>
     </>)
 }
-    {friends.length > 1 && (<>
+    {friends.length > 1 &&  (<>
     <div className='pos-abs top-0 right-0 ma-2 flex-col flex-align-end gap-2'>
-      <div className={styles.helloWorld + ' opaci-chov--75 z-100 block pos-rel'}
-        onClick={handleHelloClick}
+      {/* if not delete mode show hello world */}
+      {deleteMode && (
+        <div onClick={() => {
+          setDeleteMode(false)
+        }} className='tx-red tx-altfont-2 opaci-50 opaci-chov--75 z-1000'>DELETE MODE: ON</div>
+      )}
+      {!deleteMode && (
+        <div className={styles.helloWorld + ' opaci-chov--75 z-100 block pos-rel'}
+          onClick={handleHelloClick}
       >
         Add New
       </div>
+      )}
       <div className={styles.helloWorld + ' opaci-chov--75 z-100 block pos-rel'}
         onClick={handleOpenSettings}
       >
