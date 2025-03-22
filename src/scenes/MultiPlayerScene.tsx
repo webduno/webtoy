@@ -203,6 +203,7 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
     <div style={{ width: '100vw', height: '100vh', position: 'absolute', top: 0, left: 0 }}>
       <SimpleScene>
         <CameraClickControls sceneRef={sceneRef} mapControlsRef={mapControlsRef} deleteMode={deleteMode} />
+        {/* @ts-ignore */}
         <MapControls enablePan={false} minDistance={0.1} maxDistance={50} ref={mapControlsRef} />
         {/* <OrbitControls enableRotate={!isMoving} ref={mapControlsRef} /> */}
         <group ref={sceneRef}>
@@ -236,8 +237,10 @@ const CameraClickControls = ({sceneRef, mapControlsRef, deleteMode}: {sceneRef: 
       mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1
       mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1
       // console.log('mouse', mouse)
+      // @ts-ignore
       raycaster.setFromCamera(mouse, mapControlsRef.current?.object)
       // sole.log('raycaster to', mapControlsRef.current?.object)
+      // @ts-ignore
       const intersects = raycaster.intersectObjects(sceneRef.current?.children, true)
       // console.log('intersects', intersects)
       if (intersects.length > 0) {
