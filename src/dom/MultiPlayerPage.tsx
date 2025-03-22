@@ -6,6 +6,7 @@ import Logo from '@/components/Logo'
 import { signIn, useSession } from 'next-auth/react'
 import GoogleLoginButton from '@/components/GoogleLoginButton'
 import FirstPersonView from '@/components/FirstPersonView'
+import CanonPOV from '@/components/CanonPOV'
 
 interface Friend {
   id: string;
@@ -37,7 +38,7 @@ export default function MultiPlayerPage() {
   const [playPosition, setPlayPosition] = useState<[number, number, number]>([0, 0, 0])
   
   const handlePlay = () => {
-    const coordinates = prompt("Enter coordinates (default: 0,0,0)", "0,0,0")
+    const coordinates = prompt("Enter coordinates (default: 2,2,2)", "2,2,2")
     if (!coordinates) {
       return alert("No coordinates provided")
     }
@@ -119,8 +120,16 @@ export default function MultiPlayerPage() {
 
   return (
     <>
-      {isPlaying && (
+      {/* {isPlaying && (
         <FirstPersonView 
+          position={playPosition} 
+          sceneObjects={stageRef.current?.getSceneObjects() || []}
+          onExit={handleExitPlay} 
+        />
+      )} */}
+
+      {isPlaying && (
+        <CanonPOV
           position={playPosition} 
           sceneObjects={stageRef.current?.getSceneObjects() || []}
           onExit={handleExitPlay} 
@@ -163,12 +172,11 @@ export default function MultiPlayerPage() {
                 onClick={handleOpenSettings}
               >
                 {/* cogwheel emoji */}
-                <span role="img" aria-label="cogwheel">⚙️</span>
+                <span className='px-2' role="img" aria-label="cogwheel">⚙️</span>
               </div>
               <div className={styles.helloWorld + ' opaci-chov--75 z-100 block pos-rel'}
                 onClick={handlePlay}
               >
-                {/* cogwheel emoji */}
                 <span role="img" aria-label="cogwheel">🎮</span>
               </div>
             </div>
