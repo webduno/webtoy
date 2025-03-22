@@ -73,7 +73,10 @@ export default function MultiPlayerPage() {
     {showSettings && (<>
     <div className='pos-abs  flex-col flex-align-center 2 z-1000 bg-b-90 pa-4 bord-r-10' >
       <div className='tx-white  pb-5 opaci-25 tx-altfont-1 tx-ls-3'>SETTINGS</div>
-      <button onClick={() => setDeleteMode(!deleteMode)} className='noborder bg-trans tx-white tx-lg py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1 underline'>Delete  Mode: {deleteMode ? 'ON' : 'OFF'}</button>
+      <button onClick={() => {
+        setDeleteMode(!deleteMode)
+        setShowSettings(false)
+      }} className='noborder bg-trans tx-white tx-lg py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1 underline'>Delete  Mode: {deleteMode ? 'ON' : 'OFF'}</button>
       <button onClick={handleResetScene} className='noborder bg-trans tx-white tx-lg py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1 underline'>Reset Scene</button>
       <button onClick={handleCopyContent} className='noborder bg-trans tx-white tx-lg py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1 underline'>Copy Content</button>
       <button onClick={handlePasteContent} className='noborder bg-trans tx-white tx-lg py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1 underline'>Paste Content</button>
