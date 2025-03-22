@@ -31,6 +31,10 @@ export const createObject = (
   mesh.scale.set(...scale)
   mesh.rotation.set(...rotation)
   
+  // Enable shadows for the mesh
+  mesh.castShadow = true
+  mesh.receiveShadow = true
+  
   // Store a simple click handler in userData
   // mesh.userData.onClick = () => {
   //   console.log('Object clicked --->>>', mesh);
@@ -82,6 +86,11 @@ export const loadObjects = (
     mesh.rotation.set(rotation[0], rotation[1], rotation[2])
     mesh.scale.set(scale[0], scale[1], scale[2])
     mesh.material.color.set("#" + color)
+    
+    // Enable shadows for the mesh
+    mesh.castShadow = true
+    mesh.receiveShadow = true
+    
     sceneGroup.add(mesh)
   })
 } 

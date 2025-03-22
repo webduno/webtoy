@@ -21,9 +21,15 @@ export interface MultiPlayerSceneHandle {
   copyContent: () => void
   pasteContent: () => void
   autorotate: () => void
+  getSceneObjects: () => Object3D[]
 }
 
-const CONST_HOUSE = [{"position":[0,0,0],"rotation":[0,0,0],"scale":[1,1,1],"color":"ffffff"},{"position":[0,0,0],"rotation":[0,0,0],"scale":[2.956146961721767,0.0728632018415375,2.956146961721767],"color":"00ff00"},{"position":[0,0.44807445271031,0],"rotation":[0,0,-0.738686876404],"scale":[0.7451969334831007,0.6139987992530138,0.7451969334831007],"color":"ff9900"},{"position":[0,0,0.3803046332551081],"rotation":[0,0,0],"scale":[0.32441853028981427,0.6500689591631309,0.32441853028981427],"color":"333333"}]
+const CONST_HOUSE = [
+  {"position":[0,0,0],"rotation":[0,0,0],"scale":[2,2,2],"color":"ffffff"},
+  {"position":[0,0,0],"rotation":[0,0,0],"scale":[5.912293923443534,0.145726403683075,5.912293923443534],"color":"00ff00"},
+  {"position":[0,0.8961489054206201,0],"rotation":[0,0,-0.738686876404],"scale":[1.4903938669662014,1.2279975985060276,1.4903938669662014],"color":"ff9900"},
+  {"position":[0,0,0.7606092665102162],"rotation":[0,0,0],"scale":[0.6488370605796285,1.3001379183262618,0.6488370605796285],"color":"333333"}
+]
 
 type TransformMode = 'move' | 'scale' | 'rotate';
 
@@ -64,7 +70,12 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
     const objectsData = objects.data;
     // load objects into scene
     objectsData.forEach((object: any) => {
-      createObject(object.position, object.scale, object.rotation, "#"+object.color, sceneRef, setIsAdding, setSelectedObject, isAdding);
+      const mesh = createObject(object.position, object.scale, object.rotation, "#"+object.color, sceneRef, setIsAdding, setSelectedObject, isAdding);
+      // Ensure shadows are enabled
+      if (mesh instanceof Mesh) {
+        mesh.castShadow = true;
+        mesh.receiveShadow = true;
+      }
     });
     setSelectedObject(null);
     setIsAdding(false);
@@ -211,7 +222,11 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
     resetScene: handleResetScene,
     copyContent: handleCopyContent,
     pasteContent: handlePasteContent,
-    autorotate: handleAutorotate
+    autorotate: handleAutorotate,
+    getSceneObjects: () => {
+      if (!sceneRef.current) return []
+      return [...sceneRef.current.children]
+    }
   }))
   
   

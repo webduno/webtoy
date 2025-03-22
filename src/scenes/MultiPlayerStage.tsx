@@ -19,6 +19,7 @@ export interface MultiPlayerStageHandle {
   copyContent: () => void
   pasteContent: () => void
   autorotate: () => void
+  getSceneObjects: () => Object3D[]
 }
 
 const MultiPlayerStage = forwardRef<MultiPlayerStageHandle, {friends: Friend[], deleteMode: boolean}>((props, ref) => {
@@ -59,6 +60,14 @@ const MultiPlayerStage = forwardRef<MultiPlayerStageHandle, {friends: Friend[], 
     },
     autorotate: () => {
       sceneRef.current?.autorotate()
+    },
+    getSceneObjects: () => {
+      if (!sceneRef.current) return []
+      // Get all objects from the scene
+      const children = sceneRef.current.getSceneObjects ? 
+        sceneRef.current.getSceneObjects() : 
+        []
+      return children
     }
   }))
 

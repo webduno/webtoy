@@ -5,6 +5,7 @@ import MultiPlayerStage, { MultiPlayerStageHandle } from '@/scenes/MultiPlayerSt
 import Logo from '@/components/Logo'
 import { signIn, useSession } from 'next-auth/react'
 import GoogleLoginButton from '@/components/GoogleLoginButton'
+import FirstPersonView from '@/components/FirstPersonView'
 
 interface Friend {
   id: string;
@@ -31,6 +32,36 @@ export default function MultiPlayerPage() {
     }
     
     // console.log("fetchMyip", data.ip)
+  }
+  const [isPlaying, setIsPlaying] = useState<boolean>(false)
+  const [playPosition, setPlayPosition] = useState<[number, number, number]>([0, 0, 0])
+  
+  const handlePlay = () => {
+    const coordinates = prompt("Enter coordinates (default: 0,0,0)", "0,0,0")
+    if (!coordinates) {
+      return alert("No coordinates provided")
+    }
+
+    try {
+      // Parse the coordinates string into an array of numbers
+      const coords = coordinates.split(',').map(Number)
+      
+      // Check if we have exactly 3 valid numbers
+      if (coords.length !== 3 || coords.some(isNaN)) {
+        throw new Error("Invalid coordinates format")
+      }
+      
+      // Set the play position and activate first-person mode
+      setPlayPosition([coords[0], coords[1], coords[2]])
+      setIsPlaying(true)
+      setShowSettings(false)
+    } catch (error) {
+      alert("Invalid coordinates. Please use format: x,y,z")
+    }
+  }
+  
+  const handleExitPlay = () => {
+    setIsPlaying(false)
   }
   useEffect(() => {
     fetchMyip()
@@ -88,156 +119,168 @@ export default function MultiPlayerPage() {
 
   return (
     <>
-
-
-    {showSettings && (<>
-    <div className='pos-abs  flex-col flex-align-center 2 z-1000 bg-b-90 pa-4 bord-r-10' >
-      <div className='tx-white  pb-5 opaci-25 tx-altfont-1 tx-ls-3'>SETTINGS</div>
-      <button onClick={() => {
-        setDeleteMode(!deleteMode)
-        setShowSettings(false)
-      }} className='noborder bg-trans tx-red tx-lg py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1 '>Delete  Mode: {deleteMode ? 'ON' : 'OFF'}</button>
-      <button onClick={handleResetScene} className='noborder bg-trans tx-white tx-lg py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1 underline'>Reset Scene</button>
-      <button onClick={handleCopyContent} className='noborder bg-trans tx-white tx-lg py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1 underline'>Copy Content</button>
-      <button onClick={handlePasteContent} className='noborder bg-trans tx-white tx-lg py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1 underline'>Paste Content</button>
-      <button onClick={handleAutorotate} className='noborder bg-trans tx-white tx-lg py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1 underline'>Autorotate</button>
-      <div className='tx-white tx-lg py-2  tx-shadow-5 tx-altfont-1 opaci-50'>Add via AI (Soon)</div>
-    </div>
-    </>)
-}
-    {friends.length > 1 &&  (<>
-    <div className='pos-abs top-0 right-0 ma-2 flex-col flex-align-end gap-2'>
-      {/* if not delete mode show hello world */}
-      {deleteMode && (
-        <div onClick={() => {
-          setDeleteMode(false)
-        }} className='tx-red tx-altfont-2 opaci-50 opaci-chov--75 z-1000'>DELETE MODE: ON</div>
+      {isPlaying && (
+        <FirstPersonView 
+          position={playPosition} 
+          sceneObjects={stageRef.current?.getSceneObjects() || []}
+          onExit={handleExitPlay} 
+        />
       )}
-      {!deleteMode && (
-        <div className={styles.helloWorld + ' opaci-chov--75 z-100 block pos-rel'}
-          onClick={handleHelloClick}
-      >
-        Add New
-      </div>
-      )}
-      <div className={styles.helloWorld + ' opaci-chov--75 z-100 block pos-rel'}
-        onClick={handleOpenSettings}
-      >
-        {/* cogwheel emoji */}
-        <span role="img" aria-label="cogwheel">⚙️</span>
-      </div>
 
-      </div>
-    </>
-    )}
-
-
-      {/* if only 1 friend (self) show message */}
-      {friends.length === 1 && (
-        <div style={{textAlign: 'center', }}>
-          <div>Add a friend <br /> to start playing!</div>
+      {!isPlaying && (
+        <>
+          {showSettings && (<>
+            <div className='pos-abs  flex-col flex-align-center 2 z-1000 bg-b-90 pa-4 bord-r-10' >
+              <div className='tx-white  pb-5 opaci-25 tx-altfont-1 tx-ls-3'>SETTINGS</div>
+              <button onClick={() => {
+                setDeleteMode(!deleteMode)
+                setShowSettings(false)
+              }} className='noborder bg-trans tx-red tx-lg py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1 '>Delete  Mode: {deleteMode ? 'ON' : 'OFF'}</button>
+              <button onClick={handleResetScene} className='noborder bg-trans tx-white tx-lg py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1 underline'>Reset Scene</button>
+              <button onClick={handleCopyContent} className='noborder bg-trans tx-white tx-lg py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1 underline'>Copy Content</button>
+              <button onClick={handlePasteContent} className='noborder bg-trans tx-white tx-lg py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1 underline'>Paste Content</button>
+              <button onClick={handleAutorotate} className='noborder bg-trans tx-white tx-lg py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1 underline'>Autorotate</button>
+              <div className='tx-white tx-lg py-2  tx-shadow-5 tx-altfont-1 opaci-50'>Add via AI (Soon)</div>
+            </div>
+          </>)}
           
-      <div className={styles.playerList}
-        style={{  }}
-      >
-        {/* <h2>Connected Players</h2> */}
-        {myip && <>
-          <ul>
-            {/* dont show myself */}
-            {friends.filter(friend => friend.id !== myip).map(friend => (
-              <li key={friend.id}>{friend.name}</li>
-            ))}
-            {/* add new friend input   */}
-            <li className="flex-row gap-2 flex-align-center">
-              <div className='flex-col'>
-              <input
-                className="tx-altfont-1 py-1  bord-r-10"
-                type="text"
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    handleAddFriend()
-                  }
-                }}
-                value={newFriendName}
-                onChange={(e) => setNewFriendName(e.target.value)}
-              />
-              </div>
-              <button 
-                onClick={() => handleAddFriend()}
-                style={{
-                  backgroundColor: '#4a90e2',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '4px',
-                  padding: '6px 12px',
-                  marginLeft: '8px',
-                  cursor: 'pointer',
-                  fontFamily: '"Bytesized", sans-serif',
-                  boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
-                  transition: 'all 0.2s ease-in-out'
-                }}
-                className="tx-altfont-3 opaci-chov--75"
-                onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
-                onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}
-              >
-                Add
-              </button>
-            </li>
-          </ul>
-          </>}
-              {lastFriend && (<>
-              <div className='tx-end '>
-                <div className='opaci-50 tx-sm'>Last added: </div> 
-                <span 
-                  onClick={() => {
-                    handleAddFriend(lastFriend)
-                    // setTimeout(() => handleAddFriend(), 100)
-                  }}
-                  style={{
-                    cursor: 'pointer',
-                    textDecoration: 'underline',
-                    color: '#4a90e2',
-                    fontSize: '0.9rem',
-                  }}
-                  className="opaci-chov--75 tx-start"
+          {friends.length > 1 &&  (<>
+            <div className='pos-abs top-0 right-0 ma-2 flex-col flex-align-end gap-2'>
+              {/* if not delete mode show hello world */}
+              {deleteMode && (
+                <div onClick={() => {
+                  setDeleteMode(false)
+                }} className='tx-red tx-altfont-2 opaci-50 opaci-chov--75 z-1000'>DELETE MODE: ON</div>
+              )}
+              {!deleteMode && (
+                <div className={styles.helloWorld + ' opaci-chov--75 z-100 block pos-rel'}
+                  onClick={handleHelloClick}
                 >
-                  {lastFriend}
-                </span> 
+                  Add New
                 </div>
-              </> )}
-        </div>
-        </div>
-      )}
+              )}
+              <div className={styles.helloWorld + ' opaci-chov--75 z-100 block pos-rel'}
+                onClick={handleOpenSettings}
+              >
+                {/* cogwheel emoji */}
+                <span role="img" aria-label="cogwheel">⚙️</span>
+              </div>
+              <div className={styles.helloWorld + ' opaci-chov--75 z-100 block pos-rel'}
+                onClick={handlePlay}
+              >
+                {/* cogwheel emoji */}
+                <span role="img" aria-label="cogwheel">🎮</span>
+              </div>
+            </div>
+          </>)}
 
-      {/* only if more than 1 friend */}
-      {friends.length > 1 && (
-        <MultiPlayerStage ref={stageRef} friends={friends} deleteMode={deleteMode} />
-      )}
-      
-        <Logo />
+          {/* if only 1 friend (self) show message */}
+          {friends.length === 1 && (
+            <div style={{textAlign: 'center', }}>
+              <div>Add a friend <br /> to start playing!</div>
+              
+              <div className={styles.playerList}
+                style={{  }}
+              >
+                {/* <h2>Connected Players</h2> */}
+                {myip && <>
+                  <ul>
+                    {/* dont show myself */}
+                    {friends.filter(friend => friend.id !== myip).map(friend => (
+                      <li key={friend.id}>{friend.name}</li>
+                    ))}
+                    {/* add new friend input   */}
+                    <li className="flex-row gap-2 flex-align-center">
+                      <div className='flex-col'>
+                      <input
+                        className="tx-altfont-1 py-1  bord-r-10"
+                        type="text"
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') {
+                            handleAddFriend()
+                          }
+                        }}
+                        value={newFriendName}
+                        onChange={(e) => setNewFriendName(e.target.value)}
+                      />
+                      </div>
+                      <button 
+                        onClick={() => handleAddFriend()}
+                        style={{
+                          backgroundColor: '#4a90e2',
+                          color: 'white',
+                          border: 'none',
+                          borderRadius: '4px',
+                          padding: '6px 12px',
+                          marginLeft: '8px',
+                          cursor: 'pointer',
+                          fontFamily: '"Bytesized", sans-serif',
+                          boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
+                          transition: 'all 0.2s ease-in-out'
+                        }}
+                        className="tx-altfont-3 opaci-chov--75"
+                        onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+                        onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+                      >
+                        Add
+                      </button>
+                    </li>
+                  </ul>
+                </>}
+                {lastFriend && (<>
+                  <div className='tx-end '>
+                    <div className='opaci-50 tx-sm'>Last added: </div> 
+                    <span 
+                      onClick={() => {
+                        handleAddFriend(lastFriend)
+                        // setTimeout(() => handleAddFriend(), 100)
+                      }}
+                      style={{
+                        cursor: 'pointer',
+                        textDecoration: 'underline',
+                        color: '#4a90e2',
+                        fontSize: '0.9rem',
+                      }}
+                      className="opaci-chov--75 tx-start"
+                    >
+                      {lastFriend}
+                    </span> 
+                  </div>
+                </> )}
+              </div>
+            </div>
+          )}
 
+          {/* only if more than 1 friend */}
+          {friends.length > 1 && (
+            <MultiPlayerStage ref={stageRef} friends={friends} deleteMode={deleteMode} />
+          )}
+          
+          <Logo />
 
-      {/* Google Login button in top right only if not logged in */}
-      {!session && (
-        <div className='flex-col gap-2 flex-justify-right flex-align-end'
-          style={{ position: 'absolute', bottom: '0', right: '0', margin: '10px', zIndex: 1000 }}
-        >
-          <div className='tx-sm'>
-            <div className='bg-white bord-r-100 opaci-50 py-1 px-2'>IP | {myip}</div>
-          </div>
-          <GoogleLoginButton onLogin={loginWithGoogle} />
-        </div>
-      )}
-      {/* put ip in the bottom right if its not logged with google */}
-      {!session && (
-        <div className='opaci-50' style={{ position: 'absolute', bottom: '0', right: '0', margin: '10px', zIndex: 1000 }}>
-        </div>
-      )}
-      {/* put email in the bottom right if its logged with google */}
-      {session && (
-        <div className='opaci-50' style={{ position: 'absolute', bottom: '0', right: '0', margin: '10px', zIndex: 1000 }}>
-          <div className='tx-white tx-shadow-5'>{session.user?.email}</div>
-        </div>
+          {/* Google Login button in top right only if not logged in */}
+          {!session && (
+            <div className='flex-col gap-2 flex-justify-right flex-align-end'
+              style={{ position: 'absolute', bottom: '0', right: '0', margin: '10px', zIndex: 1000 }}
+            >
+              <div className='tx-sm'>
+                <div className='bg-white bord-r-100 opaci-50 py-1 px-2'>IP | {myip}</div>
+              </div>
+              <GoogleLoginButton onLogin={loginWithGoogle} />
+            </div>
+          )}
+          {/* put ip in the bottom right if its not logged with google */}
+          {!session && (
+            <div className='opaci-50' style={{ position: 'absolute', bottom: '0', right: '0', margin: '10px', zIndex: 1000 }}>
+            </div>
+          )}
+          {/* put email in the bottom right if its logged with google */}
+          {session && (
+            <div className='opaci-50' style={{ position: 'absolute', bottom: '0', right: '0', margin: '10px', zIndex: 1000 }}>
+              <div className='tx-white tx-shadow-5'>{session.user?.email}</div>
+            </div>
+          )}
+        </>
       )}
     </>
   )
