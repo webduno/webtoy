@@ -83,26 +83,33 @@ export default function TransformControls({
         Done
       </button>
       
-
-      
       <div className="tx-altfont-1 tx-center tx-white tx-shadow-5  pb-1">Color</div>
-      <button 
-        style={{
-          ...buttonStyle,
-          backgroundColor: '#50c878', // Green for Color button
-        }}
-        onClick={() => {
-          const newColor = prompt('Enter a color', color)
-          if (newColor) {
-            setColor(newColor)
-          }
-        }}
-        className="room-select-button"
-      >
-        {color}
-      </button>
-
-
+      <div style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}>
+        <input 
+          type="color"
+          value={color}
+          onChange={(e) => setColor(e.target.value)}
+          style={{
+            width: '40px',
+            height: '40px',
+            border: 'none',
+            borderRadius: '6px',
+            cursor: 'pointer',
+            marginRight: '8px',
+          }}
+        />
+        <div style={{
+          backgroundColor: 'rgba(255, 255, 255, 0.2)',
+          padding: '4px 8px',
+          borderRadius: '4px',
+          color: '#ffffff',
+          fontSize: '0.9rem',
+          flexGrow: 1,
+          textAlign: 'center',
+        }}>
+          {color}
+        </div>
+      </div>
 
       <div style={{ display: 'flex', gap: '2px', justifyContent: 'space-between' }}>
         <button 
