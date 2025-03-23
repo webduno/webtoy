@@ -7,6 +7,7 @@ import { signIn, useSession } from 'next-auth/react'
 import GoogleLoginButton from '@/components/GoogleLoginButton'
 import FirstPersonView from '@/components/FirstPersonView'
 import CanonPOV from '@/components/CanonPOV'
+import { DEFAULT_TEMPLATE_LIST } from '@/scripts/sceneTemplates'
 
 interface Friend {
   id: string;
@@ -75,12 +76,11 @@ export default function MultiPlayerPage() {
   const [showSettings, setShowSettings] = useState<boolean>(false)
   const [showTemplates, setShowTemplates] = useState<boolean>(false)
   const [deleteMode, setDeleteMode] = useState<boolean>(false)
-  const [templates, setTemplates] = useState<{name: string, description: string}[]>([
-    { name: 'const_house', description: 'Simple house construction' },
-    { name: 'garden_parkour', description: 'Garden with trees and flowers' },
-    { name: 'mountain_view', description: 'Mountain landscape' },
-    { name: 'city_block', description: 'Urban city block' }
-  ])
+  // get templates from sceneTemplates.ts
+  const [templates, setTemplates] = useState<{name: string, description: string}[]>(
+    // only first 4 elements
+    DEFAULT_TEMPLATE_LIST.slice(0, 4)
+  )
   const handleHelloClick = () => {
     // console.log("handleHelloClickhandleHelloClickhandleHelloClick")
     stageRef.current?.createObject([0, 0, 0], [1, 1, 1], [0, 0, 0])

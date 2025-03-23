@@ -115,6 +115,45 @@ const CITY_BLOCK = [
   {"position":[0.8262971261872782,3.1405213844717395,-6.102246048531755],"rotation":[0,0,0],"scale":[0.7737929279361688,7.526264279099656,0.7737929279361688],"color":"787882"}
 ];
 
+// Medieval castle template
+const CASTLE = [
+  {"position":[0,0,0],"rotation":[0,0,0],"scale":[12,0.5,12],"color":"7d8471"}, // Castle base/ground
+  {"position":[0,2,0],"rotation":[0,0,0],"scale":[8,4,8],"color":"a9a9a9"}, // Main castle structure
+  {"position":[0,4.5,0],"rotation":[0,0,0],"scale":[8.5,0.5,8.5],"color":"808080"}, // Top wall trim
+  {"position":[-4,5.75,-4],"rotation":[0,0,0],"scale":[1,2,1],"color":"a9a9a9"}, // Corner tower NW
+  {"position":[4,5.75,-4],"rotation":[0,0,0],"scale":[1,2,1],"color":"a9a9a9"}, // Corner tower NE
+  {"position":[4,5.75,4],"rotation":[0,0,0],"scale":[1,2,1],"color":"a9a9a9"}, // Corner tower SE
+  {"position":[-4,5.75,4],"rotation":[0,0,0],"scale":[1,2,1],"color":"a9a9a9"}, // Corner tower SW
+  {"position":[-4,7,-4],"rotation":[0,0,0],"scale":[1.2,0.5,1.2],"color":"808080"}, // Tower top NW
+  {"position":[4,7,-4],"rotation":[0,0,0],"scale":[1.2,0.5,1.2],"color":"808080"}, // Tower top NE
+  {"position":[4,7,4],"rotation":[0,0,0],"scale":[1.2,0.5,1.2],"color":"808080"}, // Tower top SE
+  {"position":[-4,7,4],"rotation":[0,0,0],"scale":[1.2,0.5,1.2],"color":"808080"}, // Tower top SW
+  {"position":[0,2,4.5],"rotation":[0,0,0],"scale":[2,3,1],"color":"8b7355"}, // Main gate/entrance
+  {"position":[0,3,4.75],"rotation":[0,0,0],"scale":[1.5,1.5,0.5],"color":"4b3621"}, // Gate door
+  {"position":[0,7,0],"rotation":[0,0,0],"scale":[2,4,2],"color":"a9a9a9"}, // Central keep/tower
+  {"position":[0,9.5,0],"rotation":[0,0,0],"scale":[2.5,0.5,2.5],"color":"808080"}, // Keep top
+  {"position":[0,10.5,0],"rotation":[0,0,0],"scale":[0.5,1.5,0.5],"color":"a9a9a9"}, // Flagpole
+  {"position":[0.3,11.5,0],"rotation":[0,0,0],"scale":[1,0.8,0.1],"color":"b22222"}, // Red flag
+  {"position":[-3.5,5,-4],"rotation":[0,0,0],"scale":[0.2,0.2,0.2],"color":"696969"}, // Merlon
+  {"position":[-4,5,-3.5],"rotation":[0,0,0],"scale":[0.2,0.2,0.2],"color":"696969"}, // Merlon
+  {"position":[-3.5,5,4],"rotation":[0,0,0],"scale":[0.2,0.2,0.2],"color":"696969"}, // Merlon
+  {"position":[-4,5,3.5],"rotation":[0,0,0],"scale":[0.2,0.2,0.2],"color":"696969"}, // Merlon
+  {"position":[3.5,5,4],"rotation":[0,0,0],"scale":[0.2,0.2,0.2],"color":"696969"}, // Merlon
+  {"position":[4,5,3.5],"rotation":[0,0,0],"scale":[0.2,0.2,0.2],"color":"696969"}, // Merlon
+  {"position":[3.5,5,-4],"rotation":[0,0,0],"scale":[0.2,0.2,0.2],"color":"696969"}, // Merlon
+  {"position":[4,5,-3.5],"rotation":[0,0,0],"scale":[0.2,0.2,0.2],"color":"696969"}, // Merlon
+  {"position":[-2,5,4],"rotation":[0,0,0],"scale":[0.2,0.2,0.2],"color":"696969"}, // Merlon
+  {"position":[2,5,4],"rotation":[0,0,0],"scale":[0.2,0.2,0.2],"color":"696969"}, // Merlon
+  {"position":[-2,5,-4],"rotation":[0,0,0],"scale":[0.2,0.2,0.2],"color":"696969"}, // Merlon
+  {"position":[2,5,-4],"rotation":[0,0,0],"scale":[0.2,0.2,0.2],"color":"696969"}, // Merlon
+  {"position":[0,0.3,0],"rotation":[0,0,0],"scale":[5,0.1,5],"color":"708090"}, // Courtyard
+  {"position":[-2,1.5,0],"rotation":[0,0,0],"scale":[1,2.5,1],"color":"696969"}, // Inner building
+  {"position":[2,1.5,0],"rotation":[0,0,0],"scale":[1,2.5,1],"color":"696969"}, // Inner building
+  {"position":[0,1.5,-2],"rotation":[0,0,0],"scale":[1,2.5,1],"color":"696969"}, // Inner building
+  {"position":[0,0.2,7],"rotation":[0,0,0],"scale":[4,0.2,2],"color":"4682b4"}, // Moat
+  {"position":[0,0.15,6],"rotation":[0,0,0],"scale":[2,0.1,1],"color":"8b7355"} // Drawbridge
+];
+
 /**
  * Get template data based on the template name
  * @param templateName - The name of the template to retrieve
@@ -136,7 +175,19 @@ export function getTemplateData(templateName: string | null): any[] | null {
     case 'city_block':
       return CITY_BLOCK;
       
+    case 'castle':
+      return CASTLE;
+      
     default:
       return null;
   }
 } 
+
+
+export const DEFAULT_TEMPLATE_LIST = [
+  { name: 'const_house', description: 'Simple house construction' },
+  { name: 'garden_parkour', description: 'Garden with trees and flowers' },
+  { name: 'mountain_view', description: 'Mountain landscape' },
+  { name: 'city_block', description: 'Urban city block' },
+  { name: 'castle', description: 'Medieval castle' }
+]
