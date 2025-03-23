@@ -4,7 +4,7 @@ const PHYSICS_TEST = [{"position":[0,-0.5611186449722975,0],"rotation":[0,0,0],"
 // Basketball court template
 const BASKETBALL_COURT = [
   {"position":[0,-0.22,0],"rotation":[0,0,0],"scale":[15,0.5,28],"color":"ff8c29","hasGravity":false}, // Court floor (orange/brown wooden court)
-  {"position":[0,0.05,0],"rotation":[0,0,0],"scale":[14.5,0.1,27.5],"color":"e67a14","hasGravity":false}, // Court inner area
+  {"position":[0,0.05,0],"rotation":[0,0,0],"scale":[13.5,0.1,26],"color":"e67a14","hasGravity":false}, // Court inner area
   
   // Court lines (white)
   // {"position":[0,0.11,0],"rotation":[0,0,0],"scale":[0.1,0.04,27],"color":"ffffff","hasGravity":false}, // Center line
