@@ -243,8 +243,8 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
               // Buildings
               { position: [-5, 2, -5], scale: [3, 4, 3], rotation: [0, 0, 0], color: "6688aa" },
               { position: [5, 3, -5], scale: [3, 6, 3], rotation: [0, 0, 0], color: "bb9988" },
-              { position: [-5, 4, 5], scale: [3, 8, 3], rotation: [0, 0, 0], color: "dddddd" },
               { position: [5, 1.5, 5], scale: [3, 3, 3], rotation: [0, 0, 0], color: "99aa88" },
+              {"position":[-6.361359701276022,6.021861735353015,2.840797083960137],"rotation":[0,0,0],"scale":[2.4604933930016166,12.132248965179018,2.4604933930016166],"color":"ffffff"},{"position":[-2.911074508714476,3.538407129639231,8.1889889750765],"rotation":[0,0,0],"scale":[2.128927458420069,7.093500419266534,2.128927458420069],"color":"ffffff"},
               
               // Road markings
               { position: [0, 0.06, 0], scale: [0.5, 0.01, 18], rotation: [0, 0, 0], color: "ffffff" },
@@ -269,6 +269,9 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
               
               { position: [8, 1, 8], scale: [0.2, 2, 0.2], rotation: [0, 0, 0], color: "333333" }, // pole
               { position: [8, 2, 8], scale: [0.4, 0.2, 0.4], rotation: [0, 0, 0], color: "ffff99" }, // light
+
+
+
             ];
             break;
             
@@ -279,8 +282,8 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
         
         // If we have template data, use it
         if (templateData && sceneRef.current) {
-          while (sceneRef.current.children.length > 1) {  // keep the floor
-            const child = sceneRef.current.children[1];
+          while (sceneRef.current.children.length > 0) {  // remove all objects including floor
+            const child = sceneRef.current.children[0];
             sceneRef.current.remove(child);
           }
           
@@ -315,8 +318,8 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
       
       // Clear existing objects
       if (sceneRef.current) {
-        while (sceneRef.current.children.length > 1) { // Keep the floor
-          const child = sceneRef.current.children[1];
+        while (sceneRef.current.children.length > 0) { // Remove all objects including floor
+          const child = sceneRef.current.children[0];
           sceneRef.current.remove(child);
         }
         
