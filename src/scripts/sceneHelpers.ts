@@ -18,7 +18,8 @@ export const createObject = (
   sceneRef: React.RefObject<Group>,
   setIsAdding: (isAdding: boolean) => void,
   setSelectedObject: (object: Object3D | null) => void,
-  isAdding: boolean
+  isAdding: boolean,
+  hasGravity: boolean = false
 ): Object3D => {
   // console.log("isAdding", isAdding)
   if (isAdding) return new Object3D();
@@ -35,10 +36,11 @@ export const createObject = (
   mesh.castShadow = true
   mesh.receiveShadow = true
   
-  // Store a simple click handler in userData
-  // mesh.userData.onClick = () => {
-  //   console.log('Object clicked --->>>', mesh);
-  // }
+  // Store gravity property in userData
+  mesh.userData = {
+    ...mesh.userData,
+    hasGravity
+  }
   
   // Add the mesh to the scene
   sceneRef.current?.add(mesh)
@@ -60,7 +62,8 @@ export const saveObjects = (
       const position = [mesh.position.x, mesh.position.y, mesh.position.z];
       const rotation = [mesh.rotation.x, mesh.rotation.y, mesh.rotation.z];
       const scale = [mesh.scale.x, mesh.scale.y, mesh.scale.z];
-      return { position, rotation, scale, color: mesh?.material.color.getHexString() };
+      const hasGravity = mesh.userData?.hasGravity || false;
+      return { position, rotation, scale, color: mesh?.material.color.getHexString(), hasGravity };
     });
   
   localStorage.setItem(storageKey, JSON.stringify(objects));
@@ -77,7 +80,7 @@ export const loadObjects = (
   
   const objects = JSON.parse(localStorage.getItem(storageKey) || '[]')
   objects.forEach((object: any) => {
-    const { position, rotation, scale, color } = object
+    const { position, rotation, scale, color, hasGravity = false } = object
     const mesh = new Mesh(
       new BoxGeometry(1, 1, 1), 
       new MeshStandardMaterial({ color: "#ff9900" })
@@ -90,6 +93,12 @@ export const loadObjects = (
     // Enable shadows for the mesh
     mesh.castShadow = true
     mesh.receiveShadow = true
+    
+    // Set gravity property
+    mesh.userData = {
+      ...mesh.userData,
+      hasGravity
+    }
     
     sceneGroup.add(mesh)
   })

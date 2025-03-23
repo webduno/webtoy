@@ -20,7 +20,7 @@ const SinglePlayerStage = forwardRef<SinglePlayerStageHandle, {}>((props, ref) =
   const [isAdding, setIsAdding] = useState(false)
   const [selectedObject, setSelectedObject] = useState<Object3D | null>(null)
   const [transformMode, setTransformMode] = useState<TransformMode>('move')
-  const [color, setColor] = useState<string>('#0000ff')
+  const [color, setColor] = useState<string>('#777777')
   const [isAutorotating, setIsAutorotating] = useState(false)
 
   const handleDone = () => {

@@ -28,7 +28,8 @@ const MultiPlayerStage = forwardRef<MultiPlayerStageHandle, {friends: Friend[], 
   const [isAdding, setIsAdding] = useState(false)
   const [selectedObject, setSelectedObject] = useState<Object3D | null>(null)
   const [transformMode, setTransformMode] = useState<TransformMode>('move')
-  const [color, setColor] = useState<string>('#0000ff')
+  const [color, setColor] = useState<string>('#777777')
+  const [hasGravity, setHasGravity] = useState(false)
 
   const handleDone = () => {
     sceneRef.current?.saveObjects()
@@ -56,7 +57,7 @@ const MultiPlayerStage = forwardRef<MultiPlayerStageHandle, {friends: Friend[], 
   useImperativeHandle(ref, () => ({
     createObject: (position: [number, number, number], scale: [number, number, number], rotation: [number, number, number]) => {
       // console.log("222createObjectcreateObjectcreateObject222")
-      sceneRef.current?.createObject(position, scale, rotation)
+      sceneRef.current?.createObject(position, scale, rotation, hasGravity)
     },
     resetScene: () => {
       sceneRef.current?.resetScene()
@@ -91,6 +92,8 @@ const MultiPlayerStage = forwardRef<MultiPlayerStageHandle, {friends: Friend[], 
               color={color}
               setColor={setColor}
               setTransformMode={setTransformMode}
+              hasGravity={hasGravity}
+              setHasGravity={setHasGravity}
             />
         )}
       <MultiPlayerScene 

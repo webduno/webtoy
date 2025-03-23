@@ -11,6 +11,8 @@ interface NewObjectControlsProps {
   color: string;
   setColor: (color: string) => void;
   setTransformMode: (mode: TransformMode) => void;
+  hasGravity: boolean;
+  setHasGravity: (hasGravity: boolean) => void;
 }
 
 export default function NewObjectControls({ 
@@ -20,7 +22,9 @@ export default function NewObjectControls({
   handleCancel,
   color,
   setColor,
-  setTransformMode
+  setTransformMode,
+  hasGravity,
+  setHasGravity
 }: NewObjectControlsProps) {
   const buttonStyle = {
     padding: '8px 16px',
@@ -85,7 +89,7 @@ export default function NewObjectControls({
         Done
       </button>
       {/* add cancel button */}
-      <button  className='noborder border-red bg-trans bord-r-5 tx-red opaci-50 opaci-chov--25 mb-1'
+      <button  className='noborder bg-b-90 bord-r-5 tx-white opaci-50 opaci-chov--25 mb-2 py-1'
         style={{
 
         }}
@@ -93,9 +97,10 @@ export default function NewObjectControls({
       >
         Cancel
       </button>
-      <div className="tx-altfont-1 tx-center tx-white tx-shadow-5  pb-1">Color</div>
+      {/* <div className="tx-altfont-1 tx-center tx-white tx-shadow-5  pb-1">Color</div> */}
       <div style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}>
         <input 
+        className='flex-1'
           type="color"
           value={color}
           onChange={(e) => setColor(e.target.value)}
@@ -108,7 +113,7 @@ export default function NewObjectControls({
             marginRight: '8px',
           }}
         />
-        <div style={{
+        {/* <div style={{
           backgroundColor: 'rgba(255, 255, 255, 0.2)',
           padding: '4px 8px',
           borderRadius: '4px',
@@ -118,6 +123,15 @@ export default function NewObjectControls({
           textAlign: 'center',
         }}>
           {color}
+        </div> */}
+        {/* Has Gravity */}
+        <div className='flex-col tx-white' >
+          <div className='tx-sm tx-center tx-shadow-5'>Gravity</div>
+          <input 
+            type="checkbox" 
+            checked={hasGravity}
+            onChange={(e) => setHasGravity(e.target.checked)}
+          />
         </div>
       </div>
 

@@ -16,7 +16,7 @@ interface Friend {
 }
 
 export interface MultiPlayerSceneHandle {
-  createObject: (position: [number, number, number], scale: [number, number, number], rotation: [number, number, number]) => Object3D
+  createObject: (position: [number, number, number], scale: [number, number, number], rotation: [number, number, number], hasGravity?: boolean) => Object3D
   saveObjects: () => void
   resetScene: () => void
   copyContent: () => void
@@ -64,7 +64,17 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
     const objectsData = objects.data;
     // load objects into scene
     objectsData.forEach((object: any) => {
-      const mesh = createObject(object.position, object.scale, object.rotation, "#"+object.color, sceneRef, setIsAdding, setSelectedObject, isAdding);
+      const mesh = createObject(
+        object.position, 
+        object.scale, 
+        object.rotation, 
+        "#"+object.color, 
+        sceneRef, 
+        setIsAdding, 
+        setSelectedObject, 
+        isAdding,
+        object.hasGravity || false
+      );
       // Ensure shadows are enabled
       if (mesh instanceof Mesh) {
         mesh.castShadow = true;
@@ -117,7 +127,7 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
   }, [friends]);
   
   // Create object wrapper to use shared function
-  const handleCreateObject = (position: [number, number, number], scale: [number, number, number], rotation: [number, number, number]) => {
+  const handleCreateObject = (position: [number, number, number], scale: [number, number, number], rotation: [number, number, number], hasGravity: boolean = false) => {
     return createObject(
       position, 
       scale,
@@ -126,7 +136,8 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
       sceneRef, 
       setIsAdding, 
       setSelectedObject, 
-      isAdding
+      isAdding,
+      hasGravity
     );
   }
 
@@ -182,7 +193,8 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
               sceneRef, 
               setIsAdding, 
               setSelectedObject, 
-              isAdding
+              isAdding,
+              object.hasGravity || false
             );
           });
           
@@ -218,7 +230,8 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
             sceneRef, 
             setIsAdding, 
             setSelectedObject, 
-            isAdding
+            isAdding,
+            object.hasGravity || false
           );
         });
       }

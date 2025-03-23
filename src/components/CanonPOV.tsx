@@ -681,9 +681,9 @@ function PhysicsScene({ position, sceneObjects, onExit, isMobile }: PhysicsScene
       {/* Player hitbox visualization */}
       <mesh ref={playerRef}>
         {showHitbox && (
-          <cylinderGeometry args={[playerRadius, playerRadius, playerHeight / 5, 16]} />
+          <cylinderGeometry args={[playerRadius/3, playerRadius/3, playerHeight / 5, 16]} />
         )}
-        <meshStandardMaterial color="#ffffff" transparent opacity={0.5}/>
+        <meshStandardMaterial color="#000000" transparent opacity={0.5}/>
       </mesh>
       
       {/* Ball - permanently shown once thrown */}
