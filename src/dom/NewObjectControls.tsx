@@ -3,7 +3,7 @@ import { Dispatch, SetStateAction, useEffect } from 'react'
 
 type TransformMode = 'move' | 'scale' | 'rotate';
 
-interface TransformControlsProps {
+interface NewObjectControlsProps {
   transformMode: TransformMode;
   cycleTransformMode: () => void;
   handleDone: () => void;
@@ -13,7 +13,7 @@ interface TransformControlsProps {
   setTransformMode: (mode: TransformMode) => void;
 }
 
-export default function TransformControls({ 
+export default function NewObjectControls({ 
   transformMode, 
   cycleTransformMode, 
   handleDone,
@@ -21,7 +21,7 @@ export default function TransformControls({
   color,
   setColor,
   setTransformMode
-}: TransformControlsProps) {
+}: NewObjectControlsProps) {
   const buttonStyle = {
     padding: '8px 16px',
     fontSize: '0.9rem',
@@ -63,8 +63,8 @@ export default function TransformControls({
     <div style={{ 
       zIndex: 1000, 
       position: 'absolute', 
-      top: '130px', 
-      right: '10px',
+      bottom: '20px', 
+      left: '20px',
       display: 'flex',
       flexDirection: 'column',
       gap: '0px',
@@ -85,10 +85,9 @@ export default function TransformControls({
         Done
       </button>
       {/* add cancel button */}
-      <button 
+      <button  className='noborder border-red bg-trans bord-r-5 tx-red opaci-50 opaci-chov--25 mb-1'
         style={{
-          ...buttonStyle,
-          backgroundColor: '#e24a4a', // Red for Done button
+
         }}
         onClick={handleCancel}
       >

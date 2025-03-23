@@ -4,27 +4,35 @@ import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 're
 import { Object3D, BoxGeometry, MeshStandardMaterial, Mesh, Group } from 'three'
 import { MapControls, TransformControls } from '@react-three/drei'
 import { createObject, getTransformMode, loadObjects, saveObjects } from '@/scripts/sceneHelpers'
+import { DEFAULT_TEMPLATE_LIST, getTemplateData } from '@/scripts/sceneTemplates'
 
 export interface SinglePlayerSceneHandle {
-  createObject: (position: [number, number, number], scale: [number, number, number], rotation: [number, number, number]) => Object3D
-  saveObjects: () => void
+  createObject: (position: [number, number, number], scale: [number, number, number], rotation: [number, number, number]) => Object3D;
+  saveObjects: () => void;
+  resetScene: () => void;
+  getSceneData: () => any;
+  loadSceneData: (data: any) => void;
+  loadTemplate: (templateName: string) => void;
+  toggleAutorotate: () => void;
+  getObjects: () => Object3D[];
 }
 
 type TransformMode = 'move' | 'scale' | 'rotate';
 
 interface SinglePlayerSceneProps {
-  selectedObject: Object3D | null
-  setSelectedObject: (object: Object3D | null) => void
-  transformMode?: TransformMode
-  color: string
-  isAdding?: boolean
-  setIsAdding: (isAdding: boolean) => void
+  selectedObject: Object3D | null;
+  setSelectedObject: (object: Object3D | null) => void;
+  transformMode?: TransformMode;
+  color: string;
+  isAdding?: boolean;
+  setIsAdding: (isAdding: boolean) => void;
+  isAutorotating?: boolean;
 }
 const STORAGE_KEY = 'singleplayer_scene'
 const SinglePlayerScene = forwardRef<SinglePlayerSceneHandle, SinglePlayerSceneProps>((props, ref) => {
-  const { isAdding = false, setIsAdding, selectedObject, setSelectedObject, transformMode = 'move', color } = props
+  const { isAdding = false, setIsAdding, selectedObject, setSelectedObject, transformMode = 'move', color, isAutorotating = false } = props
   const sceneRef = useRef<Group>(null)
-  const mapControlsRef = useRef<typeof MapControls>(null)
+  const mapControlsRef = useRef<any>(null)
   // Load objects when the component mounts and scene is ready
   useEffect(() => {
     // Check if the scene is available now
@@ -42,6 +50,36 @@ const SinglePlayerScene = forwardRef<SinglePlayerSceneHandle, SinglePlayerSceneP
       requestAnimationFrame(checkSceneReady);
     }
   }, []);
+
+  // Autorotation effect
+  useEffect(() => {
+    if (!mapControlsRef.current || !isAutorotating) return;
+    
+    let animationFrameId: number;
+    
+    const rotate = () => {
+      if (mapControlsRef.current) {
+        const controls = mapControlsRef.current;
+        if (controls.autoRotate !== undefined) {
+          controls.autoRotate = true;
+          controls.autoRotateSpeed = 2.0;
+          controls.update();
+        }
+      }
+      animationFrameId = requestAnimationFrame(rotate);
+    };
+    
+    rotate();
+    
+    return () => {
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+      }
+      if (mapControlsRef.current && mapControlsRef.current.autoRotate !== undefined) {
+        mapControlsRef.current.autoRotate = false;
+      }
+    };
+  }, [isAutorotating]);
   
   // Create object wrapper to use shared function
   const handleCreateObject = (position: [number, number, number], scale: [number, number, number], rotation: [number, number, number]) => {
@@ -62,13 +100,119 @@ const SinglePlayerScene = forwardRef<SinglePlayerSceneHandle, SinglePlayerSceneP
     saveObjects(sceneRef, STORAGE_KEY);
   }
   
+  // Reset scene by clearing all objects
+  const handleResetScene = () => {
+    if (sceneRef.current) {
+      // Remove all children except the first one (usually the ground)
+      while (sceneRef.current.children.length > 0) {
+        sceneRef.current.remove(sceneRef.current.children[0]);
+      }
+      // Save the empty scene
+      saveObjects(sceneRef, STORAGE_KEY);
+    }
+  }
+  
+  // Get scene data for copy operation
+  const handleGetSceneData = () => {
+    if (!sceneRef.current) return null;
+    
+    // Create a serializable representation of the scene
+    const sceneData = {
+      objects: sceneRef.current.children.map(child => {
+        if (child instanceof Mesh) {
+          return {
+            type: 'mesh',
+            position: [child.position.x, child.position.y, child.position.z],
+            rotation: [child.rotation.x, child.rotation.y, child.rotation.z],
+            scale: [child.scale.x, child.scale.y, child.scale.z],
+            color: child.material instanceof MeshStandardMaterial ? child.material.color.getHexString() : '0000ff'
+          };
+        }
+        return null;
+      }).filter(Boolean)
+    };
+    
+    return sceneData;
+  }
+  
+  // Load scene data for paste operation
+  const handleLoadSceneData = (data: any) => {
+    if (!sceneRef.current || !data || !data.objects) return;
+    
+    // Clear existing objects
+    handleResetScene();
+    
+    // Recreate objects from data
+    data.objects.forEach((objData: any) => {
+      if (objData.type === 'mesh') {
+        const obj = handleCreateObject(
+          objData.position, 
+          objData.scale, 
+          objData.rotation
+        );
+        
+        if (obj instanceof Mesh && obj.material instanceof MeshStandardMaterial && objData.color) {
+          obj.material.color.setStyle(`#${objData.color}`);
+        }
+      }
+    });
+    
+    // Save the loaded scene
+    saveObjects(sceneRef, STORAGE_KEY);
+  }
+  
+  // Load a predefined template
+  const handleLoadTemplate = (templateName: string) => {
+    // Get template data using the helper function
+    const templateData = getTemplateData(templateName);
+    if (!templateData) {
+      console.error(`Template ${templateName} not found`);
+      return;
+    }
+    
+    // Clear existing objects
+    handleResetScene();
+    
+    // Create objects from template data
+    templateData.forEach((item: any) => {
+      const obj = handleCreateObject(
+        item.position,
+        item.scale,
+        item.rotation
+      );
+      
+      if (obj instanceof Mesh && obj.material instanceof MeshStandardMaterial && item.color) {
+        obj.material.color.setStyle(`#${item.color}`);
+      }
+    });
+    
+    // Clear selection after loading template
+    setSelectedObject(null);
+    
+    // Save the loaded scene
+    saveObjects(sceneRef, STORAGE_KEY);
+    // window.location.reload();
+  }
+  
+  // Get all objects in the scene
+  const handleGetObjects = () => {
+    if (!sceneRef.current) return [];
+    return [...sceneRef.current.children];
+  }
+  
   if (selectedObject && selectedObject instanceof Mesh && selectedObject.material instanceof MeshStandardMaterial) {
     selectedObject.material.color.set(color);
   }
   
   useImperativeHandle(ref, () => ({
     createObject: handleCreateObject,
-    saveObjects: handleSaveObjects
+    saveObjects: handleSaveObjects,
+    resetScene: handleResetScene,
+    getSceneData: handleGetSceneData,
+    loadSceneData: handleLoadSceneData,
+    loadTemplate: handleLoadTemplate,
+    toggleAutorotate: () => {/* This is handled through props */},
+    getObjects: handleGetObjects
   }))
 
   return (

@@ -1,7 +1,7 @@
 "use client"
 import { forwardRef, useImperativeHandle, useRef, useState } from 'react'
 import { Object3D } from 'three'
-import TransformControls from '@/dom/TransformControls'
+import NewObjectControls from '@/dom/NewObjectControls'
 import { MultiPlayerSceneHandle } from './MultiPlayerScene';
 import MultiPlayerScene from './MultiPlayerScene';
 
@@ -79,7 +79,7 @@ const MultiPlayerStage = forwardRef<MultiPlayerStageHandle, {friends: Friend[], 
   return (
     <div className="scene-container">
         {isAdding && (
-            <TransformControls
+            <NewObjectControls
               transformMode={transformMode}
               cycleTransformMode={cycleTransformMode}
               handleDone={handleDone}

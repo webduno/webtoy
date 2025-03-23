@@ -2,12 +2,17 @@
 import { forwardRef, useImperativeHandle, useRef, useState } from 'react'
 import SinglePlayerScene, { SinglePlayerSceneHandle } from '@/scenes/SinglePlayerScene'
 import { Object3D } from 'three'
-import TransformControls from '@/dom/TransformControls'
+import NewObjectControls from '@/dom/NewObjectControls'
 
 type TransformMode = 'move' | 'scale' | 'rotate';
 
 export interface SinglePlayerStageHandle {
-  createObject: (position: [number, number, number], scale: [number, number, number], rotation: [number, number, number]) => void
+  createObject: (position: [number, number, number], scale: [number, number, number], rotation: [number, number, number]) => void;
+  resetScene: () => void;
+  copyContent: () => void;
+  pasteContent: () => void;
+  autorotate: () => void;
+  getSceneObjects?: () => Object3D[];
 }
 
 const SinglePlayerStage = forwardRef<SinglePlayerStageHandle, {}>((props, ref) => {
@@ -16,6 +21,7 @@ const SinglePlayerStage = forwardRef<SinglePlayerStageHandle, {}>((props, ref) =
   const [selectedObject, setSelectedObject] = useState<Object3D | null>(null)
   const [transformMode, setTransformMode] = useState<TransformMode>('move')
   const [color, setColor] = useState<string>('#0000ff')
+  const [isAutorotating, setIsAutorotating] = useState(false)
 
   const handleDone = () => {
     sceneRef.current?.saveObjects()
@@ -39,13 +45,58 @@ const SinglePlayerStage = forwardRef<SinglePlayerStageHandle, {}>((props, ref) =
   useImperativeHandle(ref, () => ({
     createObject: (position: [number, number, number], scale: [number, number, number], rotation: [number, number, number]) => {
       sceneRef.current?.createObject(position, scale, rotation)
+    },
+    resetScene: () => {
+      // Clear all objects in the scene
+      sceneRef.current?.resetScene();
+    },
+    copyContent: () => {
+      // Copy scene content to localStorage or state
+      const sceneData = sceneRef.current?.getSceneData();
+      if (sceneData) {
+        localStorage.setItem('copiedSceneData', JSON.stringify(sceneData));
+        console.log('Scene content copied');
+      }
+    },
+    pasteContent: () => {
+      // Paste content from localStorage or state
+      const copiedData = localStorage.getItem('copiedSceneData');
+      if (copiedData) {
+        try {
+          const sceneData = JSON.parse(copiedData);
+          sceneRef.current?.loadSceneData(sceneData);
+          console.log('Scene content pasted');
+        } catch (error) {
+          console.error('Failed to paste content:', error);
+        }
+      } else {
+        // Check if there's a selected template
+        const selectedTemplate = localStorage.getItem('selectedTemplate');
+        if (selectedTemplate) {
+          // Load the template
+          sceneRef.current?.loadTemplate(selectedTemplate);
+          console.log(`Template loaded: ${selectedTemplate}`);
+        }
+      }
+      
+      // Clear selection after pasting
+      setSelectedObject(null);
+    },
+    autorotate: () => {
+      // Toggle autorotation of the scene
+      setIsAutorotating(!isAutorotating);
+      sceneRef.current?.toggleAutorotate();
+    },
+    getSceneObjects: () => {
+      // Return scene objects
+      return sceneRef.current?.getObjects() || [];
     }
   }))
 
   return (
     <div className="scene-container">
         {isAdding && (
-            <TransformControls
+            <NewObjectControls
               transformMode={transformMode}
               cycleTransformMode={cycleTransformMode}
               handleDone={handleDone}
@@ -63,6 +114,7 @@ const SinglePlayerStage = forwardRef<SinglePlayerStageHandle, {}>((props, ref) =
         setSelectedObject={setSelectedObject}
         transformMode={transformMode}
         color={color}
+        isAutorotating={isAutorotating}
       />
     </div>
   )

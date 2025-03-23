@@ -42,7 +42,7 @@ export default function CanonPOV({ position, sceneObjects, onExit }: CanonPOVPro
       <Canvas camera={{ position: position, fov: 125 }} shadows>
         <Physics 
           gravity={[0, -30, 0]} 
-          defaultContactMaterial={{ friction: 0, restitution: 0.2 }}
+          defaultContactMaterial={{ friction: 0.001, restitution: 0.2 }}
         >
           <ambientLight intensity={0.5} />
           <directionalLight position={[5, 5, 5]} intensity={1} />
@@ -468,7 +468,7 @@ function PhysicsScene({ position, sceneObjects, onExit, isMobile }: PhysicsScene
       playerApi.position.subscribe((pos) => {
         if (camera) {
           // Set camera position with an offset for eye level (top of cylinder)
-          camera.position.set(pos[0], pos[1] + playerHeight/2, pos[2])
+          camera.position.set(pos[0], pos[1] + (playerHeight/1.1), pos[2])
         }
       })
       
@@ -681,9 +681,9 @@ function PhysicsScene({ position, sceneObjects, onExit, isMobile }: PhysicsScene
       {/* Player hitbox visualization */}
       <mesh ref={playerRef}>
         {showHitbox && (
-          <cylinderGeometry args={[playerRadius, playerRadius, playerHeight, 16]} />
+          <cylinderGeometry args={[playerRadius, playerRadius, playerHeight / 5, 16]} />
         )}
-        <meshStandardMaterial color="#00ff00" transparent opacity={0.5} wireframe />
+        <meshStandardMaterial color="#ffffff" transparent opacity={0.5}/>
       </mesh>
       
       {/* Ball - permanently shown once thrown */}
