@@ -170,7 +170,7 @@ function PhysicsScene({ position, sceneObjects, onExit, isMobile }: PhysicsScene
   const playerHeight = 0.3
   const playerRadius = 0.1
   const moveSpeed = 5
-  const jumpForce = 5
+  const jumpForce = 7
   const maxVelocity = 30 // Increased max horizontal velocity
   
   // Use Cannon.js cylinder for player physics
@@ -394,15 +394,29 @@ function PhysicsScene({ position, sceneObjects, onExit, isMobile }: PhysicsScene
   
   // Track velocity for jump mechanics
   const velocityRef = useRef<[number, number, number]>([0, 0, 0])
+  const positionRef = useRef<[number, number, number]>([position[0], position[1], position[2]])
   useEffect(() => {
     // Subscribe to velocity changes for jump detection
     playerApi.velocity.subscribe((v) => {
       velocityRef.current = v
     })
+    
+    // Subscribe to position changes to detect reset condition
+    playerApi.position.subscribe((p) => {
+      positionRef.current = p
+    })
   }, [playerApi])
   
   // Player movement using physics
   useFrame(() => {
+    // Reset position if player falls below -15 on any axis
+    const currentPosition = positionRef.current
+    if (currentPosition[0] < -15 || currentPosition[1] < -15 || currentPosition[2] < -15) {
+      // Reset to initial position
+      playerApi.position.set(position[0], position[1] + playerHeight / 2, position[2])
+      playerApi.velocity.set(0, 0, 0)
+    }
+    
     if (isMobile) {
       // Mobile controls logic
       const direction = new Vector3()
@@ -563,9 +577,7 @@ function PhysicsScene({ position, sceneObjects, onExit, isMobile }: PhysicsScene
       {!isMobile && (
         <PointerLockControls 
           ref={controlsRef}
-          // Disable vertical rotation (looking up/down)
-          maxPolarAngle={Math.PI / 2}
-          minPolarAngle={Math.PI / 2}
+          // Vertical rotation enabled for desktop
         />
       )}
       <SceneObjects />

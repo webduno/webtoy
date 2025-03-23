@@ -36,6 +36,11 @@ const MultiPlayerStage = forwardRef<MultiPlayerStageHandle, {friends: Friend[], 
     setSelectedObject(null)
   }
 
+  const handleCancel = () => {
+    setIsAdding(false)
+    setSelectedObject(null)
+  }
+
   const cycleTransformMode = () => {
     setTransformMode(prev => {
       if (prev === 'move') return 'scale'
@@ -78,6 +83,7 @@ const MultiPlayerStage = forwardRef<MultiPlayerStageHandle, {friends: Friend[], 
               transformMode={transformMode}
               cycleTransformMode={cycleTransformMode}
               handleDone={handleDone}
+              handleCancel={handleCancel}
               color={color}
               setColor={setColor}
               setTransformMode={setTransformMode}

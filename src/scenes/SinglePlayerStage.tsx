@@ -23,6 +23,11 @@ const SinglePlayerStage = forwardRef<SinglePlayerStageHandle, {}>((props, ref) =
     setSelectedObject(null)
   }
 
+  const handleCancel = () => {
+    setIsAdding(false)
+    setSelectedObject(null)
+  }
+
   const cycleTransformMode = () => {
     setTransformMode(prev => {
       if (prev === 'move') return 'scale'
@@ -44,6 +49,7 @@ const SinglePlayerStage = forwardRef<SinglePlayerStageHandle, {}>((props, ref) =
               transformMode={transformMode}
               cycleTransformMode={cycleTransformMode}
               handleDone={handleDone}
+              handleCancel={handleCancel}
               color={color}
               setColor={setColor}
               setTransformMode={setTransformMode}

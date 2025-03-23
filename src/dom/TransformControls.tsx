@@ -7,6 +7,7 @@ interface TransformControlsProps {
   transformMode: TransformMode;
   cycleTransformMode: () => void;
   handleDone: () => void;
+  handleCancel: () => void;
   color: string;
   setColor: (color: string) => void;
   setTransformMode: (mode: TransformMode) => void;
@@ -16,6 +17,7 @@ export default function TransformControls({
   transformMode, 
   cycleTransformMode, 
   handleDone,
+  handleCancel,
   color,
   setColor,
   setTransformMode
@@ -82,7 +84,16 @@ export default function TransformControls({
       >
         Done
       </button>
-      
+      {/* add cancel button */}
+      <button 
+        style={{
+          ...buttonStyle,
+          backgroundColor: '#e24a4a', // Red for Done button
+        }}
+        onClick={handleCancel}
+      >
+        Cancel
+      </button>
       <div className="tx-altfont-1 tx-center tx-white tx-shadow-5  pb-1">Color</div>
       <div style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}>
         <input 
