@@ -154,6 +154,64 @@ const CASTLE = [
   {"position":[0,0.15,6],"rotation":[0,0,0],"scale":[2,0.1,1],"color":"8b7355"} // Drawbridge
 ];
 
+// Bowling alley template
+const BOWLING_ALLEY = [
+  // Room and background
+  {"position":[0,0,0],"rotation":[0,0,0],"scale":[12,0.2,25],"color":"333333"}, // Floor
+  // {"position":[0,4,10],"rotation":[0,0,0],"scale":[12,8,0.5],"color":"555555"}, // Back wall
+  // {"position":[6,4,0],"rotation":[0,0,0],"scale":[0.5,8,20],"color":"555555"}, // Right wall
+  // {"position":[-6,4,0],"rotation":[0,0,0],"scale":[0.5,8,20],"color":"555555"}, // Left wall
+  
+  // Bowling lane (wooden part)
+  {"position":[0,0.15,-2],"rotation":[0,0,0],"scale":[2,0.1,15],"color":"d4a76a"}, // Lane
+  
+  // Lane arrows/markers
+  {"position":[0,0.16,-4],"rotation":[0,0,0],"scale":[1.8,0.01,0.1],"color":"000000"}, // Lane marker
+  {"position":[0,0.16,-6],"rotation":[0,0,0],"scale":[1.8,0.01,0.1],"color":"000000"}, // Lane marker
+  {"position":[0,0.16,-8],"rotation":[0,0,0],"scale":[1.8,0.01,0.1],"color":"000000"}, // Lane marker
+  
+  // Gutters
+  {"position":[1.2,0.05,-2],"rotation":[0,0,0],"scale":[0.3,0.1,15],"color":"222222"}, // Right gutter
+  {"position":[-1.2,0.05,-2],"rotation":[0,0,0],"scale":[0.3,0.1,15],"color":"222222"}, // Left gutter
+  
+  // Pin placement area
+  {"position":[0,0.15,-9.5],"rotation":[0,0,0],"scale":[2,0.1,1],"color":"ffffff"}, // Pin deck
+  
+  // Bowling pins (arranged in triangle formation)
+  {"hasGravity":true,"position":[0,0.521,-9.5],"rotation":[0,0,0],"scale":[0.15,0.5,0.15],"color":"ffffff"}, // Pin 1 (front)
+  {"hasGravity":true,"position":[0.3,0.521,-9.8],"rotation":[0,0,0],"scale":[0.15,0.5,0.15],"color":"ffffff"}, // Pin 2
+  {"hasGravity":true,"position":[-0.3,0.521,-9.8],"rotation":[0,0,0],"scale":[0.15,0.5,0.15],"color":"ffffff"}, // Pin 3
+  // {"hasGravity":true,"position":[0.6,0.421,-10.1],"rotation":[0,0,0],"scale":[0.15,0.5,0.15],"color":"ffffff"}, // Pin 4
+  // {"hasGravity":true,"position":[0,0.421,-10.1],"rotation":[0,0,0],"scale":[0.15,0.5,0.15],"color":"ffffff"}, // Pin 5
+  // {"hasGravity":true,"position":[-0.6,0.421,-10.1],"rotation":[0,0,0],"scale":[0.15,0.5,0.15],"color":"ffffff"}, // Pin 6
+  // {"hasGravity":true,"position":[0.9,0.421,-10.4],"rotation":[0,0,0],"scale":[0.15,0.5,0.15],"color":"ffffff"}, // Pin 7
+  // {"hasGravity":true,"position":[0.3,0.421,-10.4],"rotation":[0,0,0],"scale":[0.15,0.5,0.15],"color":"ffffff"}, // Pin 8
+  // {"hasGravity":true,"position":[-0.3,0.421,-10.4],"rotation":[0,0,0],"scale":[0.15,0.5,0.15],"color":"ffffff"}, // Pin 9
+  // {"hasGravity":true,"position":[-0.9,0.421,-10.4],"rotation":[0,0,0],"scale":[0.15,0.5,0.15],"color":"ffffff"}, // Pin 10
+  
+  // Bowling ball
+  {"position":[0,0.4,4],"rotation":[0,0,0],"scale":[0.5,0.5,0.5],"color":"000000"}, // Bowling ball
+  
+  // Ball return system
+  {"position":[3,0.5,4],"rotation":[0,0,0],"scale":[1.5,1,2],"color":"444444"}, // Ball return machine
+  {"position":[3,1.1,4],"rotation":[0,0,0],"scale":[1.3,0.2,1.8],"color":"333333"}, // Ball return top
+  
+  // Seating area
+  {"position":[3,0.6,7],"rotation":[0,0,0],"scale":[2,0.2,3],"color":"222222"}, // Seating platform
+  {"position":[3,1.2,8],"rotation":[0,0,0],"scale":[1.8,1.2,0.2],"color":"880000"}, // Seat back
+  {"position":[-3,0.6,7],"rotation":[0,0,0],"scale":[2,0.2,3],"color":"222222"}, // Seating platform
+  {"position":[-3,1.2,8],"rotation":[0,0,0],"scale":[1.8,1.2,0.2],"color":"880000"}, // Seat back
+  
+  // Scoreboard/monitor
+  {"position":[0,3,9],"rotation":[0,0,0],"scale":[4,2,0.1],"color":"111111"}, // Screen
+  {"position":[0,3,8.95],"rotation":[0,0,0],"scale":[3.8,1.8,0.05],"color":"333333"}, // Screen display area
+  
+  // Lighting
+  {"position":[0,7.5,0],"rotation":[0,0,0],"scale":[0.5,0.2,0.5],"color":"ffff99"}, // Light
+  {"position":[0,7.5,-5],"rotation":[0,0,0],"scale":[0.5,0.2,0.5],"color":"ffff99"}, // Light
+  {"position":[0,7.5,-10],"rotation":[0,0,0],"scale":[0.5,0.2,0.5],"color":"ffff99"} // Light
+];
+
 /**
  * Get template data based on the template name
  * @param templateName - The name of the template to retrieve
@@ -178,6 +236,9 @@ export function getTemplateData(templateName: string | null): any[] | null {
     case 'castle':
       return CASTLE;
       
+    case 'bowling_alley':
+      return BOWLING_ALLEY;
+      
     default:
       return null;
   }
@@ -186,9 +247,10 @@ export function getTemplateData(templateName: string | null): any[] | null {
 
 export const DEFAULT_TEMPLATE_LIST = [
   { name: 'physics_test', description: 'Physics test' },
+  { name: 'bowling_alley', description: 'Simple bowling alley' },
   { name: 'const_house', description: 'Simple house construction' },
   { name: 'garden_parkour', description: 'Garden with trees and flowers' },
   { name: 'mountain_view', description: 'Mountain landscape' },
   { name: 'city_block', description: 'Urban city block' },
-  { name: 'castle', description: 'Medieval castle' }
+  { name: 'castle', description: 'Medieval castle' },
 ]
