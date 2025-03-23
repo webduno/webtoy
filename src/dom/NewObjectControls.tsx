@@ -11,11 +11,13 @@ interface NewObjectControlsProps {
   color: string;
   setColor: (color: string) => void;
   setTransformMode: (mode: TransformMode) => void;
-  hasGravity: boolean;
-  setHasGravity: (hasGravity: boolean) => void;
+  hasGravity?: boolean;
+  setHasGravity?: (hasGravity: boolean) => void;
+  canHaveGravity: boolean;
 }
 
 export default function NewObjectControls({ 
+  canHaveGravity = false,
   transformMode, 
   cycleTransformMode, 
   handleDone,
@@ -68,7 +70,7 @@ export default function NewObjectControls({
       zIndex: 1000, 
       position: 'absolute', 
       bottom: '20px', 
-      left: '20px',
+      right: '20px',
       display: 'flex',
       flexDirection: 'column',
       gap: '0px',
@@ -81,12 +83,12 @@ export default function NewObjectControls({
       <button 
         style={{
           ...buttonStyle,
-          backgroundColor: '#e24a4a', // Red for Done button
+          backgroundColor: '#4ae260', // green for Done button
         }}
         onClick={handleDone}
-        className="room-select-button"
+        className="room-select-button tx-shadow-5 tx-altfont-"
       >
-        Done
+        DONE
       </button>
       {/* add cancel button */}
       <button  className='noborder bg-b-90 bord-r-5 tx-white opaci-50 opaci-chov--25 mb-2 py-1'
@@ -125,14 +127,16 @@ export default function NewObjectControls({
           {color}
         </div> */}
         {/* Has Gravity */}
-        <div className='flex-col tx-white' >
-          <div className='tx-sm tx-center tx-shadow-5'>Gravity</div>
-          <input 
+        {canHaveGravity && (
+          <div className='flex-col tx-white' >
+            <div className='tx-sm tx-center tx-shadow-5'>Gravity</div>
+            <input 
             type="checkbox" 
             checked={hasGravity}
-            onChange={(e) => setHasGravity(e.target.checked)}
+            onChange={(e) => setHasGravity?.(e.target.checked)}
           />
         </div>
+        )}
       </div>
 
       <div style={{ display: 'flex', gap: '2px', justifyContent: 'space-between' }}>

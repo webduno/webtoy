@@ -85,6 +85,7 @@ const MultiPlayerStage = forwardRef<MultiPlayerStageHandle, {friends: Friend[], 
     <div className="scene-container">
         {isAdding && (
             <NewObjectControls
+              canHaveGravity={true}
               transformMode={transformMode}
               cycleTransformMode={cycleTransformMode}
               handleDone={handleDone}

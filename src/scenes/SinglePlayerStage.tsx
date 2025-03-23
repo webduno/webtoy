@@ -101,6 +101,7 @@ const SinglePlayerStage = forwardRef<SinglePlayerStageHandle, {}>((props, ref) =
     <div className="scene-container">
         {isAdding && (
             <NewObjectControls
+              canHaveGravity={false}
               transformMode={transformMode}
               cycleTransformMode={cycleTransformMode}
               handleDone={handleDone}

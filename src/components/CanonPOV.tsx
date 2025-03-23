@@ -641,6 +641,7 @@ function PhysicsScene({ position, sceneObjects, onExit, isMobile }: PhysicsScene
                 scale={meshScale.map(s => s * 1.05 || 1)}
                 geometry={obj.geometry}
                 material={obj.material}
+                userData={obj.userData}
               />
             )
           }
@@ -732,8 +733,11 @@ function PhysicalBall({ position, velocity }: {
   )
 }
 
+// Global storage for object physics state
+const objectsPhysicsState = new Map();
+
 // Generic physical box for scene objects
-function PhysicalBox({ position, rotation, scale, geometry, material }: any) {
+function PhysicalBox({ position, rotation, scale, geometry, material, userData }: any) {
   const meshRef = useRef<Mesh>(null)
   
   // Try to extract dimensions from geometry
@@ -784,13 +788,70 @@ function PhysicalBox({ position, rotation, scale, geometry, material }: any) {
     Math.max(scaledSize[2], 0.01)
   ]
   
-  const [boxRef] = useBox(() => ({
+  // Check if the object has gravity enabled in userData
+  const hasGravity = userData?.hasGravity || false;
+  
+  // Create a unique ID for this object based on its initial position
+  // This helps us track it across re-renders
+  const instanceId = useRef(`obj-${position[0]}-${position[1]}-${position[2]}`);
+  
+  // Apply userData to mesh ref after creation
+  useEffect(() => {
+    if (meshRef.current && userData) {
+      meshRef.current.userData = { ...userData };
+    }
+  }, [userData]);
+  
+  const [boxRef, api] = useBox(() => ({
     args: finalSize,
-    position: position,
+    position: hasGravity && objectsPhysicsState.has(instanceId.current) 
+      ? objectsPhysicsState.get(instanceId.current).position 
+      : position,
     rotation: rotation,
-    type: 'Static',
-    material: { friction: 0.5 },
+    type: hasGravity ? 'Dynamic' : 'Static',
+    mass: hasGravity ? 5 : 0,
+    material: { 
+      friction: 0.5,
+      restitution: hasGravity ? 0.4 : 0.1 // More bounce for gravity-enabled objects
+    },
+    linearDamping: hasGravity ? 0.2 : 0, // Add some air resistance for dynamic objects
+    // Apply stored velocity for persistent objects
+    velocity: hasGravity && objectsPhysicsState.has(instanceId.current) && objectsPhysicsState.get(instanceId.current).velocity
+      ? objectsPhysicsState.get(instanceId.current).velocity 
+      : [0, 0, 0]
   }), meshRef)
+  
+  // Track position for dynamic objects
+  useEffect(() => {
+    if (hasGravity && api) {
+      // Subscribe to position updates for dynamic objects
+      const unsubscribePos = api.position.subscribe((p) => {
+        if (hasGravity) {
+          const currentState = objectsPhysicsState.get(instanceId.current) || {};
+          objectsPhysicsState.set(instanceId.current, {
+            ...currentState,
+            position: p
+          });
+        }
+      });
+      
+      // Subscribe to velocity updates for dynamic objects
+      const unsubscribeVel = api.velocity.subscribe((v) => {
+        if (hasGravity) {
+          const currentState = objectsPhysicsState.get(instanceId.current) || {};
+          objectsPhysicsState.set(instanceId.current, {
+            ...currentState,
+            velocity: v
+          });
+        }
+      });
+      
+      return () => {
+        unsubscribePos();
+        unsubscribeVel();
+      };
+    }
+  }, [api, hasGravity]);
   
   return (
     <mesh 

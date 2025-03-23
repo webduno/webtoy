@@ -297,8 +297,8 @@ export default function MultiPlayerPage() {
 
           {/* Google Login button in top right only if not logged in */}
           {!session && (
-            <div className='flex-col gap-2 flex-justify-right flex-align-end'
-              style={{ position: 'absolute', bottom: '0', right: '0', margin: '10px', zIndex: 1000 }}
+            <div className='flex-col gap-2 flex-justify-start flex-align-start'
+              style={{ position: 'absolute', bottom: '0', left: '0', margin: '10px', zIndex: 1000 }}
             >
               <div className='tx-sm'>
                 <div className='bg-white bord-r-100 opaci-50 py-1 px-2'>IP | {myip}</div>
@@ -306,14 +306,14 @@ export default function MultiPlayerPage() {
               <GoogleLoginButton onLogin={loginWithGoogle} />
             </div>
           )}
-          {/* put ip in the bottom right if its not logged with google */}
+          {/* put ip in the bottom left if its not logged with google */}
           {!session && (
-            <div className='opaci-50' style={{ position: 'absolute', bottom: '0', right: '0', margin: '10px', zIndex: 1000 }}>
+            <div className='opaci-50' style={{ position: 'absolute', bottom: '0', left: '0', margin: '10px', zIndex: 1000 }}>
             </div>
           )}
-          {/* put email in the bottom right if its logged with google */}
+          {/* put email in the bottom left if its logged with google */}
           {session && (
-            <div className='opaci-50' style={{ position: 'absolute', bottom: '0', right: '0', margin: '10px', zIndex: 1000 }}>
+            <div className='opaci-50' style={{ position: 'absolute', bottom: '0', left: '0', margin: '10px', zIndex: 1000 }}>
               <div className='tx-white tx-shadow-5'>{session.user?.email}</div>
             </div>
           )}

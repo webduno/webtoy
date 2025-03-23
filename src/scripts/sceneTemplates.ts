@@ -1,5 +1,5 @@
 // Template definitions for the 3D scene
-
+const PHYSICS_TEST = [{"position":[0,-0.5611186449722975,0],"rotation":[0,0,0],"scale":[9.475172487582173,0.6155249373422851,9.475172487582173],"color":"777777","hasGravity":false},{"position":[0,0,0],"rotation":[0,0,0],"scale":[1,1,1],"color":"777777","hasGravity":false},{"position":[0,2.472572019683369,0],"rotation":[-0.5884172948570177,0.2210228494883355,0.5884172948570178],"scale":[0.6525083472183528,0.6525083472183528,0.6525083472183528],"color":"777777","hasGravity":false},{"position":[0,3.9631697162337187,0],"rotation":[-0.4693766980066377,0.29156384862405865,0.4693766980066377],"scale":[1,1,1],"color":"ffd500","hasGravity":true},{"position":[0,5.532869935566495,0],"rotation":[0,0,0],"scale":[1,1,1],"color":"ff7300","hasGravity":true}]
 // House template
 const CONST_HOUSE = [
   {"position":[0,0,0],"rotation":[0,0,0],"scale":[2,2,2],"color":"ffffff"}, // Main house structure
@@ -185,6 +185,7 @@ export function getTemplateData(templateName: string | null): any[] | null {
 
 
 export const DEFAULT_TEMPLATE_LIST = [
+  { name: 'physics_test', description: 'Physics test' },
   { name: 'const_house', description: 'Simple house construction' },
   { name: 'garden_parkour', description: 'Garden with trees and flowers' },
   { name: 'mountain_view', description: 'Mountain landscape' },
