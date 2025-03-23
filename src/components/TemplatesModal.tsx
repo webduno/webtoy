@@ -15,7 +15,8 @@ export default function TemplatesModal({
   onClose
 }: TemplatesModalProps) {
   return (
-    <div className='gap-2 pos-abs flex-col flex-align-center z-1000 bg-b-50 bg-glass-10 pa-4 bord-r-10'>
+    <div className='flex-justify-start autoverflow-y gap-2 h-max-300px pos-abs flex-col flex-align-center  z-1000 bg-b-50 bg-glass-10 pa-4 bord-r-10'>
+      <div className="tx-white opaci-50 tx-ls-5 pb-4">Map Templates</div>
       {templates.map((template, index) => (
         <button 
           key={index}

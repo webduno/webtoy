@@ -436,14 +436,16 @@ export function getTemplateData(templateName: string | null): any[] | null {
 
 export const DEFAULT_TEMPLATE_LIST = [
   // { name: 'physics_test', description: 'Physics test' },
-  { name: 'basketball_court', description: 'Basketball court' },
-  { name: 'football_field', description: 'American football field' },
-  { name: 'soccer_field', description: 'Soccer field' },
-  { name: 'golf_course', description: 'Simple golf course' },
-  { name: 'const_house', description: 'Simple house construction' },
-  { name: 'garden_parkour', description: 'Garden with trees and flowers' },
-  { name: 'mountain_view', description: 'Mountain landscape' },
-  { name: 'city_block', description: 'Urban city block' },
-  { name: 'bowling_alley', description: 'Simple bowling alley' },
-  { name: 'castle', description: 'Medieval castle' },
+  { name: 'const_house', description: '🏠 Simple house' },
+  { name: 'garden_parkour', description: '🌳 Parkour garden' },
+  { name: 'mountain_view', description: '⛰️ Mountain view' },
+  
+  { name: 'basketball_court', description: '🏀 Basketball court' },
+  { name: 'football_field', description: '🏈 American football' },
+  { name: 'soccer_field', description: '⚽ Soccer field' },
+  { name: 'golf_course', description: '⛳ Golf course' },
+  { name: 'bowling_alley', description: '🎳 Bowling alley' },
+  
+  { name: 'castle', description: '🏰 Medieval castle' },
+  { name: 'city_block', description: '🏙️ Urban city block' },
 ]

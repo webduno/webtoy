@@ -81,7 +81,7 @@ export default function MultiPlayerPage() {
   // get templates from sceneTemplates.ts
   const [templates, setTemplates] = useState<{name: string, description: string}[]>(
     // only first 4 elements
-    DEFAULT_TEMPLATE_LIST.slice(0, 5)
+    DEFAULT_TEMPLATE_LIST
   )
   const handleHelloClick = () => {
     // console.log("handleHelloClickhandleHelloClickhandleHelloClick")
