@@ -4,7 +4,7 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { PointerLockControls } from '@react-three/drei'
 import { Object3D, Vector3, Mesh, MeshStandardMaterial } from 'three'
 import { useKeyboardControls } from '@/hooks/useKeyboardControls'
-import { Physics, useCylinder, useBox, usePlane } from '@react-three/cannon'
+import { Physics, useCylinder, useBox, usePlane, useSphere } from '@react-three/cannon'
 
 // Add mobile detection helper
 function isMobile() {
@@ -158,6 +158,21 @@ function PhysicsScene({ position, sceneObjects, onExit, isMobile }: PhysicsScene
   const [isLocked, setIsLocked] = useState(false)
   const [showHitbox, setShowHitbox] = useState(true)
   const [isOnGround, setIsOnGround] = useState(false)
+  
+  // Single ball state - only one ball total
+  const [ballThrown, setBallThrown] = useState(false)
+  const [ballProps, setBallProps] = useState<{
+    position: [number, number, number],
+    velocity: [number, number, number]
+  }>({
+    position: [0, 0, 0],
+    velocity: [0, 0, 0]
+  })
+  // Add a ref to store the ball's physics API
+  const ballApiRef = useRef<any>(null)
+  
+  // Track if click was handled to prevent double firing
+  const clickHandled = useRef(false)
   
   // Mobile touch controls state
   const [touchMove, setTouchMove] = useState<{x: number, y: number}>({x: 0, y: 0})
@@ -366,6 +381,85 @@ function PhysicsScene({ position, sceneObjects, onExit, isMobile }: PhysicsScene
       document.removeEventListener('pointerlockchange', handleLockChange)
     }
   }, [onExit, isMobile])
+  
+  // Simplified throw ball function
+  const throwBall = () => {
+    // Only allow one ball ever
+    if (ballThrown) return;
+    
+    // Get current camera position and direction
+    const cameraDirection = new Vector3(0, 0, -1)
+    cameraDirection.applyQuaternion(camera.quaternion)
+    cameraDirection.normalize() // Make sure it's a unit vector
+    
+    // Set initial ball position slightly in front of camera
+    const cameraPos = camera.position.clone()
+    const initialPos: [number, number, number] = [
+      cameraPos.x + cameraDirection.x * 0.5,
+      cameraPos.y + cameraDirection.y * 0.5, 
+      cameraPos.z + cameraDirection.z * 0.5
+    ]
+    
+    // Calculate initial velocity - 20 units/s in camera direction
+    const throwForce = 20
+    const initialVel: [number, number, number] = [
+      cameraDirection.x * throwForce,
+      cameraDirection.y * throwForce,
+      cameraDirection.z * throwForce
+    ]
+    
+    // Update ball properties
+    setBallProps({
+      position: initialPos,
+      velocity: initialVel
+    })
+    
+    // Mark ball as thrown permanently
+    setBallThrown(true)
+  }
+  
+  // Simple click handler
+  const handleClick = () => {
+    if (isLocked && !ballThrown && !clickHandled.current) {
+      clickHandled.current = true;
+      throwBall();
+      // Reset the click handler flag after a short delay
+      setTimeout(() => {
+        clickHandled.current = false;
+      }, 500);
+    }
+  }
+  
+  // Handle click for desktop mode
+  useEffect(() => {
+    if (isMobile) {
+      // For mobile, we'll use a tap on right side
+      const lookArea = document.getElementById('look-area')
+      if (!lookArea) return
+      
+      const handleTap = () => {
+        if (!ballThrown && !clickHandled.current) {
+          clickHandled.current = true;
+          throwBall();
+          // Reset the click handler flag after a short delay
+          setTimeout(() => {
+            clickHandled.current = false;
+          }, 500);
+        }
+      }
+      
+      lookArea.addEventListener('touchstart', handleTap)
+      return () => {
+        lookArea.removeEventListener('touchstart', handleTap)
+      }
+    } else {
+      // For desktop, listen for clicks but don't disrupt pointer lock
+      window.addEventListener('click', handleClick)
+      return () => {
+        window.removeEventListener('click', handleClick)
+      }
+    }
+  }, [isMobile, isLocked, ballThrown])
   
   // Connect player mesh to camera
   useEffect(() => {
@@ -591,7 +685,50 @@ function PhysicsScene({ position, sceneObjects, onExit, isMobile }: PhysicsScene
         )}
         <meshStandardMaterial color="#00ff00" transparent opacity={0.5} wireframe />
       </mesh>
+      
+      {/* Ball - permanently shown once thrown */}
+      {ballThrown && (
+        <PhysicalBall 
+          key="singleBall"
+          position={ballProps.position} 
+          velocity={ballProps.velocity} 
+        />
+      )}
     </>
+  )
+}
+
+// Simple physical ball with cannon.js physics - stays in the world permanently
+function PhysicalBall({ position, velocity }: { 
+  position: [number, number, number], 
+  velocity: [number, number, number]
+}) {
+  const [ref, api] = useSphere<Mesh>(() => ({
+    mass: 2,
+    position: position,
+    args: [0.1], // 10cm radius
+    material: { restitution: 0.7, friction: 0.5 },
+    linearDamping: 0.1,
+    velocity: velocity
+  }))
+  
+  // Use a ref to remember that this ball has already been initialized
+  const isInitialized = useRef(false)
+  
+  // Only apply position and velocity on first render
+  useEffect(() => {
+    if (!isInitialized.current) {
+      api.position.set(...position)
+      api.velocity.set(...velocity)
+      isInitialized.current = true
+    }
+  }, [api, position, velocity])
+  
+  return (
+    <mesh ref={ref} castShadow>
+      <sphereGeometry args={[0.1, 16, 16]} />
+      <meshStandardMaterial color="red" />
+    </mesh>
   )
 }
 
