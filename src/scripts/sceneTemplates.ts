@@ -251,6 +251,144 @@ const BOWLING_ALLEY = [
 
 ];
 
+// Football field template
+const FOOTBALL_FIELD = [
+  // Main field (green turf)
+  {"position":[0,-0.22,0],"rotation":[0,0,0],"scale":[30,0.5,50],"color":"4caf50","hasGravity":false}, // Field base
+  {"position":[0,0.05,0],"rotation":[0,0,0],"scale":[28,0.1,48],"color":"388e3c","hasGravity":false}, // Field playing area
+  
+  // Yard lines (white)
+  {"position":[0,0.11,0],"rotation":[0,0,0],"scale":[20,0.04,0.3],"color":"ffffff","hasGravity":false}, // 50 yard line (middle)
+  {"position":[0,0.11,5],"rotation":[0,0,0],"scale":[20,0.04,0.2],"color":"ffffff","hasGravity":false}, // 40 yard line
+  {"position":[0,0.11,10],"rotation":[0,0,0],"scale":[20,0.04,0.2],"color":"ffffff","hasGravity":false}, // 30 yard line
+  {"position":[0,0.11,15],"rotation":[0,0,0],"scale":[20,0.04,0.2],"color":"ffffff","hasGravity":false}, // 20 yard line
+  {"position":[0,0.11,20],"rotation":[0,0,0],"scale":[20,0.04,0.2],"color":"ffffff","hasGravity":false}, // 10 yard line
+  
+  {"position":[0,0.11,-5],"rotation":[0,0,0],"scale":[20,0.04,0.2],"color":"ffffff","hasGravity":false}, // 40 yard line (other side)
+  {"position":[0,0.11,-10],"rotation":[0,0,0],"scale":[20,0.04,0.2],"color":"ffffff","hasGravity":false}, // 30 yard line (other side)
+  {"position":[0,0.11,-15],"rotation":[0,0,0],"scale":[20,0.04,0.2],"color":"ffffff","hasGravity":false}, // 20 yard line (other side)
+  {"position":[0,0.11,-20],"rotation":[0,0,0],"scale":[20,0.04,0.2],"color":"ffffff","hasGravity":false}, // 10 yard line (other side)
+  
+  // Hash marks
+  {"position":[4,0.11,0],"rotation":[0,0,0],"scale":[0.2,0.04,0.5],"color":"ffffff","hasGravity":false}, // Hash mark
+  {"position":[-4,0.11,0],"rotation":[0,0,0],"scale":[0.2,0.04,0.5],"color":"ffffff","hasGravity":false}, // Hash mark
+  
+  // Goal lines
+  {"position":[0,0.11,24],"rotation":[0,0,0],"scale":[20,0.04,0.3],"color":"ffffff","hasGravity":false}, // Goal line
+  {"position":[0,0.11,-24],"rotation":[0,0,0],"scale":[20,0.04,0.3],"color":"ffffff","hasGravity":false}, // Goal line (other end)
+  
+  // End zones (slightly different color)
+  {"position":[0,0.04,27],"rotation":[0,0,0],"scale":[20,0.08,6],"color":"1b5e20","hasGravity":false}, // End zone
+  {"position":[0,0.04,-27],"rotation":[0,0,0],"scale":[20,0.08,6],"color":"1b5e20","hasGravity":false}, // End zone (other end)
+  
+  // Sidelines
+  {"position":[10.5,0.11,0],"rotation":[0,0,0],"scale":[0.5,0.04,48],"color":"ffffff","hasGravity":false}, // Sideline right
+  {"position":[-10.5,0.11,0],"rotation":[0,0,0],"scale":[0.5,0.04,48],"color":"ffffff","hasGravity":false}, // Sideline left
+  
+  // Goal posts
+  // Left goal post (complex shape built from parts)
+  {"position":[0,1.5,30],"rotation":[0,0,0],"scale":[0.3,3,0.3],"color":"ffff00","hasGravity":false}, // Vertical post
+  {"position":[0,3,30],"rotation":[0,0,0],"scale":[4.5,0.3,0.3],"color":"ffff00","hasGravity":false}, // Crossbar
+  {"position":[2.25,4.5,30],"rotation":[0,0,0],"scale":[0.2,3,0.2],"color":"ffff00","hasGravity":false}, // Right upright
+  {"position":[-2.25,4.5,30],"rotation":[0,0,0],"scale":[0.2,3,0.2],"color":"ffff00","hasGravity":false}, // Left upright
+  
+  // Right goal post (complex shape built from parts)
+  {"position":[0,1.5,-30],"rotation":[0,0,0],"scale":[0.3,3,0.3],"color":"ffff00","hasGravity":false}, // Vertical post
+  {"position":[0,3,-30],"rotation":[0,0,0],"scale":[4.5,0.3,0.3],"color":"ffff00","hasGravity":false}, // Crossbar
+  {"position":[2.25,4.5,-30],"rotation":[0,0,0],"scale":[0.2,3,0.2],"color":"ffff00","hasGravity":false}, // Right upright
+  {"position":[-2.25,4.5,-30],"rotation":[0,0,0],"scale":[0.2,3,0.2],"color":"ffff00","hasGravity":false}, // Left upright
+  
+  // Team benches
+  {"position":[14,0.5,0],"rotation":[0,0,0],"scale":[1.5,1,10],"color":"555555","hasGravity":false}, // Right bench
+  {"position":[-14,0.5,0],"rotation":[0,0,0],"scale":[1.5,1,10],"color":"555555","hasGravity":false}, // Left bench
+  
+  // Field surroundings
+  {"position":[0,-0.5,0],"rotation":[0,0,0],"scale":[40,1,60],"color":"888888","hasGravity":false}, // Ground beneath field
+  
+  // Field markings - numbers (simplified)
+  {"position":[7,0.11,10],"rotation":[0,0,0],"scale":[1,0.05,1.5],"color":"ffffff","hasGravity":false}, // "30" yard marker
+  {"position":[-7,0.11,10],"rotation":[0,0,0],"scale":[1,0.05,1.5],"color":"ffffff","hasGravity":false}, // "30" yard marker
+  {"position":[7,0.11,-10],"rotation":[0,0,0],"scale":[1,0.05,1.5],"color":"ffffff","hasGravity":false}, // "30" yard marker
+  {"position":[-7,0.11,-10],"rotation":[0,0,0],"scale":[1,0.05,1.5],"color":"ffffff","hasGravity":false}, // "30" yard marker
+];
+
+// Soccer field template
+const SOCCER_FIELD = [
+  // soccer ball
+  {"position":[0,2.2,0],"rotation":[0.5,0.5,0.5],"scale":[0.33,0.33,0.33],"color":"ffffff","hasGravity":true}, // Soccer ball
+
+  // Main field (green turf)
+  {"position":[0,-0.11,0],"rotation":[0,0,0],"scale":[15,0.5,22.5],"color":"4caf50","hasGravity":false}, // Field base
+  {"position":[0,0.05,0],"rotation":[0,0,0],"scale":[14,0.1,21],"color":"388e3c","hasGravity":false}, // Field playing area
+  
+  // Field boundaries (white lines)
+  {"position":[0,0.13,-7],"rotation":[0,0,0],"scale":[6,0.04,0.2],"color":"ffffff","hasGravity":false}, // Halfway line
+  {"position":[0,0.13,7],"rotation":[0,0,0],"scale":[6,0.04,0.2],"color":"ffffff","hasGravity":false}, // Halfway line
+  {"position":[0,0.13,0],"rotation":[0,0,0],"scale":[12,0.04,0.2],"color":"ffffff","hasGravity":false}, // Halfway line
+  {"position":[6,0.13,0],"rotation":[0,0,0],"scale":[0.2,0.04,20],"color":"ffffff","hasGravity":false}, // Right touchline
+  {"position":[-6,0.13,0],"rotation":[0,0,0],"scale":[0.2,0.04,20],"color":"ffffff","hasGravity":false}, // Left touchline
+  {"position":[0,0.13,10],"rotation":[0,0,0],"scale":[12.1,0.04,0.2],"color":"ffffff","hasGravity":false}, // Top goal line
+  {"position":[0,0.13,-10],"rotation":[0,0,0],"scale":[12.1,0.04,0.2],"color":"ffffff","hasGravity":false}, // Bottom goal line
+  
+  // Center circle
+  {"position":[0,0.14,0],"rotation":[0,0,0],"scale":[0.25,0.04,0.25],"color":"ffffff","hasGravity":false}, // Center spot
+  
+  // Penalty areas (top)
+  {"position":[0,0.11,8],"rotation":[0,0,0],"scale":[5.5,0.04,0.2],"color":"ffffff","hasGravity":false}, // Penalty area line (top)
+  {"position":[2.75,0.11,9],"rotation":[0,0,0],"scale":[0.2,0.04,2],"color":"ffffff","hasGravity":false}, // Penalty area right (top)
+  {"position":[-2.75,0.11,9],"rotation":[0,0,0],"scale":[0.2,0.04,2],"color":"ffffff","hasGravity":false}, // Penalty area left (top)
+  
+  // Penalty areas (bottom)
+  {"position":[0,0.11,-8],"rotation":[0,0,0],"scale":[5.5,0.04,0.2],"color":"ffffff","hasGravity":false}, // Penalty area line (bottom)
+  {"position":[2.75,0.11,-9],"rotation":[0,0,0],"scale":[0.2,0.04,2],"color":"ffffff","hasGravity":false}, // Penalty area right (bottom)
+  {"position":[-2.75,0.11,-9],"rotation":[0,0,0],"scale":[0.2,0.04,2],"color":"ffffff","hasGravity":false}, // Penalty area left (bottom)
+  
+  // Goal area (top)
+  {"position":[0,0.11,9],"rotation":[0,0,0],"scale":[1.75,0.04,0.2],"color":"ffffff","hasGravity":false}, // Goal area line (top)
+  {"position":[0.875,0.11,9.5],"rotation":[0,0,0],"scale":[0.2,0.04,1],"color":"ffffff","hasGravity":false}, // Goal area right (top)
+  {"position":[-0.875,0.11,9.5],"rotation":[0,0,0],"scale":[0.2,0.04,1],"color":"ffffff","hasGravity":false}, // Goal area left (top)
+  
+  // Goal area (bottom)
+  {"position":[0,0.11,-9],"rotation":[0,0,0],"scale":[1.75,0.04,0.2],"color":"ffffff","hasGravity":false}, // Goal area line (bottom)
+  {"position":[0.875,0.11,-9.5],"rotation":[0,0,0],"scale":[0.2,0.04,1],"color":"ffffff","hasGravity":false}, // Goal area right (bottom)
+  {"position":[-0.875,0.11,-9.5],"rotation":[0,0,0],"scale":[0.2,0.04,1],"color":"ffffff","hasGravity":false}, // Goal area left (bottom)
+  
+  // Penalty spots
+  {"position":[0,0.15,6],"rotation":[0,0,0],"scale":[0.33,0.04,0.33],"color":"ffffff","hasGravity":false}, // Penalty spot (top)
+  {"position":[0,0.15,-6],"rotation":[0,0,0],"scale":[0.33,0.04,0.33],"color":"ffffff","hasGravity":false}, // Penalty spot (bottom)
+  
+  // Top goal
+  {"position":[0,1,10.3],"rotation":[0,0,0],"scale":[1.85,2,0.1],"color":"ffffff","hasGravity":false}, // Goal back
+  {"position":[0.925,1,10.15],"rotation":[0,0,0],"scale":[0.1,2,0.3],"color":"ffffff","hasGravity":false}, // Goal right post
+  {"position":[-0.925,1,10.15],"rotation":[0,0,0],"scale":[0.1,2,0.3],"color":"ffffff","hasGravity":false}, // Goal left post
+  {"position":[0,2,10.15],"rotation":[0,0,0],"scale":[1.85,0.1,0.3],"color":"ffffff","hasGravity":false}, // Goal top bar
+  {"position":[0,0.1,10.15],"rotation":[0,0,0],"scale":[1.85,0.1,0.3],"color":"ffffff","hasGravity":false}, // Goal bottom bar
+  
+  // Bottom goal
+  {"position":[0,1,-10.3],"rotation":[0,0,0],"scale":[1.85,2,0.1],"color":"ffffff","hasGravity":false}, // Goal back
+  {"position":[0.925,1,-10.15],"rotation":[0,0,0],"scale":[0.1,2,0.3],"color":"ffffff","hasGravity":false}, // Goal right post
+  {"position":[-0.925,1,-10.15],"rotation":[0,0,0],"scale":[0.1,2,0.3],"color":"ffffff","hasGravity":false}, // Goal left post
+  {"position":[0,2,-10.15],"rotation":[0,0,0],"scale":[1.85,0.1,0.3],"color":"ffffff","hasGravity":false}, // Goal top bar
+  {"position":[0,0.1,-10.15],"rotation":[0,0,0],"scale":[1.85,0.1,0.3],"color":"ffffff","hasGravity":false}, // Goal bottom bar
+  
+  // Field surroundings
+  {"position":[0,-0.5,0],"rotation":[0,0,0],"scale":[20,1,27.5],"color":"888888","hasGravity":false}, // Ground beneath field
+  
+  // Corner flags
+  {"position":[6.1,0.5,10.1],"rotation":[0,0,0],"scale":[0.05,1,0.05],"color":"ff0000","hasGravity":false}, // Top-right flag pole
+  {"position":[-6.1,0.5,10.1],"rotation":[0,0,0],"scale":[0.05,1,0.05],"color":"ff0000","hasGravity":false}, // Top-left flag pole
+  {"position":[6.1,0.5,-10.1],"rotation":[0,0,0],"scale":[0.05,1,0.05],"color":"ff0000","hasGravity":false}, // Bottom-right flag pole
+  {"position":[-6.1,0.5,-10.1],"rotation":[0,0,0],"scale":[0.05,1,0.05],"color":"ff0000","hasGravity":false}, // Bottom-left flag pole
+  {"position":[6.15,1,10.05],"rotation":[0,0.7,0],"scale":[0.3,0.2,0.01],"color":"ff0000","hasGravity":false}, // Top-right flag
+  {"position":[-6.15,1,10.05],"rotation":[0,-0.7,0],"scale":[0.3,0.2,0.01],"color":"ff0000","hasGravity":false}, // Top-left flag
+  {"position":[6.15,1,-10.05],"rotation":[0,0.7,0],"scale":[0.3,0.2,0.01],"color":"ff0000","hasGravity":false}, // Bottom-right flag
+  {"position":[-6.15,1,-10.05],"rotation":[0,-0.7,0],"scale":[0.3,0.2,0.01],"color":"ff0000","hasGravity":false}, // Bottom-left flag
+  
+  // Goal nets (simplified)
+  {"position":[0,1,10.5],"rotation":[0,0,0],"scale":[1.85,2,0.4],"color":"eeeeee","hasGravity":false}, // Top goal net
+  {"position":[0,1,-10.5],"rotation":[0,0,0],"scale":[1.85,2,0.4],"color":"eeeeee","hasGravity":false}, // Bottom goal net
+];
+
 /**
  * Get template data based on the template name
  * @param templateName - The name of the template to retrieve
@@ -284,6 +422,12 @@ export function getTemplateData(templateName: string | null): any[] | null {
     case 'basketball_court':
       return BASKETBALL_COURT;
       
+    case 'football_field':
+      return FOOTBALL_FIELD;
+      
+    case 'soccer_field':
+      return SOCCER_FIELD;
+      
     default:
       return null;
   }
@@ -293,6 +437,8 @@ export function getTemplateData(templateName: string | null): any[] | null {
 export const DEFAULT_TEMPLATE_LIST = [
   // { name: 'physics_test', description: 'Physics test' },
   { name: 'basketball_court', description: 'Basketball court' },
+  { name: 'football_field', description: 'American football field' },
+  { name: 'soccer_field', description: 'Soccer field' },
   { name: 'golf_course', description: 'Simple golf course' },
   { name: 'const_house', description: 'Simple house construction' },
   { name: 'garden_parkour', description: 'Garden with trees and flowers' },
