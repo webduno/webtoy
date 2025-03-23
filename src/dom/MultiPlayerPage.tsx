@@ -73,13 +73,34 @@ export default function MultiPlayerPage() {
   const { data: session } = useSession()
   const [loading, setLoading] = useState<boolean>(false)
   const [showSettings, setShowSettings] = useState<boolean>(false)
+  const [showTemplates, setShowTemplates] = useState<boolean>(false)
   const [deleteMode, setDeleteMode] = useState<boolean>(false)
+  const [templates, setTemplates] = useState<{name: string, description: string}[]>([
+    { name: 'const_house', description: 'Simple house construction' },
+    { name: 'garden_scene', description: 'Garden with trees and flowers' },
+    { name: 'mountain_view', description: 'Mountain landscape' },
+    { name: 'city_block', description: 'Urban city block' }
+  ])
   const handleHelloClick = () => {
     // console.log("handleHelloClickhandleHelloClickhandleHelloClick")
     stageRef.current?.createObject([0, 0, 0], [1, 1, 1], [0, 0, 0])
   }
   const handleOpenSettings = () => {
     setShowSettings(!showSettings)
+    setShowTemplates(false)
+  }
+  const handleOpenTemplates = () => {
+    setShowTemplates(true)
+    setShowSettings(false)
+  }
+  const handleLoadTemplate = (templateName: string) => {
+    // Here you would implement the loading of the specific template
+    console.log(`Loading template: ${templateName}`)
+    // Store the template name in localStorage or a global state
+    localStorage.setItem('selectedTemplate', templateName)
+    // Then call pasteContent without parameters
+    stageRef.current?.pasteContent()
+    setShowTemplates(false)
   }
   const handleAddFriend = (newAltFriend = "") => {
     const theNewName = newFriendName || newAltFriend
@@ -145,13 +166,39 @@ export default function MultiPlayerPage() {
                 setDeleteMode(!deleteMode)
                 setShowSettings(false)
               }} className='noborder bg-trans tx-red tx-lg py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1 '>Delete  Mode: {deleteMode ? 'ON' : 'OFF'}</button>
-              <button onClick={handleResetScene} className='noborder bg-trans tx-white tx-lg py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1 underline'>Reset Scene</button>
-              <button onClick={handleCopyContent} className='noborder bg-trans tx-white tx-lg py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1 underline'>Copy Content</button>
-              <button onClick={handlePasteContent} className='noborder bg-trans tx-white tx-lg py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1 underline'>Paste Content</button>
+              <div className='flex-row gap-2 '>
+              <button onClick={handleResetScene} className='noborder bg-trans tx-white tx-mdl py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1 underline'>Reset </button>
+              <button onClick={handleCopyContent} className='noborder bg-trans tx-white tx-mdl py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1 underline'>Copy</button>
+                <button onClick={handlePasteContent} className='noborder bg-trans tx-white tx-mdl py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1 underline'>Paste</button>
+              </div>
               <button onClick={handleAutorotate} className='noborder bg-trans tx-white tx-lg py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1 underline'>Autorotate</button>
-              <div className='tx-white tx-lg py-2  tx-shadow-5 tx-altfont-1 opaci-50'>Add via AI (Soon)</div>
+              <button onClick={handleOpenTemplates} className=' noborder bord-r-100 px-4 bg-b-90 tx-white tx-lg py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1 underline'>Templates →</button>
+              <button className=' noborder bord-r-100 px-4 bg-b-90 tx-white tx-lg py-2 opaci-50 tx-shadow-5 tx-altfont-1 underline mt-2'>Create with AI →</button>
+              {/* <div className='tx-white tx-lg py-2  tx-shadow-5 tx-altfont-1 opaci-50'>Add via AI (Soon)</div> */}
             </div>
           </>)}
+          
+          {showTemplates && (
+            <div className='gap-1 pos-abs flex-col flex-align-center z-1000 bg-b-90 pa-4 bord-r-10'>
+              {/* <div className='tx-white pb-5 opaci-25 tx-altfont-1 tx-ls-3 '>TEMPLATES</div> */}
+              {templates.map((template, index) => (
+                <button 
+                  key={index}
+                  onClick={() => handleLoadTemplate(template.name)}
+                  className='noborder flex-col bg-trans tx-white tx-lg py-1 opaci-chov--50 tx-shadow-5 tx-altfont-1 bg-b-20 bord-r-10'
+                >
+                  {template.name}
+                  <span className='tx-sm opaci-50 ml-2 nodeco'>{template.description}</span>
+                </button>
+              ))}
+              <button 
+                onClick={() => setShowTemplates(false)}
+                className='noborder border-white bord-r-15 bg-trans tx-white tx-lg mt-3 py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1'
+              >
+                Close Templates
+              </button> 
+            </div>
+          )}
           
           {friends.length > 1 &&  (<>
             <div className='pos-abs top-0 right-0 ma-2 flex-col flex-align-end gap-2'>

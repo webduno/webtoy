@@ -161,7 +161,93 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
     // handleResetScene();
     
     try {
-      // Get content from clipboard
+      // Check if we have a selected template
+      const selectedTemplate = localStorage.getItem('selectedTemplate');
+      
+      if (selectedTemplate) {
+        // Clear localStorage item
+        localStorage.removeItem('selectedTemplate');
+        
+        // Load the predefined template based on the name
+        let templateData;
+        
+        switch (selectedTemplate) {
+          case 'const_house':
+            templateData = [
+              {"position":[0,0,0],"rotation":[0,0,0],"scale":[2,2,2],"color":"ffffff"},
+              {"position":[0,0,0],"rotation":[0,0,0],"scale":[5.912293923443534,0.145726403683075,5.912293923443534],"color":"00ff00"},
+              {"position":[0,0.8961489054206201,0],"rotation":[0,0,-0.738686876404],"scale":[1.4903938669662014,1.2279975985060276,1.4903938669662014],"color":"ff9900"},
+              {"position":[0,0,0.7606092665102162],"rotation":[0,0,0],"scale":[0.6488370605796285,1.3001379183262618,0.6488370605796285],"color":"333333"}
+            ]
+            break;
+            
+          case 'garden_scene':
+            templateData = [
+              { position: [0, 0, 0], scale: [10, 0.1, 10], rotation: [0, 0, 0], color: "669933" }, // grass
+              { position: [-3, 1, -3], scale: [1, 2, 1], rotation: [0, 0, 0], color: "337722" }, // tree
+              { position: [3, 1, 3], scale: [1, 2, 1], rotation: [0, 0, 0], color: "337722" }, // tree
+              { position: [0, 0.3, 0], scale: [2, 0.3, 2], rotation: [0, 0, 0], color: "8877aa" }, // flower bed
+            ];
+            break;
+            
+          case 'mountain_view':
+            templateData = [
+              { position: [0, 0, 0], scale: [15, 0.1, 15], rotation: [0, 0, 0], color: "999999" }, // ground
+              { position: [-5, 3, -10], scale: [5, 6, 5], rotation: [0, 0, 0], color: "888888" }, // mountain
+              { position: [5, 2, -8], scale: [4, 4, 4], rotation: [0, 0, 0], color: "888888" }, // mountain
+              { position: [0, 5, -12], scale: [8, 10, 8], rotation: [0, 0, 0], color: "aaaaaa" }, // large mountain
+            ];
+            break;
+            
+          case 'city_block':
+            templateData = [
+              { position: [0, 0, 0], scale: [20, 0.1, 20], rotation: [0, 0, 0], color: "aaaaaa" }, // street
+              { position: [-5, 2, -5], scale: [3, 4, 3], rotation: [0, 0, 0], color: "6688aa" }, // building
+              { position: [5, 3, -5], scale: [3, 6, 3], rotation: [0, 0, 0], color: "bb9988" }, // building
+              { position: [-5, 4, 5], scale: [3, 8, 3], rotation: [0, 0, 0], color: "dddddd" }, // skyscraper
+              { position: [5, 1.5, 5], scale: [3, 3, 3], rotation: [0, 0, 0], color: "99aa88" }, // building
+            ];
+            break;
+            
+          default:
+            // If no valid template, fall back to clipboard paste
+            templateData = null;
+        }
+        
+        // If we have template data, use it
+        if (templateData && sceneRef.current) {
+          // Clear existing objects
+          while (sceneRef.current.children.length > 1) { // Keep the floor
+            const child = sceneRef.current.children[1];
+            sceneRef.current.remove(child);
+          }
+          
+          // Create objects from the template
+          templateData.forEach((object: any) => {
+            createObject(
+              object.position, 
+              object.scale, 
+              object.rotation, 
+              "#" + object.color, 
+              sceneRef, 
+              setIsAdding, 
+              setSelectedObject, 
+              isAdding
+            );
+          });
+          
+          // Save the imported objects
+          handleSaveObjects();
+          
+          // Reset selection
+          setSelectedObject(null);
+          setIsAdding(false);
+          
+          return; // Exit early
+        }
+      }
+      
+      // If no template or template data, fall back to clipboard paste
       const clipboardText = await navigator.clipboard.readText();
       const objects = JSON.parse(clipboardText);
       
