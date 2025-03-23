@@ -216,10 +216,10 @@ export function getTemplateData(templateName: string | null): any[] | null {
 
 export const DEFAULT_TEMPLATE_LIST = [
   // { name: 'physics_test', description: 'Physics test' },
-  { name: 'bowling_alley', description: 'Simple bowling alley' },
   { name: 'const_house', description: 'Simple house construction' },
   { name: 'garden_parkour', description: 'Garden with trees and flowers' },
   { name: 'mountain_view', description: 'Mountain landscape' },
   { name: 'city_block', description: 'Urban city block' },
+  { name: 'bowling_alley', description: 'Simple bowling alley' },
   { name: 'castle', description: 'Medieval castle' },
 ]

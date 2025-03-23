@@ -26,12 +26,12 @@ export default function TemplatesModal({
           className='noborder flex-col tx-altfont-1  bg-trans w-250px tx-white tx-lg py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1  bord-r-10'
         >
           {/* {template.name} */}
-          <span className='tx-md opaci-75 ml-2 nodeco '>{template.description}</span>
+          <span className='tx-md opaci-  ml-2 nodeco '>{template.description}</span>
         </button>
       ))}
       <button 
         onClick={onClose}
-        className='noborder border-white bord-r-10 bg-trans tx-white tx-lg mt-3 py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1'
+        className='noborder border-white bord-r-10 bg-trans tx-white tx- mt- py-2 opaci-chov--25 opaci-50 tx-shadow-5 tx-altfont-1'
       >
         Close Templates
       </button> 
