@@ -807,7 +807,9 @@ function PhysicalBox({ position, rotation, scale, geometry, material, userData }
     position: hasGravity && objectsPhysicsState.has(instanceId.current) 
       ? objectsPhysicsState.get(instanceId.current).position 
       : position,
-    rotation: rotation,
+    rotation: hasGravity && objectsPhysicsState.has(instanceId.current) && objectsPhysicsState.get(instanceId.current).rotation
+      ? objectsPhysicsState.get(instanceId.current).rotation
+      : rotation,
     type: hasGravity ? 'Dynamic' : 'Static',
     mass: hasGravity ? 5 : 0,
     material: { 
@@ -846,9 +848,21 @@ function PhysicalBox({ position, rotation, scale, geometry, material, userData }
         }
       });
       
+      // Subscribe to rotation updates for dynamic objects
+      const unsubscribeRot = api.rotation.subscribe((r) => {
+        if (hasGravity) {
+          const currentState = objectsPhysicsState.get(instanceId.current) || {};
+          objectsPhysicsState.set(instanceId.current, {
+            ...currentState,
+            rotation: r
+          });
+        }
+      });
+      
       return () => {
         unsubscribePos();
         unsubscribeVel();
+        unsubscribeRot();
       };
     }
   }, [api, hasGravity]);

@@ -1,5 +1,5 @@
 // Template definitions for the 3D scene
-const PHYSICS_TEST = [{"position":[0,-0.5611186449722975,0],"rotation":[0,0,0],"scale":[9.475172487582173,0.6155249373422851,9.475172487582173],"color":"777777","hasGravity":false},{"position":[0,0,0],"rotation":[0,0,0],"scale":[1,1,1],"color":"777777","hasGravity":false},{"position":[0,2.472572019683369,0],"rotation":[-0.5884172948570177,0.2210228494883355,0.5884172948570178],"scale":[0.6525083472183528,0.6525083472183528,0.6525083472183528],"color":"777777","hasGravity":false},{"position":[0,3.9631697162337187,0],"rotation":[-0.4693766980066377,0.29156384862405865,0.4693766980066377],"scale":[1,1,1],"color":"ffd500","hasGravity":true},{"position":[0,5.532869935566495,0],"rotation":[0,0,0],"scale":[1,1,1],"color":"ff7300","hasGravity":true}]
+const PHYSICS_TEST = [{"position":[0,-0.5611186449722975,0],"rotation":[0,0,0],"scale":[9.475172487582173,0.6155249373422851,9.475172487582173],"color":"777777","hasGravity":false},{"position":[0,0,0],"rotation":[0,0,0],"scale":[1,1,1],"color":"777777","hasGravity":false},{"position":[0,2.472572019683369,0],"rotation":[-0.5884172948570177,0.2210228494883355,0.5884172948570178],"scale":[0.6525083472183528,0.6525083472183528,0.6525083472183528],"color":"777777","hasGravity":false},{"position":[0,3.9631697162337187,0],"rotation":[-0.4693766980066377,0.29156384862405865,0.4693766980066377],"scale":[1,1,1],"color":"ffd500","hasGravity":true},{"position":[0,5.532869935566511,0],"rotation":[0,0,0],"scale":[1,1,1],"color":"ff7300","hasGravity":true}]
 // House template
 const CONST_HOUSE = [
   {"position":[0,0,0],"rotation":[0,0,0],"scale":[2,2,2],"color":"ffffff"}, // Main house structure
@@ -30,7 +30,7 @@ const GARDEN_PARKOUR = [
   {"position":[-7.383490830656415,-6.1767416902987256,1.996539109297205],"rotation":[0,0,0],"scale":[0.7887055245800305,0.5230260368408406,0.7887055245800305],"color":"ff006f"}, // Pink jump pad
   {"position":[-1.9122150713904271,-0.20835759177290125,-5.863918624093314],"rotation":[0,0,0],"scale":[1,5.3322192661873125,1],"color":"a5651d"}, // Tall tree trunk
   {"position":[-5.557772000321055,-1.9548201702244743,-3.1190937245612798],"rotation":[0,0,0],"scale":[1.6046255543234111,5.654619246273854,1.6046255543234111],"color":"a5651d"}, // Tall tree trunk
-  {"position":[-5.786092008179452,2.5475953603947383,-3.1289606442495934],"rotation":[-0.0969720765487077,0.029436045916196096,-0.08152744758727472],"scale":[2.7597546897345304,4.568076429885781,2.7597546897345304],"color":"1e7b46"}, // Tree foliage
+  {"position":[-5.786092008179452,2.5475953603947383,-3.1289606442511934],"rotation":[-0.0969720765487077,0.029436045916196096,-0.08152744758727472],"scale":[2.7597546897345304,4.568076429885781,2.7597546897345304],"color":"1e7b46"}, // Tree foliage
   {"position":[-1.7541682894281148,2.4041666721347843,-5.8306859851015815],"rotation":[-0.0036311157368923903,0.5237977552553248,-0.33254551283626554],"scale":[2.730187975450844,3.7432318373818925,2.730187975450844],"color":"1e7b46"}, // Tree foliage
   {"position":[0,-1.02012500526454,-3.9312412755540858],"rotation":[-0.34117551994524165,0,0],"scale":[1,1,1],"color":"a6ff00"}
 ]; // Lime green platform
@@ -107,7 +107,7 @@ const CITY_BLOCK = [
   {"position":[8,1,8],"rotation":[0,0,0],"scale":[0.2,2,0.2],"color":"333333"},
   {"position":[8,2,8],"rotation":[0,0,0],"scale":[0.4,0.2,0.4],"color":"ffff99"},
   {"position":[-2.3931774499231757,0,3.7962060318198336],"rotation":[0,0,0],"scale":[1,1,1],"color":"aeaed0"},
-  {"position":[2.0703084959890035,6.600628599931982,1.9757186886635445],"rotation":[0,0,0],"scale":[1,0.6670564416090144,4.5692587330367065],"color":"9d9daa"},
+  {"position":[2.0703085119890035,6.600628599931982,1.9757186886635445],"rotation":[0,0,0],"scale":[1,0.6670564416090144,4.5692587330367065],"color":"9d9daa"},
   {"position":[1.8367803942926528,6.3894102564725,-3.4389758843552185],"rotation":[0,0,-0.4838127857293179],"scale":[0.7058776349920409,0.14544930515772972,5.241211803927037],"color":"d5a46c"},
   {"position":[3.2777481071386427,6.116330096025057,-5.974242850712737],"rotation":[0.23991270909642906,-0.009945372372252981,-0.10210847708252374],"scale":[7.813503517104752,0.26486776599161266,2.0208508464501262],"color":"d5a46c"},
   {"position":[2.1297765288638297,7.013772641041847,-6.8589577884784605],"rotation":[0,0,0],"scale":[1,1.7874551255079683,0.35396833341135053],"color":"938b58"},
@@ -156,60 +156,29 @@ const CASTLE = [
 
 // Bowling alley template
 const BOWLING_ALLEY = [
-  // Room and background
-  {"position":[0,0,0],"rotation":[0,0,0],"scale":[12,0.2,25],"color":"333333"}, // Floor
-  // {"position":[0,4,10],"rotation":[0,0,0],"scale":[12,8,0.5],"color":"555555"}, // Back wall
-  // {"position":[6,4,0],"rotation":[0,0,0],"scale":[0.5,8,20],"color":"555555"}, // Right wall
-  // {"position":[-6,4,0],"rotation":[0,0,0],"scale":[0.5,8,20],"color":"555555"}, // Left wall
-  
-  // Bowling lane (wooden part)
-  {"position":[0,0.15,-2],"rotation":[0,0,0],"scale":[2,0.1,15],"color":"d4a76a"}, // Lane
-  
-  // Lane arrows/markers
-  {"position":[0,0.16,-4],"rotation":[0,0,0],"scale":[1.8,0.01,0.1],"color":"000000"}, // Lane marker
-  {"position":[0,0.16,-6],"rotation":[0,0,0],"scale":[1.8,0.01,0.1],"color":"000000"}, // Lane marker
-  {"position":[0,0.16,-8],"rotation":[0,0,0],"scale":[1.8,0.01,0.1],"color":"000000"}, // Lane marker
-  
-  // Gutters
-  {"position":[1.2,0.05,-2],"rotation":[0,0,0],"scale":[0.3,0.1,15],"color":"222222"}, // Right gutter
-  {"position":[-1.2,0.05,-2],"rotation":[0,0,0],"scale":[0.3,0.1,15],"color":"222222"}, // Left gutter
-  
-  // Pin placement area
-  {"position":[0,0.15,-9.5],"rotation":[0,0,0],"scale":[2,0.1,1],"color":"ffffff"}, // Pin deck
-  
-  // Bowling pins (arranged in triangle formation)
-  {"hasGravity":true,"position":[0,0.521,-9.5],"rotation":[0,0,0],"scale":[0.15,0.5,0.15],"color":"ffffff"}, // Pin 1 (front)
-  {"hasGravity":true,"position":[0.3,0.521,-9.8],"rotation":[0,0,0],"scale":[0.15,0.5,0.15],"color":"ffffff"}, // Pin 2
-  {"hasGravity":true,"position":[-0.3,0.521,-9.8],"rotation":[0,0,0],"scale":[0.15,0.5,0.15],"color":"ffffff"}, // Pin 3
-  // {"hasGravity":true,"position":[0.6,0.421,-10.1],"rotation":[0,0,0],"scale":[0.15,0.5,0.15],"color":"ffffff"}, // Pin 4
-  // {"hasGravity":true,"position":[0,0.421,-10.1],"rotation":[0,0,0],"scale":[0.15,0.5,0.15],"color":"ffffff"}, // Pin 5
-  // {"hasGravity":true,"position":[-0.6,0.421,-10.1],"rotation":[0,0,0],"scale":[0.15,0.5,0.15],"color":"ffffff"}, // Pin 6
-  // {"hasGravity":true,"position":[0.9,0.421,-10.4],"rotation":[0,0,0],"scale":[0.15,0.5,0.15],"color":"ffffff"}, // Pin 7
-  // {"hasGravity":true,"position":[0.3,0.421,-10.4],"rotation":[0,0,0],"scale":[0.15,0.5,0.15],"color":"ffffff"}, // Pin 8
-  // {"hasGravity":true,"position":[-0.3,0.421,-10.4],"rotation":[0,0,0],"scale":[0.15,0.5,0.15],"color":"ffffff"}, // Pin 9
-  // {"hasGravity":true,"position":[-0.9,0.421,-10.4],"rotation":[0,0,0],"scale":[0.15,0.5,0.15],"color":"ffffff"}, // Pin 10
-  
-  // Bowling ball
-  {"position":[0,0.4,4],"rotation":[0,0,0],"scale":[0.5,0.5,0.5],"color":"000000"}, // Bowling ball
-  
-  // Ball return system
-  {"position":[3,0.5,4],"rotation":[0,0,0],"scale":[1.5,1,2],"color":"444444"}, // Ball return machine
-  {"position":[3,1.1,4],"rotation":[0,0,0],"scale":[1.3,0.2,1.8],"color":"333333"}, // Ball return top
-  
-  // Seating area
-  {"position":[3,0.6,7],"rotation":[0,0,0],"scale":[2,0.2,3],"color":"222222"}, // Seating platform
-  {"position":[3,1.2,8],"rotation":[0,0,0],"scale":[1.8,1.2,0.2],"color":"880000"}, // Seat back
-  {"position":[-3,0.6,7],"rotation":[0,0,0],"scale":[2,0.2,3],"color":"222222"}, // Seating platform
-  {"position":[-3,1.2,8],"rotation":[0,0,0],"scale":[1.8,1.2,0.2],"color":"880000"}, // Seat back
-  
-  // Scoreboard/monitor
-  {"position":[0,3,9],"rotation":[0,0,0],"scale":[4,2,0.1],"color":"111111"}, // Screen
-  {"position":[0,3,8.95],"rotation":[0,0,0],"scale":[3.8,1.8,0.05],"color":"333333"}, // Screen display area
-  
-  // Lighting
-  {"position":[0,7.5,0],"rotation":[0,0,0],"scale":[0.5,0.2,0.5],"color":"ffff99"}, // Light
-  {"position":[0,7.5,-5],"rotation":[0,0,0],"scale":[0.5,0.2,0.5],"color":"ffff99"}, // Light
-  {"position":[0,7.5,-10],"rotation":[0,0,0],"scale":[0.5,0.2,0.5],"color":"ffff99"} // Light
+  {"position":[0,0.15,-2],"rotation":[0,0,0],"scale":[2.25,0.2,13],"color":"d4a76a","hasGravity":false},
+  {"position":[0,0.16,-4],"rotation":[0,0,0],"scale":[1.8,0.01,0.1],"color":"000000","hasGravity":false},
+  {"position":[0,0.16,-6],"rotation":[0,0,0],"scale":[1.8,0.01,0.1],"color":"000000","hasGravity":false},
+  {"position":[0,0.16,-8],"rotation":[0,0,0],"scale":[1.8,0.01,0.1],"color":"000000","hasGravity":false},
+  {"position":[1.2,0.05,-2],"rotation":[0,0,0],"scale":[0.3,0.1,15],"color":"222222","hasGravity":false},
+  {"position":[-1.2,0.05,-2],"rotation":[0,0,0],"scale":[0.3,0.1,15],"color":"222222","hasGravity":false},
+  {"position":[0,0.6,-9.5],"rotation":[0,0,0],"scale":[0.1,0.95,0.1],"color":"ffffff","hasGravity":true},
+  {"position":[0.3,0.6,-9.8],"rotation":[0,0,0],"scale":[0.1,0.95,0.1],"color":"ffffff","hasGravity":true},
+  {"position":[-0.3,0.6,-9.8],"rotation":[0,0,0],"scale":[0.1,0.95,0.1],"color":"ffffff","hasGravity":true},
+  {"position":[0.6,0.6,-10.1],"rotation":[0,0,0],"scale":[0.1,0.95,0.1],"color":"ffffff","hasGravity":true},
+  {"position":[0,0.6,-10.1],"rotation":[0,0,0],"scale":[0.1,0.95,0.1],"color":"ffffff","hasGravity":true},
+  {"position":[-0.6,0.6,-10.1],"rotation":[0,0,0],"scale":[0.1,0.95,0.1],"color":"ffffff","hasGravity":true},
+  {"position":[0.9,0.6,-10.4],"rotation":[0,0,0],"scale":[0.1,0.95,0.1],"color":"ffffff","hasGravity":true},
+  {"position":[0.3,0.6,-10.4],"rotation":[0,0,0],"scale":[0.1,0.95,0.1],"color":"ffffff","hasGravity":true},
+  {"position":[-0.3,0.6,-10.4],"rotation":[0,0,0],"scale":[0.1,0.95,0.1],"color":"ffffff","hasGravity":true},
+  {"position":[-0.9,0.6,-10.4],"rotation":[0,0,0],"scale":[0.1,0.95,0.1],"color":"ffffff","hasGravity":true},
+  {"position":[0,-0.4757091232797994,-3.649876459484724],"rotation":[0,0,0],"scale":[6.628786182670685,1,19.485644319265116],"color":"777777","hasGravity":false},
+  {"position":[0,-0.47830627143617066,6.408085915382304],"rotation":[0,0,0],"scale":[10.889132533864196,1.2757985957753937,4.977105205470304],"color":"b0b0b0","hasGravity":false},
+  {"position":[0,0.583056724797393,-13.62530357437102],"rotation":[-0.554502935930237,0,0],"scale":[21.484232637500515,2.2292547646173113,0.5156925828674114],"color":"b0b0b0","hasGravity":false},
+  {"position":[0,-0.4041575013420554,-10.076663198634124],"rotation":[0,0,0],"scale":[3.5763432117431773,0.9247051524065331,3.5763432117431773],"color":"88551b","hasGravity":false},
+
+  {"position":[0,-0.3468488011928468,-2.27100479054715],"rotation":[0,0,0],"scale":[23.646840297588522,0.6492659413722207,23.646840297588522],"color":"6aad34","hasGravity":false},
+
 ];
 
 /**
@@ -246,7 +215,7 @@ export function getTemplateData(templateName: string | null): any[] | null {
 
 
 export const DEFAULT_TEMPLATE_LIST = [
-  { name: 'physics_test', description: 'Physics test' },
+  // { name: 'physics_test', description: 'Physics test' },
   { name: 'bowling_alley', description: 'Simple bowling alley' },
   { name: 'const_house', description: 'Simple house construction' },
   { name: 'garden_parkour', description: 'Garden with trees and flowers' },
