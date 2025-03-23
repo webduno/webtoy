@@ -354,16 +354,12 @@ const CameraClickControls = ({sceneRef, mapControlsRef, deleteMode}: {sceneRef: 
       const rect = canvas.getBoundingClientRect();
       mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1
       mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1
-      // console.log('mouse', mouse)
       // @ts-ignore
       raycaster.setFromCamera(mouse, mapControlsRef.current?.object)
-      // sole.log('raycaster to', mapControlsRef.current?.object)
       // @ts-ignore
       const intersects = raycaster.intersectObjects(sceneRef.current?.children, true)
-      // console.log('intersects', intersects)
       if (intersects.length > 0) {
         const object = intersects[0].object
-        // console.log('object', object)
         if (object instanceof Mesh) {
           console.log('object is a mesh')
           // if isdeleting then delete the object
@@ -371,19 +367,21 @@ const CameraClickControls = ({sceneRef, mapControlsRef, deleteMode}: {sceneRef: 
             object.parent?.remove(object)
             console.log('object is a mesh', object)
           }
-        } else {
-          // console.log('object is not a mesh', typeof object)
         }
-      } else {
-        // console.log('no intersects')
       }
     }
   }
+  
   //add raycaster to detect clicks on the canvas
   useEffect(() => {
     const canvas = document.querySelector('canvas')
     if (canvas) {
       canvas.addEventListener('click', handleClick)
+      
+      // Clean up the event listener when component unmounts or deleteMode changes
+      return () => {
+        canvas.removeEventListener('click', handleClick)
+      }
     }
   }, [deleteMode])  
   return null
