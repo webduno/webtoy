@@ -7,19 +7,9 @@ const BASKETBALL_COURT = [
   {"position":[0,0.05,0],"rotation":[0,0,0],"scale":[13.5,0.1,26],"color":"e67a14","hasGravity":false}, // Court inner area
   
   // Court lines (white)
-  // {"position":[0,0.11,0],"rotation":[0,0,0],"scale":[0.1,0.04,27],"color":"ffffff","hasGravity":false}, // Center line
   {"position":[0,0.11,13],"rotation":[0,0,0],"scale":[12,0.04,0.1],"color":"ffffff","hasGravity":false}, // Baseline (far)
-  // {"position":[0,0.11,-13],"rotation":[0,0,0],"scale":[12,0.04,0.1],"color":"ffffff","hasGravity":false}, // Baseline (near)
-  // {"position":[6,0.11,0],"rotation":[0,0,0],"scale":[0.1,0.04,27],"color":"ffffff","hasGravity":false}, // Sideline right
-  // {"position":[-6,0.11,0],"rotation":[0,0,0],"scale":[0.1,0.04,27],"color":"ffffff","hasGravity":false}, // Sideline left
-  
-  // Center circle
-  // {"position":[0,0.11,0],"rotation":[0,0,0],"scale":[3.6,0.01,3.6],"color":"ffffff","hasGravity":false}, // Center circle outline
-  // {"position":[0,0.12,0],"rotation":[0,0,0],"scale":[3.48,0.01,3.48],"color":"e67a14","hasGravity":false}, // Center circle inside
   
   // Free throw circles and lane (far end)
-  // {"position":[0,0.11,8],"rotation":[0,0,0],"scale":[3.6,0.01,3.6],"color":"ffffff","hasGravity":false}, // Free throw circle (far)
-  // {"position":[0,0.12,8],"rotation":[0,0,0],"scale":[3.48,0.01,3.48],"color":"e67a14","hasGravity":false}, // Free throw circle inside (far)
   {"position":[0,0.11,9.5],"rotation":[0,0,0],"scale":[6,0.04,0.1],"color":"ffffff","hasGravity":false}, // Free throw line (far)
   {"position":[3,0.11,11.25],"rotation":[0,0,0],"scale":[0.1,0.04,3.5],"color":"ffffff","hasGravity":false}, // Lane line right (far)
   {"position":[-3,0.11,11.25],"rotation":[0,0,0],"scale":[0.1,0.04,3.5],"color":"ffffff","hasGravity":false}, // Lane line left (far)
@@ -29,7 +19,6 @@ const BASKETBALL_COURT = [
 
   {"position":[4.915797823511876,0,10.452139158432168],"rotation":[0,0.41548654449723404,0],"scale":[0.15889491276003273,0.21461115664801328,5.571252709500212],"color":"ffffff","hasGravity":false}, // Three point arc (side)
   {"position":[-4.915797823511876,0,10.452139158432168],"rotation":[0,-0.41548654449723404,0],"scale":[0.15889491276003273,0.21461115664801328,5.571252709500212],"color":"ffffff","hasGravity":false},
-  // {"position":[0,0.02,8],"rotation":[0,0,0],"scale":[7.38,0.1,6.38],"color":"e67a14","hasGravity":false}, // Three point arc inside (far)
   
   // Basketball hoop (far end)
   {"position":[0,0.11,13],"rotation":[0,0,0],"scale":[1.8,0.04,0.1],"color":"ffffff","hasGravity":false}, // Backboard outline
@@ -47,18 +36,8 @@ const BASKETBALL_COURT = [
   {"position":[0,3.05,13.15],"rotation":[0,0,0],"scale":[0.1,0.1,0.6],"color":"777777","hasGravity":false}, // Hoop support
   {"position":[0,1.5,13.4],"rotation":[0,0,0],"scale":[0.4,3,0.4],"color":"777777","hasGravity":false}, // Hoop pole
     
-  // Added net made of thincylinders 
-  // {"position":[0,2.2,12.25],"rotation":[0,0,0],"scale":[0.45,0.01,0.01],"color":"ffffff","hasGravity":false}, // Net top 1
-  // {"position":[0.15,2.1,12.25],"rotation":[0,0,0],"scale":[0.01,0.01,0.01],"color":"ffffff","hasGravity":false}, // Net top 2
-  // {"position":[-0.15,2.1,12.25],"rotation":[0,0,0],"scale":[0.01,0.01,0.01],"color":"ffffff","hasGravity":false}, // Net top 3
-  // {"position":[0.3,2.0,12.25],"rotation":[0,0,0],"scale":[0.01,0.01,0.01],"color":"ffffff","hasGravity":false}, // Net top 4
-  // {"position":[-0.3,2.0,12.25],"rotation":[0,0,0],"scale":[0.01,0.01,0.01],"color":"ffffff","hasGravity":false}, // Net top 5
-  
   // Center court logo (simplified circular logo)
   {"position":[0,0.115,0],"rotation":[0,0,0],"scale":[2,0.04,2],"color":"3366cc","hasGravity":false}, // Logo background
-  
-  // Basketball
-  // {"position":[0,1,0],"rotation":[0,0,0],"scale":[0.25,0.25,0.25],"color":"ff6600","hasGravity":true}, // Basketball with gravity
   
   // Court surroundings
   {"position":[0,-0.5,0],"rotation":[0,0,0],"scale":[25,1,40],"color":"888888","hasGravity":false}, // Ground beneath court
