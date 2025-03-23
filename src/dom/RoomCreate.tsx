@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import Link from "next/link";
 import { RoomButtons } from "./RoomButtons";
 import { SessionProvider } from "next-auth/react";
@@ -17,6 +18,10 @@ export function RoomCreate({myip}: {myip: string}) {
           marginBottom: '20px',
           textAlign: 'center',
         }}>LANDXCAPE</Link>
+        
+        <div>
+          <Image src="/logo.png" alt="logo" width={100} height={100} />
+        </div>
         <RoomButtons myip={myip} />
       </div>
     </div>
