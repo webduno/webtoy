@@ -22,14 +22,25 @@ export default function SettingsModal({
   onOpenTemplates
 }: SettingsModalProps) {
   return (
-    <div className='pos-abs flex-col flex-align-center z-1000 bg-b-90 pa-4 bord-r-10'>
-      <div className='tx-white pb-5 opaci-25 tx-altfont-1 tx-ls-3'>SETTINGS</div>
+    <>
+    <div className='bg-glass-10 pos-abs flex-col flex-align-center z-1000 bg-b-90 pa-4 bord-r-10'>
+      <div className='tx-white  opaci-25 tx-altfont-1 tx-ls-3'>SETTINGS</div>
+      
+      <button 
+        onClick={() => {
+          onAutorotate();
+          onClose();
+        }} 
+        className='noborder bg-trans tx-white tx-lg py-4 opaci-chov--50 tx-shadow-5 tx-altfont-1 underline'
+      >
+        Autorotate
+      </button>
       <button 
         onClick={() => {
           onDeleteModeToggle(!deleteMode);
           onClose();
         }} 
-        className='noborder bg-trans tx-red tx-lg py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1'
+        className='border-red bord-r-10 bg-trans tx-red tx-lg py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1'
       >
         Delete Mode: {deleteMode ? 'ON' : 'OFF'}
       </button>
@@ -62,27 +73,21 @@ export default function SettingsModal({
           Paste
         </button>
       </div>
-      <button 
-        onClick={() => {
-          onAutorotate();
-          onClose();
-        }} 
-        className='noborder bg-trans tx-white tx-lg py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1 underline'
-      >
-        Autorotate
+      <div className='pos-abs flex-row gap-2 bottom-0 translate-y-100 pt-2'>
+        
+      <button className='nowrap noborder bord-r-100 px-4 bg-b-90 tx-white tx-md py-2 opaci-50 tx-shadow-5 tx-altfont-1  '>
+        Create with AI
       </button>
       <button 
         onClick={() => {
           onOpenTemplates();
           onClose();
         }} 
-        className='noborder bord-r-100 px-4 bg-b-90 tx-white tx-lg py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1 underline'
+        className='nowrap noborder bord-r-100 px-4 bg-b-90 tx-white tx-md py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1 '
       >
-        Templates →
+        Templates
       </button>
-      <button className='noborder bord-r-100 px-4 bg-b-90 tx-white tx-lg py-2 opaci-50 tx-shadow-5 tx-altfont-1 underline mt-2'>
-        Create with AI →
-      </button>
+      </div>
     </div>
-  );
+  </>);
 } 

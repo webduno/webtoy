@@ -7,3 +7,17 @@
 .tx-altfont-2 {     font-family: "Archivo Black", sans-serif !important}
 .tx-altfont-3 {     font-family: "Bytesized", sans-serif !important}
 
+.hover-jump{animation: hoverjump 10s;  animation-iteration-count: infinite }
+
+
+@keyframes hoverjump {
+	0%{transform: translateY(0px)}
+	33%{transform: translateY(0px)}
+  35%{transform: translateY(-15px) rotate(7deg);}
+  36%{transform: translateY(-12px) rotate(-3deg);}
+  38%{transform: translateY(0px)}
+  39%{transform: translateY(-4px)}
+  40%{transform: translateY(-3px)}
+  41%{transform: translateY(0px)}
+  100%{transform: translateY(0px)}
+}

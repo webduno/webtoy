@@ -15,20 +15,23 @@ export default function TemplatesModal({
   onClose
 }: TemplatesModalProps) {
   return (
-    <div className='gap-1 pos-abs flex-col flex-align-center z-1000 bg-b-90 pa-4 bord-r-10'>
+    <div className='gap-2 pos-abs flex-col flex-align-center z-1000 bg-b-50 bg-glass-10 pa-4 bord-r-10'>
       {templates.map((template, index) => (
         <button 
           key={index}
           onClick={() => onLoadTemplate(template.name)}
-          className='noborder flex-col bg-trans tx-white tx-lg py-1 opaci-chov--50 tx-shadow-5 tx-altfont-1 bg-b-20 bord-r-10'
+          style={{
+            background: "linear-gradient(170deg,#00000000, #00000077, #444444cc)",
+          }}
+          className='noborder flex-col tx-altfont-1  bg-trans w-250px tx-white tx-lg py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1  bord-r-10'
         >
-          {template.name}
-          <span className='tx-sm opaci-50 ml-2 nodeco'>{template.description}</span>
+          {/* {template.name} */}
+          <span className='tx-md opaci-75 ml-2 nodeco '>{template.description}</span>
         </button>
       ))}
       <button 
         onClick={onClose}
-        className='noborder border-white bord-r-15 bg-trans tx-white tx-lg mt-3 py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1'
+        className='noborder border-white bord-r-10 bg-trans tx-white tx-lg mt-3 py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1'
       >
         Close Templates
       </button> 

@@ -91,7 +91,7 @@ export default function NewObjectControls({
         DONE
       </button>
       {/* add cancel button */}
-      <button  className='noborder bg-b-90 bord-r-5 tx-white opaci-50 opaci-chov--25 mb-2 py-1'
+      <button  className='noborder bg-b-90 bord-r-10 tx-white opaci-50 opaci-chov--25 mb-2 py-1'
         style={{
 
         }}

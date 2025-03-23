@@ -188,7 +188,7 @@ export default function MultiPlayerPage() {
               {deleteMode && (
                 <div onClick={() => {
                   setDeleteMode(false)
-                }} className='tx-red tx-altfont-2 opaci-50 opaci-chov--75 z-1000'>DELETE MODE: ON</div>
+                }} className='tx-red tx-altfont- 2 opaci-50 opaci-chov--75 z-1000'>Exit Delete Mode</div>
               )}
               {!deleteMode && (
                 <div className={styles.helloWorld + ' opaci-chov--75 z-100 block pos-rel'}
@@ -203,10 +203,16 @@ export default function MultiPlayerPage() {
                 {/* cogwheel emoji */}
                 <span className='px-2' role="img" aria-label="cogwheel">⚙️</span>
               </div>
-              <div className={styles.helloWorld + ' opaci-chov--75 z-100 block pos-rel'}
+              <div className={'hover-jump opaci-chov--75 z-100 block pos-rel tx-shad ow-5 bg- glass-10 bord-r-100 p a-2 flex-col'}
+              style={{
+                // background: "radial-gradient( #993300, #ff9900)",
+                // background: "red",
+                // border: "1px solid #ffaa33",
+                textShadow: "2px 2px 0 #112244, 0 10px 10px #00000055",
+              }}
                 onClick={handlePlay}
               >
-                <span role="img" aria-label="cogwheel">🎮</span>
+                <div className='tx-lx' aria-label="cogwheel">🎮</div>
               </div>
             </div>
           </>)}

@@ -85,7 +85,7 @@ export default function SinglePlayerPage() {
         {deleteMode && (
           <div onClick={() => {
             setDeleteMode(false)
-          }} className='tx-red tx-altfont-2 opaci-50 opaci-chov--75 z-1000'>DELETE MODE: ON</div>
+          }} className='tx-red tx-altfont- 2 opaci-50 opaci-chov--75 z-1000'>Exit Delete Mode</div>
         )}
         {!deleteMode && (
           <div className={styles.helloWorld + ' opaci-chov--75 z-100 block pos-rel'} 
