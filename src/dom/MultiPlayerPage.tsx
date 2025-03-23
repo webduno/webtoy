@@ -8,6 +8,8 @@ import GoogleLoginButton from '@/components/GoogleLoginButton'
 import FirstPersonView from '@/components/FirstPersonView'
 import CanonPOV from '@/components/CanonPOV'
 import { DEFAULT_TEMPLATE_LIST } from '@/scripts/sceneTemplates'
+import SettingsModal from '@/components/SettingsModal'
+import TemplatesModal from '@/components/TemplatesModal'
 
 interface Friend {
   id: string;
@@ -159,45 +161,25 @@ export default function MultiPlayerPage() {
 
       {!isPlaying && (
         <>
-          {showSettings && (<>
-            <div className='pos-abs  flex-col flex-align-center 2 z-1000 bg-b-90 pa-4 bord-r-10' >
-              <div className='tx-white  pb-5 opaci-25 tx-altfont-1 tx-ls-3'>SETTINGS</div>
-              <button onClick={() => {
-                setDeleteMode(!deleteMode)
-                setShowSettings(false)
-              }} className='noborder bg-trans tx-red tx-lg py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1 '>Delete  Mode: {deleteMode ? 'ON' : 'OFF'}</button>
-              <div className='flex-row gap-2 '>
-              <button onClick={handleResetScene} className='noborder bg-trans tx-white tx-mdl py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1 underline'>Reset </button>
-              <button onClick={handleCopyContent} className='noborder bg-trans tx-white tx-mdl py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1 underline'>Copy</button>
-                <button onClick={handlePasteContent} className='noborder bg-trans tx-white tx-mdl py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1 underline'>Paste</button>
-              </div>
-              <button onClick={handleAutorotate} className='noborder bg-trans tx-white tx-lg py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1 underline'>Autorotate</button>
-              <button onClick={handleOpenTemplates} className=' noborder bord-r-100 px-4 bg-b-90 tx-white tx-lg py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1 underline'>Templates →</button>
-              <button className=' noborder bord-r-100 px-4 bg-b-90 tx-white tx-lg py-2 opaci-50 tx-shadow-5 tx-altfont-1 underline mt-2'>Create with AI →</button>
-              {/* <div className='tx-white tx-lg py-2  tx-shadow-5 tx-altfont-1 opaci-50'>Add via AI (Soon)</div> */}
-            </div>
-          </>)}
+          {showSettings && (
+            <SettingsModal
+              onClose={() => setShowSettings(false)}
+              onDeleteModeToggle={setDeleteMode}
+              deleteMode={deleteMode}
+              onResetScene={handleResetScene}
+              onCopyContent={handleCopyContent}
+              onPasteContent={handlePasteContent}
+              onAutorotate={handleAutorotate}
+              onOpenTemplates={handleOpenTemplates}
+            />
+          )}
           
           {showTemplates && (
-            <div className='gap-1 pos-abs flex-col flex-align-center z-1000 bg-b-90 pa-4 bord-r-10'>
-              {/* <div className='tx-white pb-5 opaci-25 tx-altfont-1 tx-ls-3 '>TEMPLATES</div> */}
-              {templates.map((template, index) => (
-                <button 
-                  key={index}
-                  onClick={() => handleLoadTemplate(template.name)}
-                  className='noborder flex-col bg-trans tx-white tx-lg py-1 opaci-chov--50 tx-shadow-5 tx-altfont-1 bg-b-20 bord-r-10'
-                >
-                  {template.name}
-                  <span className='tx-sm opaci-50 ml-2 nodeco'>{template.description}</span>
-                </button>
-              ))}
-              <button 
-                onClick={() => setShowTemplates(false)}
-                className='noborder border-white bord-r-15 bg-trans tx-white tx-lg mt-3 py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1'
-              >
-                Close Templates
-              </button> 
-            </div>
+            <TemplatesModal
+              templates={templates}
+              onLoadTemplate={handleLoadTemplate}
+              onClose={() => setShowTemplates(false)}
+            />
           )}
           
           {friends.length > 1 &&  (<>
