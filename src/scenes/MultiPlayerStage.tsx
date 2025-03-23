@@ -37,6 +37,10 @@ const MultiPlayerStage = forwardRef<MultiPlayerStageHandle, {friends: Friend[], 
   }
 
   const handleCancel = () => {
+    if (selectedObject && sceneRef.current) {
+      // Remove the selected object from the scene
+      selectedObject.parent?.remove(selectedObject);
+    }
     setIsAdding(false)
     setSelectedObject(null)
   }
