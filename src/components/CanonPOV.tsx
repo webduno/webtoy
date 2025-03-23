@@ -411,7 +411,8 @@ function PhysicsScene({ position, sceneObjects, onExit, isMobile }: PhysicsScene
   useFrame(() => {
     // Reset position if player falls below -15 on any axis
     const currentPosition = positionRef.current
-    if (currentPosition[0] < -15 || currentPosition[1] < -15 || currentPosition[2] < -15) {
+    if (currentPosition[1] < -15) {
+      // if (currentPosition[0] < -15 || currentPosition[1] < -15 || currentPosition[2] < -15) {
       // Reset to initial position
       playerApi.position.set(position[0], position[1] + playerHeight / 2, position[2])
       playerApi.velocity.set(0, 0, 0)

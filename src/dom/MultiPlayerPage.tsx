@@ -77,7 +77,7 @@ export default function MultiPlayerPage() {
   const [deleteMode, setDeleteMode] = useState<boolean>(false)
   const [templates, setTemplates] = useState<{name: string, description: string}[]>([
     { name: 'const_house', description: 'Simple house construction' },
-    { name: 'garden_scene', description: 'Garden with trees and flowers' },
+    { name: 'garden_parkour', description: 'Garden with trees and flowers' },
     { name: 'mountain_view', description: 'Mountain landscape' },
     { name: 'city_block', description: 'Urban city block' }
   ])
