@@ -237,11 +237,38 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
             
           case 'city_block':
             templateData = [
-              { position: [0, 0, 0], scale: [20, 0.1, 20], rotation: [0, 0, 0], color: "aaaaaa" }, // street
-              { position: [-5, 2, -5], scale: [3, 4, 3], rotation: [0, 0, 0], color: "6688aa" }, // building
-              { position: [5, 3, -5], scale: [3, 6, 3], rotation: [0, 0, 0], color: "bb9988" }, // building
-              { position: [-5, 4, 5], scale: [3, 8, 3], rotation: [0, 0, 0], color: "dddddd" }, // skyscraper
-              { position: [5, 1.5, 5], scale: [3, 3, 3], rotation: [0, 0, 0], color: "99aa88" }, // building
+              // Street base
+              { position: [0, 0, 0], scale: [20, 0.1, 20], rotation: [0, 0, 0], color: "aaaaaa" }, 
+              
+              // Buildings
+              { position: [-5, 2, -5], scale: [3, 4, 3], rotation: [0, 0, 0], color: "6688aa" },
+              { position: [5, 3, -5], scale: [3, 6, 3], rotation: [0, 0, 0], color: "bb9988" },
+              { position: [-5, 4, 5], scale: [3, 8, 3], rotation: [0, 0, 0], color: "dddddd" },
+              { position: [5, 1.5, 5], scale: [3, 3, 3], rotation: [0, 0, 0], color: "99aa88" },
+              
+              // Road markings
+              { position: [0, 0.06, 0], scale: [0.5, 0.01, 18], rotation: [0, 0, 0], color: "ffffff" },
+              { position: [0, 0.06, 0], scale: [18, 0.01, 0.5], rotation: [0, 0, 0], color: "ffffff" },
+              
+              // Car - simple blocks for body, wheels, etc.
+              { position: [3, 0.3, 2], scale: [0.8, 0.3, 1.4], rotation: [0, 0.3, 0], color: "cc3333" }, // body
+              { position: [2.7, 0.6, 2], scale: [0.6, 0.25, 0.7], rotation: [0, 0.3, 0], color: "336699" }, // cabin
+              { position: [3.2, 0.15, 1.6], scale: [0.2, 0.2, 0.2], rotation: [0, 0.3, 0], color: "222222" }, // wheel
+              { position: [2.8, 0.15, 2.4], scale: [0.2, 0.2, 0.2], rotation: [0, 0.3, 0], color: "222222" }, // wheel
+              
+              // Trees - trunk and foliage blocks
+              { position: [-3, 0.75, 2], scale: [0.4, 1.5, 0.4], rotation: [0, 0, 0], color: "8B4513" }, // trunk
+              { position: [-3, 1.8, 2], scale: [1.2, 1.2, 1.2], rotation: [0, 0.2, 0], color: "228833" }, // foliage
+              
+              { position: [4, 0.5, -3], scale: [0.3, 1, 0.3], rotation: [0, 0, 0], color: "8B4513" }, // smaller tree trunk
+              { position: [4, 1.25, -3], scale: [0.8, 0.8, 0.8], rotation: [0, 0.3, 0], color: "33AA44" }, // smaller tree foliage
+              
+              // Street lamps
+              { position: [-8, 1, -8], scale: [0.2, 2, 0.2], rotation: [0, 0, 0], color: "333333" }, // pole
+              { position: [-8, 2, -8], scale: [0.4, 0.2, 0.4], rotation: [0, 0, 0], color: "ffff99" }, // light
+              
+              { position: [8, 1, 8], scale: [0.2, 2, 0.2], rotation: [0, 0, 0], color: "333333" }, // pole
+              { position: [8, 2, 8], scale: [0.4, 0.2, 0.4], rotation: [0, 0, 0], color: "ffff99" }, // light
             ];
             break;
             
@@ -252,7 +279,7 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
         
         // If we have template data, use it
         if (templateData && sceneRef.current) {
-          while (sceneRef.current.children.length > 1) { 
+          while (sceneRef.current.children.length > 1) {  // keep the floor
             const child = sceneRef.current.children[1];
             sceneRef.current.remove(child);
           }
