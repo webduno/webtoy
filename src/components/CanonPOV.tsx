@@ -679,12 +679,12 @@ function PhysicsScene({ position, sceneObjects, onExit, isMobile }: PhysicsScene
       {/* <Ground /> */}
       
       {/* Player hitbox visualization */}
-      <mesh ref={playerRef}>
-        {showHitbox && (
-          <cylinderGeometry args={[playerRadius/3, playerRadius/3, playerHeight / 5, 16]} />
+      {/* <mesh ref={playerRef}>
+        {showHitbox && isOnGround && (
+          <cylinderGeometry args={[playerRadius/3, playerRadius/3, playerHeight / 5, 4]} />
         )}
-        <meshStandardMaterial color="#000000" transparent opacity={0.5}/>
-      </mesh>
+        <meshStandardMaterial color="#000000" transparent opacity={0.15} wireframe />
+      </mesh> */}
       
       {/* Ball - permanently shown once thrown */}
       {ballThrown && (
