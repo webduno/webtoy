@@ -1,5 +1,33 @@
 // Template definitions for the 3D scene
 const PHYSICS_TEST = [{"position":[0,-0.5611186449722975,0],"rotation":[0,0,0],"scale":[9.475172487582173,0.6155249373422851,9.475172487582173],"color":"777777","hasGravity":false},{"position":[0,0,0],"rotation":[0,0,0],"scale":[1,1,1],"color":"777777","hasGravity":false},{"position":[0,2.472572019683369,0],"rotation":[-0.5884172948570177,0.2210228494883355,0.5884172948570178],"scale":[0.6525083472183528,0.6525083472183528,0.6525083472183528],"color":"777777","hasGravity":false},{"position":[0,3.9631697162337187,0],"rotation":[-0.4693766980066377,0.29156384862405865,0.4693766980066377],"scale":[1,1,1],"color":"ffd500","hasGravity":true},{"position":[0,5.532869935566511,0],"rotation":[0,0,0],"scale":[1,1,1],"color":"ff7300","hasGravity":true}]
+
+// Golf course template
+const GOLF_COURSE = [
+  {"position":[-5,0.05,0],"rotation":[0,0,0],"scale":[2,0.1,2],"color":"8cb669","hasGravity":false},
+  {"position":[5,0.05,3],"rotation":[0,0,0],"scale":[2,0.1,2],"color":"8cb669","hasGravity":false},
+  {"position":[0,0.05,-5],"rotation":[0,0,0],"scale":[3,0.1,2],"color":"8cb669","hasGravity":false},
+  {"position":[-6,0.05,4],"rotation":[0,0,0],"scale":[2,0.15,2],"color":"e6dea2","hasGravity":false},
+  {"position":[7,0.05,-3],"rotation":[0,0,0],"scale":[1.5,0.15,1.5],"color":"e6dea2","hasGravity":false},
+  {"position":[0,0.1,6],"rotation":[0,0,0],"scale":[0.15,0.15,0.15],"color":"ffffff","hasGravity":false},
+  {"position":[0,0.65,6],"rotation":[0,0,0],"scale":[0.05,1,0.05],"color":"cccccc","hasGravity":false},
+  {"position":[-5,0.6,-3],"rotation":[0,0,0],"scale":[0.3,1.2,0.3],"color":"8b4513","hasGravity":false},
+  {"position":[-5,1.3,-3],"rotation":[0,0,0],"scale":[1,0.8,1],"color":"228b22","hasGravity":false},
+  {"position":[4,0.6,-5],"rotation":[0,0.2,0],"scale":[0.3,1.2,0.3],"color":"8b4513","hasGravity":false},
+  {"position":[4,1.3,-5],"rotation":[0,0.2,0],"scale":[1,0.8,1],"color":"228b22","hasGravity":false},
+  {"position":[-6,0.6,0],"rotation":[0,-0.1,0],"scale":[0.3,1.2,0.3],"color":"8b4513","hasGravity":false},
+  {"position":[-6,1.3,0],"rotation":[0,-0.1,0],"scale":[1,0.8,1],"color":"228b22","hasGravity":false},
+  {"position":[0,-0.0528278161897342,0],"rotation":[0,0,0],"scale":[12.951939002311372,0.1796863242892093,12.951939002311372],"color":"76b14e","hasGravity":false},
+  {"position":[-0.221099755062729,0.9668793456965825,5.983602541884871],"rotation":[0,0,0],"scale":[0.4117762236981015,0.24992439007682207,0.042984077523688304],"color":"ff4242","hasGravity":false},
+  {"position":[0,-0.024687536878783833,7.256673293581209],"rotation":[0,0,0],"scale":[1,0.29409201136281515,1],"color":"2bee41","hasGravity":false},
+  {"position":[-0.5183157184944122,-0.10021156117913577,6.587732441479651],"rotation":[0,0,0],"scale":[0.22817252885482892,0.379129327483063,1],"color":"2bee41","hasGravity":false},
+  {"position":[0.5370184092917921,-0.18112210149160157,6.511708630111891],"rotation":[0,0,0],"scale":[0.579389050839346,0.3861672106189385,0.9751270450660547],"color":"2bee41","hasGravity":false},
+  {"position":[-0.2430686079839805,-0.035305414856499184,6.550938853039648],"rotation":[0,0,0],"scale":[0.3139800580414371,0.10478159332512203,0.7800946537216243],"color":"2bee41","hasGravity":false},
+  {"position":[1.5555304159959176,-0.1173141446213744,7.54243087865502],"rotation":[0,0,0],"scale":[2.3009853449974536,0.15980467887042255,2.3009853449974536],"color":"51c328","hasGravity":false},
+  {"position":[-1.4256484371654916,-0.10866206242313592,7.419211925071474],"rotation":[0,0,0],"scale":[2.201842386332884,0.14221419333613763,2.201842386332884],"color":"51c328","hasGravity":false},
+  {"position":[0,-0.05962425849075692,8.770276096525247],"rotation":[0,0,-0.035211337863496],"scale":[2.3229339639918596,0.16898661421554992,2.3229339639918596],"color":"51c328","hasGravity":false},
+  {"position":[5.736896023765912,0.02868084760434514,-5.709290565391367],"rotation":[0,0,0],"scale":[1,0.13025985498510215,1],"color":"ffffff","hasGravity":false},
+  {"position":[0,-0.6516438861568727,6.828017179885502],"rotation":[0,0,0],"scale":[1,1,1],"color":"777777","hasGravity":false}
+]
 // House template
 const CONST_HOUSE = [
   {"position":[0,0,0],"rotation":[0,0,0],"scale":[2,2,2],"color":"ffffff"}, // Main house structure
@@ -190,6 +218,9 @@ export function getTemplateData(templateName: string | null): any[] | null {
   if (!templateName) return null;
   
   switch (templateName) {
+    case 'golf_course':
+      return GOLF_COURSE;
+      
     case 'const_house':
       return CONST_HOUSE;
       
@@ -216,6 +247,7 @@ export function getTemplateData(templateName: string | null): any[] | null {
 
 export const DEFAULT_TEMPLATE_LIST = [
   // { name: 'physics_test', description: 'Physics test' },
+  { name: 'golf_course', description: 'Simple golf course' },
   { name: 'const_house', description: 'Simple house construction' },
   { name: 'garden_parkour', description: 'Garden with trees and flowers' },
   { name: 'mountain_view', description: 'Mountain landscape' },

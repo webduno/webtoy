@@ -638,7 +638,7 @@ function PhysicsScene({ position, sceneObjects, onExit, isMobile }: PhysicsScene
                 key={index}
                 position={meshPosition}
                 rotation={meshRotation}
-                scale={meshScale.map(s => s * 1.05 || 1)}
+                scale={meshScale}
                 geometry={obj.geometry}
                 material={obj.material}
                 userData={obj.userData}
