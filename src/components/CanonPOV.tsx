@@ -113,7 +113,7 @@ export default function CanonPOV({ position, sceneObjects, onExit }: CanonPOVPro
           </div>
           
           {/* Throw button */}
-          <div id="throw-button" style={{
+          <button id="throw-button" style={{
             position: 'absolute',
             right: '30px',
             bottom: '130px',
@@ -131,7 +131,7 @@ export default function CanonPOV({ position, sceneObjects, onExit }: CanonPOVPro
             zIndex: 1000
           }}>
             THROW
-          </div>
+          </button>
           
           {/* Look area - for camera rotation */}
           <div id="look-area" style={{
