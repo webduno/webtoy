@@ -113,7 +113,7 @@ export function PhysicsScene({ position, sceneObjects, onExit, isMobile }: Physi
         x: touch.clientX,
         y: touch.clientY
       }
-      e.stopPropagation() // Prevent event from reaching look area
+      e.preventDefault()
     }
     
     const handleJoystickMove = (e: TouchEvent) => {
@@ -137,73 +137,38 @@ export function PhysicsScene({ position, sceneObjects, onExit, isMobile }: Physi
         y: normalizedY
       })
       
-      e.stopPropagation() // Prevent event from reaching look area
+      e.preventDefault()
     }
     
     const handleJoystickEnd = (e: TouchEvent) => {
       joystickActive.current = false
       setTouchMove({x: 0, y: 0})
-      e.stopPropagation() // Prevent event from reaching look area
+      e.preventDefault()
     }
     
     // Jump button handlers
     const handleJumpStart = (e: TouchEvent) => {
       setTouchJump(true)
-      e.stopPropagation() // Prevent event from reaching look area
+      e.preventDefault()
     }
     
     const handleJumpEnd = (e: TouchEvent) => {
       setTouchJump(false)
-      e.stopPropagation() // Prevent event from reaching look area
+      e.preventDefault()
     }
     
     // Look area handlers for camera rotation
     const handleLookStart = (e: TouchEvent) => {
-      // Only handle look if touch is not on joystick or jump button
       const touch = e.touches[0]
-      const joystickRect = joystickContainer.getBoundingClientRect()
-      const jumpButtonRect = jumpButton.getBoundingClientRect()
-      
-      if (touch.clientX >= joystickRect.left && 
-          touch.clientX <= joystickRect.right && 
-          touch.clientY >= joystickRect.top && 
-          touch.clientY <= joystickRect.bottom) {
-        return
-      }
-      
-      if (touch.clientX >= jumpButtonRect.left && 
-          touch.clientX <= jumpButtonRect.right && 
-          touch.clientY >= jumpButtonRect.top && 
-          touch.clientY <= jumpButtonRect.bottom) {
-        return
-      }
-      
       lastTouchPosition.current = {
         x: touch.clientX,
         y: touch.clientY
       }
+      e.preventDefault()
     }
     
     const handleLookMove = (e: TouchEvent) => {
       const touch = e.touches[0]
-      const joystickRect = joystickContainer.getBoundingClientRect()
-      const jumpButtonRect = jumpButton.getBoundingClientRect()
-      
-      // Don't handle look if touch is on joystick or jump button
-      if (touch.clientX >= joystickRect.left && 
-          touch.clientX <= joystickRect.right && 
-          touch.clientY >= joystickRect.top && 
-          touch.clientY <= joystickRect.bottom) {
-        return
-      }
-      
-      if (touch.clientX >= jumpButtonRect.left && 
-          touch.clientX <= jumpButtonRect.right && 
-          touch.clientY >= jumpButtonRect.top && 
-          touch.clientY <= jumpButtonRect.bottom) {
-        return
-      }
-      
       const dx = (touch.clientX - lastTouchPosition.current.x) * 0.01
       
       if (camera) {
@@ -219,6 +184,8 @@ export function PhysicsScene({ position, sceneObjects, onExit, isMobile }: Physi
         x: touch.clientX,
         y: touch.clientY
       }
+      
+      e.preventDefault()
     }
     
     // Add event listeners
