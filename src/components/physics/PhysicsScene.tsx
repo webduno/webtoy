@@ -487,6 +487,12 @@ export function PhysicsScene({ position, sceneObjects, onExit, isMobile }: Physi
               obj.scale.z || 1,
             ]
             
+            // Add isMobile to userData
+            obj.userData = {
+              ...obj.userData,
+              isMobile
+            }
+            
             return (
               <PhysicalBox
                 key={index}
