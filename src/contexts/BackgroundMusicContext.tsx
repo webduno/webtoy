@@ -1,6 +1,6 @@
 "use client"
 
-import { createContext, useContext, useState, useRef, ReactNode } from 'react';
+import { createContext, useContext, useState, useRef, ReactNode, useEffect } from 'react';
 
 interface BackgroundMusicContextType {
   isPlaying: boolean;
@@ -14,12 +14,20 @@ export function BackgroundMusicProvider({ children }: { children: ReactNode }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  // Initialize audio but don't autoplay
-  if (!audioRef.current) {
+  useEffect(() => {
+    // Initialize audio only on the client side
     audioRef.current = new Audio('/massobeats_lotus.mp3');
     audioRef.current.loop = true;
     audioRef.current.volume = 0.1;
-  }
+
+    // Cleanup function to handle unmounting
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
+  }, []);
 
   const togglePlay = () => {
     if (audioRef.current) {
