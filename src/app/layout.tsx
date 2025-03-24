@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
+import { BackgroundMusic } from '@/components/BackgroundMusic'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -22,6 +23,7 @@ export default function RootLayout({
       // gradient like sunset
       background: 'linear-gradient(-45deg, #ffba6e , #aad0f4 , #6aa0f4 )',
         height: '100vh', overflow: 'hidden' }}>
+        <BackgroundMusic />
         <div className="" style={{
         }}>
           {children}

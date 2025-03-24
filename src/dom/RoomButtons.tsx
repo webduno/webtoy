@@ -12,7 +12,13 @@ export function RoomButtons({myip}: {myip: string}) {
   });
   const [loading, setLoading] = useState<string | null>(null);
 
+  const playClickSound = () => {
+    const audio = new Audio('/click47.wav');
+    audio.play().catch(error => console.log('Error playing sound:', error));
+  };
+
   const loginWithGoogle = async () => {
+    playClickSound();
     setLoading('google');
     try {
       await signIn("google");
@@ -30,6 +36,7 @@ export function RoomButtons({myip}: {myip: string}) {
   }
 
   const handleNavigation = (destination: string) => {
+    playClickSound();
     setLoading(destination);
   };
 
@@ -108,6 +115,11 @@ export function RoomButtons({myip}: {myip: string}) {
         </button>
       </Link>
     </div>
+
+
+
+
+
     <div>
       {/* login with google button */}
       <button
@@ -131,6 +143,53 @@ export function RoomButtons({myip}: {myip: string}) {
         {loading === 'google' ? 'Logging in...' : 'Login with Google'}
       </button>
     </div>
+
+
+
+    
+
+
+
+
+    <Link 
+        style={{
+          textDecoration: 'none',
+          color: 'inherit',
+        }} 
+        href={`/portals`}
+        onClick={() => handleNavigation('portals')}
+      >
+        <button
+          style={{
+            padding: '12px 24px',
+            fontSize: '1.1rem',
+            fontWeight: 'bold',
+            color: '#ffffff',
+            backgroundColor: '#00B30F',
+            border: 'none',
+            cursor: loading === 'multi' ? 'wait' : 'pointer',
+            transition: 'all 0.2s ease',
+            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+            textTransform: 'uppercase',
+            letterSpacing: '1px',
+            opacity: loading === 'multi' ? 0.7 : 1,
+          }}
+          className="room-select-button bord-r-100"
+          disabled={loading !== null}
+        >
+          {loading === 'multi' ? 'Loading...' : (
+            <>Portals</>
+          )}
+          <div style={{
+            color: 'white',
+            textShadow: '0 0 10px rgba(0, 0, 0, 0.75)',
+            fontSize: '20px',
+            textAlign: 'center',
+          }}>
+            {/* ({loggedPlayer?.name}) */}
+          </div>
+        </button>
+      </Link>
    </>
   );
 }
