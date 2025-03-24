@@ -112,6 +112,27 @@ export default function CanonPOV({ position, sceneObjects, onExit }: CanonPOVPro
             JUMP
           </div>
           
+          {/* Throw button */}
+          <div id="throw-button" style={{
+            position: 'absolute',
+            right: '30px',
+            bottom: '130px',
+            width: '80px',
+            height: '80px',
+            borderRadius: '40px',
+            backgroundColor: 'rgba(255, 0, 0, 0.3)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            color: 'white',
+            fontFamily: 'Arial, sans-serif',
+            fontSize: '16px',
+            touchAction: 'none',
+            zIndex: 1000
+          }}>
+            THROW
+          </div>
+          
           {/* Look area - for camera rotation */}
           <div id="look-area" style={{
             position: 'absolute',
@@ -432,12 +453,32 @@ function PhysicsScene({ position, sceneObjects, onExit, isMobile }: PhysicsScene
   
   // Handle click for desktop mode
   useEffect(() => {
-    if (isMobile) return; // Skip ball throwing setup for mobile
-    
-    // For desktop, listen for clicks but don't disrupt pointer lock
-    window.addEventListener('click', handleClick)
-    return () => {
-      window.removeEventListener('click', handleClick)
+    if (isMobile) {
+      // For mobile, we'll use the throw button
+      const throwButton = document.getElementById('throw-button')
+      if (!throwButton) return
+      
+      const handleThrow = () => {
+        if (!ballThrown && !clickHandled.current) {
+          clickHandled.current = true;
+          throwBall();
+          // Reset the click handler flag after a short delay
+          setTimeout(() => {
+            clickHandled.current = false;
+          }, 500);
+        }
+      }
+      
+      throwButton.addEventListener('touchstart', handleThrow)
+      return () => {
+        throwButton.removeEventListener('touchstart', handleThrow)
+      }
+    } else {
+      // For desktop, listen for clicks but don't disrupt pointer lock
+      window.addEventListener('click', handleClick)
+      return () => {
+        window.removeEventListener('click', handleClick)
+      }
     }
   }, [isMobile, isLocked, ballThrown])
   
@@ -668,7 +709,7 @@ function PhysicsScene({ position, sceneObjects, onExit, isMobile }: PhysicsScene
       </mesh> */}
       
       {/* Ball - permanently shown once thrown */}
-      {!isMobile && ballThrown && (
+      {ballThrown && (
         <PhysicalBall 
           key="singleBall"
           position={ballProps.position} 
