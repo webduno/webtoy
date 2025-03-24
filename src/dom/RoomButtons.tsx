@@ -3,9 +3,11 @@ import Link from 'next/link';
 import './styles.css';
 import { useState } from 'react';
 import { signIn, signOut, useSession } from 'next-auth/react';
+import { useBackgroundMusic } from '@/contexts/BackgroundMusicContext';
 
 export function RoomButtons({myip}: {myip: string}) {
   const { data: session } = useSession();
+  const { play } = useBackgroundMusic();
   const [loggedPlayer, setLoggedPlayer] = useState<{id:string, name:string} | null>({
     id:myip,
     name: myip
@@ -38,6 +40,7 @@ export function RoomButtons({myip}: {myip: string}) {
   const handleNavigation = (destination: string) => {
     playClickSound();
     setLoading(destination);
+    play(); // Use the context's play function
   };
 
   return (<>

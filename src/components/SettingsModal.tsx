@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 
 interface SettingsModalProps {
   onClose: () => void;
@@ -21,6 +21,16 @@ export default function SettingsModal({
   onAutorotate,
   onOpenTemplates
 }: SettingsModalProps) {
+  const hasPlayedSound = useRef(false);
+
+  useEffect(() => {
+    if (!hasPlayedSound.current) {
+      const audio = new Audio('/click47.wav');
+      audio.play().catch(error => console.log('Error playing sound:', error));
+      hasPlayedSound.current = true;
+    }
+  }, []);
+
   return (
     <>
     <div className='bg-glass-10 pos-abs flex-col flex-align-center z-1000 bg-b-90 pa-4 bord-r-10'>
