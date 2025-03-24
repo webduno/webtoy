@@ -20,14 +20,25 @@ export function BackgroundMusicProvider({ children }: { children: ReactNode }) {
     audioRef.current.loop = true;
     audioRef.current.volume = 0.1;
 
+    // Handle visibility change
+    const handleVisibilityChange = () => {
+      if (document.hidden && audioRef.current && isPlaying) {
+        audioRef.current.pause();
+        setIsPlaying(false);
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
     // Cleanup function to handle unmounting
     return () => {
       if (audioRef.current) {
         audioRef.current.pause();
         audioRef.current = null;
       }
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
-  }, []);
+  }, [isPlaying]);
 
   const togglePlay = () => {
     if (audioRef.current) {
