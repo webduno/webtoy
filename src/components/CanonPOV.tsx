@@ -527,7 +527,6 @@ function PhysicsScene({ position, sceneObjects, onExit, isMobile }: PhysicsScene
     // Reset position if player falls below -15 on any axis
     const currentPosition = positionRef.current
     if (currentPosition[1] < -15) {
-      // if (currentPosition[0] < -15 || currentPosition[1] < -15 || currentPosition[2] < -15) {
       // Reset to initial position
       playerApi.position.set(position[0], position[1] + playerHeight / 2, position[2])
       playerApi.velocity.set(0, 0, 0)
@@ -560,7 +559,9 @@ function PhysicsScene({ position, sceneObjects, onExit, isMobile }: PhysicsScene
         const newVelX = currentVelocity[0] + (targetVelX - currentVelocity[0]) * smoothFactor
         const newVelZ = currentVelocity[2] + (targetVelZ - currentVelocity[2]) * smoothFactor
         
+        // Ensure physics update is applied
         playerApi.velocity.set(newVelX, currentVelocity[1], newVelZ)
+        playerApi.wakeUp() // Wake up the physics body to ensure updates are processed
       } else if (Math.abs(currentVelocity[0]) > 0.1 || Math.abs(currentVelocity[2]) > 0.1) {
         // Apply friction/deceleration when no input is given
         const frictionFactor = 0.5 // Almost no deceleration
@@ -569,11 +570,13 @@ function PhysicsScene({ position, sceneObjects, onExit, isMobile }: PhysicsScene
           currentVelocity[1],
           currentVelocity[2] * frictionFactor
         )
+        playerApi.wakeUp() // Wake up the physics body to ensure updates are processed
       }
       
       // Handle jumping with touch button
       if (touchJump && isOnGround) {
         playerApi.velocity.set(currentVelocity[0], jumpForce, currentVelocity[2])
+        playerApi.wakeUp() // Wake up the physics body to ensure updates are processed
         setIsOnGround(false)
       }
     } else {
