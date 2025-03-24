@@ -432,32 +432,12 @@ function PhysicsScene({ position, sceneObjects, onExit, isMobile }: PhysicsScene
   
   // Handle click for desktop mode
   useEffect(() => {
-    if (isMobile) {
-      // For mobile, we'll use a tap on right side
-      const lookArea = document.getElementById('look-area')
-      if (!lookArea) return
-      
-      const handleTap = () => {
-        if (!ballThrown && !clickHandled.current) {
-          clickHandled.current = true;
-          throwBall();
-          // Reset the click handler flag after a short delay
-          setTimeout(() => {
-            clickHandled.current = false;
-          }, 500);
-        }
-      }
-      
-      lookArea.addEventListener('touchstart', handleTap)
-      return () => {
-        lookArea.removeEventListener('touchstart', handleTap)
-      }
-    } else {
-      // For desktop, listen for clicks but don't disrupt pointer lock
-      window.addEventListener('click', handleClick)
-      return () => {
-        window.removeEventListener('click', handleClick)
-      }
+    if (isMobile) return; // Skip ball throwing setup for mobile
+    
+    // For desktop, listen for clicks but don't disrupt pointer lock
+    window.addEventListener('click', handleClick)
+    return () => {
+      window.removeEventListener('click', handleClick)
     }
   }, [isMobile, isLocked, ballThrown])
   
@@ -688,7 +668,7 @@ function PhysicsScene({ position, sceneObjects, onExit, isMobile }: PhysicsScene
       </mesh> */}
       
       {/* Ball - permanently shown once thrown */}
-      {ballThrown && (
+      {!isMobile && ballThrown && (
         <PhysicalBall 
           key="singleBall"
           position={ballProps.position} 
