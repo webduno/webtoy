@@ -28,7 +28,7 @@ export default function CanonPOV({ position, sceneObjects, onExit }: CanonPOVPro
     <div style={{ width: '100vw', height: '100vh', position: 'absolute', top: 0, left: 0 }}>
       <Canvas camera={{ position: position, fov: 125 }} shadows>
         <Physics 
-          gravity={isMobileDevice ? [0, 0, 0] : [0, -30, 0]} 
+          gravity={[0, -30, 0]} 
           defaultContactMaterial={{ friction: 0.001, restitution: 0.2 }}
         >
           <ambientLight intensity={0.5} />

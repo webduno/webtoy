@@ -487,12 +487,6 @@ export function PhysicsScene({ position, sceneObjects, onExit, isMobile }: Physi
               obj.scale.z || 1,
             ]
             
-            // Add isMobile to userData
-            obj.userData = {
-              ...obj.userData,
-              isMobile
-            }
-            
             return (
               <PhysicalBox
                 key={index}
@@ -501,7 +495,7 @@ export function PhysicsScene({ position, sceneObjects, onExit, isMobile }: Physi
                 scale={meshScale}
                 geometry={obj.geometry}
                 material={obj.material}
-                userData={obj.userData}
+                userData={{ ...obj.userData, hasGravity: obj.userData?.hasGravity && !isMobile }}
               />
             )
           }

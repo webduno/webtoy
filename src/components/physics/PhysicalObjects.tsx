@@ -89,8 +89,8 @@ export function PhysicalBox({ position, rotation, scale, geometry, material, use
     Math.max(scaledSize[2], 0.01)
   ]
   
-  // Check if the object has gravity enabled in userData and if we're not on mobile
-  const hasGravity = userData?.hasGravity && !userData?.isMobile;
+  // Check if the object has gravity enabled in userData
+  const hasGravity = userData?.hasGravity || false;
   
   // Create a unique ID for this object based on its initial position
   // This helps us track it across re-renders
