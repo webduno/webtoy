@@ -20,7 +20,7 @@ export function RoomCreate({myip}: {myip: string}) {
         }}>WEBTOY</Link>
         
         <div>
-          <Image className="bord-r-10" src="/house.png" alt="logo" width={100} height={100} />
+          <Image priority className="bord-r-100 box-shadow-2-b" src="/house.png" alt="logo" width={100} height={100} />
         </div>
         <RoomButtons myip={myip} />
       </div>
