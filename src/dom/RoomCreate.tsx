@@ -17,8 +17,8 @@ export function RoomCreate({myip}: {myip: string}) {
           marginBottom: '20px',
           textAlign: 'center',
         }}>
-          <div className="tx-altfont-2 tx-mdl">WEB</div>
-          <div className="tx-altfont-3 tx-lg">TOY</div>
+          <div className="tx-altfont-2 tx-lg">WEB</div>
+          <div className="tx-altfont-3 tx-xl">TOY</div>
         </Link>
         
         <div>

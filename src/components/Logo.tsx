@@ -24,7 +24,7 @@ export default function Logo({ className }: LogoProps) {
       }}
       >
         <div className="tx-altfont-2 tx-smd">WEB</div>
-        <div className="tx-altfont-3 tx-md">TOY</div>
+        <div className="tx-altfont-3 tx-mdl">TOY</div>
       </Link>
     </div>
   )
