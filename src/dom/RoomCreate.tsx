@@ -11,13 +11,13 @@ export function RoomCreate({myip}: {myip: string}) {
         style={{
         padding: '20px',
       }}>
-        <Link href="/" className=" tx-ls-3 nodeco opaci-chov--50 flex-row" style={{
+        <Link href="/" className=" tx-ls-3 nodeco opaci-chov--50 flex-row gap-1" style={{
           color: 'white',
           textShadow: '0 0 10px rgba(0, 0, 0, 0.75)',
           marginBottom: '20px',
           textAlign: 'center',
         }}>
-          <div className="tx-altfont-2 tx-lg">WEB</div>
+          <div className="tx-altfont-1 tx-lx">WEB</div>
           <div className="tx-altfont-3 tx-xl">TOY</div>
         </Link>
         

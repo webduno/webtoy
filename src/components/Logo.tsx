@@ -17,14 +17,14 @@ export default function Logo({ className }: LogoProps) {
       }}
       className={className || "pa-2 px-3"}
     >
-      <Link className="tx-altfont-3 nodeco opaci-chov--50 flex-row" href="/"
+      <Link className="tx-altfont-3 nodeco opaci-chov--50 flex-row gap-1" href="/"
       style={{
         color: 'white',
         textShadow: '0 0 10px rgba(0, 0, 0, 0.75)',
       }}
       >
-        <div className="tx-altfont-2 tx-smd">WEB</div>
-        <div className="tx-altfont-3 tx-mdl">TOY</div>
+        <div className="tx-altfont-1 tx-smd">WEB</div>
+        <div className="tx-altfont-3 tx-lg">TOY</div>
       </Link>
     </div>
   )
