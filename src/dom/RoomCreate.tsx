@@ -14,12 +14,11 @@ export function RoomCreate({myip}: {myip: string}) {
         <Link href="/" className=" tx-ls-3 nodeco opaci-chov--50 flex-row" style={{
           color: 'white',
           textShadow: '0 0 10px rgba(0, 0, 0, 0.75)',
-          fontSize: '40px',
           marginBottom: '20px',
           textAlign: 'center',
         }}>
-          <div className="tx-altfont-2">WEB</div>
-          <div className="tx-altfont-3">TOY</div>
+          <div className="tx-altfont-2 tx-mdl">WEB</div>
+          <div className="tx-altfont-3 tx-lg">TOY</div>
         </Link>
         
         <div>

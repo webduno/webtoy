@@ -13,7 +13,6 @@ export default function Logo({ className }: LogoProps) {
         left: '0px', 
         zIndex: 1000,
         fontWeight: 'bold',
-        fontSize: '20px',
         color: 'white',
       }}
       className={className || "pa-2 px-3"}
@@ -24,8 +23,8 @@ export default function Logo({ className }: LogoProps) {
         textShadow: '0 0 10px rgba(0, 0, 0, 0.75)',
       }}
       >
-        <div className="tx-altfont-2">WEB</div>
-        <div className="tx-altfont-3">TOY</div>
+        <div className="tx-altfont-2 tx-smd">WEB</div>
+        <div className="tx-altfont-3 tx-md">TOY</div>
       </Link>
     </div>
   )
