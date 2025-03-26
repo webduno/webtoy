@@ -92,39 +92,49 @@ steps
 
 ## script
 
-now that we have our basic menu screen, let's add authentication
-we'll use google login for this, which is super easy to set up
-first, let's create a google project and get our credentials
-then we'll add the login button to our menu
-and create the necessary endpoint to handle the authentication
+we'll also use google login for this, 
+first set up a google auth project and get your credentials
+if you dont know how to do it, let me know in the comments
+make the agent generate the login button in our main menu
+and create the endpoint to handle the nextjs-google auth backend logic
 
-next, we'll create two new pages - one for single player and one for multiplayer
-we'll start with a basic 3d scene using three.js
-this will be our foundation for both modes
-
-to make our code more maintainable, we'll create a reusable scene component
+next, lets create the actual single and multiplayer pages
+so, prmopt the ai to create
+a basic 3d scene using a framework called react three fiber or just "r3f" for short
+since this will be our foundation for both modes
+make the ai create a reusable scene component
+to make our code more maintainable
 this way we can have different scenes for single and multiplayer
-while sharing common functionality
+while sharing the same 3d scene functionality
 
-in the single player mode, we'll add some basic objects to the scene
-and make it interactive with camera controls
-this will let players move around and explore
 
 now comes the fun part - making the scene editable
-we'll add controls to create new objects
-and transform them in real-time
-players can move, rotate, and scale objects
-all changes will be saved to the browser's local storage
+the core of this game, is to build your own game
+so, first in the single player mode,
+tell the ai to make the scene handle adding new objects
+and make them editable, meaning add controls to change size, scale and rotation
+to transform the new objects in real-time
+
+now we create a simple camera
+that will let players move around and explore from a godseye view
+
+and finally tell the agent
+that all changes will be saved to the browser's local storage
 so they can continue building their world later
 
-let's test each feature as we go
-this way we can make sure everything works smoothly
-and fix any issues before moving on
+remember to test each feature as you go
+this way we can make sure previous tasks still works smoothly
+and fix any small issues the ai couldnt catch before moving on
+or if something doesn't work at all, we can always go back
+and tell the ai to try a different approach
+with this button, "restore checkpoint"
+click continue and you can go back to the state of the code before asking a question
+to rephrase the prompt and send again
+but its always reocmmended to also use the git protocol for versioning
 
-remember to keep your changes small and incremental
-this makes it easier to track progress and debug
-if something doesn't work, we can always go back
-and try a different approach
+
+
+
 
 
 

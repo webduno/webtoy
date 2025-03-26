@@ -6,8 +6,8 @@ import { ClientLayout } from '@/components/ClientLayout'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Landxcape',
-  description: 'Landxcape',
+  title: 'Web Toy',
+  description: 'Web Toy',
 }
 
 export default function RootLayout({

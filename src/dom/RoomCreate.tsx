@@ -17,10 +17,10 @@ export function RoomCreate({myip}: {myip: string}) {
           fontSize: '40px',
           marginBottom: '20px',
           textAlign: 'center',
-        }}>LANDXCAPE</Link>
+        }}>WEBTOY</Link>
         
         <div>
-          <Image src="/logo.png" alt="logo" width={100} height={100} />
+          <Image className="bord-r-10" src="/house.png" alt="logo" width={100} height={100} />
         </div>
         <RoomButtons myip={myip} />
       </div>

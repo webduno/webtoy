@@ -24,7 +24,7 @@ export default function Logo({ className }: LogoProps) {
         textShadow: '0 0 10px rgba(0, 0, 0, 0.75)',
       }}
       >
-        LANDXCAPE
+        WEBTOY
       </Link>
     </div>
   )
