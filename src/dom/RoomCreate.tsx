@@ -11,13 +11,16 @@ export function RoomCreate({myip}: {myip: string}) {
         style={{
         padding: '20px',
       }}>
-        <Link href="/" className="tx-altfont-3 tx-ls-3 nodeco opaci-chov--50" style={{
+        <Link href="/" className=" tx-ls-3 nodeco opaci-chov--50 flex-row" style={{
           color: 'white',
           textShadow: '0 0 10px rgba(0, 0, 0, 0.75)',
           fontSize: '40px',
           marginBottom: '20px',
           textAlign: 'center',
-        }}>WEBTOY</Link>
+        }}>
+          <div className="tx-altfont-2">WEB</div>
+          <div className="tx-altfont-3">TOY</div>
+        </Link>
         
         <div>
           <Image priority className="bord-r-100 box-shadow-2-b" src="/house.png" alt="logo" width={100} height={100} />
