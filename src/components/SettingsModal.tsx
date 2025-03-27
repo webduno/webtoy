@@ -94,7 +94,7 @@ export default function SettingsModal({
         onClose();
       }}
       >
-        Create with AI
+        Create with AI 🪄
       </button>
       <button 
         onClick={() => {
