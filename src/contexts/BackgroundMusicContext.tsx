@@ -5,6 +5,7 @@ import { createContext, useContext, useState, useRef, ReactNode, useEffect } fro
 interface BackgroundMusicContextType {
   isPlaying: boolean;
   togglePlay: () => void;
+  playIfNotPlaying: () => void;
 }
 
 const BackgroundMusicContext = createContext<BackgroundMusicContextType | undefined>(undefined);
@@ -44,6 +45,17 @@ export function BackgroundMusicProvider({ children }: { children: ReactNode }) {
     };
   }, []); // Empty dependency array since we don't need any dependencies
 
+  const playIfNotPlaying = async () => {
+    if (!isPlaying && audioRef.current) {
+      try {
+        await audioRef.current.play()
+        setIsPlaying(true);
+      } catch (error) {
+        console.log('Error playing background music:', error);
+      }
+    }
+  }
+
   const togglePlay = () => {
     if (audioRef.current) {
       audioRef.current.volume = 0.1;
@@ -60,7 +72,7 @@ export function BackgroundMusicProvider({ children }: { children: ReactNode }) {
 
 
   return (
-    <BackgroundMusicContext.Provider value={{ isPlaying, togglePlay }}>
+    <BackgroundMusicContext.Provider value={{ isPlaying, togglePlay, playIfNotPlaying }}>
       {children}
     </BackgroundMusicContext.Provider>
   );

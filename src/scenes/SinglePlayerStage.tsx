@@ -62,16 +62,16 @@ const SinglePlayerStage = forwardRef<SinglePlayerStageHandle, {}>((props, ref) =
         console.log('Scene content copied');
       }
     },
-    pasteContent: () => {
-      // Paste content from localStorage or state
+    pasteContent: async () => {
+      // First try to paste from localStorage
       const copiedData = localStorage.getItem('copiedSceneData');
       if (copiedData) {
         try {
           const sceneData = JSON.parse(copiedData);
           sceneRef.current?.loadSceneData(sceneData);
-          console.log('Scene content pasted');
+          console.log('Scene content pasted from localStorage');
         } catch (error) {
-          console.error('Failed to paste content:', error);
+          console.error('Failed to paste content from localStorage:', error);
         }
       } else {
         // Check if there's a selected template
@@ -80,6 +80,16 @@ const SinglePlayerStage = forwardRef<SinglePlayerStageHandle, {}>((props, ref) =
           // Load the template
           sceneRef.current?.loadTemplate(selectedTemplate);
           console.log(`Template loaded: ${selectedTemplate}`);
+        } else {
+          // Try to paste from clipboard
+          try {
+            const clipboardText = await navigator.clipboard.readText();
+            const sceneData = JSON.parse(clipboardText);
+            sceneRef.current?.loadSceneData(sceneData);
+            console.log('Scene content pasted from clipboard');
+          } catch (error) {
+            console.error('Failed to paste content from clipboard:', error);
+          }
         }
       }
       

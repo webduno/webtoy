@@ -7,7 +7,7 @@ import { useBackgroundMusic } from '@/contexts/BackgroundMusicContext';
 
 export function RoomButtons({myip}: {myip: string}) {
   const { data: session } = useSession();
-  const { togglePlay } = useBackgroundMusic();
+  const { togglePlay, playIfNotPlaying } = useBackgroundMusic();
   const [loggedPlayer, setLoggedPlayer] = useState<{id:string, name:string} | null>(null);
   const [loading, setLoading] = useState<string | null>(null);
   const [username, setUsername] = useState('');
@@ -54,7 +54,7 @@ export function RoomButtons({myip}: {myip: string}) {
     }
     playClickSound();
     setLoading(destination);
-    togglePlay();
+    playIfNotPlaying();
   };
 
   return (<>
