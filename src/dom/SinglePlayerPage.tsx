@@ -20,7 +20,8 @@ export default function SinglePlayerPage() {
   // Check for objects when component mounts
   useEffect(() => {
     const objects = stageRef.current?.getSceneObjects?.() || []
-    setHasObjects(objects.length > 0)
+    const hasSavedContent = localStorage.getItem('singleplayer_scene') !== null
+    setHasObjects(objects.length > 0 || hasSavedContent)
   }, [])
 
   const handleHelloClick = () => {
