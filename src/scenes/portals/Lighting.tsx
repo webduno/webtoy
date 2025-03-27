@@ -21,7 +21,11 @@ export const Lighting = () => {
   // });
 
   return (
-    <>
+    <></>)
+    
+
+    return (
+      <>
 <pointLight intensity={20} distance={100} color="#FFe7a8" 
   position={[0, 22, 0]}
 />
