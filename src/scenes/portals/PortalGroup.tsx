@@ -11,11 +11,17 @@ export const PortalGroup = ({ portalParams }: PortalGroupProps) => {
   return (
     <>
       <SinglePortal position={[-11.25, 0, 16]} rotation={[0, Math.PI / 2, 0]}
-        portalMaterial={<meshStandardMaterial color="#f4d0aa" emissive="#f4d0aa" emissiveIntensity={0.75} />}
-        url={formatPortalUrl("https://portal.pieter.com/", portalParams)} />
+        torusMaterial={<meshStandardMaterial color="#FFD700" metalness={0.6} roughness={0.3} emissive="#FFD700" emissiveIntensity={0.05} />}
+        portalMaterial={<meshStandardMaterial color="#00aaff" emissive="#00aaff" emissiveIntensity={0.75} />}
+        url={formatPortalUrl("/single", portalParams)} />
       <SinglePortal position={[11.25, 0, 16]} rotation={[0, -Math.PI / 2, 0]}
-        portalMaterial={<meshStandardMaterial color="#aaf4d0" emissive="#aaf4d0" emissiveIntensity={0.75} />}
-        url={formatPortalUrl("https://portal.pieter.com", portalParams)} />
+        torusMaterial={<meshStandardMaterial color="#FFD700" metalness={0.6} roughness={0.3} emissive="#FFD700" emissiveIntensity={0.05} />}
+        portalMaterial={<meshStandardMaterial color="#ff3322" emissive="#ff3322" emissiveIntensity={0.75} />}
+        url={formatPortalUrl("/multi", portalParams)} />
+
+
+
+
 
       <SinglePortal position={[-11.25, 0, 0]} rotation={[0, Math.PI / 2, 0]}
         portalMaterial={<meshStandardMaterial color="#aad0f4" emissive="#aad0f4" emissiveIntensity={0.75} />}

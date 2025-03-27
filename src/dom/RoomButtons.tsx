@@ -1,7 +1,7 @@
 "use client"
 import Link from 'next/link';
 import './styles.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { useBackgroundMusic } from '@/contexts/BackgroundMusicContext';
 
@@ -11,6 +11,14 @@ export function RoomButtons({myip}: {myip: string}) {
   const [loggedPlayer, setLoggedPlayer] = useState<{id:string, name:string} | null>(null);
   const [loading, setLoading] = useState<string | null>(null);
   const [username, setUsername] = useState('');
+
+  useEffect(() => {
+    // Load username from localStorage when component mounts
+    const savedUsername = localStorage.getItem('username');
+    if (savedUsername) {
+      setUsername(savedUsername);
+    }
+  }, []);
 
   const playClickSound = () => {
     const audio = new Audio('/click47.wav');
@@ -36,9 +44,13 @@ export function RoomButtons({myip}: {myip: string}) {
   }
 
   const handleNavigation = (destination: string) => {
-    if (destination === 'portals' && !username && !loggedPlayer?.name) {
-      alert('Please enter a username first');
-      return;
+    if (destination === 'portals') {
+      if (!username && !loggedPlayer?.name) {
+        alert('Please enter a username first');
+        return;
+      }
+      // Save username to localStorage when entering portals
+      localStorage.setItem('username', username);
     }
     playClickSound();
     setLoading(destination);

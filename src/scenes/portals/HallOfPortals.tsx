@@ -31,6 +31,13 @@ interface HallOfPortalsProps {
 }
 
 export const formatPortalUrl = (url?: string, params?: PortalParams): string => {
+// only if its multi or single, dont fix the url, since its a relative path
+if (url?.includes("/multi") || url?.includes("/single")) {
+  return url;
+}
+
+
+
   if (!url) return 'https://portal.pieter.com/';
   
   // Trim any whitespace from the URL

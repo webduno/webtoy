@@ -7,11 +7,13 @@ import { useRouter } from 'next/navigation';
 
 export const SinglePortal = ({ 
   portalMaterial = <meshStandardMaterial color="#aad0f4" emissive="#aad0f4" emissiveIntensity={0.75} />, 
+  torusMaterial = <meshStandardMaterial color="#ffffff" emissive="#444444" />,
   position, 
   rotation,
   url 
 }: { 
   portalMaterial?: any; 
+  torusMaterial?: any;
   position: [number, number, number]; 
   rotation: [number, number, number];
   url?: string;
@@ -43,7 +45,7 @@ export const SinglePortal = ({
   return (
     <group ref={portalRef} position={position} rotation={rotation}>
       <Torus args={[5, 0.5, 4, 32, Math.PI]} castShadow receiveShadow>
-        <meshStandardMaterial color="#ffffff" emissive="#444444" />
+        {torusMaterial}
       </Torus>
       <Circle args={[5, 32, 0, Math.PI]} castShadow receiveShadow>
         {portalMaterial}
