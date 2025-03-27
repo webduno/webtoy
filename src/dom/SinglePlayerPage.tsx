@@ -8,10 +8,12 @@ import TemplatesModal from '@/components/TemplatesModal'
 import { DEFAULT_TEMPLATE_LIST } from '@/scripts/sceneTemplates'
 import CanonPOV from '@/components/CanonPOV'
 import TutorialModal from '@/components/TutorialModal'
+import { AiModal } from './AiModal'
 
 export default function SinglePlayerPage() {
   const stageRef = useRef<SinglePlayerStageHandle>(null)
   const [showSettings, setShowSettings] = useState<boolean>(false)
+  const [showAiModal, setShowAiModal] = useState<boolean>(false)
   const [showTemplates, setShowTemplates] = useState<boolean>(false)
   const [deleteMode, setDeleteMode] = useState<boolean>(false)
   const [isPlaying, setIsPlaying] = useState<boolean>(false)
@@ -35,13 +37,17 @@ export default function SinglePlayerPage() {
   }
 
   const handleOpenSettings = () => {
-    setShowSettings(!showSettings)
-    setShowTemplates(false)
+      setShowSettings(!showSettings)
+      setShowTemplates(false)
+      setShowAiModal(false)
   }
+
+
 
   const handleOpenTemplates = () => {
     setShowTemplates(true)
     setShowSettings(false)
+    setShowAiModal(false)
   }
 
   const handleResetScene = () => {
@@ -100,7 +106,12 @@ export default function SinglePlayerPage() {
       alert("Invalid coordinates. Please use format: x,y,z")
     }
   }
-  
+
+  const handleOpenAI = () => {
+    setShowSettings(false)
+    setShowAiModal(true)
+  }
+
   const handleExitPlay = () => {
     setIsPlaying(false)
   }
@@ -117,6 +128,11 @@ export default function SinglePlayerPage() {
 
       {!isPlaying && (
         <>
+        {showAiModal && (
+          <AiModal
+            onClose={() => setShowAiModal(false)}
+          />
+        )}
           {showSettings && (
             <SettingsModal
               onClose={() => setShowSettings(false)}
@@ -127,6 +143,7 @@ export default function SinglePlayerPage() {
               onPasteContent={handlePasteContent}
               onAutorotate={handleAutorotate}
               onOpenTemplates={handleOpenTemplates}
+              onOpenAI={handleOpenAI}
             />
           )}
           
@@ -174,3 +191,4 @@ export default function SinglePlayerPage() {
     </>
   )
 } 
+

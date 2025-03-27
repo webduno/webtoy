@@ -46,7 +46,7 @@ export async function saveObjectsToSupabase(objList: any[], storageKey: string) 
 
 
 
-type CompletionResponse = {
+export type CompletionResponse = {
   // Define the structure of your expected response here
   // For example:
   choices?: any
@@ -54,7 +54,7 @@ type CompletionResponse = {
   error?: string;
 };
 
-async function getCompletionFromAPI(prompt: string): Promise<CompletionResponse> {
+export async function getCompletionFromAPI(prompt: string): Promise<CompletionResponse> {
   const response = await fetch('/api/ai', {
     method: 'POST',
     headers: {

@@ -20,7 +20,7 @@ export default function TutorialModal({ onClose }: TutorialModalProps) {
         >
           ✕
         </div>
-        <p className="text-lg tx-altfont- tx-ls-1 mb-2 flex-col gap-">
+        <div className="text-lg tx-altfont- tx-ls-1 mb-2 flex-col gap-">
           How to play <div className='flex-row gap-1 ml-1'>
             <div className="tx-altfont-1 tx-smd"
               style={{
@@ -33,22 +33,22 @@ export default function TutorialModal({ onClose }: TutorialModalProps) {
               }}
             >TOY</div>
           </div>
-        </p>
+        </div>
         
-        <p className='tx-lgx tx-altfont-1 mb-0 pb-1 '>
+        <div className='tx-lgx tx-altfont-1 mb-0 pb-1 '>
           Start by creating blocks, click <span className='tx-altfont-2'style={{color: '#00ff00'}}>&quot;Add New&quot;</span> and use the controls to move or rotate them.
-        </p>
+        </div>
         <div className='flex-row flex-justify-around gap-2'>
           <div className='tx- border-white bord-r-10 pa-1'>Grab 🚶‍♂️</div>
           <div className='tx- border-white bord-r-10 pa-1'>Rotate 🔄</div>
           <div className='tx- border-white bord-r-10 pa-1'>Scale 📏</div>
         </div>
-        <hr className='opaci-50 mt-4 w-100' />
-        <p className='tx-mdl tx-altfont-1 flex-wrap'>
+        <hr className='opaci-50 my-4 w-100' />
+        <div className='tx-mdl tx-altfont-1 flex-wrap'>
           <div>And then press play to</div>
           <div>start the game!</div>
           <div className='tx- border-white ml-2 mt-1 bord-r-10 pa-1'>Play 🎮</div>
-        </p>
+        </div>
       </div>
     </>
   )

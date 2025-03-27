@@ -9,6 +9,7 @@ interface SettingsModalProps {
   onPasteContent: () => void;
   onAutorotate: () => void;
   onOpenTemplates: () => void;
+  onOpenAI?: () => void;
 }
 
 export default function SettingsModal({
@@ -19,7 +20,8 @@ export default function SettingsModal({
   onCopyContent,
   onPasteContent,
   onAutorotate,
-  onOpenTemplates
+  onOpenTemplates,
+  onOpenAI
 }: SettingsModalProps) {
   const hasPlayedSound = useRef(false);
 
@@ -85,7 +87,13 @@ export default function SettingsModal({
       </div>
       <div className='pos-abs flex-row gap-2 bottom-0 translate-y-100 pt-2'>
         
-      <button className='nowrap noborder bord-r-100 px-4 bg-b-90 tx-white tx-md py-2 opaci-50 tx-shadow-5 tx-altfont-1  '>
+      <button
+       className='nowrap noborder bord-r-100 px-4 bg-b-90 tx-white tx-md py-2 tx-shadow-5 tx-altfont-1 opaci-chov--50 '
+       onClick={() => {
+        onOpenAI?.();
+        onClose();
+      }}
+      >
         Create with AI
       </button>
       <button 
