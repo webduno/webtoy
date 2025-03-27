@@ -22,6 +22,9 @@ export const Lighting = () => {
 
   return (
     <>
+<pointLight intensity={20} distance={100} color="#FFe7a8" 
+  position={[0, 22, 0]}
+/>
 
       <pointLight 
         position={[0, 10, 0]} 
@@ -40,7 +43,7 @@ export const Lighting = () => {
         angle={2}
         penumbra={1}
         intensity={500}
-        color="#ffffff"
+        color="#ffeecc"
         castShadow
         shadow-mapSize={[1024, 1024]}
         shadow-camera-near={0.5}
@@ -53,7 +56,7 @@ export const Lighting = () => {
         angle={2}
         penumbra={1}
         intensity={50}
-        color="#ffffff"
+        color="#ffeeaa"
         castShadow
         shadow-mapSize={[1024, 1024]}
         shadow-camera-near={0.5}
@@ -64,9 +67,9 @@ export const Lighting = () => {
       <spotLight
         position={[0, 7, 30]}
         target={spawnPointRef.current}
-        angle={0.25}
+        angle={0.4}
         penumbra={1}
-        intensity={10}
+        intensity={60}
         color="#ffffff"
         castShadow
         shadow-mapSize={[1024, 1024]}

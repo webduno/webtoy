@@ -25,6 +25,12 @@ export const MainTorai = () => {
       >
         <meshStandardMaterial color="#FFD700" metalness={0.6} roughness={0.3} emissive="#FFD700" emissiveIntensity={0.05} />
       </Torus>
+
+
+
+
+
+      
     </>
   );
 };
