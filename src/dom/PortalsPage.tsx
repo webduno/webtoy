@@ -38,10 +38,8 @@ export default function PortalsPage() {
           zIndex: 999
         }} 
       />
-      {/* Mobile Controls */}
-      {isMobileDevice && (
+      {/* {isMobileDevice && (
         <>
-          {/* Movement joystick */}
           <div id="joystick-container" style={{
             position: 'absolute',
             left: '30px',
@@ -54,7 +52,6 @@ export default function PortalsPage() {
             zIndex: 1000
           }} />
           
-          {/* Jump button */}
           <div id="jump-button" style={{
             position: 'absolute',
             right: '30px',
@@ -75,7 +72,7 @@ export default function PortalsPage() {
             FLY
           </div>
         </>
-      )}
+      )} */}
     </>
   )
 } 
