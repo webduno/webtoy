@@ -36,7 +36,7 @@ export default function TutorialModal({ onClose }: TutorialModalProps) {
         </p>
         
         <p className='tx-lgx tx-altfont-1 mb-0 pb-1 '>
-          Start by creating blocks, click <span className='tx-altfont-2'style={{color: '#00ff00'}}>"Add New"</span> and use the controls to move or rotate them.
+          Start by creating blocks, click <span className='tx-altfont-2'style={{color: '#00ff00'}}>&quot;Add New&quot;</span> and use the controls to move or rotate them.
         </p>
         <div className='flex-row flex-justify-around gap-2'>
           <div className='tx- border-white bord-r-10 pa-1'>Grab 🚶‍♂️</div>
