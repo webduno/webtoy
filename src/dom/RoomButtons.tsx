@@ -170,17 +170,17 @@ export function RoomButtons({myip}: {myip: string}) {
             color: '#ffffff',
             backgroundColor: '#00B30F',
             border: 'none',
-            cursor: loading === 'multi' ? 'wait' : 'pointer',
+            cursor: loading === 'portals' ? 'wait' : 'pointer',
             transition: 'all 0.2s ease',
             boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
             textTransform: 'uppercase',
             letterSpacing: '1px',
-            opacity: loading === 'multi' ? 0.7 : 1,
+            opacity: loading === 'portals' ? 0.7 : 1,
           }}
           className="room-select-button bord-r-100"
           disabled={loading !== null}
         >
-          {loading === 'multi' ? 'Loading...' : (
+          {loading === 'portals' ? 'Loading...' : (
             <>Portals</>
           )}
           <div style={{

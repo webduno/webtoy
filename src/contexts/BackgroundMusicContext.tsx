@@ -18,7 +18,7 @@ export function BackgroundMusicProvider({ children }: { children: ReactNode }) {
     // Initialize audio only on the client side
     audioRef.current = new Audio('/massobeats_lotus.mp3');
     audioRef.current.loop = true;
-    audioRef.current.volume = 0.1;
+    audioRef.current.volume = 0.02;
 
     // Handle visibility change
     const handleVisibilityChange = () => {
@@ -38,11 +38,11 @@ export function BackgroundMusicProvider({ children }: { children: ReactNode }) {
       }
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
-  }, [isPlaying]);
+  }, []);
 
   const togglePlay = () => {
     if (audioRef.current) {
-      audioRef.current.volume = 0.1;
+      audioRef.current.volume = 0.02;
       if (isPlaying) {
         audioRef.current.pause();
       } else {
@@ -56,7 +56,7 @@ export function BackgroundMusicProvider({ children }: { children: ReactNode }) {
 
   const play = () => {
     if (audioRef.current && !isPlaying) {
-      audioRef.current.volume = 0.1;
+      audioRef.current.volume = 0.02;
       audioRef.current.play().catch(error => {
         console.log('Error playing background music:', error);
       });
