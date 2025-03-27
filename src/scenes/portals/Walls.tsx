@@ -7,13 +7,13 @@ export const Walls = () => (
     {/* Main walls */}
     {[-12, 12].map((x) => (
       <>
-        <Box position={[x, 7, 0]} scale={[1, 15, 15]}>
+        <Box position={[x, 7, 0]} scale={[1, 15, 15]} castShadow receiveShadow>
           <meshStandardMaterial color="#ffffff" />
         </Box>
-        <Box position={[x, 7, 16]} scale={[1, 15, 15]}>
+        <Box position={[x, 7, 16]} scale={[1, 15, 15]} castShadow receiveShadow>
           <meshStandardMaterial color="#ffffff" />
         </Box>
-        <Box position={[x, 7, -16]} scale={[1, 15, 15]}>
+        <Box position={[x, 7, -16]} scale={[1, 15, 15]} castShadow receiveShadow>
           <meshStandardMaterial color="#ffffff" />
         </Box>
       </>
@@ -22,7 +22,7 @@ export const Walls = () => (
     {/* Gold trim */}
     {[-12, 12].map((x) => (
       <>
-        <Box position={[x, 7, 0]} scale={[0.5, 16.5, 51]}>
+        <Box position={[x, 7, 0]} scale={[0.5, 16.5, 51]} castShadow receiveShadow>
           <meshStandardMaterial color="#FFD700" metalness={0.6} roughness={0.3} />
         </Box>
         {/* <Box position={[x, 12, 0]} scale={[1.1, 7, 0.1]}>
@@ -38,22 +38,22 @@ export const Walls = () => (
 
 
         
-        <Box position={[x, 12, 0.25]} scale={[1.1, 7, 0.1]}>
+        <Box position={[x, 12, 0.25]} scale={[1.1, 7, 0.1]} castShadow receiveShadow>
           <meshStandardMaterial color="#FFD700" metalness={0.6} roughness={0.3} />
         </Box>
-        <Box position={[x, 12, 16.25]} scale={[1.1, 7, 0.1]}>
+        <Box position={[x, 12, 16.25]} scale={[1.1, 7, 0.1]} castShadow receiveShadow>
           <meshStandardMaterial color="#FFD700" metalness={0.6} roughness={0.3} />
         </Box>
-        <Box position={[x, 12, -16.25]} scale={[1.1, 7, 0.1]}>
+        <Box position={[x, 12, -16.25]} scale={[1.1, 7, 0.1]} castShadow receiveShadow>
           <meshStandardMaterial color="#FFD700" metalness={0.6} roughness={0.3} />
         </Box>
-        <Box position={[x, 12, -0.25]} scale={[1.1, 7, 0.1]}>
+        <Box position={[x, 12, -0.25]} scale={[1.1, 7, 0.1]} castShadow receiveShadow>
           <meshStandardMaterial color="#FFD700" metalness={0.6} roughness={0.3} />
         </Box>
-        <Box position={[x, 12, 15.75]} scale={[1.1, 7, 0.1]}>
+        <Box position={[x, 12, 15.75]} scale={[1.1, 7, 0.1]} castShadow receiveShadow>
           <meshStandardMaterial color="#FFD700" metalness={0.6} roughness={0.3} />
         </Box>
-        <Box position={[x, 12, -15.75]} scale={[1.1, 7, 0.1]}>
+        <Box position={[x, 12, -15.75]} scale={[1.1, 7, 0.1]} castShadow receiveShadow>
           <meshStandardMaterial color="#FFD700" metalness={0.6} roughness={0.3} />
         </Box>
       </>

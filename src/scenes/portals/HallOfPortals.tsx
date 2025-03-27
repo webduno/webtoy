@@ -13,7 +13,7 @@ import { PortalGroup } from './PortalGroup';
 export const HallOfPortals = () => {
   
   return (
-    <group position={[0, 0, 0]}>
+    <group position={[0, 0, 0]} castShadow receiveShadow>
       <Lighting />
       <Ceiling />
       <Walls />
@@ -21,12 +21,8 @@ export const HallOfPortals = () => {
       <Platform />
       <Planters />
       <Columns />
-        <MainTorai />
-
-
+      <MainTorai />
       <PortalGroup />
-
-    
     </group>
   );
 };

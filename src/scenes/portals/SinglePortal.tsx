@@ -6,10 +6,10 @@ export const SinglePortal = ({ portalMaterial = <meshStandardMaterial color="#aa
   return (
     <group position={position} rotation={rotation}>
 
-      <Torus args={[5, 0.5, 4, 32, Math.PI]}>
+      <Torus args={[5, 0.5, 4, 32, Math.PI]} castShadow receiveShadow>
         <meshStandardMaterial color="#ffffff" emissive="#444444" />
       </Torus>
-      <Circle args={[5, 32, 0, Math.PI]}>
+      <Circle args={[5, 32, 0, Math.PI]} castShadow receiveShadow>
         {portalMaterial}
       </Circle>
 
