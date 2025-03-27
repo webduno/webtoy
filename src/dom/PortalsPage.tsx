@@ -11,12 +11,6 @@ import PortalsStage from '@/scenes/PortalsStage'
 import { isMobile } from '@/utils/mobileDetection'
 
 export default function PortalsPage() {
-  const [isMobileDevice, setIsMobileDevice] = useState(false)
-
-  // Check if client is mobile on component mount
-  useEffect(() => {
-    setIsMobileDevice(isMobile())
-  }, [])
 
   return (
     <>
@@ -25,7 +19,6 @@ export default function PortalsPage() {
         <PortalsStage />
       </SimpleScene>
       <Logo />
-      {/* Mobile look control area */}
       <div 
         id="look-area" 
         style={{
@@ -38,41 +31,6 @@ export default function PortalsPage() {
           zIndex: 999
         }} 
       />
-      {/* {isMobileDevice && (
-        <>
-          <div id="joystick-container" style={{
-            position: 'absolute',
-            left: '30px',
-            bottom: '30px',
-            width: '120px',
-            height: '120px',
-            borderRadius: '60px',
-            backgroundColor: 'rgba(0, 0, 0, 0.3)',
-            touchAction: 'none',
-            zIndex: 1000
-          }} />
-          
-          <div id="jump-button" style={{
-            position: 'absolute',
-            right: '30px',
-            bottom: '30px',
-            width: '80px',
-            height: '80px',
-            borderRadius: '40px',
-            backgroundColor: 'rgba(0, 0, 0, 0.3)',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            color: 'white',
-            fontFamily: 'Arial, sans-serif',
-            fontSize: '16px',
-            touchAction: 'none',
-            zIndex: 1000
-          }}>
-            FLY
-          </div>
-        </>
-      )} */}
     </>
   )
 } 
