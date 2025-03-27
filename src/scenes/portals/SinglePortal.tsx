@@ -27,22 +27,26 @@ export const SinglePortal = ({
   const router = useRouter();
   const { camera } = useThree();
   const portalRef = useRef<Group>(null);
-  const collisionRadius = 3; // Adjust this value based on your portal size
+  const collisionRadius = 4; // Adjust this value based on your portal size
 
   useEffect(() => {
     const checkCollision = () => {
-      if (!portalRef.current || !url) return;
+      if (!portalRef.current || !url || !portalRef.current.parent) return;
 
-      const portalPosition = new Vector3();
-      portalRef.current.getWorldPosition(portalPosition);
-      const distance = camera.position.distanceTo(portalPosition);
+      try {
+        const portalPosition = new Vector3();
+        portalRef.current.getWorldPosition(portalPosition);
+        const distance = camera.position.distanceTo(portalPosition);
 
-      if (distance < collisionRadius) {
-        console.log("portal clicked", url)
-        if (onCollision) {
-          onCollision();
+        if (distance < collisionRadius) {
+          console.log("portal clicked", url)
+          if (onCollision) {
+            onCollision();
+          }
+          router.push(url);
         }
-        router.push(url);
+      } catch (error) {
+        console.error("Error checking portal collision:", error);
       }
     };
 
