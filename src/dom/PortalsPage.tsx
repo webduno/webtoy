@@ -72,7 +72,7 @@ export default function PortalsPage() {
             touchAction: 'none',
             zIndex: 1000
           }}>
-            JUMP
+            FLY
           </div>
         </>
       )}

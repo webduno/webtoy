@@ -19,13 +19,11 @@ const PortalsStage = forwardRef<any>((props, ref) => {
   const frictionFactor = 0.0
 
   // Mobile touch controls state
-  const [touchMove, setTouchMove] = useState<{x: number, y: number}>({x: 0, y: 0})
-  const [touchJump, setTouchJump] = useState(false)
-  const joystickActive = useRef(false)
+  const [isMoving, setIsMoving] = useState(false)
   const lastTouchPosition = useRef<{x: number, y: number}>({x: 0, y: 0})
 
   // Setup keyboard controls
-  const { moveForward, moveBackward, moveLeft, moveRight, jump } = useKeyboardControls()
+  const { moveForward, moveBackward, moveLeft, moveRight } = useKeyboardControls()
   const [moveUp, setMoveUp] = useState(false)
   const [moveDown, setMoveDown] = useState(false)
 
@@ -74,86 +72,71 @@ const PortalsStage = forwardRef<any>((props, ref) => {
   useEffect(() => {
     if (!isMobileDevice) return
     
-    const joystickContainer = document.getElementById('joystick-container')
-    const jumpButton = document.getElementById('jump-button')
-    
-    if (!joystickContainer || !jumpButton) return
-    
-    // Joystick handlers
-    const handleJoystickStart = (e: TouchEvent) => {
-      joystickActive.current = true
+    const lookArea = document.getElementById('look-area')
+    if (!lookArea) return
+
+    let isDragging = false
+    const dragThreshold = 5 // pixels
+
+    // Look area handlers for camera rotation
+    const handleLookStart = (e: TouchEvent) => {
       const touch = e.touches[0]
-      const rect = joystickContainer.getBoundingClientRect()
       lastTouchPosition.current = {
         x: touch.clientX,
         y: touch.clientY
       }
+      setIsMoving(true) // Start moving immediately on touch
+      isDragging = false
       e.preventDefault()
     }
     
-    const handleJoystickMove = (e: TouchEvent) => {
-      if (!joystickActive.current) return
+    const handleLookMove = (e: TouchEvent) => {
       const touch = e.touches[0]
-      const rect = joystickContainer.getBoundingClientRect()
-      const centerX = rect.left + rect.width / 2
-      const centerY = rect.top + rect.height / 2
+      const dx = touch.clientX - lastTouchPosition.current.x
+      const dy = touch.clientY - lastTouchPosition.current.y
       
-      // Calculate joystick displacement
-      const dx = (touch.clientX - centerX) / (rect.width / 2)
-      const dy = (touch.clientY - centerY) / (rect.height / 2)
+      // Check if we're dragging (looking around) or just touching (moving forward)
+      if (!isDragging && (Math.abs(dx) > dragThreshold || Math.abs(dy) > dragThreshold)) {
+        isDragging = true
+      }
       
-      // Normalize and clamp values to -1 to 1
-      const magnitude = Math.sqrt(dx * dx + dy * dy)
-      const normalizedX = magnitude > 1 ? dx / magnitude : dx
-      const normalizedY = magnitude > 1 ? dy / magnitude : dy
+      if (isDragging && camera) {
+        // Rotate camera based on touch movement
+        camera.rotation.y -= dx * 0.01
+        camera.rotation.x -= dy * 0.01
+        
+        // Clamp vertical rotation to prevent over-rotation
+        camera.rotation.x = Math.max(-Math.PI/2, Math.min(Math.PI/2, camera.rotation.x))
+      }
       
-      setTouchMove({
-        x: normalizedX,
-        y: normalizedY
-      })
+      lastTouchPosition.current = {
+        x: touch.clientX,
+        y: touch.clientY
+      }
       
       e.preventDefault()
     }
-    
-    const handleJoystickEnd = (e: TouchEvent) => {
-      joystickActive.current = false
-      setTouchMove({x: 0, y: 0})
-      e.preventDefault()
-    }
-    
-    // Jump button handlers
-    const handleJumpStart = (e: TouchEvent) => {
-      setTouchJump(true)
-      e.preventDefault()
-    }
-    
-    const handleJumpEnd = (e: TouchEvent) => {
-      setTouchJump(false)
+
+    const handleLookEnd = (e: TouchEvent) => {
+      setIsMoving(false)
+      isDragging = false
       e.preventDefault()
     }
     
     // Add event listeners
-    joystickContainer.addEventListener('touchstart', handleJoystickStart)
-    joystickContainer.addEventListener('touchmove', handleJoystickMove)
-    joystickContainer.addEventListener('touchend', handleJoystickEnd)
-    joystickContainer.addEventListener('touchcancel', handleJoystickEnd)
-    
-    jumpButton.addEventListener('touchstart', handleJumpStart)
-    jumpButton.addEventListener('touchend', handleJumpEnd)
-    jumpButton.addEventListener('touchcancel', handleJumpEnd)
+    lookArea.addEventListener('touchstart', handleLookStart)
+    lookArea.addEventListener('touchmove', handleLookMove)
+    lookArea.addEventListener('touchend', handleLookEnd)
+    lookArea.addEventListener('touchcancel', handleLookEnd)
     
     // Cleanup
     return () => {
-      joystickContainer.removeEventListener('touchstart', handleJoystickStart)
-      joystickContainer.removeEventListener('touchmove', handleJoystickMove)
-      joystickContainer.removeEventListener('touchend', handleJoystickEnd)
-      joystickContainer.removeEventListener('touchcancel', handleJoystickEnd)
-      
-      jumpButton.removeEventListener('touchstart', handleJumpStart)
-      jumpButton.removeEventListener('touchend', handleJumpEnd)
-      jumpButton.removeEventListener('touchcancel', handleJumpEnd)
+      lookArea.removeEventListener('touchstart', handleLookStart)
+      lookArea.removeEventListener('touchmove', handleLookMove)
+      lookArea.removeEventListener('touchend', handleLookEnd)
+      lookArea.removeEventListener('touchcancel', handleLookEnd)
     }
-  }, [isMobileDevice])
+  }, [isMobileDevice, camera])
 
   // Handle movement
   useFrame(() => {
@@ -164,10 +147,10 @@ const PortalsStage = forwardRef<any>((props, ref) => {
     let frontVector, sideVector, upVector
 
     if (isMobileDevice) {
-      // Mobile controls
-      frontVector = new Vector3(0, 0, touchMove.y)
-      sideVector = new Vector3(-touchMove.x, 0, 0)
-      upVector = new Vector3(0, touchJump ? 1 : 0, 0)
+      // Mobile controls - move forward when touching screen
+      frontVector = new Vector3(0, 0, isMoving ? -1 : 0)
+      sideVector = new Vector3(0, 0, 0)
+      upVector = new Vector3(0, 0, 0)
     } else {
       // Desktop controls
       frontVector = new Vector3(0, 0, moveBackward ? 1 : moveForward ? -1 : 0)
