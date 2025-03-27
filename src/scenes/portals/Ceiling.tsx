@@ -4,7 +4,7 @@ import { Cylinder, Torus } from '@react-three/drei';
 
 export const Ceiling = () => (
   <>
-  <Cylinder position={[0, 30, 0]} args={[9, 12, 2, 32]} castShadow receiveShadow>
+  <Cylinder position={[0, 30, 0]} args={[9, 13, 2, 32]} castShadow receiveShadow>
     <meshStandardMaterial color="#ffffff" emissive="#555555" />
   </Cylinder>
     <Cylinder position={[0, 15, 0]} args={[12, 10, 1.5, 32]} castShadow receiveShadow>

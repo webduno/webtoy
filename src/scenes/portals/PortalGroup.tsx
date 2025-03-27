@@ -12,11 +12,15 @@ export const PortalGroup = ({ portalParams, onPortalCollision }: PortalGroupProp
   return (
     <>
       <SinglePortal position={[-11.25, 0, 16]} rotation={[0, Math.PI / 2, 0]}
+        title="Singleplayer"
+        textColor='blue'
         torusMaterial={<meshStandardMaterial color="#FFD700" metalness={0.6} roughness={0.3} emissive="#FFD700" emissiveIntensity={0.05} />}
         portalMaterial={<meshStandardMaterial color="#00aaff" emissive="#00aaff" emissiveIntensity={0.75} />}
         url={formatPortalUrl("/single", portalParams)}
         onCollision={onPortalCollision} />
       <SinglePortal position={[11.25, 0, 16]} rotation={[0, -Math.PI / 2, 0]}
+        title="Multiplayer"
+        textColor='red'
         torusMaterial={<meshStandardMaterial color="#FFD700" metalness={0.6} roughness={0.3} emissive="#FFD700" emissiveIntensity={0.05} />}
         portalMaterial={<meshStandardMaterial color="#ff3322" emissive="#ff3322" emissiveIntensity={0.75} />}
         url={formatPortalUrl("/multi", portalParams)}

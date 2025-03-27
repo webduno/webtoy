@@ -1,5 +1,5 @@
 "use client";
-import { Torus, Circle } from '@react-three/drei';
+import { Torus, Circle, Text } from '@react-three/drei';
 import { useRef, useEffect } from 'react';
 import { useThree } from '@react-three/fiber';
 import { Vector3, Group } from 'three';
@@ -10,15 +10,19 @@ export const SinglePortal = ({
   torusMaterial = <meshStandardMaterial color="#ffffff" emissive="#444444" />,
   position, 
   rotation,
+  title ="",
   url,
-  onCollision
+  onCollision,
+  textColor = "black"
 }: { 
   portalMaterial?: any; 
   torusMaterial?: any;
   position: [number, number, number]; 
   rotation: [number, number, number];
+  title?: string;
   url?: string;
   onCollision?: () => void;
+  textColor?: string;
 }) => {
   const router = useRouter();
   const { camera } = useThree();
@@ -49,6 +53,18 @@ export const SinglePortal = ({
 
   return (
     <group ref={portalRef} position={position} rotation={rotation}>
+      {title &&
+      <Text 
+        key={title} 
+        textAlign='center' 
+        position={[0, 6.5, 0.1]} 
+        fontSize={1} 
+        color={textColor||"black"}
+        renderOrder={1}
+      >
+        {title}
+      </Text>
+      }
       <Torus args={[5, 0.5, 4, 32, Math.PI]} castShadow receiveShadow>
         {torusMaterial}
       </Torus>
