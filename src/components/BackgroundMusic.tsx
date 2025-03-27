@@ -8,6 +8,7 @@ export function BackgroundMusic() {
   return (
     <button
       className='pos-abs bottom-0 left-0 mb-100 ml-4 opaci-chov--50 pa-1  bord-r-100'
+      // onTouchStart={togglePlay}
       onClick={togglePlay}
       style={{
         zIndex: 9000,

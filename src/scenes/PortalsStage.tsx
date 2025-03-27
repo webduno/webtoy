@@ -16,12 +16,8 @@ export interface PortalsStageHandle {
 
 const PortalsStage = forwardRef<PortalsStageHandle>((props, ref) => {
   // const { camera } = useThree()
-  const { play } = useBackgroundMusic()
   const portalsRef = useRef<{ position: Vector3; scale: Vector3; rotation: Euler }[]>([])
 
-  useEffect(() => {
-    play()
-  }, [play])
 
   useImperativeHandle(ref, () => ({
     createPortal: (position: [number, number, number], scale: [number, number, number], rotation: [number, number, number]) => {

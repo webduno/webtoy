@@ -5,7 +5,6 @@ import { createContext, useContext, useState, useRef, ReactNode, useEffect } fro
 interface BackgroundMusicContextType {
   isPlaying: boolean;
   togglePlay: () => void;
-  play: () => void;
 }
 
 const BackgroundMusicContext = createContext<BackgroundMusicContextType | undefined>(undefined);
@@ -18,7 +17,7 @@ export function BackgroundMusicProvider({ children }: { children: ReactNode }) {
     // Initialize audio only on the client side
     audioRef.current = new Audio('/massobeats_lotus.mp3');
     audioRef.current.loop = true;
-    audioRef.current.volume = 0.02;
+    audioRef.current.volume = 0.1;
 
     // Handle visibility change
     const handleVisibilityChange = () => {
@@ -42,7 +41,7 @@ export function BackgroundMusicProvider({ children }: { children: ReactNode }) {
 
   const togglePlay = () => {
     if (audioRef.current) {
-      audioRef.current.volume = 0.02;
+      audioRef.current.volume = 0.1;
       if (isPlaying) {
         audioRef.current.pause();
       } else {
@@ -54,18 +53,9 @@ export function BackgroundMusicProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const play = () => {
-    if (audioRef.current && !isPlaying) {
-      audioRef.current.volume = 0.02;
-      audioRef.current.play().catch(error => {
-        console.log('Error playing background music:', error);
-      });
-      setIsPlaying(true);
-    }
-  };
 
   return (
-    <BackgroundMusicContext.Provider value={{ isPlaying, togglePlay, play }}>
+    <BackgroundMusicContext.Provider value={{ isPlaying, togglePlay }}>
       {children}
     </BackgroundMusicContext.Provider>
   );
