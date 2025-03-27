@@ -8,7 +8,26 @@ import { HallOfPortals } from './portals/HallOfPortals'
 import { useKeyboardControls } from '@/hooks/useKeyboardControls'
 import { isMobile } from '@/utils/mobileDetection'
 
-const PortalsStage = forwardRef<any>((props, ref) => {
+interface PortalParams {
+  username?: string;
+  color?: string;
+  speed?: number;
+  ref?: string;
+  avatar_url?: string;
+  team?: string;
+  speed_x?: number;
+  speed_y?: number;
+  speed_z?: number;
+  rotation_x?: number;
+  rotation_y?: number;
+  rotation_z?: number;
+}
+
+interface PortalsStageProps {
+  portalParams: PortalParams;
+}
+
+const PortalsStage = forwardRef<any, PortalsStageProps>(({ portalParams }, ref) => {
   const { camera } = useThree()
   const controlsRef = useRef<any>(null)
   const [velocity, setVelocity] = useState<Vector3>(new Vector3(0, 0, 0))
@@ -203,7 +222,7 @@ const PortalsStage = forwardRef<any>((props, ref) => {
         ref={controlsRef}
         selector={isMobileDevice ? '#look-area' : undefined}
       />
-      <HallOfPortals />
+      <HallOfPortals portalParams={portalParams} />
   </>)
 })
 
