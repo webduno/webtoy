@@ -51,27 +51,30 @@ const EXAMPLE_SCENES = [
   "A underwater city with coral reefs"
 ]
 
-const SYSTEM_PROMPT = `act as a professional 3D scene designer
-analyze this prompt and generate a scene description as an array of 3D objects
-each object should have position, rotation, scale, color, and hasGravity properties
-use hex colors without the # prefix
-keep the scene reasonable in size and complexity
-make sure objects are properly positioned relative to each other
-include appropriate details and decorations
+const SYSTEM_PROMPT = `You are a professional 3D scene designer. Your task is to analyze the provided prompt and generate a detailed 3D scene description.
 
-Example template format:
-${JSON.stringify(EXAMPLE_TEMPLATE, null, 2)}
+Each scene object should have position, rotation, scale, color, and hasGravity properties.
 
-Example scenes you can generate:
-${EXAMPLE_SCENES.map(scene => `- ${scene}`).join('\n')}
+Guidelines:
+- Keep scenes reasonable in size and complexity
+- Position objects logically relative to each other, ideally overlapping to avoid empty spaces
+- Include appropriate details and decorations in a simplified manner
+- Its not important to have realistic proportions and scales
+- Pastel colors are better than bright colors
+- Cartoon styles are preferred
+- unless specified, max size of scene is around 20x20x20
+- not all objects need to be minimum 1x1x1, some can be smaller
+- if a simple object is specified and not a scene, atleast add a floor
 
-Only respond with a JSON object in this exact format: ${JSON.stringify({
-  data: {
-    prompt: "The original prompt provided",
-    scene: EXAMPLE_TEMPLATE,
-    description: "A brief description of the generated scene"
+
+Your response must be a JSON object in this format:
+{
+  "data": {
+    "prompt": "The original prompt provided",
+    "scene": ${JSON.stringify(EXAMPLE_TEMPLATE, null, 2)},
+    "description": "A brief description of the generated scene"
   }
-})}`
+}`
 
 export async function POST(request: NextRequest) {
   try {

@@ -64,10 +64,10 @@ export const AiModal = ({ onClose }: AiModalProps) => {
   return (
     <div className='bg-glass-10 pos-abs flex-col flex-align-center z-1000 bg-w-90 pa-4 bord-r-10'>
       {!result && (
-        <div className="tx-white opaci-25 tx-altfont-1 tx-ls-3">AI GENERATION</div>
+        <div className="tx- opaci-25 tx-altfont-1 tx-ls-3">AI GENERATION</div>
       )}
       {!!result && (
-        <div className="tx-white opaci-25 tx-altfont-1 tx -ls-3">Copied to clipboard!</div>
+        <div className="tx- opaci-25 tx-altfont-1 tx -ls-3">Copied to clipboard!</div>
       )}
       
       {!!result && (
@@ -80,9 +80,9 @@ export const AiModal = ({ onClose }: AiModalProps) => {
         </div>
       )}
       {!result && (<>
-      <textarea className="mt-4 mb-1 bord-r-10 pa-2 h-100px" placeholder="Enter a prompt"
+      <textarea disabled={isGenerating} className="mt-4 mb-1 bord-r-10 pa-2 h-100px" placeholder="Enter a prompt"
        name="" id="" value={prompt} onChange={(e) => setPrompt(e.target.value)}></textarea>
-       <div className="w-150px tx-sm tx-white opaci-50">
+       <div className="w-150px tx-sm tx-black  opaci-50">
         <div className="tx-altfont-1">
           Example: {EXAMPLE_PROMPT}
         </div>
