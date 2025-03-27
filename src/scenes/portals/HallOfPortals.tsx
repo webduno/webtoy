@@ -60,7 +60,7 @@ export const formatPortalUrl = (url?: string, params?: PortalParams): string => 
 export type { PortalParams };
 
 export const HallOfPortals = ({ portalParams }: HallOfPortalsProps) => {
-  console.log("portalParams?.ref", portalParams?.ref, formatPortalUrl(portalParams?.ref, portalParams))
+  // console.log("portalParams?.ref", portalParams?.ref, formatPortalUrl(portalParams?.ref, portalParams))
   return (
     <group position={[0, 0, 0]} castShadow receiveShadow>
       <Lighting />

@@ -8,11 +8,9 @@ import { useBackgroundMusic } from '@/contexts/BackgroundMusicContext';
 export function RoomButtons({myip}: {myip: string}) {
   const { data: session } = useSession();
   const { togglePlay } = useBackgroundMusic();
-  const [loggedPlayer, setLoggedPlayer] = useState<{id:string, name:string} | null>({
-    id:myip,
-    name: myip
-  });
+  const [loggedPlayer, setLoggedPlayer] = useState<{id:string, name:string} | null>(null);
   const [loading, setLoading] = useState<string | null>(null);
+  const [username, setUsername] = useState('');
 
   const playClickSound = () => {
     const audio = new Audio('/click47.wav');
@@ -38,9 +36,13 @@ export function RoomButtons({myip}: {myip: string}) {
   }
 
   const handleNavigation = (destination: string) => {
+    if (destination === 'portals' && !username && !loggedPlayer?.name) {
+      alert('Please enter a username first');
+      return;
+    }
     playClickSound();
     setLoading(destination);
-    togglePlay(); // Use the context's play function
+    togglePlay();
   };
 
   return (<>
@@ -107,23 +109,11 @@ export function RoomButtons({myip}: {myip: string}) {
           {loading === 'multi' ? 'Loading...' : (
             <>Multi <br /> Player</>
           )}
-          <div style={{
-            color: 'white',
-            textShadow: '0 0 10px rgba(0, 0, 0, 0.75)',
-            fontSize: '20px',
-            textAlign: 'center',
-          }}>
-            {/* ({loggedPlayer?.name}) */}
-          </div>
         </button>
       </Link>
     </div>
 
-
-
-
-
-    <div>
+    <div className='flex-col gap-2'>
       {/* login with google button */}
       <button
         onClick={loginWithGoogle}
@@ -132,7 +122,6 @@ export function RoomButtons({myip}: {myip: string}) {
         style={{
           backgroundColor: '#FFA500', // gamified orange
           border: 'none',
-
         }}
       >
         <div className='bg-white bord-r-100 pt-1 px-1'>
@@ -147,19 +136,33 @@ export function RoomButtons({myip}: {myip: string}) {
       </button>
     </div>
 
+    <hr className='w-100 opaci-50' />
 
-
-    
-
-
-
-
-    <Link 
+    <div className='flex-col gap-2'>
+      <input 
+        type="text" 
+        placeholder='Username' 
+        className='w-150px bord-r-10 py-2 tx-center border-white'
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+      />
+      <Link 
         style={{
           textDecoration: 'none',
           color: 'inherit',
+          pointerEvents: (!username && !loggedPlayer?.name) ? 'none' : 'auto',
         }} 
-        href={`/portals`}
+        href={`/portals?${new URLSearchParams({
+          username: loggedPlayer?.name || username || '',
+          color: '%2300B30F',
+          speed: '1',
+          speed_x: '0.5',
+          speed_y: '0.5',
+          speed_z: '0.5',
+          rotation_x: '0',
+          rotation_y: '0',
+          rotation_z: '0'
+        }).toString()}`}
         onClick={() => handleNavigation('portals')}
       >
         <button
@@ -168,9 +171,9 @@ export function RoomButtons({myip}: {myip: string}) {
             fontSize: '1.1rem',
             fontWeight: 'bold',
             color: '#ffffff',
-            backgroundColor: '#00B30F',
+            backgroundColor: (!username && !loggedPlayer?.name) ? '#666666' : '#00B30F',
             border: 'none',
-            cursor: loading === 'portals' ? 'wait' : 'pointer',
+            cursor: (!username && !loggedPlayer?.name) ? 'not-allowed' : loading === 'portals' ? 'wait' : 'pointer',
             transition: 'all 0.2s ease',
             boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
             textTransform: 'uppercase',
@@ -178,21 +181,14 @@ export function RoomButtons({myip}: {myip: string}) {
             opacity: loading === 'portals' ? 0.7 : 1,
           }}
           className="room-select-button bord-r-100"
-          disabled={loading !== null}
+          disabled={loading !== null || (!username && !loggedPlayer?.name)}
         >
           {loading === 'portals' ? 'Loading...' : (
-            <>Portals</>
+            <>Enter <br />Portals</>
           )}
-          <div style={{
-            color: 'white',
-            textShadow: '0 0 10px rgba(0, 0, 0, 0.75)',
-            fontSize: '20px',
-            textAlign: 'center',
-          }}>
-            {/* ({loggedPlayer?.name}) */}
-          </div>
         </button>
       </Link>
-   </>
+    </div>
+    </>
   );
 }

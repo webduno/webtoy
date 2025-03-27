@@ -1,5 +1,6 @@
 "use client"
 import { useRef, useState, useEffect } from 'react'
+import { useSearchParams } from 'next/navigation'
 import styles from '../app/portals/page.module.css'
 import Logo from '@/components/Logo'
 import SettingsModal from '@/components/SettingsModal'
@@ -27,27 +28,30 @@ interface PortalParams {
 
 export default function PortalsPage() {
   const [portalParams, setPortalParams] = useState<PortalParams>({});
+  const searchParams = useSearchParams();
 
   useEffect(() => {
-    // Parse URL parameters
-    const searchParams = new URLSearchParams(window.location.search);
-    
+    console.log("searchParams", searchParams.get("color"))
     const params: PortalParams = {
       username: searchParams.get('username') || undefined,
       color: searchParams.get('color') || undefined,
-      speed: searchParams.get('speed') ? parseFloat(searchParams.get('speed')!) : undefined,
+      speed: searchParams.get('speed') ? Number(searchParams.get('speed')) : undefined,
       ref: searchParams.get('ref') || undefined,
       avatar_url: searchParams.get('avatar_url') || undefined,
       team: searchParams.get('team') || undefined,
-      speed_x: searchParams.get('speed_x') ? parseFloat(searchParams.get('speed_x')!) : undefined,
-      speed_y: searchParams.get('speed_y') ? parseFloat(searchParams.get('speed_y')!) : undefined,
-      speed_z: searchParams.get('speed_z') ? parseFloat(searchParams.get('speed_z')!) : undefined,
-      rotation_x: searchParams.get('rotation_x') ? parseFloat(searchParams.get('rotation_x')!) : undefined,
-      rotation_y: searchParams.get('rotation_y') ? parseFloat(searchParams.get('rotation_y')!) : undefined,
-      rotation_z: searchParams.get('rotation_z') ? parseFloat(searchParams.get('rotation_z')!) : undefined,
+      speed_x: searchParams.get('speed_x') ? Number(searchParams.get('speed_x')) : undefined,
+      speed_y: searchParams.get('speed_y') ? Number(searchParams.get('speed_y')) : undefined,
+      speed_z: searchParams.get('speed_z') ? Number(searchParams.get('speed_z')) : undefined,
+      rotation_x: searchParams.get('rotation_x') ? Number(searchParams.get('rotation_x')) : undefined,
+      rotation_y: searchParams.get('rotation_y') ? Number(searchParams.get('rotation_y')) : undefined,
+      rotation_z: searchParams.get('rotation_z') ? Number(searchParams.get('rotation_z')) : undefined,
     };
+
+    // Log the parsed parameters for debugging
+    console.log('Parsed URL parameters:', params);
+    
     setPortalParams(params);
-  }, []);
+  }, [searchParams]);
 
   return (
     <>

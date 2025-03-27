@@ -7,6 +7,7 @@ interface PortalGroupProps {
 }
 
 export const PortalGroup = ({ portalParams }: PortalGroupProps) => {
+  // console.log( formatPortalUrl("https://portal.pieter.com/", portalParams))
   return (
     <>
       <SinglePortal position={[-11.25, 0, 16]} rotation={[0, Math.PI / 2, 0]}
