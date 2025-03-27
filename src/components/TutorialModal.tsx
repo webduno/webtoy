@@ -11,6 +11,10 @@ export default function TutorialModal({ onClose }: TutorialModalProps) {
         style={{color:"#00ff00"}}>
         →
       </div>
+      <div className='pos-abs tx-shadow-5 top-0 right-0 mr-100 mt-8 pt-4 tx-re d shake-1 tx-xl'
+        style={{color:"#ff00ff"}}>
+        →
+      </div>
       
       <div className="pos-abs tx-shadow-5 text-center bg-b-50 p-4 tx-white bord-r-10 pa-4 w-300px">
         <div 
@@ -35,17 +39,21 @@ export default function TutorialModal({ onClose }: TutorialModalProps) {
           </div>
         </div>
         
-        <div className='tx-lgx tx-altfont-1 mb-0 pb-1 '>
-          Start by creating blocks, click <span className='tx-altfont-2'style={{color: '#00ff00'}}>&quot;Add New&quot;</span> and use the controls to move or rotate them.
+        <div className='tx-lg tx-altfont-1 mb-0 pb-1 pt-2 flex-wrap'>
+        <div>Start with a</div>
+        <span className='tx-altfont-2 pl-2'style={{color: '#ff00ff'}}>&quot;Template&quot;</span>
+        <div className='w-100 tx-center py-2'>or</div>
+          Click <span className='tx-altfont-2  px-2'style={{color: '#00ff00'}}>&quot;Add New&quot;</span>
+          <div>to build your own scene.</div>
         </div>
-        <div className='flex-row flex-justify-around gap-2'>
+        {/* <div className='flex-row flex-justify-around gap-2'>
           <div className='tx- border-white bord-r-10 pa-1'>Grab 🚶‍♂️</div>
           <div className='tx- border-white bord-r-10 pa-1'>Rotate 🔄</div>
           <div className='tx- border-white bord-r-10 pa-1'>Scale 📏</div>
-        </div>
-        <hr className='opaci-50 my-4 w-100' />
+        </div> */}
+        <hr className='opaci-50 my-6 w-100' />
         <div className='tx-mdl tx-altfont-1 flex-wrap'>
-          <div>And then press play to</div>
+          <div className='w-100 tx-center'>Then press play to</div>
           <div>start the game!</div>
           <div className='tx- border-white ml-2 mt-1 bord-r-10 pa-1'>Play 🎮</div>
         </div>

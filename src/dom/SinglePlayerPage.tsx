@@ -19,7 +19,7 @@ export default function SinglePlayerPage() {
   const [isPlaying, setIsPlaying] = useState<boolean>(false)
   const [playPosition, setPlayPosition] = useState<[number, number, number]>([0, 0, 0])
   const [templates, setTemplates] = useState<{name: string, description: string}[]>(
-    DEFAULT_TEMPLATE_LIST.slice(0, 4)
+    DEFAULT_TEMPLATE_LIST
   )
   const [hasObjects, setHasObjects] = useState<boolean>(false)
   const [showTutorial, setShowTutorial] = useState<boolean>(true)
@@ -37,12 +37,11 @@ export default function SinglePlayerPage() {
   }
 
   const handleOpenSettings = () => {
-      setShowSettings(!showSettings)
-      setShowTemplates(false)
-      setShowAiModal(false)
+    setShowSettings(!showSettings)
+    setShowTemplates(false)
+    setShowAiModal(false)
+    setShowTutorial(false)
   }
-
-
 
   const handleOpenTemplates = () => {
     setShowTemplates(true)

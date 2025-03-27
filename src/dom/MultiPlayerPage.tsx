@@ -105,6 +105,7 @@ export default function MultiPlayerPage() {
   const handleOpenSettings = () => {
     setShowSettings(!showSettings)
     setShowTemplates(false)
+    setShowTutorial(false)
   }
   const handleOpenTemplates = () => {
     setShowTemplates(true)
