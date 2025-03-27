@@ -18,6 +18,12 @@ const PortalsStage = forwardRef<any>((props, ref) => {
   const smoothFactor = 0.1
   const frictionFactor = 0.0
 
+  // Mobile touch controls state
+  const [touchMove, setTouchMove] = useState<{x: number, y: number}>({x: 0, y: 0})
+  const [touchJump, setTouchJump] = useState(false)
+  const joystickActive = useRef(false)
+  const lastTouchPosition = useRef<{x: number, y: number}>({x: 0, y: 0})
+
   // Setup keyboard controls
   const { moveForward, moveBackward, moveLeft, moveRight, jump } = useKeyboardControls()
   const [moveUp, setMoveUp] = useState(false)
@@ -64,15 +70,110 @@ const PortalsStage = forwardRef<any>((props, ref) => {
     }
   }, [camera])
 
+  // Mobile touch controls setup
+  useEffect(() => {
+    if (!isMobileDevice) return
+    
+    const joystickContainer = document.getElementById('joystick-container')
+    const jumpButton = document.getElementById('jump-button')
+    
+    if (!joystickContainer || !jumpButton) return
+    
+    // Joystick handlers
+    const handleJoystickStart = (e: TouchEvent) => {
+      joystickActive.current = true
+      const touch = e.touches[0]
+      const rect = joystickContainer.getBoundingClientRect()
+      lastTouchPosition.current = {
+        x: touch.clientX,
+        y: touch.clientY
+      }
+      e.preventDefault()
+    }
+    
+    const handleJoystickMove = (e: TouchEvent) => {
+      if (!joystickActive.current) return
+      const touch = e.touches[0]
+      const rect = joystickContainer.getBoundingClientRect()
+      const centerX = rect.left + rect.width / 2
+      const centerY = rect.top + rect.height / 2
+      
+      // Calculate joystick displacement
+      const dx = (touch.clientX - centerX) / (rect.width / 2)
+      const dy = (touch.clientY - centerY) / (rect.height / 2)
+      
+      // Normalize and clamp values to -1 to 1
+      const magnitude = Math.sqrt(dx * dx + dy * dy)
+      const normalizedX = magnitude > 1 ? dx / magnitude : dx
+      const normalizedY = magnitude > 1 ? dy / magnitude : dy
+      
+      setTouchMove({
+        x: normalizedX,
+        y: normalizedY
+      })
+      
+      e.preventDefault()
+    }
+    
+    const handleJoystickEnd = (e: TouchEvent) => {
+      joystickActive.current = false
+      setTouchMove({x: 0, y: 0})
+      e.preventDefault()
+    }
+    
+    // Jump button handlers
+    const handleJumpStart = (e: TouchEvent) => {
+      setTouchJump(true)
+      e.preventDefault()
+    }
+    
+    const handleJumpEnd = (e: TouchEvent) => {
+      setTouchJump(false)
+      e.preventDefault()
+    }
+    
+    // Add event listeners
+    joystickContainer.addEventListener('touchstart', handleJoystickStart)
+    joystickContainer.addEventListener('touchmove', handleJoystickMove)
+    joystickContainer.addEventListener('touchend', handleJoystickEnd)
+    joystickContainer.addEventListener('touchcancel', handleJoystickEnd)
+    
+    jumpButton.addEventListener('touchstart', handleJumpStart)
+    jumpButton.addEventListener('touchend', handleJumpEnd)
+    jumpButton.addEventListener('touchcancel', handleJumpEnd)
+    
+    // Cleanup
+    return () => {
+      joystickContainer.removeEventListener('touchstart', handleJoystickStart)
+      joystickContainer.removeEventListener('touchmove', handleJoystickMove)
+      joystickContainer.removeEventListener('touchend', handleJoystickEnd)
+      joystickContainer.removeEventListener('touchcancel', handleJoystickEnd)
+      
+      jumpButton.removeEventListener('touchstart', handleJumpStart)
+      jumpButton.removeEventListener('touchend', handleJumpEnd)
+      jumpButton.removeEventListener('touchcancel', handleJumpEnd)
+    }
+  }, [isMobileDevice])
+
   // Handle movement
   useFrame(() => {
     if (!camera || !controlsRef.current) return
 
     // Calculate movement direction based on camera rotation
     const direction = new Vector3()
-    const frontVector = new Vector3(0, 0, moveBackward ? 1 : moveForward ? -1 : 0)
-    const sideVector = new Vector3(moveLeft ? 1 : moveRight ? -1 : 0, 0, 0)
-    const upVector = new Vector3(0, moveUp ? 1 : moveDown ? -1 : 0, 0)
+    let frontVector, sideVector, upVector
+
+    if (isMobileDevice) {
+      // Mobile controls
+      frontVector = new Vector3(0, 0, touchMove.y)
+      sideVector = new Vector3(-touchMove.x, 0, 0)
+      upVector = new Vector3(0, touchJump ? 1 : 0, 0)
+    } else {
+      // Desktop controls
+      frontVector = new Vector3(0, 0, moveBackward ? 1 : moveForward ? -1 : 0)
+      sideVector = new Vector3(moveLeft ? 1 : moveRight ? -1 : 0, 0, 0)
+      upVector = new Vector3(0, moveUp ? 1 : moveDown ? -1 : 0, 0)
+    }
     
     direction
       .subVectors(frontVector, sideVector)
@@ -116,6 +217,44 @@ const PortalsStage = forwardRef<any>((props, ref) => {
         selector={isMobileDevice ? '#look-area' : undefined}
       />
       <HallOfPortals />
+      {/* Mobile Controls */}
+      {isMobileDevice && (
+        <>
+          {/* Movement joystick */}
+          <div id="joystick-container" style={{
+            position: 'absolute',
+            left: '30px',
+            bottom: '30px',
+            width: '120px',
+            height: '120px',
+            borderRadius: '60px',
+            backgroundColor: 'rgba(0, 0, 0, 0.3)',
+            touchAction: 'none',
+            zIndex: 1000
+          }} />
+          
+          {/* Jump button */}
+          <div id="jump-button" style={{
+            position: 'absolute',
+            right: '30px',
+            bottom: '30px',
+            width: '80px',
+            height: '80px',
+            borderRadius: '40px',
+            backgroundColor: 'rgba(0, 0, 0, 0.3)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            color: 'white',
+            fontFamily: 'Arial, sans-serif',
+            fontSize: '16px',
+            touchAction: 'none',
+            zIndex: 1000
+          }}>
+            JUMP
+          </div>
+        </>
+      )}
   </>)
 })
 
