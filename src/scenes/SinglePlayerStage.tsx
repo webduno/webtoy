@@ -17,8 +17,8 @@ export interface SinglePlayerStageHandle {
 
 const SinglePlayerStage = forwardRef<SinglePlayerStageHandle, {}>((props, ref) => {
   const sceneRef = useRef<SinglePlayerSceneHandle>(null)
-  const [isAdding, setIsAdding] = useState(false)
   const [selectedObject, setSelectedObject] = useState<Object3D | null>(null)
+  const [isAdding, setIsAdding] = useState(false)
   const [transformMode, setTransformMode] = useState<TransformMode>('move')
   const [color, setColor] = useState<string>('#777777')
   const [isAutorotating, setIsAutorotating] = useState(false)
@@ -53,6 +53,8 @@ const SinglePlayerStage = forwardRef<SinglePlayerStageHandle, {}>((props, ref) =
     resetScene: () => {
       // Clear all objects in the scene
       sceneRef.current?.resetScene();
+      setSelectedObject(null);
+      setIsAdding(false);
     },
     copyContent: () => {
       // Copy scene content to localStorage or state
@@ -93,8 +95,9 @@ const SinglePlayerStage = forwardRef<SinglePlayerStageHandle, {}>((props, ref) =
         }
       }
       
-      // Clear selection after pasting
+      // Clear selection and adding state after pasting
       setSelectedObject(null);
+      setIsAdding(false);
     },
     autorotate: () => {
       // Toggle autorotation of the scene
