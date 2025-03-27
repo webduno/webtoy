@@ -29,6 +29,7 @@ export const AiModal = ({ onClose }: AiModalProps) => {
   const [isGenerating, setIsGenerating] = useState<boolean>(false)
   const [clipbloardValue, clipbloard__do] = useCopyToClipboard()
   const [result, setResult] = useState<any>(null)
+  const [error, setError] = useState<string | null>(null)
 
   const handleGenerate = async () => {
     if (prompt === '') {
@@ -36,6 +37,7 @@ export const AiModal = ({ onClose }: AiModalProps) => {
       return
     }
     setIsGenerating(true)
+    setError(null)
 
     try {
       const response = await getCompletionFromAPI(prompt) as CompletionResponse
@@ -57,17 +59,22 @@ export const AiModal = ({ onClose }: AiModalProps) => {
 
     } catch (error) {
       console.error("Error generating scene:", error)
+      setError("Failed to generate scene. Please try again.")
+    } finally {
+      setIsGenerating(false)
     }
-    setIsGenerating(false)
   } 
 
   return (
     <div className='bg-glass-10 pos-abs flex-col flex-align-center z-1000 bg-w-90 pa-4 bord-r-10'>
-      {!result && (
+      {!result && !error && (
         <div className="tx- opaci-25 tx-altfont-1 tx-ls-3">AI GENERATION</div>
       )}
       {!!result && (
         <div className="tx- opaci-25 tx-altfont-1 tx -ls-3">Copied to clipboard!</div>
+      )}
+      {!!error && (
+        <div className="tx-red opaci-75 tx-altfont-1">{error}</div>
       )}
       
       {!!result && (

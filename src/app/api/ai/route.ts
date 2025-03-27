@@ -3,6 +3,10 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
+// Configure longer timeout
+export const runtime = 'edge';
+export const maxDuration = 60; // Set timeout to 60 seconds
+
 // Types
 type Data = {
   choices?: { text: string }[];

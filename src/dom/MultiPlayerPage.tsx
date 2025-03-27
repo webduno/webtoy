@@ -11,6 +11,7 @@ import { DEFAULT_TEMPLATE_LIST } from '@/scripts/sceneTemplates'
 import SettingsModal from '@/components/SettingsModal'
 import TemplatesModal from '@/components/TemplatesModal'
 import TutorialModal from '@/components/TutorialModal'
+import { AiModal } from './AiModal'
 
 interface Friend {
   id: string;
@@ -86,6 +87,7 @@ export default function MultiPlayerPage() {
     DEFAULT_TEMPLATE_LIST
   )
   const [showTutorial, setShowTutorial] = useState<boolean>(true)
+  const [showAiModal, setShowAiModal] = useState<boolean>(false)
 
   // Check for objects when component mounts
   useEffect(() => {
@@ -106,10 +108,15 @@ export default function MultiPlayerPage() {
     setShowSettings(!showSettings)
     setShowTemplates(false)
     setShowTutorial(false)
+    setShowAiModal(false)
   }
   const handleOpenTemplates = () => {
     setShowTemplates(true)
     setShowSettings(false)
+  }
+  const handleOpenAI = () => {
+    setShowSettings(false)
+    setShowAiModal(true)
   }
   const handleLoadTemplate = (templateName: string) => {
     // Here you would implement the loading of the specific template
@@ -177,6 +184,11 @@ export default function MultiPlayerPage() {
 
       {!isPlaying && (
         <>
+          {showAiModal && (
+            <AiModal
+              onClose={() => setShowAiModal(false)}
+            />
+          )}
           {showSettings && (
             <SettingsModal
               onClose={() => setShowSettings(false)}
@@ -187,6 +199,7 @@ export default function MultiPlayerPage() {
               onPasteContent={handlePasteContent}
               onAutorotate={handleAutorotate}
               onOpenTemplates={handleOpenTemplates}
+              onOpenAI={handleOpenAI}
             />
           )}
           
