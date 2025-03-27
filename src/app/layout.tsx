@@ -17,6 +17,25 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" style={{ margin: 0, padding: 0 }}>
+      <a target="_blank"
+       href="https://jam.pieter.com" 
+       style={{
+        fontFamily: 'system-ui, sans-serif',
+         position: 'fixed',
+         bottom: -1,
+         right: -1,
+         padding: '7px', 
+         fontSize: '14px', 
+         fontWeight: 'bold', 
+         background: '#fff', 
+         color: '#000', 
+         textDecoration: 'none',
+           borderTopLeftRadius: '12px', 
+          zIndex: 10000,
+           border: '1px solid #fff'}}>
+        🎉 Vibe Jam 2025
+      </a>
+
       <body className={`${inter.className} flex-col gap-2 flex-justify-center flex-align-center`}
        style={{ margin: 0, padding: 0,
       //  background: 'radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%)',

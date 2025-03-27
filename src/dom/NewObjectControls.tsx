@@ -66,16 +66,16 @@ export default function NewObjectControls({
   }, [setTransformMode]);
 
   return (
-    <div style={{ 
+    <div className='border-white bg-w-50' style={{ 
       zIndex: 1000, 
       position: 'absolute', 
-      bottom: '20px', 
-      right: '20px',
+      bottom: '40px', 
+      right: '10px',
       display: 'flex',
       flexDirection: 'column',
       gap: '0px',
       padding: '10px',
-      backgroundColor: 'rgba(255, 255, 255, 0.1)',
+      // backgroundColor: 'rgba(255, 255, 255, 0.1)',
       backdropFilter: 'blur(5px)',
       borderRadius: '8px',
     }}>
