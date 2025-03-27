@@ -107,6 +107,9 @@ const PortalsStage = forwardRef<any>((props, ref) => {
         
         // Clamp vertical rotation to prevent over-rotation
         camera.rotation.x = Math.max(-Math.PI/2, Math.min(Math.PI/2, camera.rotation.x))
+        
+        // Prevent any z-axis rotation (dutch angle)
+        camera.rotation.z = 0
       }
       
       lastTouchPosition.current = {
