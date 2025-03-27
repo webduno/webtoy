@@ -103,13 +103,14 @@ const PortalsStage = forwardRef<any>((props, ref) => {
       if (isDragging && camera) {
         // Rotate camera based on touch movement
         camera.rotation.y -= dx * 0.01
-        camera.rotation.x -= dy * 0.01
+        camera.position.y -= dy * 0.01
+        // camera.rotation.x = 0
         
         // Clamp vertical rotation to prevent over-rotation
-        camera.rotation.x = Math.max(-Math.PI/2, Math.min(Math.PI/2, camera.rotation.x))
+        // camera.rotation.x = Math.max(-Math.PI/2, Math.min(Math.PI/2, camera.rotation.x))
         
         // Prevent any z-axis rotation (dutch angle)
-        camera.rotation.z = 0
+        // camera.rotation.x = 0
       }
       
       lastTouchPosition.current = {
