@@ -28,6 +28,7 @@ interface PortalParams {
 
 export default function PortalsPage() {
   const [portalParams, setPortalParams] = useState<PortalParams>({});
+  const [isLoading, setIsLoading] = useState(false);
   const searchParams = useSearchParams();
 
   useEffect(() => {
@@ -55,9 +56,35 @@ export default function PortalsPage() {
 
   return (
     <>
+      {isLoading && (
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            backgroundColor: 'rgba(0, 0, 0, 0.7)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 9999,
+          }}
+        >
+          <div
+            style={{
+              color: 'white',
+              fontSize: '24px',
+              textAlign: 'center',
+            }}
+          >
+            Loading...
+          </div>
+        </div>
+      )}
       <SimpleScene cameraSettings={{ position: [-0, 1, 28], fov: 100 }} 
       noLights>
-        <PortalsStage portalParams={portalParams} />
+        <PortalsStage portalParams={portalParams} onPortalCollision={() => setIsLoading(true)} />
       </SimpleScene>
       <Logo />
       <div 

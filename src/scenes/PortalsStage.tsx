@@ -25,13 +25,15 @@ interface PortalParams {
 
 interface PortalsStageProps {
   portalParams: PortalParams;
+  onPortalCollision: () => void;
 }
 
-const PortalsStage = forwardRef<any, PortalsStageProps>(({ portalParams }, ref) => {
+const PortalsStage = forwardRef<any, PortalsStageProps>(({ portalParams, onPortalCollision }, ref) => {
   const { camera } = useThree()
   const controlsRef = useRef<any>(null)
   const [velocity, setVelocity] = useState<Vector3>(new Vector3(0, 0, 0))
   const [isMobileDevice, setIsMobileDevice] = useState(false)
+  const [isPaused, setIsPaused] = useState(false)
   const moveSpeed = 0.5
   const maxVelocity = 2
   const smoothFactor = 0.1
@@ -163,7 +165,7 @@ const PortalsStage = forwardRef<any, PortalsStageProps>(({ portalParams }, ref) 
 
   // Handle movement
   useFrame(() => {
-    if (!camera || !controlsRef.current) return
+    if (!camera || !controlsRef.current || isPaused) return
 
     // Calculate movement direction based on camera rotation
     const direction = new Vector3()
@@ -222,7 +224,10 @@ const PortalsStage = forwardRef<any, PortalsStageProps>(({ portalParams }, ref) 
         ref={controlsRef}
         selector={isMobileDevice ? '#look-area' : undefined}
       />
-      <HallOfPortals portalParams={portalParams} />
+      <HallOfPortals portalParams={portalParams} onPortalCollision={() => {
+        setIsPaused(true);
+        onPortalCollision();
+      }} />
   </>)
 })
 

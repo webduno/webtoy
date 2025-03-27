@@ -10,13 +10,15 @@ export const SinglePortal = ({
   torusMaterial = <meshStandardMaterial color="#ffffff" emissive="#444444" />,
   position, 
   rotation,
-  url 
+  url,
+  onCollision
 }: { 
   portalMaterial?: any; 
   torusMaterial?: any;
   position: [number, number, number]; 
   rotation: [number, number, number];
   url?: string;
+  onCollision?: () => void;
 }) => {
   const router = useRouter();
   const { camera } = useThree();
@@ -33,6 +35,9 @@ export const SinglePortal = ({
 
       if (distance < collisionRadius) {
         console.log("portal clicked", url)
+        if (onCollision) {
+          onCollision();
+        }
         router.push(url);
       }
     };
@@ -40,7 +45,7 @@ export const SinglePortal = ({
     // Check for collision every frame
     const interval = setInterval(checkCollision, 100);
     return () => clearInterval(interval);
-  }, [camera, url, router]);
+  }, [camera, url, router, onCollision]);
 
   return (
     <group ref={portalRef} position={position} rotation={rotation}>

@@ -28,6 +28,7 @@ interface PortalParams {
 
 interface HallOfPortalsProps {
   portalParams: PortalParams;
+  onPortalCollision: () => void;
 }
 
 export const formatPortalUrl = (url?: string, params?: PortalParams): string => {
@@ -66,7 +67,7 @@ if (url?.includes("/multi") || url?.includes("/single")) {
 
 export type { PortalParams };
 
-export const HallOfPortals = ({ portalParams }: HallOfPortalsProps) => {
+export const HallOfPortals = ({ portalParams, onPortalCollision }: HallOfPortalsProps) => {
   // console.log("portalParams?.ref", portalParams?.ref, formatPortalUrl(portalParams?.ref, portalParams))
   return (
     <group position={[0, 0, 0]} castShadow receiveShadow>
@@ -78,7 +79,7 @@ export const HallOfPortals = ({ portalParams }: HallOfPortalsProps) => {
       <Planters />
       <Columns />
       <MainTorai />
-      <PortalGroup portalParams={portalParams} />
+      <PortalGroup portalParams={portalParams} onPortalCollision={onPortalCollision} />
 
       <group scale={[0.75, 0.75, 0.75]} position={[0, 0, 33]}>
         <SinglePortal
@@ -86,6 +87,7 @@ export const HallOfPortals = ({ portalParams }: HallOfPortalsProps) => {
           rotation={[0, Math.PI, 0]}
           portalMaterial={<meshStandardMaterial color="#ff00ff" emissive="#ff00ff" emissiveIntensity={0.5} />}
           url={formatPortalUrl(portalParams?.ref, portalParams)}
+          onCollision={onPortalCollision}
         />
       </group>
 
