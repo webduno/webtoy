@@ -36,10 +36,18 @@ const API_CONFIG = {
 }
 
 const EXAMPLE_TEMPLATE = [
-  {"position":[0,0,0],"rotation":[0,0,0],"scale":[2,2,2],"color":"ffffff","hasGravity":false}, // Main structure
-  {"position":[0,0,0],"rotation":[0,0,0],"scale":[5,0.1,5],"color":"00ff00","hasGravity":false}, // Ground
-  {"position":[0,1,0],"rotation":[0,0,0],"scale":[1.5,1.5,1.5],"color":"ff9900","hasGravity":false}, // Roof
-  {"position":[0,0,0.5],"rotation":[0,0,0],"scale":[0.5,1,0.5],"color":"333333","hasGravity":false} // Door
+  // Base/ground
+  {"position":[0,0,0],"rotation":[0,0,0],"scale":[20,0.1,20],"color":"a3a3a3","hasGravity":false},
+  // Main house body
+  {"position":[0,2,0],"rotation":[0,0,0],"scale":[8,4,6],"color":"e6d5ac","hasGravity":false},
+  // Roof
+  {"position":[0,5,0],"rotation":[0,0,0],"scale":[9,2,7],"color":"8b4513","hasGravity":false},
+  // Door
+  {"position":[0,1.5,3.1],"rotation":[0,0,0],"scale":[1.5,3,0.2],"color":"8b4513","hasGravity":false},
+  // Left window
+  {"position":[-2,2.5,3.1],"rotation":[0,0,0],"scale":[1.5,1.5,0.1],"color":"87ceeb","hasGravity":false},
+  // Right window
+  {"position":[2,2.5,3.1],"rotation":[0,0,0],"scale":[1.5,1.5,0.1],"color":"87ceeb","hasGravity":false}
 ]
 
 const EXAMPLE_SCENES = [
@@ -59,17 +67,47 @@ const SYSTEM_PROMPT = `You are a professional 3D scene designer. Your task is to
 
 Each scene object should have position, rotation, scale, color, and hasGravity properties.
 
-Guidelines:
-- Keep scenes reasonable in size and complexity
-- Position objects logically relative to each other, ideally overlapping to avoid empty spaces
-- Include appropriate details and decorations in a simplified manner
-- Its not important to have realistic proportions and scales
-- Pastel colors are better than bright colors
-- Cartoon styles are preferred
-- unless specified, max size of scene is around 20x20x20
-- not all objects need to be minimum 1x1x1, some can be smaller
-- if a simple object is specified and not a scene, atleast add a floor
+Core Guidelines:
+- Always start with a ground/base plane unless the scene is in space
+- Position is relative to center (0,0,0), with Y being up
+- Scale uses [width, height, depth] format
+- Colors should be hex codes without #
+- Scene size typically maxes at 20x20x20 unless specified
+- Smaller decorative elements can be below 1x1x1
 
+Object-Specific Guidelines:
+For Buildings:
+- Walls should be tall (3-4 units)
+- Doors should be human-proportional (2-3 units tall)
+- Windows at eye level
+- Roofs should extend beyond walls
+
+For Natural Objects:
+- Trees: taller than wide, with distinct trunk and foliage
+- Rocks: irregular scales, earth-toned colors
+- Water: flat planes with translucent blues
+- Mountains: wide bases tapering to peaks
+
+For Vehicles/Machines:
+- Clear distinction between body and components
+- Proper wheel/wing placement
+- Realistic proportions relative to human scale
+
+For Characters/Creatures:
+- Head-to-body proportions maintained
+- Limbs properly positioned
+- Basic features clearly defined
+
+Style Guidelines:
+- make sure objects overlap each other to create a more interesting scene
+- Use natural, pleasing color palettes
+- Prefer pastel or muted colors over bright ones
+- Maintain a cartoon/stylized aesthetic
+- Keep scenes readable and not overcrowded
+- Layer objects for depth and interest
+- Add appropriate environmental details
+- include a minimum of 10 objects in the scene
+- calculate the position of each object to make them intersect each other
 
 Your response must be a JSON object in this format:
 {

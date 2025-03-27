@@ -67,6 +67,13 @@ export const AiModal = ({ onClose }: AiModalProps) => {
 
   return (
     <div className='bg-glass-10 pos-abs flex-col flex-align-center z-1000 bg-w-90 pa-4 bord-r-10'>
+      <div 
+        onClick={onClose}
+        className="pos-abs top-0 right-0 ma-2 tx-lg opaci-50 opaci-chov--75 cursor-pointer"
+        style={{ zIndex: 1001 }}
+      >
+        ✕
+      </div>
       {!result && !error && (
         <div className="tx- opaci-25 tx-altfont-1 tx-ls-3">AI GENERATION</div>
       )}
@@ -175,7 +182,7 @@ const ShowcaseResult = ({result}: {result: any}) => {
   }, [result]);
 
   return (
-    <Canvas camera={{ position: [5, 5, 5] }} shadows >
+    <Canvas camera={{ position: [5, 5, 5] }} shadows style={{borderRadius: '10px'}} >
       <ambientLight intensity={0.75} />
       <pointLight position={[5, 5, 5]} intensity={50} />
       <group ref={sceneRef} />
