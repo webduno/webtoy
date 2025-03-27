@@ -19,9 +19,19 @@ export function BackgroundMusicProvider({ children }: { children: ReactNode }) {
     audioRef.current.loop = true;
     audioRef.current.volume = 0.1;
 
+    // Cleanup function to handle unmounting
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
+  }, []); // Empty dependency array for initialization only
+
+  useEffect(() => {
     // Handle visibility change
     const handleVisibilityChange = () => {
-      if (document.hidden && audioRef.current && isPlaying) {
+      if (document.hidden && audioRef.current) {
         audioRef.current.pause();
         setIsPlaying(false);
       }
@@ -29,15 +39,10 @@ export function BackgroundMusicProvider({ children }: { children: ReactNode }) {
 
     document.addEventListener('visibilitychange', handleVisibilityChange);
 
-    // Cleanup function to handle unmounting
     return () => {
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current = null;
-      }
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
-  }, []);
+  }, []); // Empty dependency array since we don't need any dependencies
 
   const togglePlay = () => {
     if (audioRef.current) {
