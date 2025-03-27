@@ -217,44 +217,6 @@ const PortalsStage = forwardRef<any>((props, ref) => {
         selector={isMobileDevice ? '#look-area' : undefined}
       />
       <HallOfPortals />
-      {/* Mobile Controls */}
-      {isMobileDevice && (
-        <>
-          {/* Movement joystick */}
-          <div id="joystick-container" style={{
-            position: 'absolute',
-            left: '30px',
-            bottom: '30px',
-            width: '120px',
-            height: '120px',
-            borderRadius: '60px',
-            backgroundColor: 'rgba(0, 0, 0, 0.3)',
-            touchAction: 'none',
-            zIndex: 1000
-          }} />
-          
-          {/* Jump button */}
-          <div id="jump-button" style={{
-            position: 'absolute',
-            right: '30px',
-            bottom: '30px',
-            width: '80px',
-            height: '80px',
-            borderRadius: '40px',
-            backgroundColor: 'rgba(0, 0, 0, 0.3)',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            color: 'white',
-            fontFamily: 'Arial, sans-serif',
-            fontSize: '16px',
-            touchAction: 'none',
-            zIndex: 1000
-          }}>
-            JUMP
-          </div>
-        </>
-      )}
   </>)
 })
 
