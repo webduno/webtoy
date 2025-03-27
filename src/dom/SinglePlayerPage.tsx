@@ -75,6 +75,11 @@ export default function SinglePlayerPage() {
     if (!coordinates) {
       return alert("No coordinates provided")
     }
+    //  early return if scene is empty
+    if (!hasObjects) {
+      alert("No objects in scene. Please create some objects first.")
+      return
+    }
 
     try {
       // Parse the coordinates string into an array of numbers
@@ -182,7 +187,7 @@ export default function SinglePlayerPage() {
                 </div>
               </p>
               
-              <p className='tx-lgx tx-altfont-1 '>
+              <p className='tx-lgx tx-altfont-1 mb-0 pb-1 '>
                 Start by creating blocks, click <span className='tx-altfont-2'style={{color: '#00ff00'}}>"Add New"</span> and use the controls to move or rotate them.
               </p>
               <div className='flex-row flex-justify-around gap-2'>
@@ -190,6 +195,12 @@ export default function SinglePlayerPage() {
                 <div className='tx- border-white bord-r-10 pa-1'>Rotate 🔄</div>
                 <div className='tx- border-white bord-r-10 pa-1'>Scale 📏</div>
               </div>
+              <hr className='opaci-50 mt-4 w-100' />
+              <p className='tx-mdl tx-altfont-1 flex-wrap'>
+                <div>And then press play to</div>
+                <div>start the game!</div>
+                <div className='tx- border-white ml-2 mt-1 bord-r-10 pa-1'>Play 🎮</div>
+              </p>
             </div>
           </>}
           <Logo />
