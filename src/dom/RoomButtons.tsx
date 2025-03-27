@@ -148,6 +148,9 @@ export function RoomButtons({myip}: {myip: string}) {
       </button>
     </div>
 
+
+    
+
     <hr className='w-100 opaci-50' />
 
     <div className='flex-col gap-2'>
@@ -196,7 +199,7 @@ export function RoomButtons({myip}: {myip: string}) {
           disabled={loading !== null || (!username && !loggedPlayer?.name)}
         >
           {loading === 'portals' ? 'Loading...' : (
-            <>Enter <br />Portals</>
+            <>Enter<br />Portals</>
           )}
         </button>
       </Link>

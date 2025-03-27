@@ -4,7 +4,7 @@ import { Box } from '@react-three/drei';
 
 export const Floor = () => (
   <>
-    <Box position={[0, -0.5, 0]} scale={[24, 1, 55]} castShadow receiveShadow>
+    <Box position={[0, -0.5, 0]} scale={[24, 1, 56]} castShadow receiveShadow>
       <meshStandardMaterial color="#fffcfa" />
     </Box>
     {[-11, 11].map((x) => (

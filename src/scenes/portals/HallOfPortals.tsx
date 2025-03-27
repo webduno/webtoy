@@ -81,8 +81,14 @@ export const HallOfPortals = ({ portalParams, onPortalCollision }: HallOfPortals
       <MainTorai />
       <PortalGroup portalParams={portalParams} onPortalCollision={onPortalCollision} />
 
-      <group scale={[0.75, 0.75, 0.75]} position={[0, 0, 33]}>
+
+
+
+
+      <group scale={[0.75, 0.75, 0.75]} position={[0, 0, 40]}>
         <SinglePortal
+        title='Go Back'
+        textColor='magenta'
           position={[0, 0, 0]}
           rotation={[0, Math.PI, 0]}
           portalMaterial={<meshStandardMaterial color="#ff00ff" emissive="#ff00ff" emissiveIntensity={0.5} />}
@@ -91,19 +97,27 @@ export const HallOfPortals = ({ portalParams, onPortalCollision }: HallOfPortals
         />
       </group>
 
-      <Box scale={[10, 0.5, 7]} position={[0, 0, 30]}>
+      <Box scale={[10, 0.5, 14]} position={[0, 0, 34]}>
         <meshStandardMaterial color="#ffffff" emissive="#ffffff" emissiveIntensity={0.05} />
       </Box>
+
+
+
+
+
+
 
       <Box scale={[10, 0.75, 5]} position={[0, 3.75, -27]}>
         <meshStandardMaterial color="#ffffff" emissive="#ffffff" emissiveIntensity={0.2} />
       </Box>
       <group scale={[0.75, 0.75, 0.75]} position={[0, 4, -27]}>
         <SinglePortal
+        title='fly.pieter.com'
+        textColor='#ff9900'
           position={[0, 0, 0]}
           rotation={[0, 0, 0]}
           portalMaterial={<meshStandardMaterial color="#ffee33" emissive="#ffee33" emissiveIntensity={0.5} />}
-          url="https://portal.pieter.com/"
+          url={formatPortalUrl("https://fly.pieter.com/", portalParams)}
         />
       </group>
     </group>
