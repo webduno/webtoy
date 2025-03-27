@@ -10,6 +10,7 @@ import CanonPOV from '@/components/CanonPOV'
 import { DEFAULT_TEMPLATE_LIST } from '@/scripts/sceneTemplates'
 import SettingsModal from '@/components/SettingsModal'
 import TemplatesModal from '@/components/TemplatesModal'
+import TutorialModal from '@/components/TutorialModal'
 
 interface Friend {
   id: string;
@@ -78,14 +79,28 @@ export default function MultiPlayerPage() {
   const [showSettings, setShowSettings] = useState<boolean>(false)
   const [showTemplates, setShowTemplates] = useState<boolean>(false)
   const [deleteMode, setDeleteMode] = useState<boolean>(false)
+  const [hasObjects, setHasObjects] = useState<boolean>(false)
   // get templates from sceneTemplates.ts
   const [templates, setTemplates] = useState<{name: string, description: string}[]>(
     // only first 4 elements
     DEFAULT_TEMPLATE_LIST
   )
+  const [showTutorial, setShowTutorial] = useState<boolean>(true)
+
+  // Check for objects when component mounts
+  useEffect(() => {
+    const objects = stageRef.current?.getSceneObjects?.() || []
+    // Get the storage key based on friends
+    const storageKey = friends.length > 1 
+      ? `multiplayer_scene>>>${friends[0].id},${friends.slice(1).map(f => f.id).sort().join(',')}`
+      : 'multiplayer_scene'
+    const hasSavedContent = localStorage.getItem(storageKey) !== null
+    setHasObjects(objects.length > 0 || hasSavedContent)
+  }, [friends])
+
   const handleHelloClick = () => {
-    // console.log("handleHelloClickhandleHelloClickhandleHelloClick")
     stageRef.current?.createObject([0, 0, 0], [1, 1, 1], [0, 0, 0])
+    setHasObjects(true)
   }
   const handleOpenSettings = () => {
     setShowSettings(!showSettings)
@@ -296,7 +311,10 @@ export default function MultiPlayerPage() {
 
           {/* only if more than 1 friend */}
           {friends.length > 1 && (
-            <MultiPlayerStage ref={stageRef} friends={friends} deleteMode={deleteMode} />
+            <>
+              <MultiPlayerStage ref={stageRef} friends={friends} deleteMode={deleteMode} />
+              {!hasObjects && showTutorial && <TutorialModal onClose={() => setShowTutorial(false)} />}
+            </>
           )}
           
           <Logo />

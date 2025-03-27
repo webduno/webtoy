@@ -83,6 +83,9 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
     });
     setSelectedObject(null);
     setIsAdding(false);
+    
+    // Save the fetched objects to localStorage
+    localStorage.setItem(getStorageKey(), JSON.stringify(objectsData));
   }
 
   // Load objects when the component mounts and scene is ready
