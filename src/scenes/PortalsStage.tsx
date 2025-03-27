@@ -116,17 +116,6 @@ const PortalsStage = forwardRef<any>((props, ref) => {
         selector={isMobileDevice ? '#look-area' : undefined}
       />
       <HallOfPortals />
-      {isMobileDevice && (
-        <div id="look-area" style={{
-          position: 'absolute',
-          top: 0,
-          right: 0,
-          width: '50%',
-          height: '100%',
-          touchAction: 'none',
-          zIndex: 999
-        }} />
-      )}
   </>)
 })
 
