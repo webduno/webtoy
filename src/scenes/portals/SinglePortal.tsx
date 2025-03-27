@@ -10,10 +10,10 @@ export const SinglePortal = ({
   torusMaterial = <meshStandardMaterial color="#ffffff" emissive="#444444" />,
   position, 
   rotation,
-  title ="",
+  title ="???",
   url,
   onCollision,
-  textColor = "black"
+  textColor = "lightgrey"
 }: { 
   portalMaterial?: any; 
   torusMaterial?: any;
@@ -57,10 +57,11 @@ export const SinglePortal = ({
       <Text 
         key={title} 
         textAlign='center' 
-        position={[0, 6.5, 0.1]} 
+        position={[0, 6.25, 0.1]} 
         fontSize={1} 
-        color={textColor||"black"}
+        color={textColor||"white"}
         renderOrder={1}
+        font="/fonts/Consolas.ttf"
       >
         {title}
       </Text>
