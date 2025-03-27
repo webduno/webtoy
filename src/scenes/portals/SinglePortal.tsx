@@ -1,5 +1,5 @@
 "use client";
-import { Torus, Circle, Text } from '@react-three/drei';
+import { Torus, Circle, Text, Sphere } from '@react-three/drei';
 import { useRef, useEffect } from 'react';
 import { useThree } from '@react-three/fiber';
 import { Vector3, Group } from 'three';
@@ -70,6 +70,9 @@ export const SinglePortal = ({
         {title}
       </Text>
       }
+      {/* <Sphere args={[collisionRadius, 16, 16]}>
+        <meshBasicMaterial wireframe color="#ffffff" transparent opacity={0.2} />
+      </Sphere> */}
       <Torus args={[5, 0.5, 4, 32, Math.PI]} castShadow receiveShadow>
         {torusMaterial}
       </Torus>
