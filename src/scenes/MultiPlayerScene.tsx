@@ -171,54 +171,8 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
   }
 
   const handlePasteContent = async () => {
-    // Reset the scene first
-    // handleResetScene();
-    
     try {
-      // Check if we have a selected template
-      const selectedTemplate = localStorage.getItem('selectedTemplate');
-      
-      if (selectedTemplate) {
-        // Clear localStorage item
-        localStorage.removeItem('selectedTemplate');
-        
-        // Load the predefined template based on the name
-        const templateData = getTemplateData(selectedTemplate);
-        
-        // If we have template data, use it
-        if (templateData && sceneRef.current) {
-          while (sceneRef.current.children.length > 0) {  // remove all objects including floor
-            const child = sceneRef.current.children[0];
-            sceneRef.current.remove(child);
-          }
-          
-          // Create objects from the template
-          templateData.forEach((object: any) => {
-            createObject(
-              object.position, 
-              object.scale, 
-              object.rotation, 
-              "#" + object.color, 
-              sceneRef, 
-              setIsAdding, 
-              setSelectedObject, 
-              isAdding,
-              object.hasGravity || false
-            );
-          });
-          
-          // Save the imported objects
-          handleSaveObjects();
-          
-          // Reset selection
-          setSelectedObject(null);
-          setIsAdding(false);
-          
-          return; // Exit early
-        }
-      }
-      
-      // If no template or template data, fall back to clipboard paste
+      // Get clipboard content
       const clipboardText = await navigator.clipboard.readText();
       const objects = JSON.parse(clipboardText);
       

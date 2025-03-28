@@ -54,7 +54,7 @@ export function RoomButtons({myip}: {myip: string}) {
     }
     playClickSound();
     setLoading(destination);
-    playIfNotPlaying();
+    // playIfNotPlaying();
   };
 
   return (<>
