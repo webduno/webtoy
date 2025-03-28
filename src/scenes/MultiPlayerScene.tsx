@@ -340,7 +340,7 @@ MultiPlayerScene.displayName = 'MultiPlayerScene'
 export default MultiPlayerScene 
 
 
-const CameraClickControls = ({sceneRef, mapControlsRef, deleteMode}: {sceneRef: React.RefObject<Group>, mapControlsRef: React.RefObject<typeof OrbitControls>, deleteMode: boolean}) => {
+export const CameraClickControls = ({sceneRef, mapControlsRef, deleteMode}: {sceneRef: React.RefObject<Group>, mapControlsRef: React.RefObject<typeof OrbitControls>, deleteMode: boolean}) => {
   const handleClick = (event: MouseEvent) => {
     const raycaster = new Raycaster();
     const mouse = new Vector2();
@@ -356,7 +356,7 @@ const CameraClickControls = ({sceneRef, mapControlsRef, deleteMode}: {sceneRef: 
       if (intersects.length > 0) {
         const object = intersects[0].object
         if (object instanceof Mesh) {
-          console.log('object is a mesh')
+          console.log('object is a mesh', deleteMode)
           // if isdeleting then delete the object
           if (deleteMode) {
             object.parent?.remove(object)

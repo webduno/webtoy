@@ -14,16 +14,19 @@ export interface SinglePlayerStageHandle {
   loadTemplate: (templateName: string) => void;
   autorotate: () => void;
   getSceneObjects?: () => Object3D[];
+  deleteMode?: boolean;
+  setDeleteMode?: (deleteMode: boolean) => void;
 }
 
-const SinglePlayerStage = forwardRef<SinglePlayerStageHandle, {}>((props, ref) => {
+const SinglePlayerStage = forwardRef<SinglePlayerStageHandle, {deleteMode: boolean, setDeleteMode: (deleteMode: boolean) => void}>((props, ref) => {
+  const { deleteMode, setDeleteMode} = props
   const sceneRef = useRef<SinglePlayerSceneHandle>(null)
   const [selectedObject, setSelectedObject] = useState<Object3D | null>(null)
   const [isAdding, setIsAdding] = useState(false)
   const [transformMode, setTransformMode] = useState<TransformMode>('move')
   const [color, setColor] = useState<string>('#777777')
   const [isAutorotating, setIsAutorotating] = useState(false)
-
+  
   const handleDone = () => {
     sceneRef.current?.saveObjects()
     setIsAdding(false)
@@ -129,6 +132,8 @@ const SinglePlayerStage = forwardRef<SinglePlayerStageHandle, {}>((props, ref) =
         transformMode={transformMode}
         color={color}
         isAutorotating={isAutorotating}
+        deleteMode={deleteMode}
+        setDeleteMode={setDeleteMode}        
       />
     </div>
   )

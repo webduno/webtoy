@@ -5,6 +5,7 @@ import { Object3D, BoxGeometry, MeshStandardMaterial, Mesh, Group } from 'three'
 import { MapControls, TransformControls } from '@react-three/drei'
 import { createObject, getTransformMode, loadObjects, saveObjects } from '@/scripts/sceneHelpers'
 import { DEFAULT_TEMPLATE_LIST, getTemplateData } from '@/scripts/sceneTemplates'
+import { CameraClickControls } from './MultiPlayerScene'
 
 export interface SinglePlayerSceneHandle {
   createObject: (position: [number, number, number], scale: [number, number, number], rotation: [number, number, number]) => Object3D;
@@ -15,7 +16,7 @@ export interface SinglePlayerSceneHandle {
   loadTemplate: (templateName: string) => void;
   toggleAutorotate: () => void;
   getObjects: () => Object3D[];
-}
+} 
 
 type TransformMode = 'move' | 'scale' | 'rotate';
 
@@ -27,6 +28,8 @@ interface SinglePlayerSceneProps {
   isAdding?: boolean;
   setIsAdding: (isAdding: boolean) => void;
   isAutorotating?: boolean;
+  deleteMode?: boolean;
+  setDeleteMode: (deleteMode: boolean) => void;
 }
 const STORAGE_KEY = 'singleplayer_scene'
 const SinglePlayerScene = forwardRef<SinglePlayerSceneHandle, SinglePlayerSceneProps>((props, ref) => {
@@ -225,7 +228,10 @@ const SinglePlayerScene = forwardRef<SinglePlayerSceneHandle, SinglePlayerSceneP
   return (
     <div style={{ width: '100vw', height: '100vh', position: 'absolute', top: 0, left: 0 }}>
       <SimpleScene>
-        {/* @ts-ignore */}
+      <CameraClickControls sceneRef={sceneRef} mapControlsRef={mapControlsRef} 
+      deleteMode={props.deleteMode || false}
+       />
+      {/* @ts-ignore */}
         <MapControls enablePan={!isAdding} minDistance={0.1} maxDistance={50} ref={mapControlsRef} />
         
         <group ref={sceneRef}>

@@ -182,7 +182,7 @@ export default function SinglePlayerPage() {
             </div>
           </div>
           
-          <SinglePlayerStage ref={stageRef} />
+          <SinglePlayerStage ref={stageRef} deleteMode={deleteMode} setDeleteMode={setDeleteMode} />
           {!hasObjects && showTutorial && <TutorialModal onClose={() => setShowTutorial(false)} />}
           <Logo />
         </>
