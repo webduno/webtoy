@@ -53,7 +53,7 @@ export const AiModal = ({ onClose }: AiModalProps) => {
       console.log("Scene data to be displayed:", sceneData)
       
       // Copy the scene data to clipboard
-      clipbloard__do(JSON.stringify(sceneData))
+      navigator.clipboard.writeText(JSON.stringify(sceneData))
       // Set the result directly to the scene data array
       setResult(sceneData)
 
