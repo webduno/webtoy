@@ -75,6 +75,7 @@ export default function SinglePlayerPage() {
     // Call pasteContent to load the template
     stageRef.current?.pasteContent()
     setShowTemplates(false)
+    setHasObjects(true)
   }
 
   const handlePlay = () => {
