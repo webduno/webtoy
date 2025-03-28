@@ -69,9 +69,11 @@ const SinglePlayerStage = forwardRef<SinglePlayerStageHandle, {}>((props, ref) =
       // Try to paste from clipboard
       try {
         const clipboardText = await navigator.clipboard.readText();
+        console.log("clipboardText", clipboardText)
         const sceneData = JSON.parse(clipboardText);
         // Handle both array format and objects format
         const objects = Array.isArray(sceneData) ? sceneData : sceneData.objects;
+        console.log("objects", objects)
         if (objects) {
           sceneRef.current?.loadSceneData({ objects });
           console.log('Scene content pasted from clipboard');

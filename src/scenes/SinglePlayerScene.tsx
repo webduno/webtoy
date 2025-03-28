@@ -141,12 +141,14 @@ const SinglePlayerScene = forwardRef<SinglePlayerSceneHandle, SinglePlayerSceneP
   const handleLoadSceneData = (data: any) => {
     if (!sceneRef.current || !data || !data.objects) return;
     
+    console.log("data 111", data)
     // Clear existing objects
-    handleResetScene();
+    // handleResetScene();
     
     // Recreate objects from data
     data.objects.forEach((objData: any) => {
-      if (objData.type === 'mesh') {
+      // if (objData.type === 'mesh')
+      {
         const obj = handleCreateObject(
           objData.position, 
           objData.scale, 

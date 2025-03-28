@@ -206,7 +206,8 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
         
         // Import objects from clipboard
         objects.forEach((object: any) => {
-          if (object.type === 'mesh') {
+          // if (object.type === 'mesh')
+            {
             createObject(
               object.position, 
               object.scale, 
