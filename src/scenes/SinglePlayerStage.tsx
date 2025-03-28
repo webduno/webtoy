@@ -61,7 +61,7 @@ const SinglePlayerStage = forwardRef<SinglePlayerStageHandle, {}>((props, ref) =
       // Copy scene content to clipboard
       const sceneData = sceneRef.current?.getSceneData();
       if (sceneData) {
-        navigator.clipboard.writeText(JSON.stringify(sceneData));
+        navigator.clipboard.writeText(JSON.stringify(sceneData.objects));
         console.log('Scene content copied to clipboard');
       }
     },
@@ -70,8 +70,12 @@ const SinglePlayerStage = forwardRef<SinglePlayerStageHandle, {}>((props, ref) =
       try {
         const clipboardText = await navigator.clipboard.readText();
         const sceneData = JSON.parse(clipboardText);
-        sceneRef.current?.loadSceneData(sceneData);
-        console.log('Scene content pasted from clipboard');
+        // Handle both array format and objects format
+        const objects = Array.isArray(sceneData) ? sceneData : sceneData.objects;
+        if (objects) {
+          sceneRef.current?.loadSceneData({ objects });
+          console.log('Scene content pasted from clipboard');
+        }
       } catch (error) {
         console.error('Failed to paste content from clipboard:', error);
       }

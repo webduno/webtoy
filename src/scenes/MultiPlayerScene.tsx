@@ -183,17 +183,17 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
     };
     
     // Copy to clipboard
-    navigator.clipboard.writeText(JSON.stringify(sceneData));
+    navigator.clipboard.writeText(JSON.stringify(sceneData.objects));
   }
 
   const handlePasteContent = async () => {
     try {
       // Try to paste from clipboard
       const clipboardText = await navigator.clipboard.readText();
-      const sceneData = JSON.parse(clipboardText);
+      const objects = JSON.parse(clipboardText);
       
-      if (!sceneData.objects) {
-        console.error('Invalid clipboard data format');
+      if (!Array.isArray(objects)) {
+        console.error('Invalid clipboard data format - expected an array');
         return;
       }
       
@@ -205,7 +205,7 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
         }
         
         // Import objects from clipboard
-        sceneData.objects.forEach((object: any) => {
+        objects.forEach((object: any) => {
           if (object.type === 'mesh') {
             createObject(
               object.position, 
