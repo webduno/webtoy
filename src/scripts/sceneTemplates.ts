@@ -389,6 +389,35 @@ const SOCCER_FIELD = [
   {"position":[0,1,-10.5],"rotation":[0,0,0],"scale":[1.85,2,0.4],"color":"eeeeee","hasGravity":false}, // Bottom goal net
 ];
 
+// Wall run template
+// const WALL_RUN = [
+//   // Long floor
+//   {"position":[0,0.15,-2],"rotation":[0,0,0],"scale":[2.25,0.2,13],"color":"d4a76a","hasGravity":false},
+//   {"position":[0,0.16,-4],"rotation":[0,0,0],"scale":[1.8,0.01,0.1],"color":"000000","hasGravity":false},
+//   {"position":[0,0.16,-6],"rotation":[0,0,0],"scale":[1.8,0.01,0.1],"color":"000000","hasGravity":false},
+//   {"position":[0,0.16,-8],"rotation":[0,0,0],"scale":[1.8,0.01,0.1],"color":"000000","hasGravity":false},
+//   {"position":[1.2,0.05,-2],"rotation":[0,0,0],"scale":[0.3,0.1,15],"color":"222222","hasGravity":false},
+//   {"position":[-1.2,0.05,-2],"rotation":[0,0,0],"scale":[0.3,0.1,15],"color":"222222","hasGravity":false},
+  
+//   // Ground beneath
+//   {"position":[0,-0.4757091232797994,-3.649876459484724],"rotation":[0,0,0],"scale":[6.628786182670685,1,19.485644319265116],"color":"777777","hasGravity":false},
+  
+//   // Bottom layer (3 cubes)
+//   {"position":[0,1.0,-10.1],"rotation":[0,0,0],"scale":[0.3,0.3,0.3],"color":"ffffff","hasGravity":true},
+//   {"position":[0.5,1.0,-10.1],"rotation":[0,0,0],"scale":[0.3,0.3,0.3],"color":"ffffff","hasGravity":true},
+//   {"position":[-0.5,1.0,-10.1],"rotation":[0,0,0],"scale":[0.3,0.3,0.3],"color":"ffffff","hasGravity":true},
+  
+//   // Middle layer (3 cubes)
+//   {"position":[0,1.4,-10.1],"rotation":[0,0,0],"scale":[0.3,0.3,0.3],"color":"ffffff","hasGravity":true},
+//   {"position":[0.5,1.4,-10.1],"rotation":[0,0,0],"scale":[0.3,0.3,0.3],"color":"ffffff","hasGravity":true},
+//   {"position":[-0.5,1.4,-10.1],"rotation":[0,0,0],"scale":[0.3,0.3,0.3],"color":"ffffff","hasGravity":true},
+  
+//   // Top layer (3 cubes)
+//   {"position":[0,1.8,-10.1],"rotation":[0,0,0],"scale":[0.3,0.3,0.3],"color":"ffffff","hasGravity":true},
+//   {"position":[0.5,1.8,-10.1],"rotation":[0,0,0],"scale":[0.3,0.3,0.3],"color":"ffffff","hasGravity":true},
+//   {"position":[-0.5,1.8,-10.1],"rotation":[0,0,0],"scale":[0.3,0.3,0.3],"color":"ffffff","hasGravity":true},
+// ];
+
 /**
  * Get template data based on the template name
  * @param templateName - The name of the template to retrieve
@@ -428,6 +457,9 @@ export function getTemplateData(templateName: string | null): any[] | null {
     case 'soccer_field':
       return SOCCER_FIELD;
       
+    // case 'wall_run':
+    //   return WALL_RUN;
+      
     default:
       return null;
   }
@@ -445,6 +477,7 @@ export const DEFAULT_TEMPLATE_LIST = [
   { name: 'soccer_field', description: '⚽ Soccer field' },
   { name: 'golf_course', description: '⛳ Golf course' },
   { name: 'bowling_alley', description: '🎳 Bowling alley' },
+  // { name: 'wall_run', description: '🧱 Wall run' },
   
   { name: 'castle', description: '🏰 Medieval castle' },
   { name: 'city_block', description: '🏙️ Urban city block' },

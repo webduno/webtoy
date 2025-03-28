@@ -82,16 +82,17 @@ const SinglePlayerScene = forwardRef<SinglePlayerSceneHandle, SinglePlayerSceneP
   }, [isAutorotating]);
   
   // Create object wrapper to use shared function
-  const handleCreateObject = (position: [number, number, number], scale: [number, number, number], rotation: [number, number, number]) => {
+  const handleCreateObject = (position: [number, number, number], scale: [number, number, number], rotation: [number, number, number], color?: string, hasGravity?: boolean) => {
     return createObject(
       position, 
       scale,
       rotation,
-      color, 
+      color || '#ffffff', 
       sceneRef, 
       setIsAdding, 
       setSelectedObject, 
-      isAdding
+      isAdding,
+      hasGravity
     );
   }
 
@@ -125,7 +126,8 @@ const SinglePlayerScene = forwardRef<SinglePlayerSceneHandle, SinglePlayerSceneP
             position: [child.position.x, child.position.y, child.position.z],
             rotation: [child.rotation.x, child.rotation.y, child.rotation.z],
             scale: [child.scale.x, child.scale.y, child.scale.z],
-            color: child.material instanceof MeshStandardMaterial ? child.material.color.getHexString() : '0000ff'
+            color: child.material instanceof MeshStandardMaterial ? child.material.color.getHexString() : '0000ff',
+            hasGravity: child.userData.hasGravity
           };
         }
         return null;
@@ -148,7 +150,9 @@ const SinglePlayerScene = forwardRef<SinglePlayerSceneHandle, SinglePlayerSceneP
         const obj = handleCreateObject(
           objData.position, 
           objData.scale, 
-          objData.rotation
+          objData.rotation,
+          objData.color,
+          objData.hasGravity
         );
         
         if (obj instanceof Mesh && obj.material instanceof MeshStandardMaterial && objData.color) {
@@ -178,7 +182,9 @@ const SinglePlayerScene = forwardRef<SinglePlayerSceneHandle, SinglePlayerSceneP
       const obj = handleCreateObject(
         item.position,
         item.scale,
-        item.rotation
+        item.rotation,
+        item.color,
+        item.hasGravity
       );
       
       if (obj instanceof Mesh && obj.material instanceof MeshStandardMaterial && item.color) {
@@ -191,7 +197,6 @@ const SinglePlayerScene = forwardRef<SinglePlayerSceneHandle, SinglePlayerSceneP
     
     // Save the loaded scene
     saveObjects(sceneRef, STORAGE_KEY);
-    // window.location.reload();
   }
   
   // Get all objects in the scene
