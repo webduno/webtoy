@@ -139,14 +139,18 @@ const SinglePlayerScene = forwardRef<SinglePlayerSceneHandle, SinglePlayerSceneP
   
   // Load scene data for paste operation
   const handleLoadSceneData = (data: any) => {
-    if (!sceneRef.current || !data || !data.objects) return;
+    if (!sceneRef.current) return;
     
     // Clear existing objects
     handleResetScene();
     
+    // Handle both old format (with objects property) and new format (direct array)
+    const objects = data.objects || data;
+    
     // Recreate objects from data
-    data.objects.forEach((objData: any) => {
-      if (objData.type === 'mesh') {
+    objects.forEach((objData: any) => {
+      // Handle both old format (with type property) and new format (direct object)
+      if (!objData.type || objData.type === 'mesh') {
         const obj = handleCreateObject(
           objData.position, 
           objData.scale, 
