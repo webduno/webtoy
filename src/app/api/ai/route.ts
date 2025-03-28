@@ -66,6 +66,7 @@ const EXAMPLE_SCENES = [
 const SYSTEM_PROMPT = `You are a professional 3D scene designer. Your task is to analyze the provided prompt and generate a detailed 3D scene description.
 
 Each scene object should have position, rotation, scale, color, and hasGravity properties.
+the hasGravity should be always false
 
 Core Guidelines:
 - Always start with a ground/base plane unless the scene is in space
