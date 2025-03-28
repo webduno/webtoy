@@ -119,13 +119,11 @@ export default function MultiPlayerPage() {
     setShowAiModal(true)
   }
   const handleLoadTemplate = (templateName: string) => {
-    // Here you would implement the loading of the specific template
     console.log(`Loading template: ${templateName}`)
-    // Store the template name in localStorage or a global state
-    localStorage.setItem('selectedTemplate', templateName)
-    // Then call pasteContent without parameters
-    stageRef.current?.pasteContent()
+    // Call loadTemplate directly with the template name
+    stageRef.current?.loadTemplate(templateName)
     setShowTemplates(false)
+    setHasObjects(true)
   }
   const handleAddFriend = (newAltFriend = "") => {
     const theNewName = newFriendName || newAltFriend

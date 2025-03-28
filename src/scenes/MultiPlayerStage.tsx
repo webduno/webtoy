@@ -18,6 +18,7 @@ export interface MultiPlayerStageHandle {
   resetScene: () => void
   copyContent: () => void
   pasteContent: () => void
+  loadTemplate: (templateName: string) => void
   autorotate: () => void
   getSceneObjects: () => Object3D[]
 }
@@ -56,11 +57,12 @@ const MultiPlayerStage = forwardRef<MultiPlayerStageHandle, {friends: Friend[], 
 
   useImperativeHandle(ref, () => ({
     createObject: (position: [number, number, number], scale: [number, number, number], rotation: [number, number, number]) => {
-      // console.log("222createObjectcreateObjectcreateObject222")
-      sceneRef.current?.createObject(position, scale, rotation, hasGravity)
+      sceneRef.current?.createObject(position, scale, rotation)
     },
     resetScene: () => {
       sceneRef.current?.resetScene()
+      setSelectedObject(null)
+      setIsAdding(false)
     },
     copyContent: () => {
       sceneRef.current?.copyContent()
@@ -68,16 +70,14 @@ const MultiPlayerStage = forwardRef<MultiPlayerStageHandle, {friends: Friend[], 
     pasteContent: () => {
       sceneRef.current?.pasteContent()
     },
+    loadTemplate: (templateName: string) => {
+      sceneRef.current?.loadTemplate(templateName)
+    },
     autorotate: () => {
       sceneRef.current?.autorotate()
     },
     getSceneObjects: () => {
-      if (!sceneRef.current) return []
-      // Get all objects from the scene
-      const children = sceneRef.current.getSceneObjects ? 
-        sceneRef.current.getSceneObjects() : 
-        []
-      return children
+      return sceneRef.current?.getSceneObjects() || []
     }
   }))
 

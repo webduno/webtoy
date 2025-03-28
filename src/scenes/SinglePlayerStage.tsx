@@ -11,6 +11,7 @@ export interface SinglePlayerStageHandle {
   resetScene: () => void;
   copyContent: () => void;
   pasteContent: () => void;
+  loadTemplate: (templateName: string) => void;
   autorotate: () => void;
   getSceneObjects?: () => Object3D[];
 }
@@ -65,6 +66,7 @@ const SinglePlayerStage = forwardRef<SinglePlayerStageHandle, {}>((props, ref) =
       }
     },
     pasteContent: async () => {
+      // Try to paste from clipboard
       try {
         const clipboardText = await navigator.clipboard.readText();
         const sceneData = JSON.parse(clipboardText);
@@ -75,6 +77,15 @@ const SinglePlayerStage = forwardRef<SinglePlayerStageHandle, {}>((props, ref) =
       }
       
       // Clear selection and adding state after pasting
+      setSelectedObject(null);
+      setIsAdding(false);
+    },
+    loadTemplate: (templateName: string) => {
+      // Load the template from scene templates
+      sceneRef.current?.loadTemplate(templateName);
+      console.log(`Template loaded: ${templateName}`);
+      
+      // Clear selection and adding state after loading template
       setSelectedObject(null);
       setIsAdding(false);
     },

@@ -21,6 +21,7 @@ export interface MultiPlayerSceneHandle {
   resetScene: () => void
   copyContent: () => void
   pasteContent: () => void
+  loadTemplate: (templateName: string) => void
   autorotate: () => void
   getSceneObjects: () => Object3D[]
 }
@@ -162,19 +163,39 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
     sceneRef.current?.clear();
   }
   const handleCopyContent = () => {
-    // copy content
-    // console.log('copy content') 
-    // copy json but like they are saved to supabase content to clipboard
-    const objects = saveObjects(sceneRef, getStorageKey());
-    const json = JSON.stringify(objects);
-    navigator.clipboard.writeText(json);
+    if (!sceneRef.current) return;
+    
+    // Create a serializable representation of the scene
+    const sceneData = {
+      objects: sceneRef.current.children.map(child => {
+        if (child instanceof Mesh) {
+          return {
+            type: 'mesh',
+            position: [child.position.x, child.position.y, child.position.z],
+            rotation: [child.rotation.x, child.rotation.y, child.rotation.z],
+            scale: [child.scale.x, child.scale.y, child.scale.z],
+            color: child.material instanceof MeshStandardMaterial ? child.material.color.getHexString() : '0000ff',
+            hasGravity: child.userData.hasGravity
+          };
+        }
+        return null;
+      }).filter(Boolean)
+    };
+    
+    // Copy to clipboard
+    navigator.clipboard.writeText(JSON.stringify(sceneData));
   }
 
   const handlePasteContent = async () => {
     try {
-      // Get clipboard content
+      // Try to paste from clipboard
       const clipboardText = await navigator.clipboard.readText();
-      const objects = JSON.parse(clipboardText);
+      const sceneData = JSON.parse(clipboardText);
+      
+      if (!sceneData.objects) {
+        console.error('Invalid clipboard data format');
+        return;
+      }
       
       // Clear existing objects
       if (sceneRef.current) {
@@ -184,18 +205,20 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
         }
         
         // Import objects from clipboard
-        objects.forEach((object: any) => {
-          createObject(
-            object.position, 
-            object.scale, 
-            object.rotation, 
-            "#" + object.color, 
-            sceneRef, 
-            setIsAdding, 
-            setSelectedObject, 
-            isAdding,
-            object.hasGravity || false
-          );
+        sceneData.objects.forEach((object: any) => {
+          if (object.type === 'mesh') {
+            createObject(
+              object.position, 
+              object.scale, 
+              object.rotation, 
+              "#" + object.color, 
+              sceneRef, 
+              setIsAdding, 
+              setSelectedObject, 
+              isAdding,
+              object.hasGravity || false
+            );
+          }
         });
       }
       
@@ -208,6 +231,45 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
     } catch (error) {
       console.error('Error pasting content:', error);
     }
+  }
+
+  const handleLoadTemplate = (templateName: string) => {
+    // Get template data using the helper function
+    const templateData = getTemplateData(templateName);
+    if (!templateData) {
+      console.error(`Template ${templateName} not found`);
+      return;
+    }
+    
+    // Clear existing objects
+    if (sceneRef.current) {
+      while (sceneRef.current.children.length > 0) {  // remove all objects including floor
+        const child = sceneRef.current.children[0];
+        sceneRef.current.remove(child);
+      }
+      
+      // Create objects from template data
+      templateData.forEach((object: any) => {
+        createObject(
+          object.position, 
+          object.scale, 
+          object.rotation, 
+          "#" + object.color, 
+          sceneRef, 
+          setIsAdding, 
+          setSelectedObject, 
+          isAdding,
+          object.hasGravity || false
+        );
+      });
+    }
+    
+    // Save the imported objects
+    handleSaveObjects();
+    
+    // Reset selection
+    setSelectedObject(null);
+    setIsAdding(false);
   }
   
   const handleAutorotate = () => {
@@ -234,6 +296,7 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
     resetScene: handleResetScene,
     copyContent: handleCopyContent,
     pasteContent: handlePasteContent,
+    loadTemplate: handleLoadTemplate,
     autorotate: handleAutorotate,
     getSceneObjects: () => {
       if (!sceneRef.current) return []

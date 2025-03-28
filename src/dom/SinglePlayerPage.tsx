@@ -71,9 +71,8 @@ export default function SinglePlayerPage() {
 
   const handleLoadTemplate = (templateName: string) => {
     console.log(`Loading template: ${templateName}`)
-    localStorage.setItem('selectedTemplate', templateName)
-    // Call pasteContent to load the template
-    stageRef.current?.pasteContent()
+    // Call loadTemplate directly with the template name
+    stageRef.current?.loadTemplate(templateName)
     setShowTemplates(false)
     setHasObjects(true)
   }
