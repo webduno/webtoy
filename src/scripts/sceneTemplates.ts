@@ -389,6 +389,8 @@ const SOCCER_FIELD = [
   {"position":[0,1,-10.5],"rotation":[0,0,0],"scale":[1.85,2,0.4],"color":"eeeeee","hasGravity":false}, // Bottom goal net
 ];
 
+const DOMINOES = [{"position":[-5,1,0],"rotation":[0,0,0],"scale":[0.5,2,1],"color":"ffffff","hasGravity":false},{"position":[-3,1,0],"rotation":[0,0,0],"scale":[0.5,2,1],"color":"ffffff","hasGravity":false},{"position":[-1,1,0],"rotation":[0,0,0],"scale":[0.5,2,1],"color":"ffffff","hasGravity":false},{"position":[1,1,0],"rotation":[0,0,0],"scale":[0.5,2,1],"color":"ffffff","hasGravity":false},{"position":[3,1,0],"rotation":[0,0,0],"scale":[0.5,2,1],"color":"ffffff","hasGravity":false},{"position":[5,1,0],"rotation":[0,0,0],"scale":[0.5,2,1],"color":"ffffff","hasGravity":false},{"position":[0,-0.6591558200230354,0],"rotation":[0,0,0],"scale":[29.923001627541506,1,16.34909853971758],"color":"cea455","hasGravity":false}]
+
 // Wall run template
 // const WALL_RUN = [
 //   // Long floor
@@ -459,6 +461,9 @@ export function getTemplateData(templateName: string | null): any[] | null {
       
     // case 'wall_run':
     //   return WALL_RUN;
+    
+    case 'dominoes':
+      return DOMINOES;
       
     default:
       return null;
@@ -481,4 +486,5 @@ export const DEFAULT_TEMPLATE_LIST = [
   
   { name: 'castle', description: '🏰 Medieval castle' },
   { name: 'city_block', description: '🏙️ Urban city block' },
+  { name: 'dominoes', description: '🎲 Dominoes' },
 ]
