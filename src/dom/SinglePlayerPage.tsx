@@ -56,7 +56,7 @@ export default function SinglePlayerPage() {
 
   const handleCopyContent = () => {
     stageRef.current?.copyContent()
-    setShowSettings(false)
+    // setShowSettings(false)
   }
 
   const handlePasteContent = () => {
