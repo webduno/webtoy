@@ -28,6 +28,7 @@ export const AiModal = ({ onClose }: AiModalProps) => {
   const [prompt, setPrompt] = useState<string>('')
   const [isGenerating, setIsGenerating] = useState<boolean>(false)
   const [clipbloardValue, clipbloard__do] = useCopyToClipboard()
+  const [didCopy, setDidCopy] = useState<number>(0)
   const [result, setResult] = useState<any>(null)
   const [error, setError] = useState<string | null>(null)
 
@@ -78,7 +79,16 @@ export const AiModal = ({ onClose }: AiModalProps) => {
         <div className="tx- opaci-25 tx-altfont-1 tx-ls-3">AI GENERATION</div>
       )}
       {!!result && (
-        <div className="tx- opaci-25 tx-altfont-1 tx -ls-3">Copied to clipboard!</div>
+        <button 
+          className="tx- opaci-25 tx-altfont-1 tx-ls-3 nobg cursor-pointer opaci-chov--75"
+          onClick={() => {
+            navigator.clipboard.writeText(JSON.stringify(result));
+            setDidCopy((prev) => prev + 1)
+            // alert('Scene data copied to clipboard!');
+          }}
+        >
+          {didCopy ? `Copied to clipboard! ${didCopy == 0 ? '' : `x${didCopy}`}` : 'Click here to copy to clipboard'}
+        </button>
       )}
       {!!error && (
         <div className="tx-red opaci-75 tx-altfont-1">{error}</div>
