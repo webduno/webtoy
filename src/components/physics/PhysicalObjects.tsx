@@ -6,6 +6,11 @@ import { PhysicalBallProps, PhysicalBoxProps } from '@/types/canonPOV'
 // Global storage for object physics state
 const objectsPhysicsState = new Map();
 
+// Function to clear all physics state
+export const clearPhysicsState = () => {
+  objectsPhysicsState.clear();
+};
+
 // Simple physical ball with cannon.js physics - stays in the world permanently
 export function PhysicalBall({ position, velocity }: PhysicalBallProps) {
   const [ref, api] = useSphere<Mesh>(() => ({

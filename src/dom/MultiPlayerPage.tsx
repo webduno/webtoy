@@ -12,6 +12,7 @@ import SettingsModal from '@/components/SettingsModal'
 import TemplatesModal from '@/components/TemplatesModal'
 import TutorialModal from '@/components/TutorialModal'
 import { AiModal } from './AiModal'
+import { clearPhysicsState } from '@/components/physics/PhysicalObjects'
 
 interface Friend {
   id: string;
@@ -68,6 +69,7 @@ export default function MultiPlayerPage() {
   
   const handleExitPlay = () => {
     setIsPlaying(false)
+    clearPhysicsState()
   }
   useEffect(() => {
     fetchMyip()

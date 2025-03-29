@@ -9,6 +9,7 @@ import { DEFAULT_TEMPLATE_LIST } from '@/scripts/sceneTemplates'
 import CanonPOV from '@/components/CanonPOV'
 import TutorialModal from '@/components/TutorialModal'
 import { AiModal } from './AiModal'
+import { clearPhysicsState } from '@/components/physics/PhysicalObjects'
 
 export default function SinglePlayerPage() {
   const stageRef = useRef<SinglePlayerStageHandle>(null)
@@ -113,6 +114,7 @@ export default function SinglePlayerPage() {
 
   const handleExitPlay = () => {
     setIsPlaying(false)
+    clearPhysicsState()
   }
 
   return (
