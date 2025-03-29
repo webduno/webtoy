@@ -7,7 +7,7 @@ import TemplatesModal from '@/components/TemplatesModal'
 import { DEFAULT_TEMPLATE_LIST } from '@/scripts/sceneTemplates'
 import TutorialModal from '@/components/TutorialModal'
 import { AiModal } from './AiModal'
-import { clearPhysicsState } from '@/components/physics/PhysicalObjects'
+import { clearPhysicsState } from '@/model/physics/PhysicalObjects'
 import CanonPOV from '@/model/CanonPOV'
 import Logo from '@/dom/atom/logo/Logo'
 
