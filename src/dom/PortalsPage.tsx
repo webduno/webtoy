@@ -2,7 +2,7 @@
 import { useRef, useState, useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
 import styles from '../app/portals/page.module.css'
-import Logo from '@/components/Logo'
+import Logo from '@/dom/atom/logo/Logo'
 import SettingsModal from '@/components/SettingsModal'
 import TemplatesModal from '@/components/TemplatesModal'
 import { DEFAULT_TEMPLATE_LIST } from '@/scripts/sceneTemplates'

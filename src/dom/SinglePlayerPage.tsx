@@ -2,14 +2,14 @@
 import { useRef, useState, useEffect } from 'react'
 import SinglePlayerStage, { SinglePlayerStageHandle } from '@/scenes/SinglePlayerStage'
 import styles from '../app/single/page.module.css'
-import Logo from '@/components/Logo'
 import SettingsModal from '@/components/SettingsModal'
 import TemplatesModal from '@/components/TemplatesModal'
 import { DEFAULT_TEMPLATE_LIST } from '@/scripts/sceneTemplates'
-import CanonPOV from '@/components/CanonPOV'
 import TutorialModal from '@/components/TutorialModal'
 import { AiModal } from './AiModal'
 import { clearPhysicsState } from '@/components/physics/PhysicalObjects'
+import CanonPOV from '@/model/CanonPOV'
+import Logo from '@/dom/atom/logo/Logo'
 
 export default function SinglePlayerPage() {
   const stageRef = useRef<SinglePlayerStageHandle>(null)
