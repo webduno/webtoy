@@ -40,12 +40,19 @@ const SinglePlayerScene = forwardRef<SinglePlayerSceneHandle, SinglePlayerSceneP
   useEffect(() => {
     // Check if the scene is available now
     if (sceneRef.current) {
-      loadObjects(sceneRef, STORAGE_KEY);
+      // only if there are no objects in the scene
+      console.log("sceneRef.current.children.length", sceneRef.current.children.length)
+      if (sceneRef.current.children.length === 0) {
+        loadObjects(sceneRef, STORAGE_KEY);
+      }
     } else {
       // Use requestAnimationFrame for a more efficient approach than setTimeout
       const checkSceneReady = () => {
         if (sceneRef.current) {
-          loadObjects(sceneRef, STORAGE_KEY);
+          if (sceneRef.current.children.length === 0) {
+            console.log("loading objects")
+            loadObjects(sceneRef, STORAGE_KEY);
+          }
         } else {
           requestAnimationFrame(checkSceneReady);
         }
