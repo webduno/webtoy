@@ -2,7 +2,7 @@
 
 import { useMemo, useState, useRef, useEffect } from "react";
 import { useCopyToClipboard } from "usehooks-ts";
-import { CompletionResponse, getCompletionFromAPI } from "../../scripts/service";
+import { CompletionResponse, getCompletionFromAPI } from "../../../scripts/service";
 import { Canvas } from "@react-three/fiber";
 import { Group, Object3D } from "three";
 import { createObject } from "@/scripts/sceneHelpers";
