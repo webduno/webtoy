@@ -51,7 +51,7 @@ export default function SinglePlayerPage() {
 
   const handleResetScene = () => {
     stageRef.current?.resetScene()
-    setShowSettings(false)
+    // setShowSettings(false)
   }
 
   const handleCopyContent = () => {
@@ -61,7 +61,7 @@ export default function SinglePlayerPage() {
 
   const handlePasteContent = () => {
     stageRef.current?.pasteContent()
-    setShowSettings(false)
+    // setShowSettings(false)
   }
 
   const handleAutorotate = () => {

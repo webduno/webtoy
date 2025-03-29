@@ -87,7 +87,7 @@ export const AiModal = ({ onClose }: AiModalProps) => {
             // alert('Scene data copied to clipboard!');
           }}
         >
-          {didCopy ? `Copied to clipboard! ${didCopy == 0 ? '' : `x${didCopy}`}` : 'Click here to copy to clipboard'}
+          {didCopy ? `Copied to clipboard! ${didCopy == 0 ? '' : `x${didCopy}`}` : 'Click here to\ncopy to clipboard'}
         </button>
       )}
       {!!error && (
