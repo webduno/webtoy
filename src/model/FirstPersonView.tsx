@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { PointerLockControls, Box, Cylinder } from '@react-three/drei'
 import { Object3D, Vector3, Raycaster, Mesh, Group } from 'three'
-import { useKeyboardControls } from '@/hooks/useKeyboardControls'
+import { useKeyboardControls } from '@/scripts/hooks/useKeyboardControls'
 
 interface FirstPersonViewProps {
   position: [number, number, number]

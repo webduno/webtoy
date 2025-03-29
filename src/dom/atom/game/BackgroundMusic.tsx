@@ -1,6 +1,6 @@
 "use client"
 
-import { useBackgroundMusic } from '@/contexts/BackgroundMusicContext';
+import { useBackgroundMusic } from '@/scripts/contexts/BackgroundMusicContext';
 
 export function BackgroundMusic() {
   const { isPlaying, togglePlay } = useBackgroundMusic();
