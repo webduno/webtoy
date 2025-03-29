@@ -62,7 +62,7 @@ export default function SinglePlayerPage() {
 
   const handlePasteContent = () => {
     stageRef.current?.pasteContent()
-    // setShowSettings(false)
+    setShowSettings(false)
   }
 
   const handleAutorotate = () => {
@@ -131,7 +131,10 @@ export default function SinglePlayerPage() {
         <>
         {showAiModal && (
           <AiModal
-            onClose={() => setShowAiModal(false)}
+            onClose={() => {
+              setShowAiModal(false);
+              setShowSettings(true);
+            }}
           />
         )}
           {showSettings && (
@@ -152,7 +155,10 @@ export default function SinglePlayerPage() {
             <TemplatesModal
               templates={templates}
               onLoadTemplate={handleLoadTemplate}
-              onClose={() => setShowTemplates(false)}
+              onClose={() => {
+                setShowTemplates(false);
+                setShowSettings(true);
+              }}
             />
           )}
 

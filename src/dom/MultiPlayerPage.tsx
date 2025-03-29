@@ -141,12 +141,12 @@ export default function MultiPlayerPage() {
   const handleResetScene = () => {
     stageRef.current?.resetScene()
     // close settings
-    setShowSettings(false)
+    // setShowSettings(false)
   }
   const handleCopyContent = () => {
     stageRef.current?.copyContent()
     // close settings
-    setShowSettings(false)
+    // setShowSettings(false)
   }
   const handlePasteContent = () => {
     stageRef.current?.pasteContent()
@@ -186,7 +186,10 @@ export default function MultiPlayerPage() {
         <>
           {showAiModal && (
             <AiModal
-              onClose={() => setShowAiModal(false)}
+              onClose={() => {
+                setShowAiModal(false);
+                setShowSettings(true);
+              }}
             />
           )}
           {showSettings && (
@@ -207,7 +210,10 @@ export default function MultiPlayerPage() {
             <TemplatesModal
               templates={templates}
               onLoadTemplate={handleLoadTemplate}
-              onClose={() => setShowTemplates(false)}
+              onClose={() => {
+                setShowTemplates(false);
+                setShowSettings(true);
+              }}
             />
           )}
           

@@ -36,6 +36,14 @@ export default function SettingsModal({
   return (
     <>
     <div className='bg-glass-10 pos-abs flex-col flex-align-center z-1000 bg-b-90 px-4 pb-4 bord-r-10'>
+      <div 
+        onClick={onClose}
+        
+        className="pos-abs  bg-black px-2 py-1 bord-r-100 top-0 right-0 ma-2 tx-lg opaci-50 opaci-chov--75 cursor-pointer tx-white text-shadow-5"
+        style={{ zIndex: 1001, transform: 'translate(125%, -125%)' }}
+      >
+        ✕
+      </div>
       <details>
         <summary className='flex opaci-chov--50 py-2 pt-6'>
         <button 
