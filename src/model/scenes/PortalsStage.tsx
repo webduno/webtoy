@@ -4,7 +4,7 @@ import { MapControls, OrbitControls, Stage, PointerLockControls } from '@react-t
 import { useThree, useFrame } from '@react-three/fiber'
 import { Vector3, Euler } from 'three'
 import { useBackgroundMusic } from '@/scripts/contexts/BackgroundMusicContext'
-import { HallOfPortals } from './portals/HallOfPortals'
+import { HallOfPortals } from '../portals/HallOfPortals'
 import { useKeyboardControls } from '@/scripts/hooks/useKeyboardControls'
 import { isMobile } from '@/utils/mobileDetection'
 

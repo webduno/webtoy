@@ -7,8 +7,8 @@ import SettingsModal from '@/dom/molecule/SettingsModal'
 import TemplatesModal from '@/dom/molecule/TemplatesModal'
 import { DEFAULT_TEMPLATE_LIST } from '@/scripts/sceneTemplates'
 import { Canvas } from '@react-three/fiber'
-import SimpleScene from '@/scenes/SimpleScene'
-import PortalsStage from '@/scenes/PortalsStage'
+import SimpleScene from '@/model/scenes/SimpleScene'
+import PortalsStage from '@/model/scenes/PortalsStage'
 import { isMobile } from '@/utils/mobileDetection'
 
 interface PortalParams {

@@ -1,5 +1,5 @@
 "use client"
-import SimpleScene from '@/scenes/SimpleScene'
+import SimpleScene from '@/model/scenes/SimpleScene'
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react'
 import { Object3D, BoxGeometry, MeshStandardMaterial, Mesh, Group } from 'three'
 import { MapControls, TransformControls } from '@react-three/drei'

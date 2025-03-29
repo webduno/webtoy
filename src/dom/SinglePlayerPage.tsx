@@ -1,6 +1,6 @@
 "use client"
 import { useRef, useState, useEffect } from 'react'
-import SinglePlayerStage, { SinglePlayerStageHandle } from '@/scenes/SinglePlayerStage'
+import SinglePlayerStage, { SinglePlayerStageHandle } from '@/model/scenes/SinglePlayerStage'
 import styles from '../app/single/page.module.css'
 import SettingsModal from '@/dom/molecule/SettingsModal'
 import TemplatesModal from '@/dom/molecule/TemplatesModal'

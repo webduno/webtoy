@@ -1,7 +1,7 @@
 "use client"
 import { useEffect, useRef, useState  } from 'react'
 import styles from '../app/multi/page.module.css'
-import MultiPlayerStage, { MultiPlayerStageHandle } from '@/scenes/MultiPlayerStage'
+import MultiPlayerStage, { MultiPlayerStageHandle } from '@/model/scenes/MultiPlayerStage'
 import Logo from '@/dom/atom/logo/Logo'
 import { signIn, useSession } from 'next-auth/react'
 import GoogleLoginButton from '@/dom/atom/auth/GoogleLoginButton'
