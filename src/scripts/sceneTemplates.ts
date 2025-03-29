@@ -389,36 +389,15 @@ const SOCCER_FIELD = [
   {"position":[0,1,-10.5],"rotation":[0,0,0],"scale":[1.85,2,0.4],"color":"eeeeee","hasGravity":false}, // Bottom goal net
 ];
 
-const DOMINOES = [{"position":[-5,1,0],"rotation":[0,0,0],"scale":[0.5,2,1],"color":"ffffff","hasGravity":true},{"position":[-3,1,0],"rotation":[0,0,0],"scale":[0.5,2,1],"color":"ffffff","hasGravity":true},{"position":[-1,1,0],"rotation":[0,0,0],"scale":[0.5,2,1],"color":"ffffff","hasGravity":true},{"position":[1,1,0],"rotation":[0,0,0],"scale":[0.5,2,1],"color":"ffffff","hasGravity":true},{"position":[3,1,0],"rotation":[0,0,0],"scale":[0.5,2,1],"color":"ffffff","hasGravity":true},{"position":[5,1,0],"rotation":[0,0,0],"scale":[0.5,2,1],"color":"ffffff","hasGravity":true},{"position":[0,-0.6591558200230354,0],"rotation":[0,0,0],"scale":[29.923001627541506,1,16.34909853971758],"color":"cea455","hasGravity":false}]
-
-// Wall run template
-// const WALL_RUN = [
-//   // Long floor
-//   {"position":[0,0.15,-2],"rotation":[0,0,0],"scale":[2.25,0.2,13],"color":"d4a76a","hasGravity":false},
-//   {"position":[0,0.16,-4],"rotation":[0,0,0],"scale":[1.8,0.01,0.1],"color":"000000","hasGravity":false},
-//   {"position":[0,0.16,-6],"rotation":[0,0,0],"scale":[1.8,0.01,0.1],"color":"000000","hasGravity":false},
-//   {"position":[0,0.16,-8],"rotation":[0,0,0],"scale":[1.8,0.01,0.1],"color":"000000","hasGravity":false},
-//   {"position":[1.2,0.05,-2],"rotation":[0,0,0],"scale":[0.3,0.1,15],"color":"222222","hasGravity":false},
-//   {"position":[-1.2,0.05,-2],"rotation":[0,0,0],"scale":[0.3,0.1,15],"color":"222222","hasGravity":false},
-  
-//   // Ground beneath
-//   {"position":[0,-0.4757091232797994,-3.649876459484724],"rotation":[0,0,0],"scale":[6.628786182670685,1,19.485644319265116],"color":"777777","hasGravity":false},
-  
-//   // Bottom layer (3 cubes)
-//   {"position":[0,1.0,-10.1],"rotation":[0,0,0],"scale":[0.3,0.3,0.3],"color":"ffffff","hasGravity":true},
-//   {"position":[0.5,1.0,-10.1],"rotation":[0,0,0],"scale":[0.3,0.3,0.3],"color":"ffffff","hasGravity":true},
-//   {"position":[-0.5,1.0,-10.1],"rotation":[0,0,0],"scale":[0.3,0.3,0.3],"color":"ffffff","hasGravity":true},
-  
-//   // Middle layer (3 cubes)
-//   {"position":[0,1.4,-10.1],"rotation":[0,0,0],"scale":[0.3,0.3,0.3],"color":"ffffff","hasGravity":true},
-//   {"position":[0.5,1.4,-10.1],"rotation":[0,0,0],"scale":[0.3,0.3,0.3],"color":"ffffff","hasGravity":true},
-//   {"position":[-0.5,1.4,-10.1],"rotation":[0,0,0],"scale":[0.3,0.3,0.3],"color":"ffffff","hasGravity":true},
-  
-//   // Top layer (3 cubes)
-//   {"position":[0,1.8,-10.1],"rotation":[0,0,0],"scale":[0.3,0.3,0.3],"color":"ffffff","hasGravity":true},
-//   {"position":[0.5,1.8,-10.1],"rotation":[0,0,0],"scale":[0.3,0.3,0.3],"color":"ffffff","hasGravity":true},
-//   {"position":[-0.5,1.8,-10.1],"rotation":[0,0,0],"scale":[0.3,0.3,0.3],"color":"ffffff","hasGravity":true},
-// ];
+const DOMINOES = [
+  {"position":[-2.5,0.5,0],"rotation":[0,0,0],"scale":[0.25,1,0.5],"color":"ffffff","hasGravity":true},
+  {"position":[-1.5,0.5,0],"rotation":[0,0,0],"scale":[0.25,1,0.5],"color":"ffffff","hasGravity":true},
+  {"position":[-0.5,0.5,0],"rotation":[0,0,0],"scale":[0.25,1,0.5],"color":"ffffff","hasGravity":true},
+  {"position":[0.5,0.5,0],"rotation":[0,0,0],"scale":[0.25,1,0.5],"color":"ffffff","hasGravity":true},
+  {"position":[1.5,0.5,0],"rotation":[0,0,0],"scale":[0.25,1,0.5],"color":"ffffff","hasGravity":true},
+  {"position":[2.5,0.5,0],"rotation":[0,0,0],"scale":[0.25,1,0.5],"color":"ffffff","hasGravity":true},
+  {"position":[0,-0.3295779100115177,0],"rotation":[0,0,0],"scale":[14.961500813770753,0.5,8.17454926985879],"color":"cea455","hasGravity":false}
+]
 
 /**
  * Get template data based on the template name
@@ -459,9 +438,6 @@ export function getTemplateData(templateName: string | null): any[] | null {
     case 'soccer_field':
       return SOCCER_FIELD;
       
-    // case 'wall_run':
-    //   return WALL_RUN;
-
     case 'dominoes':
       return DOMINOES;
       
