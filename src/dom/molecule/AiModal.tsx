@@ -115,11 +115,30 @@ export const AiModal = ({ onClose }: AiModalProps) => {
         </div>
       </div>
       <GameButton type="alpha" classOverride="mt-4 tx-lg"
-       onClick={handleGenerate} props={{disabled: isGenerating}}>
+       onClick={()=>{
+        if (prompt === '') {
+          alert("Please enter a prompt")
+          return
+        }
+        if (prompt.length < 3) {
+          alert("Prompt must be at least 3 characters")
+          return
+        }
+        if (prompt.length > 100) {
+          alert("Prompt must be less than 100 characters")
+          return
+        }
+        // if is generating, don't generate again
+        if (isGenerating) {
+          alert("Please wait for the current generation to complete")
+          return
+        }
+        handleGenerate()
+       }} props={{disabled: isGenerating}}>
         <div>
           {!!isGenerating && <div className="flex-row gap-2">
             <div className="">Generating</div>
-            <div className="spin-6">|</div>
+            <div className="spin-6">🪄</div>
             </div>}
           {!isGenerating && <div className="tx-altfont-1">Generate 🪄</div>}
         </div>
