@@ -36,6 +36,32 @@ const SinglePlayerScene = forwardRef<SinglePlayerSceneHandle, SinglePlayerSceneP
   const { isAdding = false, setIsAdding, selectedObject, setSelectedObject, transformMode = 'move', color, isAutorotating = false } = props
   const sceneRef = useRef<Group>(null)
   const mapControlsRef = useRef<any>(null)
+  const [cameraPosition, setCameraPosition] = useState<[number, number, number] | null>(null)
+  const [cameraTarget, setCameraTarget] = useState<[number, number, number] | null>(null)
+  const [cameraRotation, setCameraRotation] = useState<[number, number, number] | null>(null)
+
+  // Store camera state when switching modes
+  useEffect(() => {
+    if (mapControlsRef.current) {
+      const controls = mapControlsRef.current
+      const camera = controls.object
+      setCameraPosition([camera.position.x, camera.position.y, camera.position.z])
+      setCameraTarget([controls.target.x, controls.target.y, controls.target.z])
+      setCameraRotation([camera.rotation.x, camera.rotation.y, camera.rotation.z])
+    }
+  }, [isAdding])
+
+  // Restore camera position when switching modes
+  useEffect(() => {
+    if (mapControlsRef.current && cameraPosition && cameraTarget && cameraRotation) {
+      const controls = mapControlsRef.current
+      controls.target.set(...cameraTarget)
+      controls.object.position.set(...cameraPosition)
+      controls.object.rotation.set(...cameraRotation)
+      controls.update()
+    }
+  }, [isAdding, cameraPosition, cameraTarget, cameraRotation])
+
   // Load objects when the component mounts and scene is ready
   useEffect(() => {
     // Check if the scene is available now
@@ -238,11 +264,18 @@ const SinglePlayerScene = forwardRef<SinglePlayerSceneHandle, SinglePlayerSceneP
       <CameraClickControls sceneRef={sceneRef} mapControlsRef={mapControlsRef} 
       deleteMode={props.deleteMode || false}
        />
-      {/* @ts-ignore */}
-      {/* !!isAdding &&
-      */}
-        {/* <MapControls enablePan={!isAdding} minDistance={0.1} maxDistance={50} ref={mapControlsRef} /> */}
-        <OrbitControls enableRotate={!isAdding} enablePan={!isAdding}  ref={mapControlsRef} />
+        {!!isAdding && <MapControls 
+          enablePan={false} 
+          minDistance={0.1} 
+          maxDistance={50} 
+          ref={mapControlsRef}
+          target={cameraTarget || [0, 0, 0]}
+        /> }
+        {!isAdding && <OrbitControls 
+          ref={mapControlsRef}
+          target={cameraTarget || [0, 0, 0]}
+        /> }
+        
         <group ref={sceneRef}>
           {/* <mesh onClick={(e) => {
             if (!isAdding && !selectedObject) {

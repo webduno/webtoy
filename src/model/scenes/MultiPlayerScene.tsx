@@ -45,9 +45,34 @@ interface MultiPlayerSceneProps {
 const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProps>((props, ref) => {
   const { isAdding = false, setIsAdding, selectedObject, setSelectedObject, transformMode = 'move', color, friends = [], deleteMode = false } = props
   const sceneRef = useRef<Group>(null)
-  const mapControlsRef = useRef(null)
+  const mapControlsRef = useRef<any>(null)
   const { data: session } = useSession()
   const [autoRotating, setAutoRotating] = useState(false)
+  const [cameraPosition, setCameraPosition] = useState<[number, number, number] | null>(null)
+  const [cameraTarget, setCameraTarget] = useState<[number, number, number] | null>(null)
+  const [cameraRotation, setCameraRotation] = useState<[number, number, number] | null>(null)
+
+  // Store camera state when switching modes
+  useEffect(() => {
+    if (mapControlsRef.current) {
+      const controls = mapControlsRef.current
+      const camera = controls.object
+      setCameraPosition([camera.position.x, camera.position.y, camera.position.z])
+      setCameraTarget([controls.target.x, controls.target.y, controls.target.z])
+      setCameraRotation([camera.rotation.x, camera.rotation.y, camera.rotation.z])
+    }
+  }, [isAdding])
+
+  // Restore camera position when switching modes
+  useEffect(() => {
+    if (mapControlsRef.current && cameraPosition && cameraTarget && cameraRotation) {
+      const controls = mapControlsRef.current
+      controls.target.set(...cameraTarget)
+      controls.object.position.set(...cameraPosition)
+      controls.object.rotation.set(...cameraRotation)
+      controls.update()
+    }
+  }, [isAdding, cameraPosition, cameraTarget, cameraRotation])
 
   const getStorageKey = () => {
     if (friends.length > 1) {
@@ -318,12 +343,12 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
     <div style={{ width: '100vw', height: '100vh', position: 'absolute', top: 0, left: 0 }}>
       <SimpleScene>
         <CameraClickControls sceneRef={sceneRef} mapControlsRef={mapControlsRef} deleteMode={deleteMode} />
-        {/* @ts-ignore */}
-        {/* !!isAdding &&
-      */}
-        <OrbitControls enableRotate={!isAdding} enablePan={!isAdding}  ref={mapControlsRef} />
-        {/* <MapControls enablePan={!isAdding} minDistance={0.1} maxDistance={50} ref={mapControlsRef} /> */}
-        {/* <OrbitControls  ref={mapControlsRef} /> */}
+        <OrbitControls 
+          enableRotate={!isAdding} 
+          enablePan={!isAdding}  
+          ref={mapControlsRef}
+          target={cameraTarget || [0, 0, 0]}
+        />
         <group ref={sceneRef}>
           {selectedObject && (
             <TransformControls 
