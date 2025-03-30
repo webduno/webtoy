@@ -39,16 +39,15 @@ export function GameEngineNav({
           setDeleteMode(false)
         }} className='tx-red tx-altfont- 2 opaci-50 opaci-chov--75 z-1000'>Exit Delete Mode</div>
       )}
-      <div className='flex-row gap-2 mr- 1'>
         {!deleteMode && (
+      <div className='flex-row gap-2 mr- 1'>
           <GameButton type="alpha" classOverride={'tx-mdl py-3 x px-3 z-100 mb-1 mr -1'} 
             onClick={isAdding ? undefined : handleHelloClick}
             styleOverride={isAdding ? { filter: 'saturate(0)', cursor: 'not-allowed' } : undefined}
           >
             Add New
           </GameButton>
-        )}
-        {!showClipboardButtons && (
+        {!showClipboardButtons && !deleteMode && (
           <GameButton type="" classOverride={'tx-lg x px-2 3 z-100 mb-1 py-2 mr -1'} 
             tooltip="Clipboard"
             tooltipId="clipboard-tooltip"
@@ -60,7 +59,7 @@ export function GameEngineNav({
             📋
           </GameButton>
         )}
-        {!!showClipboardButtons && (<div className='flex-wrap w-80px gap-2'>
+        {!!showClipboardButtons && !deleteMode && (<div className='flex-wrap w-80px gap-2'>
           <GameButton type="epsilon" classOverride={'tx-mdl px-2 bord-r-100 z-100 '} 
             tooltip="Reset Scene"
             tooltipId='reset-scene-tooltip'
@@ -102,8 +101,9 @@ export function GameEngineNav({
           </GameButton>
         </div>)}
       </div>
-      <div className='flex-row gap-2 mr- 1'>
+      )}
         {!deleteMode && (
+      <div className='flex-row gap-2 mr- 1'>
           <GameButton type="zeta" 
             styleOverride={{
               border: '1px solid #aa44aa',
@@ -116,8 +116,6 @@ export function GameEngineNav({
           >
             🗂️
           </GameButton>
-        )}
-        {!deleteMode && (
           <GameButton type="zeta" classOverride={'tx-lgx px- 3 z-100 '} 
             styleOverride={{
               border: '1px solid #ffaa44',
@@ -128,8 +126,8 @@ export function GameEngineNav({
           >
             🪄
           </GameButton>
-        )}
       </div>
+        )}
       <div className='flex-row-r gap-2 '>
         <GameButton type="white" classOverride={' bord-r-100 z-100 mr 1 1 mt-2'}
           onClick={handleOpenSettings}
