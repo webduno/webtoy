@@ -67,9 +67,9 @@ export default function NewObjectControls({
   }, [setTransformMode]);
 
   return (
-    <div className='pos-abs right-0 mr-5  bottom-0 flex-col  pa-2 bord-r-5' style={{ 
+    <div className='pos-abs right-0 mr-2   top-0 flex-col  pa-2 bord-r-5' style={{ 
       boxShadow: "0 3px 1px 1px #805300, inset 0 2px 5px 2px #FFD700",
-      marginBottom: "60px",
+      marginTop: "200px",
       background: "linear-gradient(180deg, #E9BC46, #BB852E)",
       zIndex: 1000, 
     }}>
@@ -141,7 +141,9 @@ export default function NewObjectControls({
 
       <div className='flex-row gap-1 '>
       <GameButton classOverride="bord-r-100"
-          type={transformMode === 'move' ? 'white' : ''}
+      tooltip='Grab (G)'
+      tooltipId='grab-tooltip'
+          type={transformMode === 'move' ? 'delta' : ''}
           onClick={() => setTransformMode('move')}
         >
           <div className="flex-col tx-mdl">
@@ -149,7 +151,9 @@ export default function NewObjectControls({
           </div>
         </GameButton>
         <GameButton classOverride="bord-r-100"
-          type={transformMode === 'rotate' ? 'white' : ''}
+          tooltip='Rotate (R)'
+          tooltipId='rotate-tooltip'
+          type={transformMode === 'rotate' ? 'delta' : ''}
           onClick={() => setTransformMode('rotate')}
         >
           <div className="flex-col tx-mdl">
@@ -157,7 +161,9 @@ export default function NewObjectControls({
           </div>
         </GameButton>
         <GameButton classOverride="bord-r-100"
-          type={transformMode === 'scale' ? 'white' : ''}
+          tooltip='Scale (S)'
+          tooltipId='scale-tooltip'
+          type={transformMode === 'scale' ? 'delta' : ''}
           onClick={() => setTransformMode('scale')}
         >
           <div className="flex-col tx-mdl">
