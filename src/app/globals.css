@@ -70,6 +70,11 @@
   box-shadow: 0 3px 1px 1px #B47733, inset 0 2px 5px 2px #FFe770;
 }
 
+.game-btn-white {
+  background: linear-gradient(0deg, #cccccc 30%, #ffffff 70%);
+  box-shadow: 0 3px 1px 1px #b49743, inset 0 2px 5px 2px #FFe7a0;
+}
+
 .game-text-input {
   background: #FfeBc2;
   border: none;

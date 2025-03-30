@@ -69,7 +69,7 @@ export function RoomButtons({myip}: {myip: string}) {
       <Link href="/single/" onClick={() => handleNavigation('single')}>
         <GameButton type="epsilon" >
           <div className='px-4 tx-lg noselect'>
-            {loading === 'single' ? 'Loading...' : (
+            {loading === 'single' ? <>Loading <br /> Game...</> : (
               <>Single <br /> Player</>
             )}
           </div>
@@ -78,7 +78,7 @@ export function RoomButtons({myip}: {myip: string}) {
       <Link href="/multi/" onClick={() => handleNavigation('multi')}>
         <GameButton type="beta" >
           <div className='px-4 tx-lg noselect'>
-            {loading === 'multi' ? 'Loading...' : (
+            {loading === 'multi' ? <>Loading <br /> Game...</> : (
               <>Multi <br /> Player</>
             )}
           </div>
@@ -140,7 +140,7 @@ export function RoomButtons({myip}: {myip: string}) {
           type="alpha"
         >
           <div className='px-4 tx-lg noselect'>
-            {loading === 'portals' ? 'Loading...' : (
+            {loading === 'portals' ? <>Loading <br /> Game...</> : (
               <>Portals</>
             )}
           </div>
