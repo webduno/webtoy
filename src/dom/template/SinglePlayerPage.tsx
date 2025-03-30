@@ -182,7 +182,10 @@ export default function SinglePlayerPage() {
                 </GameButton>
               )}
               {!showClipboardButtons && (
-              <GameButton type="zeta" classOverride={'tx-lg x px-2 3 z-100 mb-1 py-2 mr -1'} 
+              <GameButton type="" classOverride={'tx-lg x px-2 3 z-100 mb-1 py-2 mr -1'} 
+              styleOverride={{
+                // filter: 'saturate(0)',
+              }}
                 onClick={() => setShowClipboardButtons(!showClipboardButtons)}
                 >
                                     📋
@@ -190,6 +193,23 @@ export default function SinglePlayerPage() {
                 </GameButton>
               )}
               {!!showClipboardButtons && (<div className='flex-wrap w-80px gap-2'>
+                <GameButton type="epsilon" classOverride={'tx-mdl px-2 bord-r-100 z-100 '} 
+                styleOverride={{
+                }}
+                  onClick={handleToggleAI}
+                >
+                  R
+                </GameButton>
+                <GameButton  type="" classOverride={'tx-mdl px-2 bord- r-100 z-100 '} 
+                styleOverride={{
+                  // filter: 'saturate(0)',
+                }}
+                  onClick={() => {
+                    setShowClipboardButtons(false)
+                  }}
+                >
+                  X
+                </GameButton>
                 <GameButton type="zeta" 
                 styleOverride={{
                 }}
@@ -205,23 +225,6 @@ export default function SinglePlayerPage() {
                   onClick={handleToggleTemplates}
                 >
                   P
-                </GameButton>
-                <GameButton type="epsilon" classOverride={'tx-mdl px-2 bord-r-100 z-100 '} 
-                styleOverride={{
-                }}
-                  onClick={handleToggleAI}
-                >
-                  R
-                </GameButton>
-                <GameButton type="white" classOverride={'tx-mdl px-2 bord-r-100 z-100 '} 
-                styleOverride={{
-                  filter: 'saturate(0)',
-                }}
-                  onClick={() => {
-                    setShowClipboardButtons(false)
-                  }}
-                >
-                  X
                 </GameButton>
                 </div>)}
             </div>
