@@ -1,5 +1,6 @@
 "use client"
 import { Dispatch, SetStateAction, useEffect } from 'react'
+import { GameButton } from '../atom/game/GameButton';
 
 type TransformMode = 'move' | 'scale' | 'rotate';
 
@@ -66,55 +67,44 @@ export default function NewObjectControls({
   }, [setTransformMode]);
 
   return (
-    <div className='border-white bg-w-50' style={{ 
+    <div className='pos-abs right-0 mr-2 mb-8 bottom-0 flex-col bg-b-50 bg-glass-10 pa-2 bord-r-5' style={{ 
       zIndex: 1000, 
-      position: 'absolute', 
-      bottom: '40px', 
-      right: '10px',
-      display: 'flex',
-      flexDirection: 'column',
-      gap: '0px',
-      padding: '10px',
-      // backgroundColor: 'rgba(255, 255, 255, 0.1)',
-      backdropFilter: 'blur(5px)',
-      borderRadius: '8px',
     }}>
-      
-      <button 
-        style={{
-          ...buttonStyle,
-          backgroundColor: '#4ae260', // green for Done button
-        }}
-        onClick={handleDone}
-        className="room-select-button tx-shadow-5 tx-altfont-"
-      >
-        DONE
-      </button>
-      {/* add cancel button */}
-      <button  className='noborder bg-b-90 bord-r-10 tx-white opaci-50 opaci-chov--25 mb-2 py-1'
-        style={{
-
-        }}
-        onClick={handleCancel}
-      >
-        Cancel
-      </button>
+      <div className="flex-row flex-justify-between w-100">
+        <button  className='noborder tx-altfont-1 bg-trans   opaci-chov--50 mb- py-2 tx-shadow-5'
+          style={{
+            color: '#ff6666',
+          }}
+          onClick={handleCancel}
+        >
+          Cancel
+        </button>
+        <GameButton 
+          classOverride='tx-mdl'
+          type="alpha"
+          onClick={handleDone}
+        >
+          DONE
+        </GameButton>
+      </div>
+      <hr className='w-100 opaci-20 pa-0 ' />
       {/* <div className="tx-altfont-1 tx-center tx-white tx-shadow-5  pb-1">Color</div> */}
-      <div style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}>
+      <div className='flex-row gap-2 mb-1 pb-1'>
+        <div className='flex-col gap-1 flex-1 flex-justify-start tx-shadow-5'>
+          <label htmlFor='color-input' className='tx-altfont-1 pointer tx-white tx-sm' style={{paddingBottom:"4px"}}>Color</label>
         <input 
-        className='flex-1'
+        id='color-input'
+        className=' noborder bord-r-5'
           type="color"
           value={color}
           onChange={(e) => setColor(e.target.value)}
           style={{
-            width: '40px',
-            height: '40px',
-            border: 'none',
-            borderRadius: '6px',
+            width: '25px',
+            height: '25px',
             cursor: 'pointer',
-            marginRight: '8px',
           }}
         />
+        </div>
         {/* <div style={{
           backgroundColor: 'rgba(255, 255, 255, 0.2)',
           padding: '4px 8px',
@@ -127,10 +117,13 @@ export default function NewObjectControls({
           {color}
         </div> */}
         {/* Has Gravity */}
-        {canHaveGravity && (
-          <div className='flex-col tx-white' >
-            <div className='tx-sm tx-center tx-shadow-5'>Gravity</div>
+        {//canHaveGravity &&
+        (
+          <div className='flex-col tx-white pb-1' >
+            <label htmlFor='gravity-checkbox' className='pointer tx-sm tx-center tx-shadow-5 tx-altfont-1'>Gravity</label>
             <input 
+            id="gravity-checkbox"
+            className='scale-200 mt-3 pointer'
             type="checkbox" 
             checked={hasGravity}
             onChange={(e) => setHasGravity?.(e.target.checked)}
@@ -139,8 +132,32 @@ export default function NewObjectControls({
         )}
       </div>
 
-      <div style={{ display: 'flex', gap: '2px', justifyContent: 'space-between' }}>
-        <button 
+      <div className='flex-row gap-1 '>
+      <GameButton classOverride="bord-r-100"
+          type={transformMode === 'move' ? 'white' : ''}
+          onClick={() => setTransformMode('move')}
+        >
+          <div className="flex-col tx-mdl">
+            <div>✋</div>
+          </div>
+        </GameButton>
+        <GameButton classOverride="bord-r-100"
+          type={transformMode === 'rotate' ? 'white' : ''}
+          onClick={() => setTransformMode('rotate')}
+        >
+          <div className="flex-col tx-mdl">
+            <div>🔄</div>
+          </div>
+        </GameButton>
+        <GameButton classOverride="bord-r-100"
+          type={transformMode === 'scale' ? 'white' : ''}
+          onClick={() => setTransformMode('scale')}
+        >
+          <div className="flex-col tx-mdl">
+            <div>📐</div>
+          </div>
+        </GameButton>
+        {/* <button 
           style={{
             ...buttonStyle,
             backgroundColor: transformMode === 'move' ? '#4a90e2' : 'rgba(74, 144, 226, 0.25)',
@@ -174,7 +191,7 @@ export default function NewObjectControls({
           className="flex-col"
         >
           S 📏
-        </button>
+        </button> */}
       </div>
     </div>
   )
