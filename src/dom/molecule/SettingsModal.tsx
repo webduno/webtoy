@@ -1,4 +1,5 @@
 import { useRef, useEffect } from 'react';
+import { GameButton } from '../atom/game/GameButton';
 
 interface SettingsModalProps {
   onClose: () => void;
@@ -63,15 +64,6 @@ export default function SettingsModal({
       >
         Autorotate
       </button>
-      <button 
-        onClick={() => {
-          onDeleteModeToggle(!deleteMode);
-          onClose();
-        }} 
-        className='border-red bord-r-10 bg-trans tx-red tx-lg py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1'
-      >
-        Delete Mode: {deleteMode ? 'ON' : 'OFF'}
-      </button>
       <div className='flex-row gap-2'>
         <button 
           onClick={() => {
@@ -101,6 +93,29 @@ export default function SettingsModal({
           Paste
         </button>
       </div>
+      <GameButton 
+        type="gamma"
+        onClick={() => {
+          onDeleteModeToggle(!deleteMode);
+          onClose();
+        }} 
+        classOverride='tx-lg'
+        // className='border-red bord-r-10 bg-trans tx-red tx-lg py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1'
+      >
+        Delete Mode: {deleteMode ? 'ON' : 'OFF'}
+      </GameButton>
+      <button 
+        onClick={() => {
+          const confirm = prompt("Are you sure you want to factory reset? This will delete all your data and settings.");
+          if(confirm){
+            window.localStorage.clear();
+            window.location.reload();
+          }
+        }} 
+        className='noborder pt-2 mt-2 bg-trans tx-white tx-sm py4 opaci-chov--50 tx-shadow-5 tx-altfont-1 tx-red'
+      >
+        FactoryReset
+      </button>
       </div>
       </details>
       <div className='pos-abs flex-row gap-2 bottom-0 translate-y-100 pt-2'>
