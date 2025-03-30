@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { useBackgroundMusic } from '@/scripts/contexts/BackgroundMusicContext';
 import { GameButton } from '../atom/game/GameButton';
+import { GameTextInput } from '../atom/game/GameTextInput';
 
 export function RoomButtons({myip}: {myip: string}) {
   const { data: session } = useSession();
@@ -122,10 +123,8 @@ export function RoomButtons({myip}: {myip: string}) {
     <hr className='w-100 opaci-50' />
 
     <div className='flex-col gap-2'>
-      <input 
-        type="text" 
-        placeholder='Username' 
-        className='w-150px bord-r-10 py-2 tx-center border-white'
+      <GameTextInput 
+        placeholder='Username'
         value={username}
         onChange={(e) => setUsername(e.target.value)}
       />
