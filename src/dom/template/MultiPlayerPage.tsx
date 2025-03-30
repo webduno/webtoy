@@ -43,16 +43,12 @@ export default function MultiPlayerPage() {
   }
   const [isPlaying, setIsPlaying] = useState<boolean>(false)
   const [playPosition, setPlayPosition] = useState<[number, number, number]>([0, 0, 0])
+  const [spawnCoords, setSpawnCoords] = useState<string>('2,2,2')
   
   const handlePlay = () => {
-    const coordinates = prompt("Enter coordinates (default: 2,2,2)", "2,2,2")
-    if (!coordinates) {
-      return alert("No coordinates provided")
-    }
-
     try {
       // Parse the coordinates string into an array of numbers
-      const coords = coordinates.split(',').map(Number)
+      const coords = spawnCoords.split(',').map(Number)
       
       // Check if we have exactly 3 valid numbers
       if (coords.length !== 3 || coords.some(isNaN)) {
@@ -211,6 +207,8 @@ export default function MultiPlayerPage() {
               onAutorotate={handleAutorotate}
               onOpenTemplates={handleToggleTemplates}
               onOpenAI={handleToggleAI}
+              spawnCoords={spawnCoords}
+              setSpawnCoords={setSpawnCoords}
             />
           )}
           

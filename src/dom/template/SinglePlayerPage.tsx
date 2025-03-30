@@ -20,6 +20,7 @@ export default function SinglePlayerPage() {
   const [deleteMode, setDeleteMode] = useState<boolean>(false)
   const [isPlaying, setIsPlaying] = useState<boolean>(false)
   const [playPosition, setPlayPosition] = useState<[number, number, number]>([0, 0, 0])
+  const [spawnCoords, setSpawnCoords] = useState<string>('2,2,2')
   const [templates, setTemplates] = useState<{name: string, description: string}[]>(
     DEFAULT_TEMPLATE_LIST
   )
@@ -85,11 +86,7 @@ export default function SinglePlayerPage() {
   }
 
   const handlePlay = () => {
-    const coordinates = prompt("Enter coordinates (default: 2,2,2)", "2,2,2")
-    if (!coordinates) {
-      return alert("No coordinates provided")
-    }
-    //  early return if scene is empty
+    // early return if scene is empty
     if (!hasObjects) {
       alert("No objects in scene. Please create some objects first.")
       return
@@ -97,7 +94,7 @@ export default function SinglePlayerPage() {
 
     try {
       // Parse the coordinates string into an array of numbers
-      const coords = coordinates.split(',').map(Number)
+      const coords = spawnCoords.split(',').map(Number)
       
       // Check if we have exactly 3 valid numbers
       if (coords.length !== 3 || coords.some(isNaN)) {
@@ -154,6 +151,8 @@ export default function SinglePlayerPage() {
               onAutorotate={handleAutorotate}
               onOpenTemplates={handleToggleTemplates}
               onOpenAI={handleToggleAI}
+              spawnCoords={spawnCoords}
+              setSpawnCoords={setSpawnCoords}
             />
           )}
           

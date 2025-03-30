@@ -13,6 +13,8 @@ interface SettingsModalProps {
   onAutorotate: () => void;
   onOpenTemplates: () => void;
   onOpenAI?: () => void;
+  spawnCoords: string;
+  setSpawnCoords: (coords: string) => void;
 }
 
 export default function SettingsModal({
@@ -24,7 +26,9 @@ export default function SettingsModal({
   onPasteContent,
   onAutorotate,
   onOpenTemplates,
-  onOpenAI
+  onOpenAI,
+  spawnCoords,
+  setSpawnCoords
 }: SettingsModalProps) {
   const hasPlayedSound = useRef(false);
   const [settingsDropdown, setSettingsDropdown] = useState(false);
@@ -70,7 +74,23 @@ export default function SettingsModal({
         </summary>
         <div className='flex-col w-100 pt-4'>
       
-      <div className='flex-row gap-2'>
+      <div className='flex-col gap-1'>
+        <label htmlFor="spawnCoords">Spawn Coords</label>
+        <input type="text" id="spawnCoords" placeholder='Spawn Coords'
+        className='game-text-input mb-2 bord-r-100 tx-center py-1 w-100px' 
+        value={spawnCoords}
+        onChange={(e) => {
+          // has to be 0,0,0 format
+          if(!e.target.value.match(/^\d{1,3},\d{1,3},\d{1,3}$/)){
+            alert('Invalid spawn coords');
+            return;
+          }
+          setSpawnCoords(e.target.value);
+        }}
+        />
+        
+      </div>
+      {/* <div className='flex-row gap-2'>
         <GameButton 
           type="zeta"
           onClick={() => {
@@ -98,34 +118,8 @@ export default function SettingsModal({
         >
           Reset
         </GameButton>
-        {/* <button 
-          onClick={() => {
-            onResetScene();
-            // onClose();
-          }} 
-          className='noborder bg-trans tx-white tx-mdl py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1 underline'
-        >
-          Reset
-        </button>
-        <button 
-          onClick={() => {
-            onCopyContent();
-            // onClose();
-          }} 
-          className='noborder bg-trans tx-white tx-mdl py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1 underline'
-        >
-          Copy
-        </button>
-        <button 
-          onClick={() => {
-            onPasteContent();
-            // onClose();
-          }} 
-          className='noborder bg-trans tx-white tx-mdl py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1 underline'
-        >
-          Paste
-        </button> */}
-      </div>
+        
+      </div> */}
       <hr className='w-100 opaci-20 my-2' />
       <div className='flex-col gap-2'>
       <GameButton 
