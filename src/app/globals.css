@@ -60,6 +60,11 @@
   box-shadow: 0 3px 1px 1px #805300, inset 0 2px 5px 2px #FFD700;
 }
 
+.game-btn-epsilon {
+  background: linear-gradient(0deg, #f46A5A 30%, #FFB3B3 70%);
+  box-shadow: 0 3px 1px 1px #cc3333, inset 0 2px 5px 2px #FFc6c6;
+}
+
 .game-text-input {
   background: #FfeBc2;
   border: none;

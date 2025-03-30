@@ -61,8 +61,8 @@ export function RoomButtons({myip}: {myip: string}) {
   return (<>
     <div className="flex-row gap-2 flex-wrap flex-justify-center flex-align-center">
       <Link href="/single/" onClick={() => handleNavigation('single')}>
-        <GameButton type="alpha" >
-          <div className='px-4 tx-lg'>
+        <GameButton type="epsilon" >
+          <div className='px-4 tx-lg noselect'>
             {loading === 'single' ? 'Loading...' : (
               <>Single <br /> Player</>
             )}
@@ -71,7 +71,7 @@ export function RoomButtons({myip}: {myip: string}) {
       </Link>
       <Link href="/multi/" onClick={() => handleNavigation('multi')}>
         <GameButton type="beta" >
-          <div className='px-4 tx-lg'>
+          <div className='px-4 tx-lg noselect'>
             {loading === 'multi' ? 'Loading...' : (
               <>Multi <br /> Player</>
             )}
@@ -103,7 +103,7 @@ export function RoomButtons({myip}: {myip: string}) {
       </button> */}
       
       <GameButton type="delta" onClick={loginWithGoogle} classOverride="bord-r-100 mt-1" >
-        <div className='px-4 py-1 tx-lg flex-row gap-2 flex-align-center flex-justify-center'>
+        <div className='noselect px-4 py-1 tx-lg flex-row gap-2 flex-align-center flex-justify-center'>
           <div className='bg-white bord-r-100 pt- px-1'>
             <svg width="18" height="18" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
               <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/>
@@ -133,6 +133,7 @@ export function RoomButtons({myip}: {myip: string}) {
           textDecoration: 'none',
           color: 'inherit',
           pointerEvents: (!username && !loggedPlayer?.name) ? 'none' : 'auto',
+          filter: (!username && !loggedPlayer?.name) ? 'saturate(0) contrast(0.2) brightness(1.5)' : 'none'
         }} 
         href={`/portals?${new URLSearchParams({
           username: loggedPlayer?.name || username || '',
@@ -147,28 +148,15 @@ export function RoomButtons({myip}: {myip: string}) {
         }).toString()}`}
         onClick={() => handleNavigation('portals')}
       >
-        <button
-          style={{
-            padding: '12px 24px',
-            fontSize: '1.1rem',
-            fontWeight: 'bold',
-            color: '#ffffff',
-            backgroundColor: (!username && !loggedPlayer?.name) ? '#666666' : '#00B30F',
-            border: 'none',
-            cursor: (!username && !loggedPlayer?.name) ? 'not-allowed' : loading === 'portals' ? 'wait' : 'pointer',
-            transition: 'all 0.2s ease',
-            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-            textTransform: 'uppercase',
-            letterSpacing: '1px',
-            opacity: loading === 'portals' ? 0.7 : 1,
-          }}
-          className="room-select-button bord-r-100"
-          disabled={loading !== null || (!username && !loggedPlayer?.name)}
+        <GameButton 
+          type="alpha"
         >
-          {loading === 'portals' ? 'Loading...' : (
-            <>Enter<br />Portals</>
-          )}
-        </button>
+          <div className='px-4 tx-lg noselect'>
+            {loading === 'portals' ? 'Loading...' : (
+              <>Portals</>
+            )}
+          </div>
+        </GameButton>
       </Link>
     </div>
     </>

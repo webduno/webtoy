@@ -14,7 +14,7 @@ export function RoomCreate({myip}: {myip: string}) {
       }}>
         <LandingLogo />
         
-        <div className=" bord-r-100 hover-4 mb-2" style={{border: '3px solid white'}}>
+        <div className="noselect bord-r-100 hover-4 mb-2" style={{border: '3px solid white'}}>
           <Image priority className=" block bord-r-100 box-shadow-2-b" src="/house.png" alt="logo" width={100} height={100} />
         </div>
         <RoomButtons myip={myip} />
