@@ -1,5 +1,5 @@
 "use client"
-import { forwardRef, useImperativeHandle, useRef, useState } from 'react'
+import { forwardRef, useImperativeHandle, useRef, useState, useEffect } from 'react'
 import { Object3D } from 'three'
 import NewObjectControls from '@/dom/molecule/NewObjectControls'
 import { MultiPlayerSceneHandle } from './MultiPlayerScene';
@@ -33,8 +33,16 @@ const MultiPlayerStage = forwardRef<MultiPlayerStageHandle, {
   const sceneRef = useRef<MultiPlayerSceneHandle>(null)
   const [selectedObject, setSelectedObject] = useState<Object3D | null>(null)
   const [transformMode, setTransformMode] = useState<TransformMode>('move')
-  const [color, setColor] = useState<string>('#777777')
+  const [color, setColor] = useState<string>(() => {
+    // Try to get color from localStorage, fallback to default
+    return localStorage.getItem('multiplayer_color') || '#777777'
+  })
   const [hasGravity, setHasGravity] = useState(false)
+
+  // Save color to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('multiplayer_color', color)
+  }, [color])
 
   const handleDone = () => {
     if (selectedObject) {

@@ -1,5 +1,5 @@
 "use client"
-import { forwardRef, useImperativeHandle, useRef, useState } from 'react'
+import { forwardRef, useImperativeHandle, useRef, useState, useEffect } from 'react'
 import SinglePlayerScene, { SinglePlayerSceneHandle } from '@/model/scenes/SinglePlayerScene'
 import { Object3D } from 'three'
 import NewObjectControls from '@/dom/molecule/NewObjectControls'
@@ -28,9 +28,17 @@ const SinglePlayerStage = forwardRef<SinglePlayerStageHandle, {
   const sceneRef = useRef<SinglePlayerSceneHandle>(null)
   const [selectedObject, setSelectedObject] = useState<Object3D | null>(null)
   const [transformMode, setTransformMode] = useState<TransformMode>('move')
-  const [color, setColor] = useState<string>('#777777')
+  const [color, setColor] = useState<string>(() => {
+    // Try to get color from localStorage, fallback to default
+    return localStorage.getItem('singleplayer_color') || '#777777'
+  })
   const [isAutorotating, setIsAutorotating] = useState(false)
   const [hasGravity, setHasGravity] = useState(false)
+
+  // Save color to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('singleplayer_color', color)
+  }, [color])
 
   const handleDone = () => {
     if (selectedObject) {
