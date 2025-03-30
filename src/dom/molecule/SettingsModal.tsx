@@ -76,7 +76,7 @@ export default function SettingsModal({
         <button 
           onClick={() => {
             onResetScene();
-            onClose();
+            // onClose();
           }} 
           className='noborder bg-trans tx-white tx-mdl py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1 underline'
         >
@@ -85,7 +85,7 @@ export default function SettingsModal({
         <button 
           onClick={() => {
             onCopyContent();
-            onClose();
+            // onClose();
           }} 
           className='noborder bg-trans tx-white tx-mdl py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1 underline'
         >
@@ -94,7 +94,7 @@ export default function SettingsModal({
         <button 
           onClick={() => {
             onPasteContent();
-            onClose();
+            // onClose();
           }} 
           className='noborder bg-trans tx-white tx-mdl py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1 underline'
         >
@@ -105,16 +105,6 @@ export default function SettingsModal({
       </details>
       <div className='pos-abs flex-row gap-2 bottom-0 translate-y-100 pt-2'>
         
-      <button
-      style={{border:"1px solid #ffaa33"}}
-       className='nowrap noborder bord-r-100 px-4 bg-b-90 tx-white tx-md py-2 tx-shadow-5 tx-altfont-1 opaci-chov--50 '
-       onClick={() => {
-        onOpenAI?.();
-        onClose();
-      }}
-      >
-        Create with AI 🪄
-      </button>
       <button 
       style={{border:"1px solid #ff33ff"}}
         onClick={() => {
@@ -124,6 +114,16 @@ export default function SettingsModal({
         className='nowrap noborder bord-r-100 px-4 bg-b-90 tx-white tx-md py-2 opaci-chov--50 tx-shadow-5 tx-altfont-1 '
       >
         Templates
+      </button>
+      <button
+      style={{border:"1px solid #ffaa33"}}
+       className='nowrap noborder bord-r-100 px-4 bg-b-90 tx-white tx-md py-2 tx-shadow-5 tx-altfont-1 opaci-chov--50 '
+       onClick={() => {
+        onOpenAI?.();
+        onClose();
+      }}
+      >
+        Create with AI 🪄
       </button>
       </div>
     </div>

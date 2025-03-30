@@ -49,6 +49,7 @@ export default function SinglePlayerPage() {
     setShowTemplates(true)
     setShowSettings(false)
     setShowAiModal(false)
+    setShowTutorial(false)
   }
 
   const handleResetScene = () => {
@@ -111,6 +112,7 @@ export default function SinglePlayerPage() {
   const handleOpenAI = () => {
     setShowSettings(false)
     setShowAiModal(true)
+    setShowTutorial(false)
   }
 
   const handleExitPlay = () => {
@@ -178,17 +180,21 @@ export default function SinglePlayerPage() {
             )}
             <div className='flex-row gap-2 mr- 1'>
               {!deleteMode && (
-                <GameButton type="zeta" classOverride={'tx-lgx px- 3 z-100 '} 
-                  onClick={handleOpenAI}
+                <GameButton type="zeta" 
+                styleOverride={{
+                  border: '1px solid #ff00ff',
+                }}
+                classOverride={'tx-lgx px- 3 z-100 '} 
+                  onClick={handleOpenTemplates}
                 >
-                  🪄
+                  🗂️
                 </GameButton>
               )}
               {!deleteMode && (
                 <GameButton type="zeta" classOverride={'tx-lgx px- 3 z-100 '} 
-                  onClick={handleOpenTemplates}
+                  onClick={handleOpenAI}
                 >
-                  🗂️
+                  🪄
                 </GameButton>
               )}
             </div>

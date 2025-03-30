@@ -11,7 +11,7 @@ export default function TutorialModal({ onClose }: TutorialModalProps) {
         style={{color:"#00ff00"}}>
         →
       </div>
-      <div className='pos-abs tx-shadow-5 top-0 right-0 mr-100 mt-8 pt-4 tx-re d shake-1 tx-xl'
+      <div className='pos-abs tx-shadow-5 top-0 right-0 mr-100 mt-8 pt-3 pr-8 tx-re d shake-1 tx-xl'
         style={{color:"#ff00ff"}}>
         →
       </div>

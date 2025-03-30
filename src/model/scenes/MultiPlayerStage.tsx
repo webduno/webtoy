@@ -33,6 +33,12 @@ const MultiPlayerStage = forwardRef<MultiPlayerStageHandle, {friends: Friend[], 
   const [hasGravity, setHasGravity] = useState(false)
 
   const handleDone = () => {
+    if (selectedObject) {
+      selectedObject.userData = {
+        ...selectedObject.userData,
+        hasGravity
+      };
+    }
     sceneRef.current?.saveObjects()
     setIsAdding(false)
     setSelectedObject(null)

@@ -26,8 +26,15 @@ const SinglePlayerStage = forwardRef<SinglePlayerStageHandle, {deleteMode: boole
   const [transformMode, setTransformMode] = useState<TransformMode>('move')
   const [color, setColor] = useState<string>('#777777')
   const [isAutorotating, setIsAutorotating] = useState(false)
-  
+  const [hasGravity, setHasGravity] = useState(false)
+
   const handleDone = () => {
+    if (selectedObject) {
+      selectedObject.userData = {
+        ...selectedObject.userData,
+        hasGravity: hasGravity
+      };
+    }
     sceneRef.current?.saveObjects()
     setIsAdding(false)
     setSelectedObject(null)
@@ -121,6 +128,8 @@ const SinglePlayerStage = forwardRef<SinglePlayerStageHandle, {deleteMode: boole
               color={color}
               setColor={setColor}
               setTransformMode={setTransformMode}
+              hasGravity={hasGravity}
+              setHasGravity={setHasGravity}
             />
         )}
       <SinglePlayerScene 
