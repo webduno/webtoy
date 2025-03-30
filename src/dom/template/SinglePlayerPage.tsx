@@ -11,6 +11,7 @@ import { clearPhysicsState } from '@/model/physics/PhysicalObjects'
 import CanonPOV from '@/model/controller/CanonPOV'
 import Logo from '@/dom/atom/logo/Logo'
 import { GameButton } from '../atom/game/GameButton'
+import { Tooltip } from 'react-tooltip'
 
 export default function SinglePlayerPage() {
   const stageRef = useRef<SinglePlayerStageHandle>(null)
@@ -183,6 +184,8 @@ export default function SinglePlayerPage() {
               )}
               {!showClipboardButtons && (
               <GameButton type="" classOverride={'tx-lg x px-2 3 z-100 mb-1 py-2 mr -1'} 
+              tooltip="Clipboard"
+              tooltipId="clipboard-tooltip"
               styleOverride={{
                 // filter: 'saturate(0)',
               }}
@@ -194,6 +197,7 @@ export default function SinglePlayerPage() {
               )}
               {!!showClipboardButtons && (<div className='flex-wrap w-80px gap-2'>
                 <GameButton type="epsilon" classOverride={'tx-mdl px-2 bord-r-100 z-100 '} 
+                tooltip="Reset Scene"
                 styleOverride={{
                 }}
                   onClick={handleToggleAI}
@@ -213,6 +217,8 @@ export default function SinglePlayerPage() {
                 <GameButton type="zeta" 
                 styleOverride={{
                 }}
+                tooltip="Copy Scene"
+                tooltipId='copy-scene-tooltip'
                 classOverride={'tx-mdl px-2 bord-r-100 3 z-100 '} 
                   onClick={handleToggleTemplates}
                 >
@@ -221,6 +227,8 @@ export default function SinglePlayerPage() {
                 <GameButton type="zeta" 
                 styleOverride={{
                 }}
+                tooltip="Paste Scene"
+                tooltipId='paste-scene-tooltip'
                 classOverride={'tx-mdl px-2 bord-r-100 z-100 '} 
                   onClick={handleToggleTemplates}
                 >
@@ -234,6 +242,9 @@ export default function SinglePlayerPage() {
                 styleOverride={{
                   border: '1px solid #aa44aa',
                 }}
+                tooltip="Templates"
+                tooltipId='templates-tooltip'
+                tooltipPlace='bottom-end'
                 classOverride={'tx-lgx px- 3 z-100 '} 
                   onClick={handleToggleTemplates}
                 >
@@ -245,6 +256,8 @@ export default function SinglePlayerPage() {
                 styleOverride={{
                   border: '1px solid #ffaa44',
                 }}
+                tooltip="Create with AI"
+                tooltipId='create-ai-tooltip'
                   onClick={handleToggleAI}
                 >
                   🪄
@@ -257,7 +270,9 @@ export default function SinglePlayerPage() {
               >
                 <span className='px- 2 tx-lg' role="img" aria-label="cogwheel">⚙️</span>
               </GameButton>
-              <div className={'hover-jump mr- opaci-chov--75 z-100 block pos-rel tx-shad ow-5 bg- glass-10 bord-r-100 p a-2 flex-col'}
+              <div
+              data-tooltip-id="play-tooltip"
+               className={'hover-jump mr- opaci-chov--75 z-100 block pos-rel tx-shad ow-5 bg- glass-10 bord-r-100 p a-2 flex-col'}
                 style={{
                   textShadow: "2px 2px 0 #112244, 0 10px 10px #00000055",
                 }}
@@ -265,6 +280,9 @@ export default function SinglePlayerPage() {
               >
                 <div className='tx-lx' aria-label="cogwheel">🎮</div>
               </div>
+              <Tooltip id="play-tooltip" place="bottom-end">
+                Play
+              </Tooltip>
             </div>
           </div>
           
