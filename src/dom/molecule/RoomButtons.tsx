@@ -88,6 +88,14 @@ export function RoomButtons({myip}: {myip: string}) {
 
     <div className='flex-col gap-2'>
       
+      {!!session && (<>
+        <div className='pos-abs bottom-0 right-0 opaci-chov--50 mr-100 pr-8'
+        style={{paddingBottom: '7px'}}
+        onClick={() => signOut()}
+        >
+          <div className='tx-white tx-shadow-5 pr-2'>Logout</div>
+        </div>
+      </>)}
       {!session && (
         <GameButton type="zeta" onClick={loginWithGoogle} classOverride="bord-r-100 mt-1" >
           <div className='noselect px-4 py-1 tx-lg flex-row gap-2 flex-align-center flex-justify-center'>
