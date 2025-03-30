@@ -13,6 +13,7 @@ import TemplatesModal from '@/dom/molecule/TemplatesModal'
 import TutorialModal from '@/dom/molecule/TutorialModal'
 import { AiModal } from '../molecule/AiModal'
 import { clearPhysicsState } from '@/model/physics/PhysicalObjects'
+import { GameEngineNav } from '../molecule/GameEngineNav'
 
 interface Friend {
   id: string;
@@ -90,6 +91,7 @@ export default function MultiPlayerPage() {
   )
   const [showTutorial, setShowTutorial] = useState<boolean>(true)
   const [showAiModal, setShowAiModal] = useState<boolean>(false)
+  const [showClipboardButtons, setShowClipboardButtons] = useState<boolean>(false)
 
   // Check for objects when component mounts
   useEffect(() => {
@@ -112,13 +114,15 @@ export default function MultiPlayerPage() {
     setShowTutorial(false)
     setShowAiModal(false)
   }
-  const handleOpenTemplates = () => {
-    setShowTemplates(true)
+  const handleToggleTemplates = () => {
+    setShowTemplates((prev) => !prev)
     setShowSettings(false)
+    setShowTutorial(false)
   }
-  const handleOpenAI = () => {
+  const handleToggleAI = () => {
     setShowSettings(false)
-    setShowAiModal(true)
+    setShowAiModal((prev) => !prev)
+    setShowTutorial(false)
   }
   const handleLoadTemplate = (templateName: string) => {
     console.log(`Loading template: ${templateName}`)
@@ -201,8 +205,8 @@ export default function MultiPlayerPage() {
               onCopyContent={handleCopyContent}
               onPasteContent={handlePasteContent}
               onAutorotate={handleAutorotate}
-              onOpenTemplates={handleOpenTemplates}
-              onOpenAI={handleOpenAI}
+              onOpenTemplates={handleToggleTemplates}
+              onOpenAI={handleToggleAI}
             />
           )}
           
@@ -218,38 +222,17 @@ export default function MultiPlayerPage() {
           )}
           
           {friends.length > 1 &&  (<>
-            <div className='pos-abs top-0 right-0 ma-2 flex-col flex-align-end gap-2'>
-              {/* if not delete mode show hello world */}
-              {deleteMode && (
-                <div onClick={() => {
-                  setDeleteMode(false)
-                }} className='tx-red tx-altfont- 2 opaci-50 opaci-chov--75 z-1000'>Exit Delete Mode</div>
-              )}
-              {!deleteMode && (
-                <div className={styles.helloWorld + ' opaci-chov--75 z-100 block pos-rel'}
-                  onClick={handleHelloClick}
-                >
-                  Add New
-                </div>
-              )}
-              <div className={styles.helloWorld + ' opaci-chov--75 z-100 block pos-rel'}
-                onClick={handleOpenSettings}
-              >
-                {/* cogwheel emoji */}
-                <span className='px-2' role="img" aria-label="cogwheel">⚙️</span>
-              </div>
-              <div className={'hover-jump opaci-chov--75 z-100 block pos-rel tx-shad ow-5 bg- glass-10 bord-r-100 p a-2 flex-col'}
-              style={{
-                // background: "radial-gradient( #993300, #ff9900)",
-                // background: "red",
-                // border: "1px solid #ffaa33",
-                textShadow: "2px 2px 0 #112244, 0 10px 10px #00000055",
-              }}
-                onClick={handlePlay}
-              >
-                <div className='tx-lx' aria-label="cogwheel">🎮</div>
-              </div>
-            </div>
+            <GameEngineNav
+              deleteMode={deleteMode}
+              setDeleteMode={setDeleteMode}
+              showClipboardButtons={showClipboardButtons}
+              setShowClipboardButtons={setShowClipboardButtons}
+              handleHelloClick={handleHelloClick}
+              handleToggleAI={handleToggleAI}
+              handleToggleTemplates={handleToggleTemplates}
+              handleOpenSettings={handleOpenSettings}
+              handlePlay={handlePlay}
+            />
           </>)}
 
           {/* if only 1 friend (self) show message */}
