@@ -36,7 +36,7 @@ export default function SinglePlayerPage() {
   }, [])
 
   const handleHelloClick = () => {
-    stageRef.current?.createObject([0, 0, 0], [1, 1, 1], [0, 0, 0])
+    stageRef.current?.createObject([1, 1, 1], [0, 0, 0])
     setHasObjects(true)
     setIsAdding(true)
   }

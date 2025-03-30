@@ -7,7 +7,7 @@ import NewObjectControls from '@/dom/molecule/NewObjectControls'
 type TransformMode = 'move' | 'scale' | 'rotate';
 
 export interface SinglePlayerStageHandle {
-  createObject: (position: [number, number, number], scale: [number, number, number], rotation: [number, number, number]) => void;
+  createObject: (scale: [number, number, number], rotation: [number, number, number], position?: [number, number, number]) => void;
   resetScene: () => void;
   copyContent: () => void;
   pasteContent: () => void;
@@ -34,6 +34,7 @@ const SinglePlayerStage = forwardRef<SinglePlayerStageHandle, {
   })
   const [isAutorotating, setIsAutorotating] = useState(false)
   const [hasGravity, setHasGravity] = useState(false)
+  const [lastPlacedPosition, setLastPlacedPosition] = useState<[number, number, number]>([0, 0, 0])
 
   // Save color to localStorage whenever it changes
   useEffect(() => {
@@ -44,8 +45,10 @@ const SinglePlayerStage = forwardRef<SinglePlayerStageHandle, {
     if (selectedObject) {
       selectedObject.userData = {
         ...selectedObject.userData,
-        hasGravity: hasGravity
+        hasGravity
       };
+      // Update last placed position when object is placed
+      setLastPlacedPosition([selectedObject.position.x, selectedObject.position.y, selectedObject.position.z]);
     }
     sceneRef.current?.saveObjects()
     setIsAdding(false)
@@ -71,8 +74,10 @@ const SinglePlayerStage = forwardRef<SinglePlayerStageHandle, {
   }
 
   useImperativeHandle(ref, () => ({
-    createObject: (position: [number, number, number], scale: [number, number, number], rotation: [number, number, number]) => {
-      sceneRef.current?.createObject(position, scale, rotation)
+    createObject: (scale: [number, number, number], rotation: [number, number, number], position?: [number, number, number]) => {
+      // Use last placed position if no position is provided
+      const pos = position || lastPlacedPosition;
+      sceneRef.current?.createObject(pos, scale, rotation)
     },
     resetScene: () => {
       // Clear all objects in the scene
