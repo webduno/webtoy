@@ -67,13 +67,16 @@ export default function NewObjectControls({
   }, [setTransformMode]);
 
   return (
-    <div className='pos-abs right-0 mr-2 mb-8 bottom-0 flex-col bg-b-50 bg-glass-10 pa-2 bord-r-5' style={{ 
+    <div className='pos-abs right-0 mr-5  bottom-0 flex-col  pa-2 bord-r-5' style={{ 
+      boxShadow: "0 3px 1px 1px #805300, inset 0 2px 5px 2px #FFD700",
+      marginBottom: "60px",
+      background: "linear-gradient(180deg, #E9BC46, #BB852E)",
       zIndex: 1000, 
     }}>
       <div className="flex-row flex-justify-between w-100">
-        <button  className='noborder tx-altfont-1 bg-trans   opaci-chov--50 mb- py-2 tx-shadow-5'
+        <button  className='noborder tx-white tx-altfont-1 bg-trans   opaci-chov--50 mb- py-2 tx-shadow-5'
           style={{
-            color: '#ff6666',
+            // color: '#ff6666',
           }}
           onClick={handleCancel}
         >
@@ -87,11 +90,12 @@ export default function NewObjectControls({
           DONE
         </GameButton>
       </div>
-      <hr className='w-100 opaci-20 pa-0 ' />
+      <hr className='w-100 opaci-40 pa-0 ' />
       {/* <div className="tx-altfont-1 tx-center tx-white tx-shadow-5  pb-1">Color</div> */}
       <div className='flex-row gap-2 mb-1 pb-1'>
         <div className='flex-col gap-1 flex-1 flex-justify-start tx-shadow-5'>
-          <label htmlFor='color-input' className='tx-altfont-1 pointer tx-white tx-sm' style={{paddingBottom:"4px"}}>Color</label>
+          <label htmlFor='color-input' className=' tx-altfont-1 pointer tx-white tx-sm'
+           style={{paddingBottom:" "}}>Color</label>
         <input 
         id='color-input'
         className=' noborder bord-r-5'
@@ -120,10 +124,13 @@ export default function NewObjectControls({
         {//canHaveGravity &&
         (
           <div className='flex-col tx-white pb-1' >
-            <label htmlFor='gravity-checkbox' className='pointer tx-sm tx-center tx-shadow-5 tx-altfont-1'>Gravity</label>
+            <label htmlFor='gravity-checkbox' className=' pointer tx-sm tx-center tx-shadow-5 tx-altfont-1'
+            style={{paddingBottom:" 7px", paddingTop:"2px"}}>
+              Gravity</label>
             <input 
             id="gravity-checkbox"
-            className='scale-200 mt-3 pointer'
+
+            className='scale-200 mt- 2 3 pointer'
             type="checkbox" 
             checked={hasGravity}
             onChange={(e) => setHasGravity?.(e.target.checked)}

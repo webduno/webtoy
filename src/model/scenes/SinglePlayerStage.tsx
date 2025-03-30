@@ -47,6 +47,7 @@ const SinglePlayerStage = forwardRef<SinglePlayerStageHandle, {deleteMode: boole
     }
     setIsAdding(false)
     setSelectedObject(null)
+    sceneRef.current?.saveObjects()
   }
 
   const cycleTransformMode = () => {
