@@ -120,7 +120,7 @@ export default function SettingsModal({
         </GameButton>
         
       </div> */}
-      <hr className='w-100 opaci-20 my-2' />
+      {/* <hr className='w-100 opaci-20 my-2' /> */}
       <div className='flex-col gap-2'>
       <GameButton 
         type="zeta"
@@ -145,7 +145,7 @@ export default function SettingsModal({
       </GameButton>
       <button 
         onClick={() => {
-          const confirm = prompt("Are you sure you want to factory reset? This will delete all your data and settings.");
+          const confirm = prompt("This will delete all your data and settings\nAre you sure you want to factory reset? (yes)");
           if(confirm){
             window.localStorage.clear();
             window.location.href = '/';
@@ -153,7 +153,7 @@ export default function SettingsModal({
         }} 
         className='noborder pt-2  bg-trans tx-white tx-sm py4 opaci-chov--50 tx-shadow-5 tx-altfont-1 tx-red'
       >
-        FactoryReset
+        Factory Reset
       </button>
       </div>
       </div>
