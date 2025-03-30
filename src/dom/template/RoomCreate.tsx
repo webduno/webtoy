@@ -10,7 +10,7 @@ export function RoomCreate({myip}: {myip: string}) {
       <div className="flex-col gap-2 flex-justify-center flex-align-center ">
         <div className="flex-col gap-2 flex-justify-center flex-align-center"
         style={{
-        padding: '20px',
+        paddingBottom: '40px',
       }}>
         <LandingLogo />
         
