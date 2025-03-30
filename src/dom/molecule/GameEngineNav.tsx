@@ -14,6 +14,7 @@ interface GameEngineNavProps {
   handleResetScene: () => void;
   handleCopyContent: () => void;
   handlePasteContent: () => void;
+  isAdding?: boolean;
 }
 
 export function GameEngineNav({
@@ -28,7 +29,8 @@ export function GameEngineNav({
   handlePlay,
   handleResetScene,
   handleCopyContent,
-  handlePasteContent
+  handlePasteContent,
+  isAdding = false
 }: GameEngineNavProps) {
   return (
     <div className='pos-abs top-0 right-0 ma-2 flex-col flex-align-end gap-2'>
@@ -40,7 +42,8 @@ export function GameEngineNav({
       <div className='flex-row gap-2 mr- 1'>
         {!deleteMode && (
           <GameButton type="alpha" classOverride={'tx-mdl py-3 x px-3 z-100 mb-1 mr -1'} 
-            onClick={handleHelloClick}
+            onClick={isAdding ? undefined : handleHelloClick}
+            styleOverride={isAdding ? { filter: 'saturate(0)', cursor: 'not-allowed' } : undefined}
           >
             Add New
           </GameButton>

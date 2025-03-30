@@ -92,6 +92,7 @@ export default function MultiPlayerPage() {
   const [showTutorial, setShowTutorial] = useState<boolean>(true)
   const [showAiModal, setShowAiModal] = useState<boolean>(false)
   const [showClipboardButtons, setShowClipboardButtons] = useState<boolean>(false)
+  const [isAdding, setIsAdding] = useState<boolean>(false)
 
   // Check for objects when component mounts
   useEffect(() => {
@@ -107,6 +108,7 @@ export default function MultiPlayerPage() {
   const handleHelloClick = () => {
     stageRef.current?.createObject([0, 0, 0], [1, 1, 1], [0, 0, 0])
     setHasObjects(true)
+    setIsAdding(true)
   }
   const handleOpenSettings = () => {
     setShowSettings(!showSettings)
@@ -237,6 +239,7 @@ export default function MultiPlayerPage() {
               handleResetScene={handleResetScene}
               handleCopyContent={handleCopyContent}
               handlePasteContent={handlePasteContent}
+              isAdding={isAdding}
             />
           </>)}
 
@@ -320,7 +323,13 @@ export default function MultiPlayerPage() {
           {/* only if more than 1 friend */}
           {friends.length > 1 && (
             <>
-              <MultiPlayerStage ref={stageRef} friends={friends} deleteMode={deleteMode} />
+              <MultiPlayerStage 
+                ref={stageRef} 
+                friends={friends} 
+                deleteMode={deleteMode} 
+                setIsAdding={setIsAdding}
+                isAdding={isAdding}
+              />
               {!hasObjects && showTutorial && <TutorialModal onClose={() => setShowTutorial(false)} />}
             </>
           )}

@@ -18,11 +18,15 @@ export interface SinglePlayerStageHandle {
   setDeleteMode?: (deleteMode: boolean) => void;
 }
 
-const SinglePlayerStage = forwardRef<SinglePlayerStageHandle, {deleteMode: boolean, setDeleteMode: (deleteMode: boolean) => void}>((props, ref) => {
-  const { deleteMode, setDeleteMode} = props
+const SinglePlayerStage = forwardRef<SinglePlayerStageHandle, {
+  deleteMode: boolean, 
+  setDeleteMode: (deleteMode: boolean) => void, 
+  setIsAdding: (isAdding: boolean) => void,
+  isAdding: boolean
+}>((props, ref) => {
+  const { deleteMode, setDeleteMode, setIsAdding, isAdding} = props
   const sceneRef = useRef<SinglePlayerSceneHandle>(null)
   const [selectedObject, setSelectedObject] = useState<Object3D | null>(null)
-  const [isAdding, setIsAdding] = useState(false)
   const [transformMode, setTransformMode] = useState<TransformMode>('move')
   const [color, setColor] = useState<string>('#777777')
   const [isAutorotating, setIsAutorotating] = useState(false)

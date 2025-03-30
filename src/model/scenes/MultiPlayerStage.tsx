@@ -23,10 +23,14 @@ export interface MultiPlayerStageHandle {
   getSceneObjects: () => Object3D[]
 }
 
-const MultiPlayerStage = forwardRef<MultiPlayerStageHandle, {friends: Friend[], deleteMode: boolean}>((props, ref) => {
-  const {friends, deleteMode} = props
+const MultiPlayerStage = forwardRef<MultiPlayerStageHandle, {
+  friends: Friend[], 
+  deleteMode: boolean, 
+  setIsAdding: (isAdding: boolean) => void,
+  isAdding: boolean
+}>((props, ref) => {
+  const {friends, deleteMode, setIsAdding, isAdding} = props
   const sceneRef = useRef<MultiPlayerSceneHandle>(null)
-  const [isAdding, setIsAdding] = useState(false)
   const [selectedObject, setSelectedObject] = useState<Object3D | null>(null)
   const [transformMode, setTransformMode] = useState<TransformMode>('move')
   const [color, setColor] = useState<string>('#777777')

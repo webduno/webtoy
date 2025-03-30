@@ -25,8 +25,9 @@ export default function SinglePlayerPage() {
   )
   const [hasObjects, setHasObjects] = useState<boolean>(false)
   const [showTutorial, setShowTutorial] = useState<boolean>(true)
-
   const [showClipboardButtons, setShowClipboardButtons] = useState<boolean>(false)
+  const [isAdding, setIsAdding] = useState<boolean>(false)
+
   // Check for objects when component mounts
   useEffect(() => {
     const objects = stageRef.current?.getSceneObjects?.() || []
@@ -37,6 +38,7 @@ export default function SinglePlayerPage() {
   const handleHelloClick = () => {
     stageRef.current?.createObject([0, 0, 0], [1, 1, 1], [0, 0, 0])
     setHasObjects(true)
+    setIsAdding(true)
   }
 
   const handleOpenSettings = () => {
@@ -178,9 +180,16 @@ export default function SinglePlayerPage() {
             handleResetScene={handleResetScene}
             handleCopyContent={handleCopyContent}
             handlePasteContent={handlePasteContent}
+            isAdding={isAdding}
           />
           
-          <SinglePlayerStage ref={stageRef} deleteMode={deleteMode} setDeleteMode={setDeleteMode} />
+          <SinglePlayerStage 
+            ref={stageRef} 
+            deleteMode={deleteMode} 
+            setDeleteMode={setDeleteMode} 
+            setIsAdding={setIsAdding}
+            isAdding={isAdding}
+          />
           {!hasObjects && showTutorial && <TutorialModal onClose={() => setShowTutorial(false)} />}
           <Logo />
         </>
