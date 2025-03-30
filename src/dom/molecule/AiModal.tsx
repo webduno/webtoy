@@ -7,6 +7,7 @@ import { Object3D } from "three";
 import { Box } from "@react-three/drei";
 import { AIShowcaseResult } from "./AIShowcaseResult";
 import { ModalCloseButton } from "../atom/game/ModalCloseButton";
+import { GameButton } from "../atom/game/GameButton";
 
 // Types
 type AiModalProps = {
@@ -78,16 +79,17 @@ export const AiModal = ({ onClose }: AiModalProps) => {
         <div className="tx- opaci-25 tx-altfont-1 tx-ls-3">AI GENERATION</div>
       )}
       {!!result && (
-        <button 
-          className="tx- opaci-25 tx-altfont-1 tx-ls-3 nobg cursor-pointer opaci-chov--75"
+        <GameButton 
+          type="alpha"
+          // className="tx- opaci-25 tx-altfont-1 tx-ls-3 nobg cursor-pointer opaci-chov--75"
           onClick={() => {
             navigator.clipboard.writeText(JSON.stringify(result));
             setDidCopy((prev) => prev + 1)
             // alert('Scene data copied to clipboard!');
           }}
         >
-          {didCopy ? `Copied to clipboard! ${didCopy == 0 ? '' : `x${didCopy}`}` : 'Click here to\ncopy to clipboard'}
-        </button>
+          {didCopy ? `Copied to clipboard! ${didCopy == 0 ? '' : `x${didCopy}`}` : 'Copy to clipboard'}
+        </GameButton>
       )}
       {!!error && (
         <div className="tx-red opaci-75 tx-altfont-1">{error}</div>
@@ -97,8 +99,9 @@ export const AiModal = ({ onClose }: AiModalProps) => {
         <div className="mt-4 mb-1 bord-r-10 pa-2 h-300px w-300px flex-col">
           <AIShowcaseResult result={result} />
           <div className="pos-abs  bottom-0 translate-y-50 flex-row gap-2">
-          <button className="  pa-2 bord-r-10 opaci-chov--50"
-       onClick={()=>{setResult(null); setPrompt('')}} >Generate Again</button>
+          <GameButton  type="zeta"
+       onClick={()=>{setResult(null); setPrompt('')}} >Generate Again
+       </GameButton>
        </div>
         </div>
       )}

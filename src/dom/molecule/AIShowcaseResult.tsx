@@ -72,7 +72,9 @@ export const AIShowcaseResult = ({ result }: { result: any; }) => {
   }, [result]);
 
   return (
-    <Canvas camera={{ position: [5, 5, 5] }} shadows style={{ borderRadius: '10px' }}>
+    <Canvas camera={{ position: [5, 5, 5] }} shadows 
+    style={{ borderRadius: '10px', 
+    background: 'radial-gradient( #ffffff, #cccccc)' }}>
       <ambientLight intensity={0.75} />
       <pointLight position={[5, 5, 5]} intensity={50} />
       <group ref={sceneRef} />
