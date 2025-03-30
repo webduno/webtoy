@@ -45,8 +45,8 @@ export default function SinglePlayerPage() {
     setShowTutorial(false)
   }
 
-  const handleOpenTemplates = () => {
-    setShowTemplates(true)
+  const handleToggleTemplates = () => {
+    setShowTemplates(!showTemplates)
     setShowSettings(false)
     setShowAiModal(false)
     setShowTutorial(false)
@@ -109,9 +109,9 @@ export default function SinglePlayerPage() {
     }
   }
 
-  const handleOpenAI = () => {
+  const handleToggleAI = () => {
     setShowSettings(false)
-    setShowAiModal(true)
+    setShowAiModal(!showAiModal)
     setShowTutorial(false)
   }
 
@@ -149,8 +149,8 @@ export default function SinglePlayerPage() {
               onCopyContent={handleCopyContent}
               onPasteContent={handlePasteContent}
               onAutorotate={handleAutorotate}
-              onOpenTemplates={handleOpenTemplates}
-              onOpenAI={handleOpenAI}
+              onOpenTemplates={handleToggleTemplates}
+              onOpenAI={handleToggleAI}
             />
           )}
           
@@ -185,14 +185,14 @@ export default function SinglePlayerPage() {
                   border: '1px solid #ff00ff',
                 }}
                 classOverride={'tx-lgx px- 3 z-100 '} 
-                  onClick={handleOpenTemplates}
+                  onClick={handleToggleTemplates}
                 >
                   🗂️
                 </GameButton>
               )}
               {!deleteMode && (
                 <GameButton type="zeta" classOverride={'tx-lgx px- 3 z-100 '} 
-                  onClick={handleOpenAI}
+                  onClick={handleToggleAI}
                 >
                   🪄
                 </GameButton>

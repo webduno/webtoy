@@ -391,18 +391,18 @@ export function getTemplateData(templateName: string | null): any[] | null {
 
 export const DEFAULT_TEMPLATE_LIST = [
   // { name: 'physics_test', description: 'Physics test' },
-  { name: 'const_house', description: '🏠 Simple house' },
-  { name: 'garden_parkour', description: '🌳 Parkour garden' },
-  { name: 'mountain_view', description: '⛰️ Mountain view' },
+  { name: 'const_house', description: '🏠#Simple house' },
+  { name: 'garden_parkour', description: '🌳#Parkour garden' },
+  { name: 'mountain_view', description: '⛰️#Mountain view' },
   
-  { name: 'basketball_court', description: '🏀 Basketball court' },
-  { name: 'football_field', description: '🏈 American football' },
-  { name: 'soccer_field', description: '⚽ Soccer field' },
-  { name: 'golf_course', description: '⛳ Golf course' },
-  { name: 'bowling_alley', description: '🎳 Bowling alley' },
-  // { name: 'wall_run', description: '🧱 Wall run' },
+  { name: 'basketball_court', description: '🏀#Basketball court' },
+  { name: 'football_field', description: '🏈#American football' },
+  { name: 'soccer_field', description: '⚽#Soccer field' },
+  { name: 'golf_course', description: '⛳#Golf course' },
+  { name: 'bowling_alley', description: '🎳#Bowling alley' },
+  // { name: 'wall_run', description: '🧱#Wall run' },
   
-  { name: 'castle', description: '🏰 Medieval castle' },
-  { name: 'city_block', description: '🏙️ Urban city block' },
-  { name: 'dominoes', description: '🎲 Dominoes' },
+  { name: 'castle', description: '🏰#Medieval castle' },
+  { name: 'city_block', description: '🏙️#Urban city block' },
+  { name: 'dominoes', description: '🎲#Dominoes' },
 ]

@@ -23,9 +23,9 @@ export default function TutorialModal({ onClose }: TutorialModalProps) {
         zIndex: 1000,
       }}>
         <GameButton 
-          type="delta"
+          type="zeta"
           onClick={onClose}
-          classOverride="px-2 ma-1 pos-abs top-0 right-0 tx-lg tx-shadow-5"
+          classOverride="px-2 ma-1 pos-abs top-0 right-0 tx-lg tx-shadow-5 bord-r-100"
           styleOverride={{ 
             zIndex: 1001,
           }}
