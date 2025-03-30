@@ -26,6 +26,7 @@ export default function SinglePlayerPage() {
   const [hasObjects, setHasObjects] = useState<boolean>(false)
   const [showTutorial, setShowTutorial] = useState<boolean>(true)
 
+  const [showClipboardButtons, setShowClipboardButtons] = useState<boolean>(false)
   // Check for objects when component mounts
   useEffect(() => {
     const objects = stageRef.current?.getSceneObjects?.() || []
@@ -171,18 +172,64 @@ export default function SinglePlayerPage() {
                 setDeleteMode(false)
               }} className='tx-red tx-altfont- 2 opaci-50 opaci-chov--75 z-1000'>Exit Delete Mode</div>
             )}
+            <div className='flex-row gap-2 mr- 1'>
+              
             {!deleteMode && (
-              <GameButton type="alpha" classOverride={'tx-lg x px-3 z-100 mb-1 mr -1'} 
+              <GameButton type="alpha" classOverride={'tx-mdl py-3 x px-3 z-100 mb-1 mr -1'} 
                 onClick={handleHelloClick}
-              >
-                Add  New
-              </GameButton>
-            )}
+                >
+                  Add New
+                </GameButton>
+              )}
+              {!showClipboardButtons && (
+              <GameButton type="zeta" classOverride={'tx-lg x px-2 3 z-100 mb-1 py-2 mr -1'} 
+                onClick={() => setShowClipboardButtons(!showClipboardButtons)}
+                >
+                                    📋
+
+                </GameButton>
+              )}
+              {!!showClipboardButtons && (<div className='flex-wrap w-80px gap-2'>
+                <GameButton type="zeta" 
+                styleOverride={{
+                }}
+                classOverride={'tx-mdl px-2 bord-r-100 3 z-100 '} 
+                  onClick={handleToggleTemplates}
+                >
+                  C
+                </GameButton>
+                <GameButton type="zeta" 
+                styleOverride={{
+                }}
+                classOverride={'tx-mdl px-2 bord-r-100 z-100 '} 
+                  onClick={handleToggleTemplates}
+                >
+                  P
+                </GameButton>
+                <GameButton type="epsilon" classOverride={'tx-mdl px-2 bord-r-100 z-100 '} 
+                styleOverride={{
+                }}
+                  onClick={handleToggleAI}
+                >
+                  R
+                </GameButton>
+                <GameButton type="white" classOverride={'tx-mdl px-2 bord-r-100 z-100 '} 
+                styleOverride={{
+                  filter: 'saturate(0)',
+                }}
+                  onClick={() => {
+                    setShowClipboardButtons(false)
+                  }}
+                >
+                  X
+                </GameButton>
+                </div>)}
+            </div>
             <div className='flex-row gap-2 mr- 1'>
               {!deleteMode && (
                 <GameButton type="zeta" 
                 styleOverride={{
-                  border: '1px solid #ff00ff',
+                  border: '1px solid #aa44aa',
                 }}
                 classOverride={'tx-lgx px- 3 z-100 '} 
                   onClick={handleToggleTemplates}
@@ -192,6 +239,9 @@ export default function SinglePlayerPage() {
               )}
               {!deleteMode && (
                 <GameButton type="zeta" classOverride={'tx-lgx px- 3 z-100 '} 
+                styleOverride={{
+                  border: '1px solid #ffaa44',
+                }}
                   onClick={handleToggleAI}
                 >
                   🪄

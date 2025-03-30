@@ -1,6 +1,6 @@
 import React from 'react'
 import { GameButton } from '../atom/game/GameButton';
-
+import { ModalCloseButton } from '../atom/game/ModalCloseButton';
 interface TutorialModalProps {
   onClose: () => void;
 }
@@ -8,11 +8,13 @@ interface TutorialModalProps {
 export default function TutorialModal({ onClose }: TutorialModalProps) {
   return (
     <>
-      <div className='pos-abs tx-shadow-5 top-0 right-0 mr-200 mt-0 tx-re d shake-1 tx-xl'
+      <div className='pos-abs  tx-shadow-5 top-0 right-0 mr-200 pr-8 mt-2 tx-re d shake-1 tx-xl'
         style={{color:"#00ff00"}}>
-        →
+        <div className='translate-y--25'>
+          →
+        </div>
       </div>
-      <div className='pos-abs tx-shadow-5 top-0 right-0 mr-100 mt-8 pt-3 pr-8 tx-re d shake-1 tx-xl'
+      <div className='pos-abs tx-shadow-5 top-0 right-0 mr-100 mt-8 pt-4  pr-8 tx-re d shake-1 tx-xl'
         style={{color:"#ff00ff"}}>
         →
       </div>
@@ -23,17 +25,7 @@ export default function TutorialModal({ onClose }: TutorialModalProps) {
         background: "linear-gradient(180deg, #F5D67B, #D4A35E)",
         zIndex: 1000,
       }}>
-        <GameButton 
-          type="zeta"
-          onClick={onClose}
-          classOverride="px-2 ma-1 pos-abs top-0 right-0 tx-lg tx-shadow-5 bord-r-100"
-          styleOverride={{ 
-            transform: "translate(50%, -50%)",
-            zIndex: 1001,
-          }}
-        >
-          ✕
-        </GameButton>
+        <ModalCloseButton  onClose={onClose} />
         <div className="text-lg tx-altfont- tx-ls-1 mb-2 flex-col gap-">
           How to play <div className='flex-row gap-1 ml-1'>
             <div className="tx-altfont-1 tx-smd"
