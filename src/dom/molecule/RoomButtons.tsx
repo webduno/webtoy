@@ -15,7 +15,7 @@ export function RoomButtons({myip}: {myip: string}) {
 
   useEffect(() => {
     if (session) {
-      setUsername(session.user?.name ?? "");
+      setUsername(session.user?.name?.replace(" ", "_") ?? "");
     }
   }, [session]);
 
