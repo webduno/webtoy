@@ -157,7 +157,7 @@ export default function MultiPlayerPage() {
     // close settings
     setShowSettings(false)
     setShowTutorial(false)
-    
+
   }
   const handleAutorotate = () => {
     stageRef.current?.autorotate()
@@ -332,9 +332,9 @@ export default function MultiPlayerPage() {
             <div className='flex-col gap-2 flex-justify-start flex-align-start'
               style={{ position: 'absolute', bottom: '0', left: '0', margin: '10px', zIndex: 1000 }}
             >
-              <div className='tx-sm'>
+              {/* <div className='tx-sm'>
                 <div className='bg-white bord-r-100 opaci-50 py-1 px-2'>IP | {myip}</div>
-              </div>
+              </div> */}
               <GoogleLoginButton onLogin={loginWithGoogle} />
             </div>
           )}
