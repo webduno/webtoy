@@ -21,9 +21,6 @@ export const createObject = (
   isAdding: boolean,
   hasGravity: boolean = false
 ): Object3D => {
-  // console.log("isAdding", isAdding)
-  if (isAdding) return new Object3D();
-
   setIsAdding(true)
   const geometry = new BoxGeometry(1, 1, 1)
   const material = new MeshStandardMaterial({ color })

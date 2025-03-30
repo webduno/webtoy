@@ -34,7 +34,14 @@ const SinglePlayerStage = forwardRef<SinglePlayerStageHandle, {
   })
   const [isAutorotating, setIsAutorotating] = useState(false)
   const [hasGravity, setHasGravity] = useState(false)
-  const [lastPlacedPosition, setLastPlacedPosition] = useState<[number, number, number]>([0, 0, 0])
+  const [lastPlacedPosition, setLastPlacedPosition] = useState<[number, number, number]>(() => {
+    const saved = localStorage.getItem('lastPlacedPosition');
+    return saved ? JSON.parse(saved) : [0, 0, 0];
+  });
+  const [lastPlacedScale, setLastPlacedScale] = useState<[number, number, number]>(() => {
+    const saved = localStorage.getItem('lastPlacedScale');
+    return saved ? JSON.parse(saved) : [1, 1, 1];
+  });
 
   // Save color to localStorage whenever it changes
   useEffect(() => {
@@ -47,8 +54,14 @@ const SinglePlayerStage = forwardRef<SinglePlayerStageHandle, {
         ...selectedObject.userData,
         hasGravity
       };
-      // Update last placed position when object is placed
-      setLastPlacedPosition([selectedObject.position.x, selectedObject.position.y, selectedObject.position.z]);
+      // Update last placed position and scale when object is placed
+      const newPosition: [number, number, number] = [selectedObject.position.x, selectedObject.position.y, selectedObject.position.z];
+      const newScale: [number, number, number] = [selectedObject.scale.x, selectedObject.scale.y, selectedObject.scale.z];
+      setLastPlacedPosition(newPosition);
+      setLastPlacedScale(newScale);
+      // Save to localStorage
+      localStorage.setItem('single_lastPlacedPosition', JSON.stringify(newPosition));
+      localStorage.setItem('single_lastPlacedScale', JSON.stringify(newScale));
     }
     sceneRef.current?.saveObjects()
     setIsAdding(false)
@@ -75,9 +88,10 @@ const SinglePlayerStage = forwardRef<SinglePlayerStageHandle, {
 
   useImperativeHandle(ref, () => ({
     createObject: (scale: [number, number, number], rotation: [number, number, number], position?: [number, number, number]) => {
-      // Use last placed position if no position is provided
+      // Use last placed position and scale if not provided
       const pos = position || lastPlacedPosition;
-      sceneRef.current?.createObject(pos, scale, rotation)
+      const scl = scale || lastPlacedScale;
+      sceneRef.current?.createObject(pos, scl, rotation)
     },
     resetScene: () => {
       // Clear all objects in the scene
