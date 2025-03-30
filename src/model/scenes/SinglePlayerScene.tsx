@@ -5,7 +5,7 @@ import { Object3D, BoxGeometry, MeshStandardMaterial, Mesh, Group } from 'three'
 import { MapControls, TransformControls } from '@react-three/drei'
 import { createObject, getTransformMode, loadObjects, saveObjects } from '@/scripts/helpers/sceneHelpers'
 import { DEFAULT_TEMPLATE_LIST, getTemplateData } from '@/scripts/helpers/sceneTemplates'
-import { CameraClickControls } from './MultiPlayerScene'
+import { CameraClickControls } from './CameraClickControls'
 
 export interface SinglePlayerSceneHandle {
   createObject: (position: [number, number, number], scale: [number, number, number], rotation: [number, number, number]) => Object3D;
