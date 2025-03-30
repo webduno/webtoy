@@ -1,4 +1,5 @@
 import { GameButton } from "../atom/game/GameButton";
+import { ModalCloseButton } from "../atom/game/ModalCloseButton";
 
 interface Template {
   name: string;
@@ -43,17 +44,7 @@ export default function TemplatesModal({
           </button>
         ))}
       </div>
-      <GameButton 
-          type="zeta"
-          onClick={onClose}
-          classOverride="px-2 ma-1 pos-abs top-0 right-0 tx-lg tx-shadow-5 bord-r-100"
-          styleOverride={{ 
-            transform: "translate(50%, -50%)",
-            zIndex: 1001,
-          }}
-        >
-          ✕
-        </GameButton>
+      <ModalCloseButton  onClose={onClose} />
       {/* <button 
         onClick={onClose}
         className='noborder border-white bord-r-10 bg-trans tx-white tx- mt- py-2 opaci-chov--25 opaci-50 tx-shadow-5 tx-altfont-1'

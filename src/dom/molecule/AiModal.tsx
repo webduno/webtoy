@@ -1,12 +1,12 @@
 "use client";
 
-import { useMemo, useState, useRef, useEffect } from "react";
+import { useMemo, useState } from "react";
 import { useCopyToClipboard } from "usehooks-ts";
 import { CompletionResponse, getCompletionFromAPI } from "../../../scripts/service";
-import { Canvas } from "@react-three/fiber";
-import { Group, Object3D } from "three";
-import { createObject } from "@/scripts/helpers/sceneHelpers";
-import { Box, OrbitControls } from "@react-three/drei";
+import { Object3D } from "three";
+import { Box } from "@react-three/drei";
+import { AIShowcaseResult } from "./AIShowcaseResult";
+import { ModalCloseButton } from "../atom/game/ModalCloseButton";
 
 // Types
 type AiModalProps = {
@@ -67,14 +67,13 @@ export const AiModal = ({ onClose }: AiModalProps) => {
   } 
 
   return (
-    <div className='bg-glass-10 pos-abs flex-col flex-align-center z-1000 bg-w-90 pa-4 bord-r-10'>
-      <div 
-        onClick={onClose}
-        className="pos-abs top-0 right-0 ma-2 tx-lg opaci-50 opaci-chov--75 cursor-pointer"
-        style={{ zIndex: 1001 }}
-      >
-        ✕
-      </div>
+    <div className=' pos-abs flex-col flex-align-center z-1000 pa-4 bord-r-10'
+    style={{
+      boxShadow: "0 3px 1px 1px #805300, inset 0 2px 5px 2px #FFD700",
+      background: "linear-gradient(180deg, #F5D67B, #D4A35E)",
+    }}
+    >
+      <ModalCloseButton  onClose={onClose} />
       {!result && !error && (
         <div className="tx- opaci-25 tx-altfont-1 tx-ls-3">AI GENERATION</div>
       )}
@@ -96,7 +95,7 @@ export const AiModal = ({ onClose }: AiModalProps) => {
       
       {!!result && (
         <div className="mt-4 mb-1 bord-r-10 pa-2 h-300px w-300px flex-col">
-          <ShowcaseResult result={result} />
+          <AIShowcaseResult result={result} />
           <div className="pos-abs  bottom-0 translate-y-50 flex-row gap-2">
           <button className="  pa-2 bord-r-10 opaci-chov--50"
        onClick={()=>{setResult(null); setPrompt('')}} >Generate Again</button>
@@ -126,77 +125,4 @@ export const AiModal = ({ onClose }: AiModalProps) => {
   );
 };
 
-const ShowcaseResult = ({result}: {result: any}) => {
-  const sceneRef = useRef<Group>(null);
 
-  useEffect(() => {
-    // Use requestAnimationFrame to ensure the scene is mounted
-    const checkSceneReady = () => {
-      if (!sceneRef.current) {
-        requestAnimationFrame(checkSceneReady);
-        return;
-      }
-
-      console.log("ShowcaseResult - Full result:", result);
-      console.log("ShowcaseResult - Result type:", typeof result);
-      console.log("ShowcaseResult - Is Array?", Array.isArray(result));
-      if (result && typeof result === 'object') {
-        console.log("ShowcaseResult - Result keys:", Object.keys(result));
-      }
-
-      if (!result) return;
-      
-      // Clear existing objects
-      while (sceneRef.current.children.length > 0) {
-        const child = sceneRef.current.children[0];
-        sceneRef.current.remove(child);
-      }
-
-      // Create objects from the result data
-      if (Array.isArray(result)) {
-        console.log("Processing array result with length:", result.length);
-        result.forEach((object: any) => {
-          console.log("Creating object from array:", object);
-          createObject(
-            object.position,
-            object.scale,
-            object.rotation,
-            "#" + object.color,
-            sceneRef,
-            () => {}, // setIsAdding
-            () => {}, // setSelectedObject
-            false,    // isAdding
-            object.hasGravity || false
-          );
-        });
-      } else if (result.data && result.data.scene) {
-        console.log("Processing nested result with scene length:", result.data.scene.length);
-        result.data.scene.forEach((object: any) => {
-          console.log("Creating object from nested data:", object);
-          createObject(
-            object.position,
-            object.scale,
-            object.rotation,
-            "#" + object.color,
-            sceneRef,
-            () => {}, // setIsAdding
-            () => {}, // setSelectedObject
-            false,    // isAdding
-            object.hasGravity || false
-          );
-        });
-      }
-    };
-
-    requestAnimationFrame(checkSceneReady);
-  }, [result]);
-
-  return (
-    <Canvas camera={{ position: [5, 5, 5] }} shadows style={{borderRadius: '10px'}} >
-      <ambientLight intensity={0.75} />
-      <pointLight position={[5, 5, 5]} intensity={50} />
-      <group ref={sceneRef} />
-      <OrbitControls />
-    </Canvas>
-  );
-}
