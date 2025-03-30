@@ -11,7 +11,13 @@ export function RoomButtons({myip}: {myip: string}) {
   const { togglePlay, playIfNotPlaying } = useBackgroundMusic();
   const [loggedPlayer, setLoggedPlayer] = useState<{id:string, name:string} | null>(null);
   const [loading, setLoading] = useState<string | null>(null);
-  const [username, setUsername] = useState(session?.user?.name?.replace('@gmail.com', '') ?? '');
+  const [username, setUsername] = useState('');
+
+  useEffect(() => {
+    if (session) {
+      setUsername(session.user?.name ?? "");
+    }
+  }, [session]);
 
   useEffect(() => {
     // Load username from localStorage when component mounts
