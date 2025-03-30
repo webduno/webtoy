@@ -12,10 +12,11 @@ export function RoomCreate({myip}: {myip: string}) {
         style={{
         paddingBottom: '40px',
       }}>
+        <div className="flex-col translate-y--25">
         <LandingLogo />
-        
         <div className="noselect bord-r-100 hover-4 mb-2" style={{border: '3px solid white'}}>
           <Image priority className=" block bord-r-100 box-shadow-2-b" src="/house.png" alt="logo" width={100} height={100} />
+        </div>
         </div>
         <RoomButtons myip={myip} />
       </div>
