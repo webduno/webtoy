@@ -11,6 +11,9 @@ interface GameEngineNavProps {
   handleToggleTemplates: () => void;
   handleOpenSettings: () => void;
   handlePlay: () => void;
+  handleResetScene: () => void;
+  handleCopyContent: () => void;
+  handlePasteContent: () => void;
 }
 
 export function GameEngineNav({
@@ -22,7 +25,10 @@ export function GameEngineNav({
   handleToggleAI,
   handleToggleTemplates,
   handleOpenSettings,
-  handlePlay
+  handlePlay,
+  handleResetScene,
+  handleCopyContent,
+  handlePasteContent
 }: GameEngineNavProps) {
   return (
     <div className='pos-abs top-0 right-0 ma-2 flex-col flex-align-end gap-2'>
@@ -57,7 +63,7 @@ export function GameEngineNav({
             tooltipId='reset-scene-tooltip'
             styleOverride={{
             }}
-            onClick={handleToggleAI}
+            onClick={handleResetScene}
           >
             R
           </GameButton>
@@ -77,7 +83,7 @@ export function GameEngineNav({
             tooltip="Copy Scene"
             tooltipId='copy-scene-tooltip'
             classOverride={'tx-mdl px-2 bord-r-100 3 z-100 '} 
-            onClick={handleToggleTemplates}
+            onClick={handleCopyContent}
           >
             C
           </GameButton>
@@ -87,7 +93,7 @@ export function GameEngineNav({
             tooltip="Paste Scene"
             tooltipId='paste-scene-tooltip'
             classOverride={'tx-mdl px-2 bord-r-100 z-100 '} 
-            onClick={handleToggleTemplates}
+            onClick={handlePasteContent}
           >
             P
           </GameButton>

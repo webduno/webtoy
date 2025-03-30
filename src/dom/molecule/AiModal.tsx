@@ -114,7 +114,7 @@ export const AiModal = ({ onClose }: AiModalProps) => {
           Example: {EXAMPLE_PROMPT}
         </div>
       </div>
-      <GameButton type="alpha" classOverride="mt-4 tx-lg"
+      <GameButton type={"alpha"} classOverride="mt-4 tx-lg"
        onClick={()=>{
         if (prompt === '') {
           alert("Please enter a prompt")

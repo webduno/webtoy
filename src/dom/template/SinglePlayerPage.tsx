@@ -66,6 +66,7 @@ export default function SinglePlayerPage() {
   const handlePasteContent = () => {
     stageRef.current?.pasteContent()
     setShowSettings(false)
+    setShowTutorial(false)
   }
 
   const handleAutorotate = () => {
@@ -174,6 +175,9 @@ export default function SinglePlayerPage() {
             handleToggleTemplates={handleToggleTemplates}
             handleOpenSettings={handleOpenSettings}
             handlePlay={handlePlay}
+            handleResetScene={handleResetScene}
+            handleCopyContent={handleCopyContent}
+            handlePasteContent={handlePasteContent}
           />
           
           <SinglePlayerStage ref={stageRef} deleteMode={deleteMode} setDeleteMode={setDeleteMode} />

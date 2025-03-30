@@ -156,6 +156,8 @@ export default function MultiPlayerPage() {
     stageRef.current?.pasteContent()
     // close settings
     setShowSettings(false)
+    setShowTutorial(false)
+    
   }
   const handleAutorotate = () => {
     stageRef.current?.autorotate()
@@ -232,6 +234,9 @@ export default function MultiPlayerPage() {
               handleToggleTemplates={handleToggleTemplates}
               handleOpenSettings={handleOpenSettings}
               handlePlay={handlePlay}
+              handleResetScene={handleResetScene}
+              handleCopyContent={handleCopyContent}
+              handlePasteContent={handlePasteContent}
             />
           </>)}
 
