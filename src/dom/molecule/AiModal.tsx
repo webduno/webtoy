@@ -80,7 +80,8 @@ export const AiModal = ({ onClose }: AiModalProps) => {
       )}
       {!!result && (
         <GameButton 
-          type="alpha"
+          type="alpha" 
+          classOverride="tx-mdl"
           // className="tx- opaci-25 tx-altfont-1 tx-ls-3 nobg cursor-pointer opaci-chov--75"
           onClick={() => {
             navigator.clipboard.writeText(JSON.stringify(result));
@@ -92,14 +93,14 @@ export const AiModal = ({ onClose }: AiModalProps) => {
         </GameButton>
       )}
       {!!error && (
-        <div className="tx-red opaci-75 tx-altfont-1">{error}</div>
+        <div className="tx-red opaci-75 tx-altfont-1 w-150px">{error}</div>
       )}
       
       {!!result && (
         <div className="mt-4 mb-1 bord-r-10 pa-2 h-300px w-300px flex-col">
           <AIShowcaseResult result={result} />
           <div className="pos-abs  bottom-0 translate-y-50 flex-row gap-2">
-          <GameButton  type="zeta"
+          <GameButton  type="zeta" classOverride="tx-md"
        onClick={()=>{setResult(null); setPrompt('')}} >Generate Again
        </GameButton>
        </div>
@@ -113,8 +114,8 @@ export const AiModal = ({ onClose }: AiModalProps) => {
           Example: {EXAMPLE_PROMPT}
         </div>
       </div>
-      <button className="mt-4 pa-2 bord-r-10 opaci-chov--50"
-       onClick={handleGenerate} disabled={isGenerating}>
+      <GameButton type="alpha" classOverride="mt-4 tx-lg"
+       onClick={handleGenerate} props={{disabled: isGenerating}}>
         <div>
           {!!isGenerating && <div className="flex-row gap-2">
             <div className="">Generating</div>
@@ -122,7 +123,7 @@ export const AiModal = ({ onClose }: AiModalProps) => {
             </div>}
           {!isGenerating && <div className="tx-altfont-1">Generate 🪄</div>}
         </div>
-       </button>
+       </GameButton>
       </>)}
     </div>
   );
