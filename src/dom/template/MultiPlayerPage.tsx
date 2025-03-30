@@ -1,11 +1,11 @@
 "use client"
 import { useEffect, useRef, useState  } from 'react'
-import styles from '../app/multi/page.module.css'
+import styles from '../../app/multi/page.module.css'
 import MultiPlayerStage, { MultiPlayerStageHandle } from '@/model/scenes/MultiPlayerStage'
 import Logo from '@/dom/atom/logo/Logo'
 import { signIn, useSession } from 'next-auth/react'
 import GoogleLoginButton from '@/dom/atom/auth/GoogleLoginButton'
-import FirstPersonView from '@/model/FirstPersonView'
+import FirstPersonView from '@/model/controller/FirstPersonView'
 import CanonPOV from '@/model/controller/CanonPOV'
 import { DEFAULT_TEMPLATE_LIST } from '@/scripts/helpers/sceneTemplates'
 import SettingsModal from '@/dom/molecule/SettingsModal'
