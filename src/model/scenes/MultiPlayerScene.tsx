@@ -321,7 +321,8 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
         {/* @ts-ignore */}
         {/* !!isAdding &&
       */}
-        <MapControls enablePan={!isAdding} minDistance={0.1} maxDistance={50} ref={mapControlsRef} />
+        <OrbitControls enableRotate={!isAdding} enablePan={!isAdding}  ref={mapControlsRef} />
+        {/* <MapControls enablePan={!isAdding} minDistance={0.1} maxDistance={50} ref={mapControlsRef} /> */}
         {/* <OrbitControls  ref={mapControlsRef} /> */}
         <group ref={sceneRef}>
           {selectedObject && (

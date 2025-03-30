@@ -241,8 +241,8 @@ const SinglePlayerScene = forwardRef<SinglePlayerSceneHandle, SinglePlayerSceneP
       {/* @ts-ignore */}
       {/* !!isAdding &&
       */}
-        <MapControls enablePan={!isAdding} minDistance={0.1} maxDistance={50} ref={mapControlsRef} />
-        {/* <OrbitControls  ref={mapControlsRef} /> */}
+        {/* <MapControls enablePan={!isAdding} minDistance={0.1} maxDistance={50} ref={mapControlsRef} /> */}
+        <OrbitControls enableRotate={!isAdding} enablePan={!isAdding}  ref={mapControlsRef} />
         <group ref={sceneRef}>
           {/* <mesh onClick={(e) => {
             if (!isAdding && !selectedObject) {
