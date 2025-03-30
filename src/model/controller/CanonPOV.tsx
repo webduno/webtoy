@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { Physics } from '@react-three/cannon'
 import { CanonPOVProps } from '@/scripts/types/canonPOV'
-import { PhysicsScene } from './physics/PhysicsScene'
+import { PhysicsScene } from '../physics/PhysicsScene'
 import { isMobile } from '@/scripts/utils/mobileDetection'
 
 export default function CanonPOV({ position, sceneObjects, onExit }: CanonPOVProps) {

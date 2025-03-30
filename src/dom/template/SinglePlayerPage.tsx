@@ -8,7 +8,7 @@ import { DEFAULT_TEMPLATE_LIST } from '@/scripts/helpers/sceneTemplates'
 import TutorialModal from '@/dom/molecule/TutorialModal'
 import { AiModal } from '../molecule/AiModal'
 import { clearPhysicsState } from '@/model/physics/PhysicalObjects'
-import CanonPOV from '@/model/CanonPOV'
+import CanonPOV from '@/model/controller/CanonPOV'
 import Logo from '@/dom/atom/logo/Logo'
 
 export default function SinglePlayerPage() {
