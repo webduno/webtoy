@@ -51,6 +51,14 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
   const [cameraPosition, setCameraPosition] = useState<[number, number, number] | null>(null)
   const [cameraTarget, setCameraTarget] = useState<[number, number, number] | null>(null)
   const [cameraRotation, setCameraRotation] = useState<[number, number, number] | null>(null)
+  const [lastPlacedPosition, setLastPlacedPosition] = useState<[number, number, number]>(() => {
+    const saved = localStorage.getItem('multi_lastPlacedPosition');
+    return saved ? JSON.parse(saved) : [0, 0, 0];
+  });
+  const [lastPlacedScale, setLastPlacedScale] = useState<[number, number, number]>(() => {
+    const saved = localStorage.getItem('multi_lastPlacedScale');
+    return saved ? JSON.parse(saved) : [1, 1, 1];
+  });
 
   // Store camera state when switching modes
   useEffect(() => {
@@ -159,9 +167,13 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
   
   // Create object wrapper to use shared function
   const handleCreateObject = (position: [number, number, number], scale: [number, number, number], rotation: [number, number, number], hasGravity: boolean = false) => {
-    return createObject(
-      position, 
-      scale,
+    // Use last placed position and scale if not provided
+    const pos = position || lastPlacedPosition;
+    const scl = scale || lastPlacedScale;
+    
+    const mesh = createObject(
+      pos, 
+      scl,
       rotation,
       color, 
       sceneRef, 
@@ -170,6 +182,19 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
       isAdding,
       hasGravity
     );
+
+    // Update last placed position and scale when object is placed
+    if (mesh) {
+      const newPosition: [number, number, number] = [mesh.position.x, mesh.position.y, mesh.position.z];
+      const newScale: [number, number, number] = [mesh.scale.x, mesh.scale.y, mesh.scale.z];
+      setLastPlacedPosition(newPosition);
+      setLastPlacedScale(newScale);
+      // Save to localStorage
+      localStorage.setItem('multi_lastPlacedPosition', JSON.stringify(newPosition));
+      localStorage.setItem('multi_lastPlacedScale', JSON.stringify(newScale));
+    }
+
+    return mesh;
   }
 
   // Save objects wrapper to use shared function
