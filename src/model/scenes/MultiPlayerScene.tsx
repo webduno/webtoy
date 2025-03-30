@@ -45,7 +45,7 @@ interface MultiPlayerSceneProps {
 const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProps>((props, ref) => {
   const { isAdding = false, setIsAdding, selectedObject, setSelectedObject, transformMode = 'move', color, friends = [], deleteMode = false } = props
   const sceneRef = useRef<Group>(null)
-  const mapControlsRef = useRef<typeof OrbitControls>(null)
+  const mapControlsRef = useRef(null)
   const { data: session } = useSession()
   const [autoRotating, setAutoRotating] = useState(false)
 
@@ -319,8 +319,10 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
       <SimpleScene>
         <CameraClickControls sceneRef={sceneRef} mapControlsRef={mapControlsRef} deleteMode={deleteMode} />
         {/* @ts-ignore */}
+        {/* !!isAdding &&
         <MapControls enablePan={!isAdding} minDistance={0.1} maxDistance={50} ref={mapControlsRef} />
-        {/* <OrbitControls enableRotate={!isAdding} ref={mapControlsRef} /> */}
+      */}
+          <OrbitControls  ref={mapControlsRef} />
         <group ref={sceneRef}>
           {selectedObject && (
             <TransformControls 

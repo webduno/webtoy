@@ -2,7 +2,7 @@
 import SimpleScene from '@/model/scenes/SimpleScene'
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react'
 import { Object3D, BoxGeometry, MeshStandardMaterial, Mesh, Group } from 'three'
-import { MapControls, TransformControls } from '@react-three/drei'
+import { MapControls, OrbitControls, TransformControls } from '@react-three/drei'
 import { createObject, getTransformMode, loadObjects, saveObjects } from '@/scripts/helpers/sceneHelpers'
 import { DEFAULT_TEMPLATE_LIST, getTemplateData } from '@/scripts/helpers/sceneTemplates'
 import { CameraClickControls } from './CameraClickControls'
@@ -239,8 +239,10 @@ const SinglePlayerScene = forwardRef<SinglePlayerSceneHandle, SinglePlayerSceneP
       deleteMode={props.deleteMode || false}
        />
       {/* @ts-ignore */}
+      {/* !!isAdding &&
         <MapControls enablePan={!isAdding} minDistance={0.1} maxDistance={50} ref={mapControlsRef} />
-        
+      */}
+          <OrbitControls  ref={mapControlsRef} />
         <group ref={sceneRef}>
           {/* <mesh onClick={(e) => {
             if (!isAdding && !selectedObject) {
