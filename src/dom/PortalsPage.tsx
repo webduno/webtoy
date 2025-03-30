@@ -5,11 +5,11 @@ import styles from '../app/portals/page.module.css'
 import Logo from '@/dom/atom/logo/Logo'
 import SettingsModal from '@/dom/molecule/SettingsModal'
 import TemplatesModal from '@/dom/molecule/TemplatesModal'
-import { DEFAULT_TEMPLATE_LIST } from '@/scripts/sceneTemplates'
+import { DEFAULT_TEMPLATE_LIST } from '@/scripts/helpers/sceneTemplates'
 import { Canvas } from '@react-three/fiber'
 import SimpleScene from '@/model/scenes/SimpleScene'
 import PortalsStage from '@/model/scenes/PortalsStage'
-import { isMobile } from '@/utils/mobileDetection'
+import { isMobile } from '@/scripts/utils/mobileDetection'
 
 interface PortalParams {
   username?: string;

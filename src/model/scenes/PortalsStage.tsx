@@ -6,7 +6,7 @@ import { Vector3, Euler } from 'three'
 import { useBackgroundMusic } from '@/scripts/contexts/BackgroundMusicContext'
 import { HallOfPortals } from '../portals/HallOfPortals'
 import { useKeyboardControls } from '@/scripts/hooks/useKeyboardControls'
-import { isMobile } from '@/utils/mobileDetection'
+import { isMobile } from '@/scripts/utils/mobileDetection'
 
 interface PortalParams {
   username?: string;

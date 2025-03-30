@@ -3,8 +3,8 @@ import SimpleScene from '@/model/scenes/SimpleScene'
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react'
 import { Object3D, BoxGeometry, MeshStandardMaterial, Mesh, Group } from 'three'
 import { MapControls, TransformControls } from '@react-three/drei'
-import { createObject, getTransformMode, loadObjects, saveObjects } from '@/scripts/sceneHelpers'
-import { DEFAULT_TEMPLATE_LIST, getTemplateData } from '@/scripts/sceneTemplates'
+import { createObject, getTransformMode, loadObjects, saveObjects } from '@/scripts/helpers/sceneHelpers'
+import { DEFAULT_TEMPLATE_LIST, getTemplateData } from '@/scripts/helpers/sceneTemplates'
 import { CameraClickControls } from './MultiPlayerScene'
 
 export interface SinglePlayerSceneHandle {

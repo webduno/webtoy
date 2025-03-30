@@ -4,7 +4,7 @@ import SinglePlayerStage, { SinglePlayerStageHandle } from '@/model/scenes/Singl
 import styles from '../app/single/page.module.css'
 import SettingsModal from '@/dom/molecule/SettingsModal'
 import TemplatesModal from '@/dom/molecule/TemplatesModal'
-import { DEFAULT_TEMPLATE_LIST } from '@/scripts/sceneTemplates'
+import { DEFAULT_TEMPLATE_LIST } from '@/scripts/helpers/sceneTemplates'
 import TutorialModal from '@/dom/molecule/TutorialModal'
 import { AiModal } from './molecule/AiModal'
 import { clearPhysicsState } from '@/model/physics/PhysicalObjects'

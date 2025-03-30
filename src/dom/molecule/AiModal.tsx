@@ -5,7 +5,7 @@ import { useCopyToClipboard } from "usehooks-ts";
 import { CompletionResponse, getCompletionFromAPI } from "../../../scripts/service";
 import { Canvas } from "@react-three/fiber";
 import { Group, Object3D } from "three";
-import { createObject } from "@/scripts/sceneHelpers";
+import { createObject } from "@/scripts/helpers/sceneHelpers";
 import { Box, OrbitControls } from "@react-three/drei";
 
 // Types

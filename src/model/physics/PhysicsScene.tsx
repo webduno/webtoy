@@ -5,7 +5,7 @@ import { Object3D, Vector3, Mesh } from 'three'
 import { useKeyboardControls } from '@/scripts/hooks/useKeyboardControls'
 import { Physics, useCylinder, usePlane } from '@react-three/cannon'
 import { PhysicalBall, PhysicalBox } from './PhysicalObjects'
-import { PhysicsSceneProps } from '@/types/canonPOV'
+import { PhysicsSceneProps } from '@/scripts/types/canonPOV'
 
 export function PhysicsScene({ position, sceneObjects, onExit, isMobile }: PhysicsSceneProps) {
   const controlsRef = useRef<any>(null)

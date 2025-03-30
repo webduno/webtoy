@@ -3,11 +3,11 @@ import SimpleScene from '@/model/scenes/SimpleScene'
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react'
 import { Object3D, BoxGeometry, MeshStandardMaterial, Mesh, Group, Raycaster, Vector2, Color, ColorRepresentation, Vector3 } from 'three'
 import { MapControls, OrbitControls, TransformControls } from '@react-three/drei'
-import { createObject, getTransformMode, loadObjects, saveObjects } from '@/scripts/sceneHelpers'
+import { createObject, getTransformMode, loadObjects, saveObjects } from '@/scripts/helpers/sceneHelpers'
 import { getObjectsFromSupabase, saveObjectsToSupabase } from '../../../scripts/service'
 import { useSession } from 'next-auth/react'
 import { useThree } from '@react-three/fiber'
-import { getTemplateData } from '@/scripts/sceneTemplates'
+import { getTemplateData } from '@/scripts/helpers/sceneTemplates'
 
 interface Friend {
   id: string;

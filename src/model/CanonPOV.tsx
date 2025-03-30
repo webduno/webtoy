@@ -2,9 +2,9 @@
 import { useEffect, useState } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { Physics } from '@react-three/cannon'
-import { CanonPOVProps } from '@/types/canonPOV'
+import { CanonPOVProps } from '@/scripts/types/canonPOV'
 import { PhysicsScene } from './physics/PhysicsScene'
-import { isMobile } from '@/utils/mobileDetection'
+import { isMobile } from '@/scripts/utils/mobileDetection'
 
 export default function CanonPOV({ position, sceneObjects, onExit }: CanonPOVProps) {
   const [showControls, setShowControls] = useState(true)
