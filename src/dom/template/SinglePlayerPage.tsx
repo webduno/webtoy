@@ -10,6 +10,7 @@ import { AiModal } from '../molecule/AiModal'
 import { clearPhysicsState } from '@/model/physics/PhysicalObjects'
 import CanonPOV from '@/model/controller/CanonPOV'
 import Logo from '@/dom/atom/logo/Logo'
+import { GameButton } from '../atom/game/GameButton'
 
 export default function SinglePlayerPage() {
   const stageRef = useRef<SinglePlayerStageHandle>(null)
@@ -133,7 +134,7 @@ export default function SinglePlayerPage() {
           <AiModal
             onClose={() => {
               setShowAiModal(false);
-              setShowSettings(true);
+              // setShowSettings(true);
             }}
           />
         )}
@@ -157,7 +158,7 @@ export default function SinglePlayerPage() {
               onLoadTemplate={handleLoadTemplate}
               onClose={() => {
                 setShowTemplates(false);
-                setShowSettings(true);
+                // setShowSettings(true);
               }}
             />
           )}
@@ -169,24 +170,42 @@ export default function SinglePlayerPage() {
               }} className='tx-red tx-altfont- 2 opaci-50 opaci-chov--75 z-1000'>Exit Delete Mode</div>
             )}
             {!deleteMode && (
-              <div className={styles.helloWorld + ' opaci-chov--75 z-100 block pos-rel'} 
+              <GameButton type="alpha" classOverride={'tx-lg x px-3 z-100 mb-1 mr -1'} 
                 onClick={handleHelloClick}
               >
-                Add New
-              </div>
+                Add  New
+              </GameButton>
             )}
-            <div className={styles.helloWorld + ' opaci-chov--75 z-100 block pos-rel'}
-              onClick={handleOpenSettings}
-            >
-              <span className='px-2' role="img" aria-label="cogwheel">⚙️</span>
+            <div className='flex-row gap-2 mr- 1'>
+              {!deleteMode && (
+                <GameButton type="zeta" classOverride={'tx-lgx px- 3 z-100 '} 
+                  onClick={handleOpenAI}
+                >
+                  🪄
+                </GameButton>
+              )}
+              {!deleteMode && (
+                <GameButton type="zeta" classOverride={'tx-lgx px- 3 z-100 '} 
+                  onClick={handleOpenTemplates}
+                >
+                  🗂️
+                </GameButton>
+              )}
             </div>
-            <div className={'hover-jump opaci-chov--75 z-100 block pos-rel tx-shad ow-5 bg- glass-10 bord-r-100 p a-2 flex-col'}
-              style={{
-                textShadow: "2px 2px 0 #112244, 0 10px 10px #00000055",
-              }}
-              onClick={handlePlay}
-            >
-              <div className='tx-lx' aria-label="cogwheel">🎮</div>
+            <div className='flex-row-r gap-2 '>
+              <GameButton type="white" classOverride={' bord-r-100 z-100 mr 1 1 mt-2'}
+                onClick={handleOpenSettings}
+              >
+                <span className='px- 2 tx-lg' role="img" aria-label="cogwheel">⚙️</span>
+              </GameButton>
+              <div className={'hover-jump mr- opaci-chov--75 z-100 block pos-rel tx-shad ow-5 bg- glass-10 bord-r-100 p a-2 flex-col'}
+                style={{
+                  textShadow: "2px 2px 0 #112244, 0 10px 10px #00000055",
+                }}
+                onClick={handlePlay}
+              >
+                <div className='tx-lx' aria-label="cogwheel">🎮</div>
+              </div>
             </div>
           </div>
           

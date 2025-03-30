@@ -19,12 +19,12 @@ export function BackgroundMusic() {
         {!isPlaying ? (
           <>
             {/* music emoji */}
-            <span className='tx-lg'>🔊</span>
+            <span className='tx-lg'>🔇</span>
           </>
         ) : (
           <>
             {/* pause emoji */}
-            <span className='tx-lg'>⏸️</span>
+            <span className='tx-lg'>🔊</span>
           </>
         )}
       </GameButton>
