@@ -17,7 +17,8 @@ export default function TutorialModal({ onClose }: TutorialModalProps) {
         →
       </div>
       
-      <div className="pos-abs tx-shadow-5 text-center p-4 tx-white bord-r-5 pa-4 w-300px" style={{
+      <div className=" pos-abs tx-shadow-5 text-center p-4 tx-white bord-r-5 pa-4 w-300px" style={{
+        
         boxShadow: "0 3px 1px 1px #805300, inset 0 2px 5px 2px #FFD700",
         background: "linear-gradient(180deg, #F5D67B, #D4A35E)",
         zIndex: 1000,
@@ -27,6 +28,7 @@ export default function TutorialModal({ onClose }: TutorialModalProps) {
           onClick={onClose}
           classOverride="px-2 ma-1 pos-abs top-0 right-0 tx-lg tx-shadow-5 bord-r-100"
           styleOverride={{ 
+            transform: "translate(50%, -50%)",
             zIndex: 1001,
           }}
         >

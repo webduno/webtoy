@@ -17,13 +17,13 @@ export default function TemplatesModal({
   onClose
 }: TemplatesModalProps) {
   return (
-    <div className="pos-abs tx-shadow-5 text-center p-4 tx-white bord-r-5 pa-4 w-300px flex-justify-start autoverflow-y gap-3 h-max-300px pos-abs flex-col flex-align-center " style={{
+    <div className="pos-abs tx-shadow-5 text-center p-4 tx-white bord-r-5  w-300px flex-justify-start  pos-abs flex-col flex-align-center " style={{
       boxShadow: "0 3px 1px 1px #805300, inset 0 2px 5px 2px #FFD700",
       background: "linear-gradient(180deg, #F5D67B, #D4A35E)",
       zIndex: 1000,
     }}>
-      <div className=" tx-white opaci-75 tx-ls-3 pb-4 tx-altfont-4 tx-mdl">TEMPLATES</div>
-      <div className="flex-wrap gap-3 w-100">
+      <div className=" tx-white opaci-75 tx-ls-3 pb-4 tx-altfont-4 tx-mdl pt-4">TEMPLATES</div>
+      <div className="flex-wrap gap-3 w-100 autoverflow-y gap-3 h-max-300px py-4">
         {templates.map((template, index) => (
           <button 
             key={index}
@@ -48,6 +48,7 @@ export default function TemplatesModal({
           onClick={onClose}
           classOverride="px-2 ma-1 pos-abs top-0 right-0 tx-lg tx-shadow-5 bord-r-100"
           styleOverride={{ 
+            transform: "translate(50%, -50%)",
             zIndex: 1001,
           }}
         >
