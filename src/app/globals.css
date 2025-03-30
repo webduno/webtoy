@@ -65,6 +65,11 @@
   box-shadow: 0 3px 1px 1px #cc3333, inset 0 2px 5px 2px #FFc6c6;
 }
 
+.game-btn-zeta {
+  background: linear-gradient(0deg, #E29800 30%, #FFD700 70%);
+  box-shadow: 0 3px 1px 1px #B47733, inset 0 2px 5px 2px #FFe770;
+}
+
 .game-text-input {
   background: #FfeBc2;
   border: none;
