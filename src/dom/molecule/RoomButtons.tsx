@@ -1,6 +1,5 @@
 "use client"
 import Link from 'next/link';
-import './styles.css';
 import { useState, useEffect } from 'react';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { useBackgroundMusic } from '@/scripts/contexts/BackgroundMusicContext';
