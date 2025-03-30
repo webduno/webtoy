@@ -2,7 +2,7 @@
 import { forwardRef, useImperativeHandle, useRef, useState } from 'react'
 import SinglePlayerScene, { SinglePlayerSceneHandle } from '@/model/scenes/SinglePlayerScene'
 import { Object3D } from 'three'
-import NewObjectControls from '@/dom/NewObjectControls'
+import NewObjectControls from '@/dom/molecule/NewObjectControls'
 
 type TransformMode = 'move' | 'scale' | 'rotate';
 

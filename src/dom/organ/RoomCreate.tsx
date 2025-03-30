@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { RoomButtons } from "./RoomButtons";
+import { RoomButtons } from "../molecule/RoomButtons";
 import { SessionProvider } from "next-auth/react";
 export function RoomCreate({myip}: {myip: string}) {
   return (

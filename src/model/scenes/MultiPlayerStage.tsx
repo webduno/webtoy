@@ -1,7 +1,7 @@
 "use client"
 import { forwardRef, useImperativeHandle, useRef, useState } from 'react'
 import { Object3D } from 'three'
-import NewObjectControls from '@/dom/NewObjectControls'
+import NewObjectControls from '@/dom/molecule/NewObjectControls'
 import { MultiPlayerSceneHandle } from './MultiPlayerScene';
 import MultiPlayerScene from './MultiPlayerScene';
 

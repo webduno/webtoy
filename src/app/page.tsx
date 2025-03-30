@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import styles from './page.module.css'
-import { RoomCreate } from '../dom/RoomCreate'
+import { RoomCreate } from '../dom/organ/RoomCreate'
 import { generateMetadata } from '../../scripts/service'
 
 export default async function Home() {

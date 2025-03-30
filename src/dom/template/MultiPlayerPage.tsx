@@ -11,7 +11,7 @@ import { DEFAULT_TEMPLATE_LIST } from '@/scripts/helpers/sceneTemplates'
 import SettingsModal from '@/dom/molecule/SettingsModal'
 import TemplatesModal from '@/dom/molecule/TemplatesModal'
 import TutorialModal from '@/dom/molecule/TutorialModal'
-import { AiModal } from './molecule/AiModal'
+import { AiModal } from '../molecule/AiModal'
 import { clearPhysicsState } from '@/model/physics/PhysicalObjects'
 
 interface Friend {

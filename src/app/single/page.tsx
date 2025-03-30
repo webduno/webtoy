@@ -1,7 +1,7 @@
 import styles from './page.module.css'
 import { useRef } from 'react'
 import SinglePlayerStage, { SinglePlayerStageHandle } from '@/model/scenes/SinglePlayerStage'
-import SinglePlayerPage from '@/dom/SinglePlayerPage'
+import SinglePlayerPage from '@/dom/template/SinglePlayerPage'
 
 export default function SinglePlayer() {
 

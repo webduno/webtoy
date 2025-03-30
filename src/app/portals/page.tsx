@@ -1,5 +1,5 @@
 import styles from './page.module.css'
-import PortalsPage from '@/dom/PortalsPage'
+import PortalsPage from '@/dom/template/PortalsPage'
 
 export default function Portals() {
   return (
