@@ -2,10 +2,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Bytesized&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lilita+One&display=swap');
 
 .tx-altfont-1 {     font-family: 'Raleway', sans-serif !important}
 .tx-altfont-2 {     font-family: "Archivo Black", sans-serif !important}
 .tx-altfont-3 {     font-family: "Bytesized", sans-serif !important}
+.tx-altfont-4 {     font-family: "Lilita One", sans-serif !important}
 
 .hover-jump{animation: hoverjump 10s;  animation-iteration-count: infinite }
 
@@ -29,3 +31,32 @@
   transform: translateY(-2px);
   box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
 } 
+
+.game-btn-base {
+  transition: all 0.1s ease;
+}
+
+.game-btn-base:hover {
+  transform: translateY(-2px) rotate(-2deg);
+}
+
+.game-btn-alpha {
+  background: linear-gradient(0deg, #6A9A39 30%, #ADDA2F 70%);
+  box-shadow: 0 3px 1px 1px #467758, inset 0 2px 5px 2px #f4ffaE;
+}
+
+.game-btn-beta {
+  background: linear-gradient(0deg, #3F8Fb3 30%, #1EF0F1 70%);
+  box-shadow: 0 3px 1px 1px #3C6893, inset 0 2px 5px 2px #1EF0F1;
+}
+
+.game-btn-gamma {
+  background: linear-gradient(0deg, #8B0000 30%, #FF4444 70%);
+  box-shadow: 0 3px 1px 1px #5C0000, inset 0 2px 5px 2px #FFAAAA;
+}
+
+.game-btn-delta {
+  background: linear-gradient(0deg, #B35B00 30%, #FFA500 70%);
+  box-shadow: 0 3px 1px 1px #805300, inset 0 2px 5px 2px #FFD700;
+}
+
