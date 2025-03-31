@@ -66,7 +66,7 @@ export function RoomButtons({myip}: {myip: string}) {
 
   return (<>
     <div className="flex-row gap-2 flex-wrap flex-justify-center flex-align-center">
-      <Link href="/single/" onClick={() => handleNavigation('single')}>
+      <Link prefetch={true} href="/single/" onClick={() => handleNavigation('single')}>
         <GameButton type="epsilon" >
           <div className='px-4 tx-lg noselect'>
             {loading === 'single' ? <>Loading <br /> Game...</> : (
@@ -75,7 +75,7 @@ export function RoomButtons({myip}: {myip: string}) {
           </div>
         </GameButton>  
       </Link>
-      <Link href="/multi/" onClick={() => handleNavigation('multi')}>
+      <Link prefetch={true} href="/multi/" onClick={() => handleNavigation('multi')}>
         <GameButton type="beta" >
           <div className='px-4 tx-lg noselect'>
             {loading === 'multi' ? <>Loading <br /> Game...</> : (
@@ -124,7 +124,7 @@ export function RoomButtons({myip}: {myip: string}) {
         value={username}
         onChange={(e) => setUsername(e.target.value)}
       />
-      <Link 
+      <Link prefetch={true}
         style={{
           textDecoration: 'none',
           color: 'inherit',

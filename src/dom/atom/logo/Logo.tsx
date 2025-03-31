@@ -17,7 +17,7 @@ export default function Logo({ className }: LogoProps) {
       }}
       className={className || "pa-2 px-3"}
     >
-      <Link className="tx-altfont-3 nodeco opaci-chov--50 flex-row gap-1" href="/"
+      <Link prefetch={true} className="tx-altfont-3 nodeco opaci-chov--50 flex-row gap-1" href="/"
       style={{
         color: 'white',
       }}
