@@ -43,7 +43,7 @@ export function RoomButtons({myip}: {myip: string}) {
         return;
       }
       // Save username to localStorage when entering portals
-      localStorage.setItem('username', username);
+      localStorage.setItem('PLAYER_ID', username);
     }
     playClickSound();
     setLoading(destination);
