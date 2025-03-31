@@ -101,7 +101,7 @@ export default function MultiPlayerPage() {
     const storageKey = friends.length > 1 
       ? `multiplayer_scene>>>${friends[0].id},${friends.slice(1).map(f => f.id).sort().join(',')}`
       : 'multiplayer_scene'
-    const hasSavedContent = localStorage.getItem(storageKey) !== null
+    const hasSavedContent = window?.localStorage?.getItem?.(storageKey) !== null
     setHasObjects(objects.length > 0 || hasSavedContent)
   }, [friends])
 
