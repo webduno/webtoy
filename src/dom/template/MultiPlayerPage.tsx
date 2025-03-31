@@ -287,19 +287,17 @@ export default function MultiPlayerPage() {
 
       {friends.length === 1 &&  !username && (<>
       {/* <div className='tx-white tx-altfont-4 tx-lgx game-font-1'>or</div> */}
-        <div className='tx-altfont- 4 pb-2 tx -lgx tx-center pt-4 tx-lgx opaci-chov--50'
-        style={{
-          color: '#4a90e2',
-          cursor: 'pointer',
-        }}
+        <GameButton 
+        type='alpha'
+        classOverride='tx-altfont-4 tx-lg opaci-chov--50 nowrap px-4 mt-2 '
         onClick={() => {
           console.log('continue as guest', friends[0].name)
           setUsername(friends[0].name)
         }}
         >
           
-          Continue <br /> as Guest
-        </div>
+          Continue as Guest
+        </GameButton>
         </>
       )}
       
