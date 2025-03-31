@@ -1,10 +1,10 @@
 "use client"
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { useBackgroundMusic } from '@/scripts/contexts/BackgroundMusicContext';
 import { GameButton } from '../atom/game/GameButton';
-import { GameTextInput } from '../atom/game/GameTextInput';
+import { UsernameInputContainer } from './UsernameInputContainer';
 
 export function RoomButtons({myip}: {myip: string}) {
   const { data: session } = useSession();
@@ -12,20 +12,6 @@ export function RoomButtons({myip}: {myip: string}) {
   const [loggedPlayer, setLoggedPlayer] = useState<{id:string, name:string} | null>(null);
   const [loading, setLoading] = useState<string | null>(null);
   const [username, setUsername] = useState('');
-
-  useEffect(() => {
-    if (session) {
-      setUsername(session.user?.name?.replace(" ", "_") ?? "");
-    }
-  }, [session]);
-
-  useEffect(() => {
-    // Load username from localStorage when component mounts
-    const savedUsername = localStorage.getItem('username');
-    if (savedUsername) {
-      setUsername(savedUsername);
-    }
-  }, []);
 
   const playClickSound = () => {
     const audio = new Audio('/click47.wav');
@@ -66,6 +52,42 @@ export function RoomButtons({myip}: {myip: string}) {
 
   return (<>
     <div className="flex-row gap-2 flex-wrap flex-justify-center flex-align-center">
+      <div className="flex-col gap-2">
+      <UsernameInputContainer onUsernameChange={setUsername} />
+
+      <Link prefetch={true}
+        style={{
+          textDecoration: 'none',
+          color: 'inherit',
+          pointerEvents: (!username && !loggedPlayer?.name) ? 'none' : 'auto',
+          filter: (!username && !loggedPlayer?.name) ? 'saturate(0) contrast(0.2) brightness(1.5)' : 'none'
+        }} 
+        href={`/portals?${new URLSearchParams({
+          username: loggedPlayer?.name || username || '',
+          color: '%2300B30F',
+          speed: '1',
+          speed_x: '0.5',
+          speed_y: '0.5',
+          speed_z: '0.5',
+          rotation_x: '0',
+          rotation_y: '0',
+          rotation_z: '0'
+        }).toString()}`}
+        onClick={() => handleNavigation('portals')}
+      >
+        <GameButton type="alpha">
+          <div className='px-4 tx-lg noselect'>
+            {loading === 'portals' ? <>Loading <br /> Game...</> : (
+              <>Portals</>
+            )}
+          </div>
+        </GameButton>
+      </Link>
+      </div>
+      <div className='w-100 '>
+        <hr className='w-50 opaci-50' />
+      </div>
+
       <Link prefetch={true} href="/single/" onClick={() => handleNavigation('single')}>
         <GameButton type="epsilon" >
           <div className='px-4 tx-lg noselect'>
@@ -87,7 +109,6 @@ export function RoomButtons({myip}: {myip: string}) {
     </div>
 
     <div className='flex-col gap-2'>
-      
       {!!session && (<>
         <div className='pos-abs bottom-0 right-0 opaci-chov--50 mr-100 pr-8'
         style={{paddingBottom: '7px'}}
@@ -111,49 +132,6 @@ export function RoomButtons({myip}: {myip: string}) {
         </div>
       </GameButton>
       )}
-    </div>
-
-
-    
-
-    <hr className='w-100 opaci-50' />
-
-    <div className='flex-col gap-2'>
-      <GameTextInput 
-        placeholder='Username'
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-      />
-      <Link prefetch={true}
-        style={{
-          textDecoration: 'none',
-          color: 'inherit',
-          pointerEvents: (!username && !loggedPlayer?.name) ? 'none' : 'auto',
-          filter: (!username && !loggedPlayer?.name) ? 'saturate(0) contrast(0.2) brightness(1.5)' : 'none'
-        }} 
-        href={`/portals?${new URLSearchParams({
-          username: loggedPlayer?.name || username || '',
-          color: '%2300B30F',
-          speed: '1',
-          speed_x: '0.5',
-          speed_y: '0.5',
-          speed_z: '0.5',
-          rotation_x: '0',
-          rotation_y: '0',
-          rotation_z: '0'
-        }).toString()}`}
-        onClick={() => handleNavigation('portals')}
-      >
-        <GameButton 
-          type="alpha"
-        >
-          <div className='px-4 tx-lg noselect'>
-            {loading === 'portals' ? <>Loading <br /> Game...</> : (
-              <>Portals</>
-            )}
-          </div>
-        </GameButton>
-      </Link>
     </div>
     </>
   );

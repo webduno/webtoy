@@ -14,6 +14,9 @@ import TutorialModal from '@/dom/molecule/TutorialModal'
 import { AiModal } from '../molecule/AiModal'
 import { clearPhysicsState } from '@/model/physics/PhysicalObjects'
 import { GameEngineNav } from '../molecule/GameEngineNav'
+import { GameButton } from '../atom/game/GameButton'
+import { UsernameInputContainer } from '../molecule/UsernameInputContainer'
+import { Tooltip } from 'react-tooltip'
 
 interface Friend {
   id: string;
@@ -93,6 +96,8 @@ export default function MultiPlayerPage() {
   const [showAiModal, setShowAiModal] = useState<boolean>(false)
   const [showClipboardButtons, setShowClipboardButtons] = useState<boolean>(false)
   const [isAdding, setIsAdding] = useState<boolean>(false)
+  // const [unsaved_username, unsaved_setUsername] = useState('');
+  const [username, setUsername] = useState('');
 
   // Check for objects when component mounts
   useEffect(() => {
@@ -134,6 +139,7 @@ export default function MultiPlayerPage() {
     setHasObjects(true)
   }
   const handleAddFriend = (newAltFriend = "") => {
+
     const theNewName = newFriendName || newAltFriend
     if (theNewName.trim() === '') return;
     setFriends([...friends, { id: theNewName, name: theNewName, online: true }])
@@ -244,27 +250,67 @@ export default function MultiPlayerPage() {
               isAdding={isAdding}
             />
           </>)}
+          {/* asd
+          
+          */}
+          
+          
+      {friends.length === 1 &&  !username && (<>
+        <div className='tx-altfont-4 pb-2 tx-lx game-font-1 tx-center'>
+          Enter Your <br /> Username 
+        </div>
+        </>)}
+              <div className='tx-altfont-4 tx-white tx-shadow-5 tx-lg pa-2 flex-row gap-2 pr-3 bord-r-5'
+                data-tooltip-id="username-tooltip"
+                data-tooltip-place='bottom'
+                style={{
+                boxShadow: "0 3px 1px 1px #805300, inset 0 2px 5px 2px #FFD700",
+      background: "linear-gradient(180deg, #F5D67B, #D4A35E)",
 
-          {/* if only 1 friend (self) show message */}
-          {friends.length === 1 && (
-            <div style={{textAlign: 'center', }}>
-              <div>Add a friend <br /> to start playing!</div>
-              
-              <div className={styles.playerList}
-                style={{  }}
+              }}
               >
+                <div className='bg-white bord-r-100 pa-1 tx-lgx '
+                >
+                  <div className='noclick'>
+                🙍🏻
+                </div>
+                </div>
+                <Tooltip id="username-tooltip" >
+                  You
+                </Tooltip>
+      <UsernameInputContainer autosave={false} onUsernameChange={setUsername} />
+      </div>
+          
+      {friends.length === 1 &&  !username && (<>
+        <div className='h-300px'></div>
+        </>)}
+          
+          {/* if only 1 friend (self) show message */}
+          {friends.length === 1 &&  !!username && (
+            <div style={{textAlign: 'center', }}>
+              <div className={"bord-r-5 pa-4"}
+                style={{ 
+                  boxShadow: "0 3px 1px 1px #805300, inset 0 2px 5px 2px #FFD700",
+                  background: "linear-gradient(0deg, #F5D67B, #D4A35E)",
+                 }}
+              >
+              <div className='tx-altfont-4 pb-6 tx-lgx game-font-2'>
+                Add a friend <br /> to start playing!
+              </div>
+              
                 {/* <h2>Connected Players</h2> */}
-                {myip && <>
-                  <ul>
+                {myip &&  <>
+                  <ul className='pa-0 ma-0'>
                     {/* dont show myself */}
                     {friends.filter(friend => friend.id !== myip).map(friend => (
                       <li key={friend.id}>{friend.name}</li>
                     ))}
                     {/* add new friend input   */}
                     <li className="flex-row gap-2 flex-align-center">
-                      <div className='flex-col'>
+                      <div className='flex-col flex-justify-center flex-align-center'>
                       <input
-                        className="tx-altfont-1 py-1  bord-r-10"
+                        placeholder="Enter Player ID"
+                        className="tx-altfont-1 py-1 tx-center tx-md bord-r-10 game-text-input"
                         type="text"
                         onKeyDown={(e) => {
                           if (e.key === 'Enter') {
@@ -275,30 +321,22 @@ export default function MultiPlayerPage() {
                         onChange={(e) => setNewFriendName(e.target.value)}
                       />
                       </div>
-                      <button 
+                      <GameButton type='alpha' 
                         onClick={() => handleAddFriend()}
-                        style={{
-                          backgroundColor: '#4a90e2',
-                          color: 'white',
-                          border: 'none',
-                          borderRadius: '4px',
-                          padding: '6px 12px',
-                          marginLeft: '8px',
-                          cursor: 'pointer',
-                          fontFamily: '"Bytesized", sans-serif',
-                          boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
-                          transition: 'all 0.2s ease-in-out'
-                        }}
-                        className="tx-altfont-3 opaci-chov--75"
-                        onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
-                        onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+  classOverride='tx-md '                        
                       >
                         Add
-                      </button>
+                      </GameButton>
                     </li>
                   </ul>
                 </>}
-                {lastFriend && (<>
+                {!lastFriend && (<>
+              <div className='opaci-25 tx-end pt-6'>
+                <div>Enter Email, Username or IP</div>
+                {/* <div>NOT USERNAME*</div> */}
+              </div>
+                </>)}
+                {!!lastFriend && (<>
                   <div className='tx-end '>
                     <div className='opaci-50 tx-sm'>Last added: </div> 
                     <span 
@@ -321,6 +359,7 @@ export default function MultiPlayerPage() {
               </div>
             </div>
           )}
+
 
           {/* only if more than 1 friend */}
           {friends.length > 1 && (
