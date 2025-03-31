@@ -266,8 +266,6 @@ const SinglePlayerScene = forwardRef<SinglePlayerSceneHandle, SinglePlayerSceneP
        />
         {!!isAdding && <MapControls 
           enablePan={false} 
-          minDistance={0.1} 
-          maxDistance={50} 
           ref={mapControlsRef}
           target={cameraTarget || [0, 0, 0]}
         /> }
