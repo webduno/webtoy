@@ -7,6 +7,49 @@ import { Physics, useCylinder, usePlane } from '@react-three/cannon'
 import { PhysicalBall, PhysicalBox } from './PhysicalObjects'
 import { PhysicsSceneProps } from '@/scripts/types/canonPOV'
 
+// Move SceneObjects outside the main component
+const SceneObjects = ({ sceneObjects, isMobile }: { sceneObjects: Object3D[], isMobile: boolean }) => {
+  return (
+    <>
+      {sceneObjects.map((obj, index) => {
+        if (obj instanceof Mesh) {
+          // Extract mesh position, rotation and scale
+          const meshPosition: [number, number, number] = [
+            obj.position.x,
+            obj.position.y,
+            obj.position.z
+          ]
+          
+          const meshRotation: [number, number, number] = [
+            obj.rotation.x,
+            obj.rotation.y,
+            obj.rotation.z
+          ]
+          
+          const meshScale: [number, number, number] = [
+            obj.scale.x || 1,
+            obj.scale.y || 1,
+            obj.scale.z || 1,
+          ]
+          
+          return (
+            <PhysicalBox
+              key={index}
+              position={meshPosition}
+              rotation={meshRotation}
+              scale={meshScale}
+              geometry={obj.geometry}
+              material={obj.material}
+              userData={{ ...obj.userData, hasGravity: obj.userData?.hasGravity && !isMobile }}
+            />
+          )
+        }
+        return null
+      })}
+    </>
+  )
+}
+
 export function PhysicsScene({ position, sceneObjects, onExit, isMobile }: PhysicsSceneProps) {
   const controlsRef = useRef<any>(null)
   const { camera } = useThree()
@@ -460,48 +503,13 @@ export function PhysicsScene({ position, sceneObjects, onExit, isMobile }: Physi
     }
   })
   
-  // Create physical objects from scene objects
-  const SceneObjects = () => {
-    return (
-      <>
-        {sceneObjects.map((obj, index) => {
-          if (obj instanceof Mesh) {
-            // Extract mesh position, rotation and scale
-            const meshPosition: [number, number, number] = [
-              obj.position.x,
-              obj.position.y,
-              obj.position.z
-            ]
-            
-            const meshRotation: [number, number, number] = [
-              obj.rotation.x,
-              obj.rotation.y,
-              obj.rotation.z
-            ]
-            
-            const meshScale: [number, number, number] = [
-              obj.scale.x || 1,
-              obj.scale.y || 1,
-              obj.scale.z || 1,
-            ]
-            
-            return (
-              <PhysicalBox
-                key={index}
-                position={meshPosition}
-                rotation={meshRotation}
-                scale={meshScale}
-                geometry={obj.geometry}
-                material={obj.material}
-                userData={{ ...obj.userData, hasGravity: obj.userData?.hasGravity && !isMobile }}
-              />
-            )
-          }
-          return null
-        })}
-      </>
-    )
-  }
+  // Reset balls when component unmounts or onExit is called
+  useEffect(() => {
+    return () => {
+      setBalls([])
+      setRemainingBalls(3)
+    }
+  }, [])
   
   return (
     <>
@@ -511,7 +519,7 @@ export function PhysicsScene({ position, sceneObjects, onExit, isMobile }: Physi
           // Vertical rotation enabled for desktop
         />
       )}
-      <SceneObjects />
+      <SceneObjects sceneObjects={sceneObjects} isMobile={isMobile} />
       
       {/* Multiple balls */}
       {balls.map((ball) => (

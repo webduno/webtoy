@@ -10,6 +10,12 @@ import { GameButton } from '@/dom/atom/game/GameButton'
 export default function CanonPOV({ position, sceneObjects, onExit }: CanonPOVProps) {
   const [showControls, setShowControls] = useState(true)
   const [isMobileDevice, setIsMobileDevice] = useState(false)
+  const [balls, setBalls] = useState<Array<{
+    position: [number, number, number],
+    velocity: [number, number, number],
+    id: number
+  }>>([])
+  const [remainingBalls, setRemainingBalls] = useState(3)
   
   // Check if client is mobile on component mount
   useEffect(() => {
@@ -23,6 +29,14 @@ export default function CanonPOV({ position, sceneObjects, onExit }: CanonPOVPro
     }, 5000)
     
     return () => clearTimeout(timer)
+  }, [])
+  
+  // Reset balls when component unmounts or onExit is called
+  useEffect(() => {
+    return () => {
+      setBalls([])
+      setRemainingBalls(3)
+    }
   }, [])
   
   return (

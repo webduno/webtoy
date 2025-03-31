@@ -1,47 +1,10 @@
+import BASKETBALL_COURT_JSON from './maps/basketball_court.json';
+
 // Template definitions for the 3D scene
 const PHYSICS_TEST = [{"position":[0,-0.5611186449722975,0],"rotation":[0,0,0],"scale":[9.475172487582173,0.6155249373422851,9.475172487582173],"color":"777777","hasGravity":false},{"position":[0,0,0],"rotation":[0,0,0],"scale":[1,1,1],"color":"777777","hasGravity":false},{"position":[0,2.472572019683369,0],"rotation":[-0.5884172948570177,0.2210228494883355,0.5884172948570178],"scale":[0.6525083472183528,0.6525083472183528,0.6525083472183528],"color":"777777","hasGravity":false},{"position":[0,3.9631697162337187,0],"rotation":[-0.4693766980066377,0.29156384862405865,0.4693766980066377],"scale":[1,1,1],"color":"ffd500","hasGravity":true},{"position":[0,5.532869935566511,0],"rotation":[0,0,0],"scale":[1,1,1],"color":"ff7300","hasGravity":true}]
 
 // Basketball court template
-const BASKETBALL_COURT = [
-  {"position":[0,-0.22,0],"rotation":[0,0,0],"scale":[15,0.5,28],"color":"ff8c29","hasGravity":false}, // Court floor (orange/brown wooden court)
-  {"position":[0,0.05,0],"rotation":[0,0,0],"scale":[13.5,0.1,26],"color":"e67a14","hasGravity":false}, // Court inner area
-  
-  // Court lines (white)
-  {"position":[0,0.11,13],"rotation":[0,0,0],"scale":[12,0.04,0.1],"color":"ffffff","hasGravity":false}, // Baseline (far)
-  
-  // Free throw circles and lane (far end)
-  {"position":[0,0.11,9.5],"rotation":[0,0,0],"scale":[6,0.04,0.1],"color":"ffffff","hasGravity":false}, // Free throw line (far)
-  {"position":[3,0.11,11.25],"rotation":[0,0,0],"scale":[0.1,0.04,3.5],"color":"ffffff","hasGravity":false}, // Lane line right (far)
-  {"position":[-3,0.11,11.25],"rotation":[0,0,0],"scale":[0.1,0.04,3.5],"color":"ffffff","hasGravity":false}, // Lane line left (far)
-  
-  // Three point line (far end)
-  {"position":[0,0.04,8],"rotation":[0,0,0],"scale":[7.5,0.2,0.1],"color":"ffffff","hasGravity":false}, // Three point arc (far)
-
-  {"position":[4.915797823511876,0,10.452139158432168],"rotation":[0,0.41548654449723404,0],"scale":[0.15889491276003273,0.21461115664801328,5.571252709500212],"color":"ffffff","hasGravity":false}, // Three point arc (side)
-  {"position":[-4.915797823511876,0,10.452139158432168],"rotation":[0,-0.41548654449723404,0],"scale":[0.15889491276003273,0.21461115664801328,5.571252709500212],"color":"ffffff","hasGravity":false},
-  
-  // Basketball hoop (far end)
-  {"position":[0,0.11,13],"rotation":[0,0,0],"scale":[1.8,0.04,0.1],"color":"ffffff","hasGravity":false}, // Backboard outline
-  {"position":[0,3.05,12.9],"rotation":[0,0,0],"scale":[1.8,1.2,0.1],"color":"ffffff","hasGravity":false}, // Backboard
-  {"position":[0,3.05,12.85],"rotation":[0,0,0],"scale":[1.7,1.1,0.05],"color":"cccccc","hasGravity":false}, // Backboard glass
-  {"position":[0,3.15,12.82],"rotation":[0,0.05,0],"scale":[0.45,0.45,0.05],"color":"ff5555","hasGravity":false}, // Hoop target square
-  {"position":[0,2.5,12.65],"rotation":[0,0.05,0],"scale":[0.2,0.01,0.5],"color":"ff4444","hasGravity":false}, // Rim base
-  
-  // Rim made of four tubes (one for each side of the square)
-  {"position":[0,2.5,12.0],"rotation":[0,0.05,0],"scale":[0.45,0.09,0.09],"color":"ff4444","hasGravity":false}, // Front tube (facing court)
-  {"position":[0,2.5,12.4],"rotation":[0,0.05,0],"scale":[0.45,0.09,0.09],"color":"ff4444","hasGravity":false}, // Back tube (near backboard)
-  {"position":[-0.225,2.5,12.2],"rotation":[0,0.05,1.57],"scale":[0.09,0.09,0.45],"color":"ff4444","hasGravity":false}, // Left tube
-  {"position":[0.225,2.5,12.2],"rotation":[0,0.05,1.57],"scale":[0.09,0.09,0.45],"color":"ff4444","hasGravity":false}, // Right tube
-  
-  {"position":[0,3.05,13.15],"rotation":[0,0,0],"scale":[0.1,0.1,0.6],"color":"777777","hasGravity":false}, // Hoop support
-  {"position":[0,1.5,13.4],"rotation":[0,0,0],"scale":[0.4,3,0.4],"color":"777777","hasGravity":false}, // Hoop pole
-    
-  // Center court logo (simplified circular logo)
-  {"position":[0,0.115,0],"rotation":[0,0,0],"scale":[2,0.04,2],"color":"3366cc","hasGravity":false}, // Logo background
-  
-  // Court surroundings
-  {"position":[0,-0.5,0],"rotation":[0,0,0],"scale":[25,1,40],"color":"888888","hasGravity":false}, // Ground beneath court
-];
+const BASKETBALL_COURT = BASKETBALL_COURT_JSON
 
 // Golf course template
 const GOLF_COURSE = [
