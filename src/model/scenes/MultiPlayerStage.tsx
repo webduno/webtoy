@@ -8,9 +8,7 @@ import MultiPlayerScene from './MultiPlayerScene';
 type TransformMode = 'move' | 'scale' | 'rotate';
 
 interface Friend {
-  id: string;
-  name: string;
-  online: boolean;
+  PLAYER_ID: string;
 }
 
 export interface MultiPlayerStageHandle {

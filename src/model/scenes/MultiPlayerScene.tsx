@@ -11,9 +11,7 @@ import { DEFAULT_TEMPLATE_LIST, getTemplateData } from '@/scripts/helpers/sceneT
 import { CameraClickControls } from './CameraClickControls'
 
 interface Friend {
-  id: string;
-  name: string;
-  online: boolean;
+  PLAYER_ID: string;
 }
 
 const STORAGE_KEY = 'singleplayer_scene'
@@ -85,9 +83,8 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
   const getStorageKey = () => {
     if (friends.length > 1) {
       const otherFriends = friends.slice(1);
-      const friendIds = otherFriends.map(f => f.id).sort().join(',');
-      // if session then email, else ip
-      const myid = session ? session.user?.email : friends[0].id;
+      const friendIds = otherFriends.map(f => f.PLAYER_ID).sort().join(',');
+      const myid = friends[0].PLAYER_ID;
       return `${STORAGE_KEY}>>>${myid},${friendIds}`;
     }
     // console.log('no friends, using storage key', STORAGE_KEY);

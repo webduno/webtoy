@@ -19,9 +19,7 @@ import { UsernameInputContainer } from '../molecule/UsernameInputContainer'
 import { Tooltip } from 'react-tooltip'
 
 interface Friend {
-  id: string;
-  name: string;
-  online: boolean;
+  PLAYER_ID: string;
 }
 
 export default function MultiPlayerPage() {
@@ -31,9 +29,13 @@ export default function MultiPlayerPage() {
     // console.log("fetchMyip")
     const response = await fetch('/api/single')
     const data = await response.json()
+    if (!data.ip) {
+      alert('No IP found')
+      return
+    }
     setMyip(data.ip)
     setFriends([
-      { id: data.ip ?? '-', name: data.ip ?? '-', online: true }, // myself
+      { PLAYER_ID: data.ip }, // myself
     ])
     
     // Load last friend from localStorage
@@ -108,7 +110,7 @@ export default function MultiPlayerPage() {
     const objects = stageRef.current?.getSceneObjects?.() || []
     // Get the storage key based on friends
     const storageKey = friends.length > 1 
-      ? `multiplayer_scene>>>${friends[0].id},${friends.slice(1).map(f => f.id).sort().join(',')}`
+      ? `multiplayer_scene>>>${friends[0].PLAYER_ID},${friends.slice(1).map(f => f.PLAYER_ID).sort().join(',')}`
       : 'multiplayer_scene'
     const hasSavedContent = window?.localStorage?.getItem?.(storageKey) !== null
     setHasObjects(objects.length > 0 || hasSavedContent)
@@ -143,10 +145,9 @@ export default function MultiPlayerPage() {
     setHasObjects(true)
   }
   const handleAddFriend = (newAltFriend = "") => {
-
     const theNewName = newFriendName || newAltFriend
     if (theNewName.trim() === '') return;
-    setFriends([...friends, { id: theNewName, name: theNewName, online: true }])
+    setFriends([...friends, { PLAYER_ID: theNewName }])
     
     // Save to localStorage
     localStorage.setItem('lastFriend', theNewName)
@@ -291,8 +292,8 @@ export default function MultiPlayerPage() {
         type='alpha'
         classOverride='tx-altfont-4 tx-lg opaci-chov--50 nowrap px-4 mt-2 '
         onClick={() => {
-          console.log('continue as guest', friends[0].name)
-          setUsername(friends[0].name)
+          console.log('continue as guest', friends[0].PLAYER_ID)
+          setUsername(friends[0].PLAYER_ID)
         }}
         >
           
@@ -324,8 +325,8 @@ export default function MultiPlayerPage() {
                 {myip &&  <>
                   <ul>
                     {/* dont show myself */}
-                    {friends.filter(friend => friend.id !== myip).map(friend => (
-                      <li key={friend.id}>{friend.name}</li>
+                    {friends.filter(friend => friend.PLAYER_ID !== myip).map(friend => (
+                      <li key={friend.PLAYER_ID}>{friend.PLAYER_ID}</li>
                     ))}
                     {/* add new friend input   */}
                     <li className="flex-row gap-2 flex-align-center">
@@ -345,7 +346,7 @@ export default function MultiPlayerPage() {
                       </div>
                       <GameButton type='alpha' 
                         onClick={() => handleAddFriend()}
-  classOverride='tx-md '                        
+                        classOverride='tx-md '                        
                       >
                         Add
                       </GameButton>
