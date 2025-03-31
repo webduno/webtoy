@@ -91,7 +91,10 @@ export default function SinglePlayerPage() {
       alert("No objects in scene. Please create some objects first.")
       return
     }
-
+    if(!spawnCoords.match(/^-?\d+,-?\d+,-?\d+$/)){
+      alert('Invalid spawn coords');
+      return;
+    }
     try {
       // Parse the coordinates string into an array of numbers
       const coords = spawnCoords.split(',').map(Number)

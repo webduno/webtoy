@@ -47,6 +47,10 @@ export default function MultiPlayerPage() {
   
   const handlePlay = () => {
     try {
+      if(!spawnCoords.match(/^-?\d+,-?\d+,-?\d+$/)){
+        alert('Invalid spawn coords');
+        return;
+      }
       // Parse the coordinates string into an array of numbers
       const coords = spawnCoords.split(',').map(Number)
       

@@ -81,10 +81,7 @@ export default function SettingsModal({
         value={spawnCoords}
         onChange={(e) => {
           // has to be 0,0,0 format
-          if(!e.target.value.match(/^\d{1,3},\d{1,3},\d{1,3}$/)){
-            alert('Invalid spawn coords');
-            return;
-          }
+          
           setSpawnCoords(e.target.value);
         }}
         />
