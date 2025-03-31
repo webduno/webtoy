@@ -6,15 +6,16 @@ import { GameTextInput } from '../atom/game/GameTextInput';
 interface UsernameInputContainerProps {
   onUsernameChange: (username: string) => void;
   autosave?: boolean;
+  username?: string;
 }
 
-export function UsernameInputContainer({ onUsernameChange, autosave = true }: UsernameInputContainerProps) {
+export function UsernameInputContainer({ onUsernameChange, autosave = true, username: propUsername }: UsernameInputContainerProps) {
   const { data: session } = useSession();
-  const [username, setUsername] = useState('');
+  const [username, setUsername] = useState(propUsername || '');
 
   useEffect(() => {
     if (session) {
-      setUsername(session.user?.name?.replace(" ", "_") ?? "");
+      setUsername(session.user?.email ?? "");
     }
   }, [session]);
 
@@ -26,6 +27,13 @@ export function UsernameInputContainer({ onUsernameChange, autosave = true }: Us
       onUsernameChange(savedUsername);
     }
   }, []);
+
+  // Update internal state when prop changes
+  useEffect(() => {
+    if (propUsername) {
+      setUsername(propUsername);
+    }
+  }, [propUsername]);
 
   const handleUsernameChange = (newUsername: string) => {
     setUsername(newUsername);

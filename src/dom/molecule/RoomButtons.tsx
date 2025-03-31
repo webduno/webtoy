@@ -53,7 +53,7 @@ export function RoomButtons({myip}: {myip: string}) {
   return (<>
     <div className="flex-row gap-2 flex-wrap flex-justify-center flex-align-center">
       <div className="flex-col gap-2">
-      <UsernameInputContainer onUsernameChange={setUsername} />
+      <UsernameInputContainer onUsernameChange={setUsername} username={username} />
 
       <Link prefetch={true}
         style={{

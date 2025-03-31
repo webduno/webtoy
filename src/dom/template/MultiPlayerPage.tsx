@@ -81,7 +81,6 @@ export default function MultiPlayerPage() {
     const savedUsername = localStorage.getItem('username')
     if (savedUsername) {
       setUsername(savedUsername)
-      unsaved_setUsername(savedUsername)
     }
   }, [])
   const stageRef = useRef<MultiPlayerStageHandle>(null)
@@ -102,7 +101,6 @@ export default function MultiPlayerPage() {
   const [showAiModal, setShowAiModal] = useState<boolean>(false)
   const [showClipboardButtons, setShowClipboardButtons] = useState<boolean>(false)
   const [isAdding, setIsAdding] = useState<boolean>(false)
-  const [unsaved_username, unsaved_setUsername] = useState('');
   const [username, setUsername] = useState('');
 
   // Check for objects when component mounts
@@ -284,8 +282,31 @@ export default function MultiPlayerPage() {
                 <Tooltip id="username-tooltip">
                   You
                 </Tooltip>
-      <UsernameInputContainer autosave={false} onUsernameChange={unsaved_setUsername} />
+      <UsernameInputContainer autosave={false} onUsernameChange={setUsername} username={username} />
       </div>
+
+      {friends.length === 1 &&  !username && (<>
+      {/* <div className='tx-white tx-altfont-4 tx-lgx game-font-1'>or</div> */}
+        <div className='tx-altfont- 4 pb-2 tx -lgx tx-center pt-4 tx-lgx opaci-chov--50'
+        style={{
+          color: '#4a90e2',
+          cursor: 'pointer',
+        }}
+        onClick={() => {
+          console.log('continue as guest', friends[0].name)
+          setUsername(friends[0].name)
+        }}
+        >
+          
+          Continue <br /> as Guest
+        </div>
+        </>
+      )}
+      
+      {friends.length === 1 &&  !username && (
+        <div className='h-200px'>
+        </div>
+      )}
           
           
           {/* if only 1 friend (self) show message */}
