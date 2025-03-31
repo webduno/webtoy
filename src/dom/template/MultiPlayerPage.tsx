@@ -77,6 +77,12 @@ export default function MultiPlayerPage() {
   }
   useEffect(() => {
     fetchMyip()
+    // Load username from localStorage if it exists
+    const savedUsername = localStorage.getItem('username')
+    if (savedUsername) {
+      setUsername(savedUsername)
+      unsaved_setUsername(savedUsername)
+    }
   }, [])
   const stageRef = useRef<MultiPlayerStageHandle>(null)
   const [friends, setFriends] = useState<Friend[]>([])
@@ -96,7 +102,7 @@ export default function MultiPlayerPage() {
   const [showAiModal, setShowAiModal] = useState<boolean>(false)
   const [showClipboardButtons, setShowClipboardButtons] = useState<boolean>(false)
   const [isAdding, setIsAdding] = useState<boolean>(false)
-  // const [unsaved_username, unsaved_setUsername] = useState('');
+  const [unsaved_username, unsaved_setUsername] = useState('');
   const [username, setUsername] = useState('');
 
   // Check for objects when component mounts
@@ -255,11 +261,11 @@ export default function MultiPlayerPage() {
           */}
           
           
-      {friends.length === 1 &&  !username && (<>
+      {friends.length === 1 &&  !username && (
         <div className='tx-altfont-4 pb-2 tx-lx game-font-1 tx-center'>
           Enter Your <br /> Username 
         </div>
-        </>)}
+      )}
               <div className='tx-altfont-4 tx-white tx-shadow-5 tx-lg pa-2 flex-row gap-2 pr-3 bord-r-5'
                 data-tooltip-id="username-tooltip"
                 data-tooltip-place='bottom'
@@ -275,15 +281,12 @@ export default function MultiPlayerPage() {
                 🙍🏻
                 </div>
                 </div>
-                <Tooltip id="username-tooltip" >
+                <Tooltip id="username-tooltip">
                   You
                 </Tooltip>
-      <UsernameInputContainer autosave={false} onUsernameChange={setUsername} />
+      <UsernameInputContainer autosave={false} onUsernameChange={unsaved_setUsername} />
       </div>
           
-      {friends.length === 1 &&  !username && (<>
-        <div className='h-300px'></div>
-        </>)}
           
           {/* if only 1 friend (self) show message */}
           {friends.length === 1 &&  !!username && (
@@ -294,13 +297,13 @@ export default function MultiPlayerPage() {
                   background: "linear-gradient(0deg, #F5D67B, #D4A35E)",
                  }}
               >
-              <div className='tx-altfont-4 pb-6 tx-lgx game-font-2'>
+              <div className='tx-altfont-4 pb-2 tx-lx game-font-2'>
                 Add a friend <br /> to start playing!
               </div>
               
                 {/* <h2>Connected Players</h2> */}
                 {myip &&  <>
-                  <ul className='pa-0 ma-0'>
+                  <ul>
                     {/* dont show myself */}
                     {friends.filter(friend => friend.id !== myip).map(friend => (
                       <li key={friend.id}>{friend.name}</li>
@@ -310,7 +313,7 @@ export default function MultiPlayerPage() {
                       <div className='flex-col flex-justify-center flex-align-center'>
                       <input
                         placeholder="Enter Player ID"
-                        className="tx-altfont-1 py-1 tx-center tx-md bord-r-10 game-text-input"
+                        className="tx-altfont-1 py-1 tx-center  bord-r-10 game-text-input"
                         type="text"
                         onKeyDown={(e) => {
                           if (e.key === 'Enter') {
@@ -331,7 +334,7 @@ export default function MultiPlayerPage() {
                   </ul>
                 </>}
                 {!lastFriend && (<>
-              <div className='opaci-25 tx-end pt-6'>
+              <div className='opaci-25 '>
                 <div>Enter Email, Username or IP</div>
                 {/* <div>NOT USERNAME*</div> */}
               </div>
