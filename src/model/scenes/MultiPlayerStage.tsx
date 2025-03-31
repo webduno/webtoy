@@ -35,7 +35,7 @@ const MultiPlayerStage = forwardRef<MultiPlayerStageHandle, {
   const [transformMode, setTransformMode] = useState<TransformMode>('move')
   const [color, setColor] = useState<string>(() => {
     // Try to get color from localStorage, fallback to default
-    return localStorage.getItem('multiplayer_color') || '#777777'
+    return window?.localStorage?.getItem?.('multiplayer_color') || '#777777'
   })
   const [hasGravity, setHasGravity] = useState(false)
   const [lastPlacedPosition, setLastPlacedPosition] = useState<[number, number, number]>([0, 0, 0])
