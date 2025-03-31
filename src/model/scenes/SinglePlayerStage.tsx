@@ -28,24 +28,31 @@ const SinglePlayerStage = forwardRef<SinglePlayerStageHandle, {
   const sceneRef = useRef<SinglePlayerSceneHandle>(null)
   const [selectedObject, setSelectedObject] = useState<Object3D | null>(null)
   const [transformMode, setTransformMode] = useState<TransformMode>('move')
-  const [color, setColor] = useState<string>(() => {
-    // Try to get color from localStorage, fallback to default
-    return localStorage.getItem('singleplayer_color') || '#777777'
-  })
+  const [color, setColor] = useState<string>('#777777')
   const [isAutorotating, setIsAutorotating] = useState(false)
   const [hasGravity, setHasGravity] = useState(false)
-  const [lastPlacedPosition, setLastPlacedPosition] = useState<[number, number, number]>(() => {
-    const saved = localStorage.getItem('lastPlacedPosition');
-    return saved ? JSON.parse(saved) : [0, 0, 0];
-  });
-  const [lastPlacedScale, setLastPlacedScale] = useState<[number, number, number]>(() => {
-    const saved = localStorage.getItem('lastPlacedScale');
-    return saved ? JSON.parse(saved) : [1, 1, 1];
-  });
+  const [lastPlacedPosition, setLastPlacedPosition] = useState<[number, number, number]>([0, 0, 0])
+  const [lastPlacedScale, setLastPlacedScale] = useState<[number, number, number]>([1, 1, 1])
+
+  // Initialize state from localStorage on mount
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const savedColor = localStorage.getItem('singleplayer_color')
+      if (savedColor) setColor(savedColor)
+
+      const savedPosition = localStorage.getItem('lastPlacedPosition')
+      if (savedPosition) setLastPlacedPosition(JSON.parse(savedPosition))
+
+      const savedScale = localStorage.getItem('lastPlacedScale')
+      if (savedScale) setLastPlacedScale(JSON.parse(savedScale))
+    }
+  }, [])
 
   // Save color to localStorage whenever it changes
   useEffect(() => {
-    localStorage.setItem('singleplayer_color', color)
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('singleplayer_color', color)
+    }
   }, [color])
 
   const handleDone = () => {

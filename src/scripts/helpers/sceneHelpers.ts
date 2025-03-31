@@ -63,7 +63,9 @@ export const saveObjects = (
       return { position, rotation, scale, color: mesh?.material.color.getHexString(), hasGravity };
     });
   
-  localStorage.setItem(storageKey, JSON.stringify(objects));
+  if (typeof window !== 'undefined') {
+    localStorage.setItem(storageKey, JSON.stringify(objects));
+  }
   return objects
 }
 
@@ -75,7 +77,11 @@ export const loadObjects = (
   const sceneGroup = sceneRef.current;
   if (!sceneGroup) return;
   
-  const objects = JSON.parse(localStorage.getItem(storageKey) || '[]')
+  let objects = [];
+  if (typeof window !== 'undefined') {
+    objects = JSON.parse(localStorage.getItem(storageKey) || '[]');
+  }
+  
   objects.forEach((object: any) => {
     const { position, rotation, scale, color, hasGravity = false } = object
     const mesh = new Mesh(
