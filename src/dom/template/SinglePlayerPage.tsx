@@ -29,6 +29,34 @@ export default function SinglePlayerPage() {
   const [showClipboardButtons, setShowClipboardButtons] = useState<boolean>(false)
   const [isAdding, setIsAdding] = useState<boolean>(false)
 
+  // Check for template in URL and load it if present
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const urlParams = new URLSearchParams(window.location.search);
+      const templateParam = urlParams.get('template');
+      if (templateParam) {
+        console.log(`Template parameter found: ${templateParam}`);
+        // Add a small delay to ensure canvas is loaded
+        setTimeout(() => {
+          if (stageRef.current) {
+            console.log('Stage reference available, checking template...');
+            // Check if template exists in DEFAULT_TEMPLATE_LIST
+            const templateExists = templates.some(t => t.name === templateParam);
+            if (templateExists) {
+              console.log('Template exists, loading...');
+              stageRef.current.loadTemplate(templateParam);
+              setHasObjects(true);
+            } else {
+              console.log('Template not found in list');
+            }
+          } else {
+            console.log('Stage reference not available yet');
+          }
+        }, 1000); // 1 second delay
+      }
+    }
+  }, []); // Empty dependency array since we're using setTimeout
+
   // Check for objects when component mounts
   useEffect(() => {
     const objects = stageRef.current?.getSceneObjects?.() || []
