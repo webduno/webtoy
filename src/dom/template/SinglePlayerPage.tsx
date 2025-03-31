@@ -32,7 +32,7 @@ export default function SinglePlayerPage() {
   // Check for objects when component mounts
   useEffect(() => {
     const objects = stageRef.current?.getSceneObjects?.() || []
-    const hasSavedContent = localStorage.getItem('singleplayer_scene') !== null
+    const hasSavedContent = typeof window !== 'undefined' && localStorage.getItem('singleplayer_scene') !== null
     setHasObjects(objects.length > 0 || hasSavedContent)
   }, [])
 
