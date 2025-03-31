@@ -70,11 +70,9 @@ export const SmallPortal = ({
         {title}
       </Text>
       }
-      <Sphere args={[collisionRadius, 16, 16]} position={[0, 1.5, 0]}
-      scale={[1.5, 1, 1]}
-      >
+      {/* <Sphere args={[collisionRadius, 16, 16]} position={[0, 1.5, 0]}>
         <meshBasicMaterial wireframe color="#ffffff" transparent opacity={0.2} />
-      </Sphere>
+      </Sphere> */}
       <Torus args={[5, 0.5, 4, 32, Math.PI]} castShadow receiveShadow>
         {torusMaterial}
       </Torus>
