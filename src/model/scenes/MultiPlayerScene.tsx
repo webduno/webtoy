@@ -368,12 +368,16 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
     <div style={{ width: '100vw', height: '100vh', position: 'absolute', top: 0, left: 0 }}>
       <SimpleScene>
         <CameraClickControls sceneRef={sceneRef} mapControlsRef={mapControlsRef} deleteMode={deleteMode} />
-        <OrbitControls 
-          enableRotate={!isAdding} 
-          enablePan={!isAdding}  
+        
+        {!!isAdding && <MapControls 
+          enablePan={false} 
           ref={mapControlsRef}
           target={cameraTarget || [0, 0, 0]}
-        />
+        /> }
+        {!isAdding && <OrbitControls 
+          ref={mapControlsRef}
+          target={cameraTarget || [0, 0, 0]}
+        /> }
         <group ref={sceneRef}>
           {selectedObject && (
             <TransformControls 
