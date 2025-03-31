@@ -14,17 +14,13 @@ export function PhysicsScene({ position, sceneObjects, onExit, isMobile }: Physi
   const [showHitbox, setShowHitbox] = useState(true)
   const [isOnGround, setIsOnGround] = useState(false)
   
-  // Single ball state - only one ball total
-  const [ballThrown, setBallThrown] = useState(false)
-  const [ballProps, setBallProps] = useState<{
+  // Multiple balls state
+  const [balls, setBalls] = useState<Array<{
     position: [number, number, number],
-    velocity: [number, number, number]
-  }>({
-    position: [0, 0, 0],
-    velocity: [0, 0, 0]
-  })
-  // Add a ref to store the ball's physics API
-  const ballApiRef = useRef<any>(null)
+    velocity: [number, number, number],
+    id: number
+  }>>([])
+  const [remainingBalls, setRemainingBalls] = useState(3)
   
   // Track if click was handled to prevent double firing
   const clickHandled = useRef(false)
@@ -239,8 +235,8 @@ export function PhysicsScene({ position, sceneObjects, onExit, isMobile }: Physi
   
   // Simplified throw ball function
   const throwBall = () => {
-    // Only allow one ball ever
-    if (ballThrown) return;
+    // Check if we have any balls remaining
+    if (remainingBalls <= 0) return;
     
     // Get current camera position and direction
     const cameraDirection = new Vector3(0, 0, -1)
@@ -263,19 +259,21 @@ export function PhysicsScene({ position, sceneObjects, onExit, isMobile }: Physi
       cameraDirection.z * throwForce
     ]
     
-    // Update ball properties
-    setBallProps({
+    // Create new ball with unique ID
+    const newBall = {
       position: initialPos,
-      velocity: initialVel
-    })
+      velocity: initialVel,
+      id: Date.now() // Use timestamp as unique ID
+    }
     
-    // Mark ball as thrown permanently
-    setBallThrown(true)
+    // Add new ball to state and decrease remaining count
+    setBalls(prevBalls => [...prevBalls, newBall])
+    setRemainingBalls(prev => prev - 1)
   }
   
   // Simple click handler
   const handleClick = () => {
-    if (isLocked && !ballThrown && !clickHandled.current) {
+    if (isLocked && remainingBalls > 0 && !clickHandled.current) {
       clickHandled.current = true;
       throwBall();
       // Reset the click handler flag after a short delay
@@ -293,7 +291,7 @@ export function PhysicsScene({ position, sceneObjects, onExit, isMobile }: Physi
       if (!throwButton) return
       
       const handleThrow = () => {
-        if (!ballThrown && !clickHandled.current) {
+        if (remainingBalls > 0 && !clickHandled.current) {
           clickHandled.current = true;
           throwBall();
           // Reset the click handler flag after a short delay
@@ -314,7 +312,7 @@ export function PhysicsScene({ position, sceneObjects, onExit, isMobile }: Physi
         window.removeEventListener('click', handleClick)
       }
     }
-  }, [isMobile, isLocked, ballThrown])
+  }, [isMobile, isLocked, remainingBalls])
   
   // Connect player mesh to camera
   useEffect(() => {
@@ -515,14 +513,14 @@ export function PhysicsScene({ position, sceneObjects, onExit, isMobile }: Physi
       )}
       <SceneObjects />
       
-      {/* Ball - permanently shown once thrown */}
-      {ballThrown && (
+      {/* Multiple balls */}
+      {balls.map((ball) => (
         <PhysicalBall 
-          key="singleBall"
-          position={ballProps.position} 
-          velocity={ballProps.velocity} 
+          key={ball.id}
+          position={ball.position} 
+          velocity={ball.velocity} 
         />
-      )}
+      ))}
     </>
   )
 } 
