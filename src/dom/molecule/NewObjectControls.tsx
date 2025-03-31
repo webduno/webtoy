@@ -67,13 +67,14 @@ export default function NewObjectControls({
   }, [setTransformMode]);
 
   return (
-    <div className='pos-abs right-0 mr-2   top-0 flex-col  pa-2 bord-r-5' style={{ 
+    <div className='pos-abs right-0 mr -2   top-0 flex-col  px-1 py-2 ' style={{ 
+      borderRadius: "5px 0 0 5px",
       boxShadow: "0 3px 1px 1px #805300, inset 0 2px 5px 2px #FFD700",
       marginTop: "200px",
       background: "linear-gradient(180deg, #E9BC46, #BB852E)",
       zIndex: 1000, 
     }}>
-      <div className="flex-row flex-justify-between w-100">
+      <div className="flex-justify-between w-100 flex-col-r">
         <button  className='noborder tx-white tx-altfont-1 bg-trans   opaci-chov--50 mb- py-2 tx-shadow-5'
           style={{
             // color: '#ff6666',
@@ -92,7 +93,7 @@ export default function NewObjectControls({
       </div>
       <hr className='w-100 opaci-40 pa-0 ' />
       {/* <div className="tx-altfont-1 tx-center tx-white tx-shadow-5  pb-1">Color</div> */}
-      <div className='flex-row gap-2 mb-1 pb-1'>
+      <div className='flex-row gap-2 mb-1 pb-1 flex-col'>
         <div className='flex-col gap-1 flex-1 flex-justify-start tx-shadow-5'>
           <label htmlFor='color-input' className=' tx-altfont-1 pointer tx-white tx-sm'
            style={{paddingBottom:" "}}>Color</label>
@@ -139,7 +140,7 @@ export default function NewObjectControls({
         )}
       </div>
 
-      <div className='flex-row gap-1 '>
+      <div className='flex-col gap-1 '>
       <GameButton classOverride="bord-r-100"
       tooltip='Grab (G)'
       tooltipId='grab-tooltip'

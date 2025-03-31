@@ -5,6 +5,7 @@ import { Physics } from '@react-three/cannon'
 import { CanonPOVProps } from '@/scripts/types/canonPOV'
 import { PhysicsScene } from '../physics/PhysicsScene'
 import { isMobile } from '@/scripts/utils/mobileDetection'
+import { GameButton } from '@/dom/atom/game/GameButton'
 
 export default function CanonPOV({ position, sceneObjects, onExit }: CanonPOVProps) {
   const [showControls, setShowControls] = useState(true)
@@ -66,59 +67,36 @@ export default function CanonPOV({ position, sceneObjects, onExit }: CanonPOVPro
       {isMobileDevice && (
         <>
           {/* Movement joystick */}
-          <div id="joystick-container" style={{
-            position: 'absolute',
-            left: '30px',
-            bottom: '30px',
+          <div id="joystick-container" 
+          className='pos-abs bottom-0 left-25p 8 bg-b-50 bord-r-100'
+          style={{
+            marginBottom: "55px",
             width: '120px',
             height: '120px',
-            borderRadius: '60px',
-            backgroundColor: 'rgba(0, 0, 0, 0.3)',
             touchAction: 'none',
             zIndex: 1000
           }} />
           
           {/* Jump button */}
-          <div id="jump-button" style={{
-            position: 'absolute',
-            right: '30px',
-            bottom: '30px',
-            width: '80px',
-            height: '80px',
-            borderRadius: '40px',
-            backgroundColor: 'rgba(0, 0, 0, 0.3)',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            color: 'white',
-            fontFamily: 'Arial, sans-serif',
-            fontSize: '16px',
+          <GameButton type="zeta"
+          classOverride='pos-abs bottom-0 right-0  tx-lgx bord-r-100 py-5 mr-4'
+           props={{id:"jump-button"}} styleOverride={{
+            marginBottom: "60px",
             touchAction: 'none',
             zIndex: 1000
           }}>
             JUMP
-          </div>
+          </GameButton>
           
           {/* Throw button */}
-          <button id="throw-button" style={{
-            position: 'absolute',
-            right: '30px',
-            bottom: '130px',
-            width: '80px',
-            height: '80px',
-            borderRadius: '40px',
-            backgroundColor: 'rgba(255, 0, 0, 0.3)',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            color: 'white',
-            fontFamily: 'Arial, sans-serif',
-            fontSize: '16px',
+          <GameButton type="epsilon"
+          classOverride='pos-abs bottom-0 right-0 mb-150 mr-4 px-4 py-1'
+           props={{id:"throw-button"}} styleOverride={{
             touchAction: 'none',
             zIndex: 1000
           }}>
             THROW
-          </button>
+          </GameButton>
           
           {/* Look area - for camera rotation */}
           <div id="look-area" style={{
@@ -132,24 +110,17 @@ export default function CanonPOV({ position, sceneObjects, onExit }: CanonPOVPro
           }} />
           
           {/* Exit button */}
-          <div 
+          <GameButton 
+          classOverride='pos-abs top-0 right-0 ma-4 tx-mdl'
+            type="white"
             onClick={onExit}
-            style={{
-              position: 'absolute',
-              top: '20px',
-              right: '20px',
-              backgroundColor: 'rgba(0, 0, 0, 0.7)',
-              color: 'white',
-              padding: '10px 15px',
-              borderRadius: '5px',
-              fontFamily: 'Arial, sans-serif',
-              fontSize: '14px',
+            styleOverride={{
               zIndex: 1000,
               cursor: 'pointer'
             }}
           >
             EXIT
-          </div>
+          </GameButton>
         </>
       )}
     </div>
