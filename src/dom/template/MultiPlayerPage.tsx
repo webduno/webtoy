@@ -304,7 +304,7 @@ export default function MultiPlayerPage() {
       {friends.length === 1 &&  !username && (<>
       {/* <div className='tx-white tx-altfont-4 tx-lgx game-font-1'>or</div> */}
         <GameButton 
-        type='alpha'
+        buttonType='alpha'
         classOverride='tx-altfont-4 tx-lg opaci-chov--50 nowrap px-4 mt-2 '
         onClick={() => {
           console.log('continue as guest', friends[0].PLAYER_ID)
@@ -369,7 +369,7 @@ export default function MultiPlayerPage() {
                         onChange={(e) => setNewFriendName(e.target.value)}
                       />
                       </div>
-                      <GameButton type='alpha' 
+                      <GameButton buttonType='alpha' 
                         onClick={() => handleAddFriend()}
                         classOverride='tx-md '                        
                       >
