@@ -308,7 +308,11 @@ export default function MultiPlayerPage() {
         classOverride='tx-altfont-4 tx-lg opaci-chov--50 nowrap px-4 mt-2 '
         onClick={() => {
           console.log('continue as guest', friends[0].PLAYER_ID)
-          setUsername(friends[0].PLAYER_ID)
+         const randomusername = Math.random().toString(36).substring(2, 15);
+         setUsername(randomusername)
+         localStorage.setItem('PLAYER_ID', randomusername)
+         // and set friend in 0 position
+         setFriends([{ PLAYER_ID: randomusername }])
         }}
         >
           
@@ -346,9 +350,9 @@ export default function MultiPlayerPage() {
                 {myip &&  <>
                   <ul>
                     {/* dont show myself */}
-                    {friends.filter(friend => friend.PLAYER_ID !== myip).map(friend => (
+                    {/* {friends.filter(friend => friend.PLAYER_ID !== myip).map(friend => (
                       <li key={friend.PLAYER_ID}>{friend.PLAYER_ID}</li>
-                    ))}
+                    ))} */}
                     {/* add new friend input   */}
                     <li className="flex-row gap-2 flex-align-center">
                       <div className='flex-col flex-justify-center flex-align-center'>
