@@ -22,6 +22,10 @@ interface Friend {
   PLAYER_ID: string;
 }
 
+
+export const MP_STORAGE_KEY = 'multiplayer_scene'
+
+
 export default function MultiPlayerPage() {
   const [myip, setMyip] = useState<string>()
   const [lastFriend, setLastFriend] = useState<string>('')
@@ -111,8 +115,8 @@ export default function MultiPlayerPage() {
     const objects = stageRef.current?.getSceneObjects?.() || []
     // Get the storage key based on friends
     const storageKey = friends.length > 1 
-      ? `multiplayer_scene>>>${friends[0].PLAYER_ID},${friends.slice(1).map(f => f.PLAYER_ID).sort().join(',')}`
-      : 'multiplayer_scene'
+      ? `${MP_STORAGE_KEY}>>>${friends[0].PLAYER_ID},${friends.slice(1).map(f => f.PLAYER_ID).sort().join(',')}`
+      : MP_STORAGE_KEY
     const hasSavedContent = window?.localStorage?.getItem?.(storageKey) !== null
     setHasObjects(objects.length > 0 || hasSavedContent)
   }, [friends])
@@ -318,7 +322,7 @@ export default function MultiPlayerPage() {
         </div>
       )}
           
-          {friends.length === 1 &&  !!username && (
+          {friends.length < 2&& (
             <div className='pos-abs right-0 bottom-0 mb-8'>
               <Link className='px-2 tx-center block tx-altfont-1'
               style={{color:"#4a90e2"}}

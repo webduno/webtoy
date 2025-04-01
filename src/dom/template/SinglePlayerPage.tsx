@@ -12,6 +12,9 @@ import CanonPOV from '@/model/controller/CanonPOV'
 import Logo from '@/dom/atom/logo/Logo'
 import { GameEngineNav } from '../molecule/GameEngineNav'
 
+
+export const SP_STORAGE_KEY = 'singleplayer_scene'
+
 export default function SinglePlayerPage() {
   const stageRef = useRef<SinglePlayerStageHandle>(null)
   const [showSettings, setShowSettings] = useState<boolean>(false)
@@ -61,7 +64,7 @@ export default function SinglePlayerPage() {
   // Check for objects when component mounts
   useEffect(() => {
     const objects = stageRef.current?.getSceneObjects?.() || []
-    const hasSavedContent = typeof window !== 'undefined' && localStorage.getItem('singleplayer_scene') !== null
+    const hasSavedContent = typeof window !== 'undefined' && localStorage.getItem(SP_STORAGE_KEY) !== null
     setHasObjects(objects.length > 0 || hasSavedContent)
   }, [])
 

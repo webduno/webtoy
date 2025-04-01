@@ -6,6 +6,7 @@ import { MapControls, OrbitControls, TransformControls } from '@react-three/drei
 import { createObject, getTransformMode, loadObjects, saveObjects } from '@/scripts/helpers/sceneHelpers'
 import { DEFAULT_TEMPLATE_LIST, getTemplateData } from '@/scripts/helpers/sceneTemplates'
 import { CameraClickControls } from './CameraClickControls'
+import { SP_STORAGE_KEY } from '@/dom/template/SinglePlayerPage'
 
 export interface SinglePlayerSceneHandle {
   createObject: (position: [number, number, number], scale: [number, number, number], rotation: [number, number, number]) => Object3D;
@@ -31,7 +32,6 @@ interface SinglePlayerSceneProps {
   deleteMode?: boolean;
   setDeleteMode: (deleteMode: boolean) => void;
 }
-const STORAGE_KEY = 'singleplayer_scene'
 const SinglePlayerScene = forwardRef<SinglePlayerSceneHandle, SinglePlayerSceneProps>((props, ref) => {
   const { isAdding = false, setIsAdding, selectedObject, setSelectedObject, transformMode = 'move', color, isAutorotating = false } = props
   const sceneRef = useRef<Group>(null)
@@ -69,7 +69,7 @@ const SinglePlayerScene = forwardRef<SinglePlayerSceneHandle, SinglePlayerSceneP
       // only if there are no objects in the scene
       console.log("sceneRef.current.children.length", sceneRef.current.children.length)
       if (sceneRef.current.children.length === 0) {
-        loadObjects(sceneRef, STORAGE_KEY);
+        loadObjects(sceneRef, SP_STORAGE_KEY);
       }
     } else {
       // Use requestAnimationFrame for a more efficient approach than setTimeout
@@ -77,7 +77,7 @@ const SinglePlayerScene = forwardRef<SinglePlayerSceneHandle, SinglePlayerSceneP
         if (sceneRef.current) {
           if (sceneRef.current.children.length === 0) {
             console.log("loading objects")
-            loadObjects(sceneRef, STORAGE_KEY);
+            loadObjects(sceneRef, SP_STORAGE_KEY);
           }
         } else {
           requestAnimationFrame(checkSceneReady);
@@ -134,7 +134,7 @@ const SinglePlayerScene = forwardRef<SinglePlayerSceneHandle, SinglePlayerSceneP
 
   // Save objects wrapper to use shared function
   const handleSaveObjects = () => {
-    saveObjects(sceneRef, STORAGE_KEY);
+    saveObjects(sceneRef, SP_STORAGE_KEY);
   }
   
   // Reset scene by clearing all objects
@@ -145,7 +145,7 @@ const SinglePlayerScene = forwardRef<SinglePlayerSceneHandle, SinglePlayerSceneP
         sceneRef.current.remove(sceneRef.current.children[0]);
       }
       // Save the empty scene
-      saveObjects(sceneRef, STORAGE_KEY);
+      saveObjects(sceneRef, SP_STORAGE_KEY);
     }
   }
   
@@ -200,7 +200,7 @@ const SinglePlayerScene = forwardRef<SinglePlayerSceneHandle, SinglePlayerSceneP
     });
     
     // Save the loaded scene
-    saveObjects(sceneRef, STORAGE_KEY);
+    saveObjects(sceneRef, SP_STORAGE_KEY);
   }
   
   // Load a predefined template
@@ -234,7 +234,7 @@ const SinglePlayerScene = forwardRef<SinglePlayerSceneHandle, SinglePlayerSceneP
     setSelectedObject(null);
     
     // Save the loaded scene
-    saveObjects(sceneRef, STORAGE_KEY);
+    saveObjects(sceneRef, SP_STORAGE_KEY);
   }
   
   // Get all objects in the scene
@@ -261,7 +261,7 @@ const SinglePlayerScene = forwardRef<SinglePlayerSceneHandle, SinglePlayerSceneP
   return (
     <div style={{ width: '100vw', height: '100vh', position: 'absolute', top: 0, left: 0 }}>
       <SimpleScene>
-      <CameraClickControls sceneRef={sceneRef} mapControlsRef={mapControlsRef} 
+      <CameraClickControls mainkey={SP_STORAGE_KEY} sceneRef={sceneRef} mapControlsRef={mapControlsRef} 
       deleteMode={props.deleteMode || false}
        />
         {!!isAdding && <MapControls 

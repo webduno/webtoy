@@ -3,12 +3,12 @@ import { Group, Mesh, Raycaster, Vector2 } from 'three'
 import { OrbitControls } from '@react-three/drei'
 import { saveObjects } from '@/scripts/helpers/sceneHelpers'
 
-const STORAGE_KEY = 'singleplayer_scene'
 
-export const CameraClickControls = ({sceneRef, mapControlsRef, deleteMode}: {
+export const CameraClickControls = ({sceneRef, mapControlsRef, deleteMode, mainkey}: {
   sceneRef: React.RefObject<Group>, 
   mapControlsRef: React.RefObject<typeof OrbitControls>, 
-  deleteMode: boolean
+  deleteMode: boolean,
+  mainkey: string
 }) => {
   const handleClick = (event: MouseEvent) => {
     const raycaster = new Raycaster();
@@ -32,7 +32,7 @@ export const CameraClickControls = ({sceneRef, mapControlsRef, deleteMode}: {
             console.log('object is a mesh', object)
             // Save the scene after deletion
             if (sceneRef.current) {
-              saveObjects(sceneRef, STORAGE_KEY);
+              saveObjects(sceneRef, mainkey);
             }
           }
         }

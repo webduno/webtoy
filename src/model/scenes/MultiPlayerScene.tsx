@@ -9,12 +9,12 @@ import { useSession } from 'next-auth/react'
 import { useThree } from '@react-three/fiber'
 import { DEFAULT_TEMPLATE_LIST, getTemplateData } from '@/scripts/helpers/sceneTemplates'
 import { CameraClickControls } from './CameraClickControls'
+import { MP_STORAGE_KEY } from '@/dom/template/MultiPlayerPage'
 
 interface Friend {
   PLAYER_ID: string;
 }
 
-const STORAGE_KEY = 'singleplayer_scene'
 
 export interface MultiPlayerSceneHandle {
   createObject: (position: [number, number, number], scale: [number, number, number], rotation: [number, number, number], hasGravity?: boolean) => Object3D
@@ -85,10 +85,10 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
       const otherFriends = friends.slice(1);
       const friendIds = otherFriends.map(f => f.PLAYER_ID).sort().join(',');
       const myid = friends[0].PLAYER_ID;
-      return `${STORAGE_KEY}>>>${myid},${friendIds}`;
+      return `${MP_STORAGE_KEY}>>>${myid},${friendIds}`;
     }
-    // console.log('no friends, using storage key', STORAGE_KEY);
-    return STORAGE_KEY;
+    // console.log('no friends, using storage key', MP_STORAGE_KEY);
+    return MP_STORAGE_KEY;
   };
 
   const loadSupabaseObjects = async (sceneRef: React.RefObject<Group>) => {
@@ -366,7 +366,8 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
   return (
     <div style={{ width: '100vw', height: '100vh', position: 'absolute', top: 0, left: 0 }}>
       <SimpleScene>
-        <CameraClickControls sceneRef={sceneRef} mapControlsRef={mapControlsRef} deleteMode={deleteMode} />
+        <CameraClickControls mainkey={getStorageKey()}
+        sceneRef={sceneRef} mapControlsRef={mapControlsRef} deleteMode={deleteMode} />
         
         {!!isAdding && <MapControls 
           enablePan={false} 
