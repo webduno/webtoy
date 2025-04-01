@@ -74,12 +74,25 @@ export async function POST(request: Request) {
   try {
     const { objList, storageKey } = await request.json();
 
-    // console.log('objList', objList, storageKey);
     if (!objList || !storageKey) {
       return NextResponse.json(
         { error: 'Missing required parameters' },
         { status: 400 }
       );
+    }
+
+    // Validate storage key format
+    if (storageKey.includes('>>>')) {
+      const [basePart, usersPart] = storageKey.split('>>>');
+      const users = usersPart.split(',');
+      
+      // Validate each user ID contains only alphanumeric characters and underscores
+      if (!users.every((user: string) => /^[a-zA-Z0-9_]+$/.test(user))) {
+        return NextResponse.json(
+          { error: 'Invalid user ID format. Only letters, numbers and underscores are allowed.' },
+          { status: 400 }
+        );
+      }
     }
 
     // Normalize the storageKey by sorting the user list
