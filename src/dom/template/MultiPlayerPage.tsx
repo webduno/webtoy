@@ -148,6 +148,13 @@ export default function MultiPlayerPage() {
   const handleAddFriend = (newAltFriend = "") => {
     const theNewName = newFriendName || newAltFriend
     if (theNewName.trim() === '') return;
+    
+    // Validate input - allow letters, numbers and underscores
+    if (!/^[a-zA-Z0-9_]+$/.test(theNewName)) {
+      alert('Invalid input. Only letters, numbers and underscores are allowed.');
+      return;
+    }
+    
     setFriends([...friends, { PLAYER_ID: theNewName }])
     
     // Save to localStorage
