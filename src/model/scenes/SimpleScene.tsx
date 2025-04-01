@@ -25,16 +25,16 @@ export default function SimpleScene({ children, cameraSettings, noLights }: Simp
         <>
           <ambientLight intensity={0.5} />
           <directionalLight 
-            position={[5, 5, 5]} 
+            position={[25, 50, 25]} 
             intensity={1} 
             castShadow
             shadow-mapSize={[1024, 1024]}
-            shadow-camera-left={-10}
-        shadow-camera-right={10}
-        shadow-camera-top={10}
-        shadow-camera-bottom={-10}
+            shadow-camera-left={-20}
+        shadow-camera-right={20}
+        shadow-camera-top={20}
+        shadow-camera-bottom={-20}
             shadow-camera-near={0.5}
-            shadow-camera-far={30}
+            shadow-camera-far={150}
           />
         </>
       )}
