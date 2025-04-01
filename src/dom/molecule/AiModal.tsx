@@ -114,7 +114,7 @@ export const AiModal = ({ onClose }: AiModalProps) => {
           Example: {EXAMPLE_PROMPT}
         </div>
       </div>
-      <GameButton type={"alpha"} classOverride="mt-4 tx-lg"
+      <GameButton buttonType="alpha" classOverride="mt-4 tx-lg"
        onClick={()=>{
         if (prompt === '') {
           alert("Please enter a prompt")
@@ -134,7 +134,7 @@ export const AiModal = ({ onClose }: AiModalProps) => {
           return
         }
         handleGenerate()
-       }} props={{disabled: isGenerating}}>
+       }} disabled={isGenerating}>
         <div>
           {!!isGenerating && <div className="flex-row gap-2">
             <div className="">Generating</div>
