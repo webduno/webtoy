@@ -14,7 +14,14 @@ export async function GET(request: Request) {
     if (!storageKey) {
       return NextResponse.json(
         { error: 'Missing storageKey parameter' },
-        { status: 400 }
+        { 
+          status: 400,
+          headers: {
+            'Cache-Control': 'no-cache, no-store, must-revalidate',
+            'Pragma': 'no-cache',
+            'Expires': '0'
+          }
+        }
       );
     }
 
@@ -40,7 +47,14 @@ export async function GET(request: Request) {
       console.error('Supabase database error:', error);
       return NextResponse.json(
         { error: response1.error?.message || response2.error?.message },
-        { status: 500 }
+        { 
+          status: 500,
+          headers: {
+            'Cache-Control': 'no-cache, no-store, must-revalidate',
+            'Pragma': 'no-cache',
+            'Expires': '0'
+          }
+        }
       );
     }
     // console.log("testdata", data);
@@ -48,7 +62,14 @@ export async function GET(request: Request) {
     if (!data || data.length === 0) {
       return NextResponse.json(
         { error: 'No data found for the provided storage key' },
-        { status: 404 }
+        { 
+          status: 404,
+          headers: {
+            'Cache-Control': 'no-cache, no-store, must-revalidate',
+            'Pragma': 'no-cache',
+            'Expires': '0'
+          }
+        }
       );
     }
 
@@ -64,12 +85,25 @@ export async function GET(request: Request) {
         created_at: data[0].created_at,
         id: data[0].id
       }
+    }, {
+      headers: {
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0'
+      }
     });
   } catch (error: any) {
     console.error('Error retrieving objects from Supabase:', error);
     return NextResponse.json(
       { error: error.message || 'An unknown error occurred' },
-      { status: 500 }
+      { 
+        status: 500,
+        headers: {
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0'
+        }
+      }
     );
   }
 }
@@ -82,7 +116,14 @@ export async function POST(request: Request) {
     if (!objList || !storageKey) {
       return NextResponse.json(
         { error: 'Missing required parameters' },
-        { status: 400 }
+        { 
+          status: 400,
+          headers: {
+            'Cache-Control': 'no-cache, no-store, must-revalidate',
+            'Pragma': 'no-cache',
+            'Expires': '0'
+          }
+        }
       );
     }
     // console.log("storageKey***********************************************************", storageKey);
@@ -99,7 +140,14 @@ export async function POST(request: Request) {
       if (!users.every((user: string) => /^[a-zA-Z0-9_.-]+$/.test(user))) {
         return NextResponse.json(
           { error: 'Invalid user ID format. Only letters, numbers, dots, hyphens and underscores are allowed.' },
-          { status: 400 }
+          { 
+            status: 400,
+            headers: {
+              'Cache-Control': 'no-cache, no-store, must-revalidate',
+              'Pragma': 'no-cache',
+              'Expires': '0'
+            }
+          }
         );
       }
     }
@@ -156,16 +204,36 @@ export async function POST(request: Request) {
       console.error('Supabase database error:', result.error);
       return NextResponse.json(
         { error: result.error.message },
-        { status: 500 }
+        { 
+          status: 500,
+          headers: {
+            'Cache-Control': 'no-cache, no-store, must-revalidate',
+            'Pragma': 'no-cache',
+            'Expires': '0'
+          }
+        }
       );
     }
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true }, {
+      headers: {
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0'
+      }
+    });
   } catch (error: any) {
     console.error('Error saving objects to Supabase:', error);
     return NextResponse.json(
       { error: error.message || 'An unknown error occurred' },
-      { status: 500 }
+      { 
+        status: 500,
+        headers: {
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0'
+        }
+      }
     );
   }
 } 

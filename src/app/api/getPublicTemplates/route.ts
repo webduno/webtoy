@@ -30,8 +30,8 @@ export async function GET() {
       hasError: !!error,
       errorMessage: error?.message,
       dataLength: data?.length,
-      firstItem: data?.[0],
-      allData: data,
+      // firstItem: data?.[0],
+      // allData: data,
       countError: countError?.message
     });
 
