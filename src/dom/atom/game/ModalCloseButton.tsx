@@ -3,7 +3,7 @@ import { GameButton } from './GameButton';
 export const ModalCloseButton = ({ onClose }: { onClose: () => void; }) => {
   return (
     <GameButton
-      type="zeta"
+      buttonType="zeta"
       onClick={onClose}
       classOverride="px-2 ma-1 pos-abs top-0 right-0 tx-lg tx-shadow-5 bord-r-100"
       styleOverride={{

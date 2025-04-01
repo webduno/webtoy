@@ -106,7 +106,7 @@ export default function SettingsModal({
       </div>
       {/* <div className='flex-row gap-2'>
         <GameButton 
-          type="zeta"
+          buttonType="zeta"
           onClick={() => {
             onCopyContent();
           }} 
@@ -115,7 +115,7 @@ export default function SettingsModal({
           Copy
         </GameButton>
         <GameButton 
-          type="zeta"
+          buttonType="zeta"
           onClick={() => {
             onPasteContent();
           }} 
@@ -124,7 +124,7 @@ export default function SettingsModal({
           Paste
         </GameButton>
         <GameButton 
-          type="epsilon"
+          buttonType="epsilon"
           onClick={() => {
             onResetScene();
           }} 
@@ -137,7 +137,7 @@ export default function SettingsModal({
       {/* <hr className='w-100 opaci-20 my-2' /> */}
       <div className='flex-col gap-2'>
       <GameButton 
-        type="zeta"
+        buttonType="zeta"
         onClick={() => {
           onAutorotate();
           onClose();
@@ -147,7 +147,7 @@ export default function SettingsModal({
         Autorotate
       </GameButton>
       <GameButton 
-        type="gamma"
+        buttonType="gamma"
         onClick={() => {
           onDeleteModeToggle(!deleteMode);
           onClose();
@@ -175,7 +175,7 @@ export default function SettingsModal({
       <div className='pos-abs flex-row gap-2 bottom-0 translate-y-100 pt-2'>
         
       <GameButton 
-          type="delta"
+          buttonType="delta"
           onClick={() => {
             onOpenTemplates();
             onClose();
@@ -185,7 +185,7 @@ export default function SettingsModal({
           🗂️ <br /> Templates 
         </GameButton> 
         <GameButton
-        type="delta"
+        buttonType="delta"
         onClick={() => {
           onOpenAI?.();
           onClose();

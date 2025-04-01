@@ -41,7 +41,7 @@ export function GameEngineNav({
       )}
         {!deleteMode && (
       <div className='flex-row gap-2 mr- 1'>
-          <GameButton type="alpha" classOverride={'tx-mdl py-3 x px-3 z-100 mb-1 mr -1'} 
+          <GameButton buttonType="alpha" classOverride={'tx-mdl py-3 x px-3 z-100 mb-1 mr -1'} 
             onClick={isAdding ? undefined : handleHelloClick}
             styleOverride={isAdding ? { filter: 'saturate(0)', cursor: 'not-allowed' } : undefined}
           >
@@ -60,7 +60,7 @@ export function GameEngineNav({
           </GameButton>
         )}
         {!!showClipboardButtons && !deleteMode && (<div className='flex-wrap w-80px gap-2'>
-          <GameButton type="epsilon" classOverride={'tx-mdl px-2 bord-r-100 z-100 '} 
+          <GameButton buttonType="epsilon" classOverride={'tx-mdl px-2 bord-r-100 z-100 '} 
             tooltip="Reset Scene"
             tooltipId='reset-scene-tooltip'
             styleOverride={{
@@ -79,7 +79,7 @@ export function GameEngineNav({
           >
             X
           </GameButton>
-          <GameButton type="zeta" 
+          <GameButton buttonType="zeta" 
             styleOverride={{
             }}
             tooltip="Copy Scene"
@@ -89,7 +89,7 @@ export function GameEngineNav({
           >
             C
           </GameButton>
-          <GameButton type="zeta" 
+          <GameButton buttonType="zeta" 
             styleOverride={{
             }}
             tooltip="Paste Scene"
@@ -104,7 +104,7 @@ export function GameEngineNav({
       )}
         {!deleteMode && (
       <div className='flex-row gap-2 mr- 1'>
-          <GameButton type="zeta" 
+          <GameButton buttonType="zeta" 
             styleOverride={{
               border: '1px solid #aa44aa',
             }}
@@ -116,7 +116,7 @@ export function GameEngineNav({
           >
             🗂️
           </GameButton>
-          <GameButton type="zeta" classOverride={'tx-lgx px- 3 z-100 '} 
+          <GameButton buttonType="zeta" classOverride={'tx-lgx px- 3 z-100 '} 
             styleOverride={{
               border: '1px solid #ffaa44',
             }}
@@ -129,7 +129,7 @@ export function GameEngineNav({
       </div>
         )}
       <div className='flex-row-r gap-2 '>
-        <GameButton type="white" classOverride={' bord-r-100 z-100 mr 1 1 mt-2'}
+        <GameButton buttonType="white" classOverride={' bord-r-100 z-100 mr 1 1 mt-2'}
           onClick={handleOpenSettings}
         >
           <span className='px- 2 tx-lg' role="img" aria-label="cogwheel">⚙️</span>

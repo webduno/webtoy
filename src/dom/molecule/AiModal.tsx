@@ -80,7 +80,7 @@ export const AiModal = ({ onClose }: AiModalProps) => {
       )}
       {!!result && (
         <GameButton 
-          type="alpha" 
+          buttonType="alpha" 
           classOverride="tx-mdl"
           // className="tx- opaci-25 tx-altfont-1 tx-ls-3 nobg cursor-pointer opaci-chov--75"
           onClick={() => {
@@ -100,7 +100,7 @@ export const AiModal = ({ onClose }: AiModalProps) => {
         <div className="mt-4 mb-1 bord-r-10 pa-2 h-300px w-300px flex-col">
           <AIShowcaseResult result={result} />
           <div className="pos-abs  bottom-0 translate-y-50 flex-row gap-2">
-          <GameButton  type="zeta" classOverride="tx-md"
+          <GameButton  buttonType="zeta" classOverride="tx-md"
        onClick={()=>{setResult(null); setPrompt('')}} >Generate Again
        </GameButton>
        </div>

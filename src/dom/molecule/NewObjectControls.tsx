@@ -85,7 +85,7 @@ export default function NewObjectControls({
         </button>
         <GameButton 
           classOverride='tx-mdl'
-          type="alpha"
+          buttonType="alpha"
           onClick={handleDone}
         >
           DONE

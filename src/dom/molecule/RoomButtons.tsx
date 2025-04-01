@@ -98,7 +98,7 @@ export function RoomButtons({myip}: {myip: string}) {
           handleNavigation('portals');
         }}
       >
-        <GameButton type="alpha">
+        <GameButton buttonType="alpha">
           <div className='px-4 tx-lg noselect'>
             {loading === 'portals' ? <>Loading <br /> MiniGames...</> : (
               <>MiniGames</>
@@ -114,7 +114,7 @@ export function RoomButtons({myip}: {myip: string}) {
       <Link prefetch={true} href="/single/" onClick={() => handleNavigation('single')}
         
       >
-        <GameButton type="epsilon" >
+        <GameButton buttonType="epsilon" >
           <div className='px-4 tx-lg noselect'>
             {loading === 'single' ? <>Loading <br /> Game...</> : (
               <>Single <br /> Player</>
@@ -123,7 +123,7 @@ export function RoomButtons({myip}: {myip: string}) {
         </GameButton>  
       </Link>
       <Link prefetch={true} href="/multi/" onClick={() => handleNavigation('multi')}>
-        <GameButton type="beta" >
+        <GameButton buttonType="beta" >
           <div className='px-4 tx-lg noselect'>
             {loading === 'multi' ? <>Loading <br /> Game...</> : (
               <>Multi <br /> Player</>
@@ -143,7 +143,7 @@ export function RoomButtons({myip}: {myip: string}) {
         </div>
       </>)}
       {!session && (
-        <GameButton type="zeta" onClick={loginWithGoogle} classOverride="bord-r-100 mt-1" >
+        <GameButton buttonType="zeta" onClick={loginWithGoogle} classOverride="bord-r-100 mt-1" >
           <div className='noselect px-4 py-1 tx-lg flex-row gap-2 flex-align-center flex-justify-center'>
             <div className='bg-white bord-r-100 pt- px-1'>
             <svg width="18" height="18" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">

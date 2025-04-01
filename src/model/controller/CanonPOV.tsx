@@ -93,9 +93,9 @@ export default function CanonPOV({ position, sceneObjects, onExit, ballCount }: 
           }} />
           
           {/* Jump button */}
-          <GameButton type="zeta"
+          <GameButton buttonType="zeta"
           classOverride='pos-abs bottom-0 right-0  tx-lgx bord-r-100 py-5 mr-4'
-           props={{id:"jump-button"}} styleOverride={{
+           id="jump-button" styleOverride={{
             marginBottom: "60px",
             touchAction: 'none',
             zIndex: 1000
@@ -104,9 +104,9 @@ export default function CanonPOV({ position, sceneObjects, onExit, ballCount }: 
           </GameButton>
           
           {/* Throw button */}
-          <GameButton type="epsilon"
+          <GameButton buttonType="epsilon"
           classOverride='pos-abs bottom-0 right-0 mb-150 mr-4 px-4 py-1'
-           props={{id:"throw-button"}} styleOverride={{
+           id="throw-button" styleOverride={{
             touchAction: 'none',
             zIndex: 1000
           }}>
@@ -127,7 +127,7 @@ export default function CanonPOV({ position, sceneObjects, onExit, ballCount }: 
           {/* Exit button */}
           <GameButton 
           classOverride='pos-abs top-0 right-0 ma-4 tx-mdl'
-            type="white"
+            buttonType="white"
             onClick={onExit}
             styleOverride={{
               zIndex: 1000,

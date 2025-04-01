@@ -86,7 +86,7 @@ export default function PublicTemplates() {
             >
             <div className="flex-row gap-2 mb-">
                           <GameButton 
-                            type="alpha" 
+                            buttonType="alpha" 
                             classOverride="tx-lg"
                             onClick={() => {
                               navigator.clipboard.writeText(JSON.stringify(selectedTemplate.content));
@@ -127,7 +127,7 @@ export default function PublicTemplates() {
             </div>
             <div className="flex-row gap-2">
               <GameButton 
-                type="zeta" 
+                buttonType="zeta" 
                 classOverride="tx-md"
                 onClick={() => {
                   setSelectedTemplate(null);
@@ -183,7 +183,7 @@ export default function PublicTemplates() {
                 {hasMore && (
                   <div className="w-100 flex-justify-center pa-4">
                     <GameButton 
-                      type="alpha" 
+                      buttonType="alpha" 
                       classOverride="tx-md"
                       onClick={handleLoadMore}
                     >

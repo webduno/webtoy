@@ -140,7 +140,9 @@ export function PhysicsScene({ position, sceneObjects, onExit, isMobile, ballCou
     const joystickContainer = document.getElementById('joystick-container')
     const jumpButton = document.getElementById('jump-button')
     const lookArea = document.getElementById('look-area')
-    
+    console.log('joystickContainer', joystickContainer)
+    console.log('jumpButton', jumpButton)
+    console.log('lookArea', lookArea)
     if (!joystickContainer || !jumpButton || !lookArea) return
     
     // Joystick handlers

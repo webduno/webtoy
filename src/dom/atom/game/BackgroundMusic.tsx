@@ -15,7 +15,7 @@ export function BackgroundMusic() {
         position: 'fixed',
       }}
     >
-      <GameButton type="white" classOverride="bord-r-100 " >
+      <GameButton buttonType="white" classOverride="bord-r-100 " >
         {!isPlaying ? (
           <>
             {/* music emoji */}
