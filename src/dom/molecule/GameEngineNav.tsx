@@ -48,7 +48,7 @@ export function GameEngineNav({
             Add New
           </GameButton>
         {!showClipboardButtons && !deleteMode && (
-          <GameButton type="" classOverride={'tx-lg x px-2 3 z-100 mb-1 py-2 mr -1'} 
+          <GameButton buttonType="" classOverride={'tx-lg x px-2 3 z-100 mb-1 py-2 mr -1'} 
             tooltip="Clipboard"
             tooltipId="clipboard-tooltip"
             styleOverride={{
@@ -69,7 +69,7 @@ export function GameEngineNav({
           >
             R
           </GameButton>
-          <GameButton type="" classOverride={'tx-mdl px-2 bord- r-100 z-100 '} 
+          <GameButton buttonType="" classOverride={'tx-mdl px-2 bord- r-100 z-100 '} 
             styleOverride={{
               // filter: 'saturate(0)',
             }}
