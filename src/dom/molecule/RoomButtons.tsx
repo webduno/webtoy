@@ -9,7 +9,6 @@ import { UsernameInputContainer } from './UsernameInputContainer';
 export function RoomButtons({myip}: {myip: string}) {
   const { data: session } = useSession();
   const { togglePlay, playIfNotPlaying } = useBackgroundMusic();
-  const [loggedPlayer, setLoggedPlayer] = useState<{id:string, name:string} | null>(null);
   const [loading, setLoading] = useState<string | null>(null);
   const [username, setUsername] = useState('');
 
@@ -30,20 +29,16 @@ export function RoomButtons({myip}: {myip: string}) {
       setLoading(null);
     }
 
-    setLoggedPlayer({
-      id:session?.user?.email ?? "",
-      name: session?.user?.name ?? ""
-    });
   }
 
-  const handleNavigation = (destination: string) => {
+  const handleNavigation = (destination: string, forcedGuest = "") => {
     if (destination === 'portals') {
-      if (!username && !loggedPlayer?.name) {
+      if (!username && !forcedGuest) {
         alert('Please enter a username first');
         return;
       }
       // Save username to localStorage when entering portals
-      localStorage.setItem('PLAYER_ID', username);
+      localStorage.setItem('PLAYER_ID', username || forcedGuest);
     }
     playClickSound();
     setLoading(destination);
@@ -56,14 +51,15 @@ export function RoomButtons({myip}: {myip: string}) {
       <UsernameInputContainer onUsernameChange={setUsername} username={username} />
 
       <Link prefetch={true}
+      
         style={{
           textDecoration: 'none',
           color: 'inherit',
-          pointerEvents: (!username && !loggedPlayer?.name) ? 'none' : 'auto',
-          filter: (!username && !loggedPlayer?.name) ? 'saturate(0) contrast(0.2) brightness(1.5)' : 'none'
-        }} 
-        href={`/portals?${new URLSearchParams({
-          username: loggedPlayer?.name || username || '',
+          // pointerEvents: (!username && !loggedPlayer?.name) ? 'none' : 'auto',
+          // filter: (!username && !loggedPlayer?.name) ? 'saturate(0) contrast(0.2) brightness(1.5)' : 'none'
+        }} className='hover-jump'
+        href={(!username) ? "#" : `/portals?${new URLSearchParams({
+          username: username || '',
           color: '%2300B30F',
           speed: '1',
           speed_x: '0.5',
@@ -73,12 +69,39 @@ export function RoomButtons({myip}: {myip: string}) {
           rotation_y: '0',
           rotation_z: '0'
         }).toString()}`}
-        onClick={() => handleNavigation('portals')}
+        onClick={() => {
+          if (!username) {
+            // confirm if wants to enter as guest
+            const confirm = window.confirm('Do you want to enter as a guest?');
+            if (!confirm) {
+              return;
+            }
+            console.log('generating random string');
+            // generat random 10 character string
+            const randomString = Math.random().toString(36).substring(2, 15);
+            console.log('random string', randomString);
+            setUsername(randomString);
+            handleNavigation('portals', randomString);
+            window.location.href = `/portals?${new URLSearchParams({
+              username: randomString,
+              color: '%2300B30F',
+              speed: '1',
+              speed_x: '0.5',
+              speed_y: '0.5',
+              speed_z: '0.5',
+              rotation_x: '0',
+              rotation_y: '0',
+              rotation_z: '0'
+            }).toString()}`;
+            return
+          }
+          handleNavigation('portals');
+        }}
       >
         <GameButton type="alpha">
           <div className='px-4 tx-lg noselect'>
-            {loading === 'portals' ? <>Loading <br /> Game...</> : (
-              <>Portals</>
+            {loading === 'portals' ? <>Loading <br /> MiniGames...</> : (
+              <>MiniGames</>
             )}
           </div>
         </GameButton>
@@ -88,7 +111,9 @@ export function RoomButtons({myip}: {myip: string}) {
         <hr className='w-50 opaci-50' />
       </div>
 
-      <Link prefetch={true} href="/single/" onClick={() => handleNavigation('single')}>
+      <Link prefetch={true} href="/single/" onClick={() => handleNavigation('single')}
+        
+      >
         <GameButton type="epsilon" >
           <div className='px-4 tx-lg noselect'>
             {loading === 'single' ? <>Loading <br /> Game...</> : (

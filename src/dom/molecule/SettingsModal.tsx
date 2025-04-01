@@ -190,7 +190,7 @@ export default function SettingsModal({
           onOpenAI?.();
           onClose();
         }} 
-        classOverride='px-1 tx-mdl'
+        classOverride='px-1 tx-mdl nowrap'
         >
           🪄 <br /> Create with AI 
         </GameButton>
