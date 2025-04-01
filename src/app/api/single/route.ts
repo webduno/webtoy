@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { headers } from 'next/headers'
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(req: NextRequest) {
   const someip = (req.headers.get('x-forwarded-for') ?? '127.0.0.1').split(',')[0]
   // console.log("GET" , "GET", someip)

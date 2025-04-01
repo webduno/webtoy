@@ -116,11 +116,12 @@ export default function PublicTemplates() {
         boxShadow: "0 3px 1px 1px #805300, inset 0 2px 5px 2px #FFD700",
         background: "linear-gradient(180deg, #F5D67B, #D4A35E)",
       }}>
-          <div className="flex-wrap flex-justify-start w-100 autoverflow-y gap- 3 h-min-300px  flex-align-start"
+          <div className="flex-wrap flex-justify-center w-100 autoverflow-y gap- 3 h-min-300px   flex-align-center"
           style={{
-            alignContent: 'flex-start',
-            alignItems: 'flex-start',
-            justifyContent: 'flex-start',
+            maxHeight: '70vh',
+            // alignContent: 'flex-start !important',
+            // alignItems: 'flex-start !important',
+            // justifyContent: 'flex-start !important',
           }}
           >
             {loading ? (
@@ -131,7 +132,7 @@ export default function PublicTemplates() {
               templates.map((template) => (
                 <button 
                   key={template.id}
-                  className='ma-2 game-list-item block bord-r-10 pointer w-250px'
+                  className='ma-2 game-list-item block bord-r-10 pointer w-220px h- 400px'
                   onClick={() => setSelectedTemplate(template)}
                 >
                   <div data-tooltip-id={`${template.id}-public-template-tooltip`}
