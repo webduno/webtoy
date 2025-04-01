@@ -109,7 +109,13 @@ export default function PublicTemplates() {
         boxShadow: "0 3px 1px 1px #805300, inset 0 2px 5px 2px #FFD700",
         background: "linear-gradient(180deg, #F5D67B, #D4A35E)",
       }}>
-          <div className="flex-wrap flex-justify-start gap-3 w-100 autoverflow-y gap-3 h-min-300px  flex-align-start">
+          <div className="flex-wrap flex-justify-start w-100 autoverflow-y gap- 3 h-min-300px  flex-align-start"
+          style={{
+            alignContent: 'flex-start',
+            alignItems: 'flex-start',
+            justifyContent: 'flex-start',
+          }}
+          >
             {loading ? (
               <div className="tx-white w-100 pa-8 tx-center">Loading templates...</div>
             ) : templates.length === 0 ? (
