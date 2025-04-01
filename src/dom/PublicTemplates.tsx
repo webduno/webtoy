@@ -4,6 +4,8 @@ import { Tooltip } from "react-tooltip"
 import { useEffect, useState } from "react"
 import Logo from "@/dom/atom/logo/Logo"
 import { AIShowcaseResult } from "./molecule/AIShowcaseResult"
+import { useCopyToClipboard } from "usehooks-ts"
+import { GameButton } from "./atom/game/GameButton"
 
 interface Template {
   id: string;
@@ -18,6 +20,8 @@ export default function PublicTemplates() {
   const [templates, setTemplates] = useState<Template[]>([])
   const [loading, setLoading] = useState(true)
   const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(null)
+  const [clipboardValue, clipboard__do] = useCopyToClipboard()
+  const [didCopy, setDidCopy] = useState<number>(0)
 
   useEffect(() => {
     const fetchTemplates = async () => {
@@ -47,13 +51,49 @@ export default function PublicTemplates() {
   
   {selectedTemplate && (<>
 <div className="flex-col flex-align-center pos-abs z-1000 block w-100 h-100 bg-glass-10">
-            <div className="my-4 bord-r-10 pa-2 h-300px w-300px flex-col"
+  
+            <div className="my-4 bord-r-10 pa-2 h-300px w-300px flex-col gap-4"
             style={{
               boxShadow: "0 3px 1px 1px #805300, inset 0 2px 5px 2px #FFD700",
               background: "linear-gradient(180deg, #F5D67B, #D4A35E)",
             }}
             >
+            <div className="flex-row gap-2 mb-2">
+                          <GameButton 
+                            type="alpha" 
+                            classOverride="tx-lg"
+                            onClick={() => {
+                              navigator.clipboard.writeText(JSON.stringify(selectedTemplate.content));
+                              setDidCopy((prev) => prev + 1)
+                            }}
+                          >
+                            {didCopy ? `Copied to clipboard! ${didCopy == 0 ? '' : `x${didCopy}`}` : 'Copy to clipboard'}
+                          </GameButton>
+                          </div>
               <AIShowcaseResult result={selectedTemplate.content} />
+
+<div className="tx-sm pa-2 opaci-75 flex-col flex-align-start">
+  <div className="tx-altfont-4">Artwork Name: {selectedTemplate.name}</div>
+  Description: {selectedTemplate.description}
+  <div className="flex-row gap-2 flex-justify-start">
+    <div>Author: {selectedTemplate.created_by}</div>
+    <div className="tx-sm opaci-75">({new Date(selectedTemplate.created_at).toLocaleDateString()})</div>
+  </div>
+
+</div>
+
+            </div>
+            <div className="flex-row gap-2">
+              <GameButton 
+                type="zeta" 
+                classOverride="tx-md"
+                onClick={() => {
+                  setSelectedTemplate(null);
+                  setDidCopy(0);
+                }}
+              >
+                Go Back to List
+              </GameButton>
             </div>
           </div>
       </>)}
