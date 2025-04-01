@@ -50,7 +50,7 @@ const SceneObjects = ({ sceneObjects, isMobile }: { sceneObjects: Object3D[], is
   )
 }
 
-export function PhysicsScene({ position, sceneObjects, onExit, isMobile }: PhysicsSceneProps) {
+export function PhysicsScene({ position, sceneObjects, onExit, isMobile, ballCount }: PhysicsSceneProps) {
   const controlsRef = useRef<any>(null)
   const { camera } = useThree()
   const [isLocked, setIsLocked] = useState(false)
@@ -63,7 +63,7 @@ export function PhysicsScene({ position, sceneObjects, onExit, isMobile }: Physi
     velocity: [number, number, number],
     id: number
   }>>([])
-  const [remainingBalls, setRemainingBalls] = useState(3)
+  const [remainingBalls, setRemainingBalls] = useState(ballCount)
   
   // Track if click was handled to prevent double firing
   const clickHandled = useRef(false)
@@ -507,9 +507,9 @@ export function PhysicsScene({ position, sceneObjects, onExit, isMobile }: Physi
   useEffect(() => {
     return () => {
       setBalls([])
-      setRemainingBalls(3)
+      setRemainingBalls(ballCount)
     }
-  }, [])
+  }, [ballCount])
   
   return (
     <>

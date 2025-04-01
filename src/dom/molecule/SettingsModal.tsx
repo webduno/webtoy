@@ -15,6 +15,8 @@ interface SettingsModalProps {
   onOpenAI?: () => void;
   spawnCoords: string;
   setSpawnCoords: (coords: string) => void;
+  ballCount: string;
+  setBallCount: (count: string) => void;
 }
 
 export default function SettingsModal({
@@ -28,7 +30,9 @@ export default function SettingsModal({
   onOpenTemplates,
   onOpenAI,
   spawnCoords,
-  setSpawnCoords
+  setSpawnCoords,
+  ballCount,
+  setBallCount
 }: SettingsModalProps) {
   const hasPlayedSound = useRef(false);
   const [settingsDropdown, setSettingsDropdown] = useState(false);
@@ -74,10 +78,11 @@ export default function SettingsModal({
         </summary>
         <div className='flex-col w-100 pt-4'>
       
+      <div className='flex-row gap-3'>
       <div className='flex-col gap-1'>
-        <label htmlFor="spawnCoords">Spawn Coords</label>
+        <label htmlFor="spawnCoords">Spawn</label>
         <input type="text" id="spawnCoords" placeholder='Spawn Coords'
-        className='game-text-input mb-2 bord-r-100 tx-center py-1 w-100px' 
+        className='game-text-input mb-2 bord-r-100 tx-center py-1 w-80px' 
         value={spawnCoords}
         onChange={(e) => {
           // has to be 0,0,0 format
@@ -85,7 +90,19 @@ export default function SettingsModal({
           setSpawnCoords(e.target.value);
         }}
         />
+      </div>
         
+      <div className='flex-col gap-1'>
+      <label htmlFor="ballCount">Balls</label>
+        <input type="number" id="ballCount" placeholder='Ball Count'
+        className='game-text-input mb-2 bord-r-100 tx-center py-1 w-50px' 
+        min={0}
+        value={ballCount}
+        onChange={(e) => {
+          setBallCount(e.target.value);
+        }}
+        />
+      </div>
       </div>
       {/* <div className='flex-row gap-2'>
         <GameButton 

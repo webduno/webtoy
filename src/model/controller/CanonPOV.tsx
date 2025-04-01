@@ -7,7 +7,7 @@ import { PhysicsScene } from '../physics/PhysicsScene'
 import { isMobile } from '@/scripts/utils/mobileDetection'
 import { GameButton } from '@/dom/atom/game/GameButton'
 
-export default function CanonPOV({ position, sceneObjects, onExit }: CanonPOVProps) {
+export default function CanonPOV({ position, sceneObjects, onExit, ballCount }: CanonPOVProps) {
   const [showControls, setShowControls] = useState(true)
   const [isMobileDevice, setIsMobileDevice] = useState(false)
   const [balls, setBalls] = useState<Array<{
@@ -15,7 +15,7 @@ export default function CanonPOV({ position, sceneObjects, onExit }: CanonPOVPro
     velocity: [number, number, number],
     id: number
   }>>([])
-  const [remainingBalls, setRemainingBalls] = useState(3)
+  const [remainingBalls, setRemainingBalls] = useState(ballCount)
   
   // Check if client is mobile on component mount
   useEffect(() => {
@@ -35,7 +35,7 @@ export default function CanonPOV({ position, sceneObjects, onExit }: CanonPOVPro
   useEffect(() => {
     return () => {
       setBalls([])
-      setRemainingBalls(3)
+      setRemainingBalls(ballCount)
     }
   }, [])
   
@@ -53,6 +53,7 @@ export default function CanonPOV({ position, sceneObjects, onExit }: CanonPOVPro
             sceneObjects={sceneObjects} 
             onExit={onExit} 
             isMobile={isMobileDevice} 
+            ballCount={ballCount}
           />
         </Physics>
       </Canvas>
@@ -137,6 +138,9 @@ export default function CanonPOV({ position, sceneObjects, onExit }: CanonPOVPro
           </GameButton>
         </>
       )}
+      <div id="crosshair" className='pos-fix top-50p left-50p opaci-10 noclick block bord-r-100'>
+        +
+      </div>
     </div>
   )
 }

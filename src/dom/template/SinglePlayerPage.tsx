@@ -21,6 +21,7 @@ export default function SinglePlayerPage() {
   const [isPlaying, setIsPlaying] = useState<boolean>(false)
   const [playPosition, setPlayPosition] = useState<[number, number, number]>([0, 0, 0])
   const [spawnCoords, setSpawnCoords] = useState<string>('2,2,2')
+  const [ballCount, setBallCount] = useState<string>('3')
   const [templates, setTemplates] = useState<{name: string, description: string}[]>(
     DEFAULT_TEMPLATE_LIST
   )
@@ -158,7 +159,8 @@ export default function SinglePlayerPage() {
         <CanonPOV
           position={playPosition} 
           sceneObjects={stageRef.current?.getSceneObjects?.() || []}
-          onExit={handleExitPlay} 
+          onExit={handleExitPlay}
+          ballCount={parseInt(ballCount) || 3}
         />
       )}
 
@@ -184,6 +186,8 @@ export default function SinglePlayerPage() {
               onOpenAI={handleToggleAI}
               spawnCoords={spawnCoords}
               setSpawnCoords={setSpawnCoords}
+              ballCount={ballCount}
+              setBallCount={setBallCount}
             />
           )}
           

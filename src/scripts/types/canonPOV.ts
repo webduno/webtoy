@@ -4,6 +4,7 @@ export interface CanonPOVProps {
   position: [number, number, number]
   sceneObjects: Object3D[]
   onExit: () => void
+  ballCount: number
 }
 
 export interface PhysicsSceneProps extends CanonPOVProps {

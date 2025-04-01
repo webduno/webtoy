@@ -144,7 +144,7 @@ export function GameEngineNav({
         >
           <div className='tx-lx' aria-label="cogwheel">🎮</div>
         </div>
-        <Tooltip id="play-tooltip" place="left">
+        <Tooltip id="play-tooltip" place="left" className='z-1000'>
           Play
         </Tooltip>
       </div>
