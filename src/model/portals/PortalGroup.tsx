@@ -71,7 +71,7 @@ export const PortalGroup = ({ portalParams, onPortalCollision }: PortalGroupProp
         <SmallPortal position={[0, 0, 0]} rotation={[0, Math.PI / 2, 0]}
         title="Minecraft Parkour"
           portalMaterial={<meshStandardMaterial color="#dddddd" />}
-          url={formatPortalUrl("/single?template=hardcore_parkour", portalParams)}
+          url={formatPortalUrl("/single?template=minecraft_parkour", portalParams)}
           onCollision={onPortalCollision} />
       </group>
 
