@@ -22,37 +22,54 @@ export default function PublicTemplates() {
   const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(null)
   const [clipboardValue, clipboard__do] = useCopyToClipboard()
   const [didCopy, setDidCopy] = useState<number>(0)
+  const [offset, setOffset] = useState(0)
+  const [hasMore, setHasMore] = useState(true)
+  const [loadingMore, setLoadingMore] = useState(false)
+
+  const fetchTemplates = async (currentOffset: number = 0) => {
+    try {
+      const response = await fetch(`/api/getPublicTemplates?limit=8&offset=${currentOffset}`, {
+        cache: 'no-store',
+        headers: {
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0'
+        }
+      })
+      const data = await response.json()
+      
+      if (data.success) {
+        // Parse the content of each template
+        const parsedTemplates = data.data.map((template: Template) => ({
+          ...template,
+          content: typeof template.content === 'string' ? JSON.parse(template.content) : template.content
+        }))
+        
+        if (currentOffset === 0) {
+          setTemplates(parsedTemplates)
+        } else {
+          setTemplates(prev => [...prev, ...parsedTemplates])
+        }
+        setHasMore(data.hasMore)
+      }
+    } catch (error) {
+      console.error('Error fetching templates:', error)
+    } finally {
+      setLoading(false)
+      setLoadingMore(false)
+    }
+  }
 
   useEffect(() => {
-    const fetchTemplates = async () => {
-      try {
-        const response = await fetch('/api/getPublicTemplates', {
-          cache: 'no-store',
-          headers: {
-            'Cache-Control': 'no-cache, no-store, must-revalidate',
-            'Pragma': 'no-cache',
-            'Expires': '0'
-          }
-        })
-        const data = await response.json()
-        
-        if (data.success) {
-          // Parse the content of each template
-          const parsedTemplates = data.data.map((template: Template) => ({
-            ...template,
-            content: typeof template.content === 'string' ? JSON.parse(template.content) : template.content
-          }))
-          setTemplates(parsedTemplates)
-        }
-      } catch (error) {
-        console.error('Error fetching templates:', error)
-      } finally {
-        setLoading(false)
-      }
-    }
-
     fetchTemplates()
   }, [])
+
+  const handleLoadMore = () => {
+    setLoadingMore(true)
+    const newOffset = offset + 8
+    setOffset(newOffset)
+    fetchTemplates(newOffset)
+  }
 
   return (<>
   
@@ -119,9 +136,6 @@ export default function PublicTemplates() {
           <div className="flex-wrap flex-justify-center w-100 autoverflow-y gap- 3 h-min-300px   flex-align-center"
           style={{
             maxHeight: '70vh',
-            // alignContent: 'flex-start !important',
-            // alignItems: 'flex-start !important',
-            // justifyContent: 'flex-start !important',
           }}
           >
             {loading ? (
@@ -129,24 +143,37 @@ export default function PublicTemplates() {
             ) : templates.length === 0 ? (
               <div className="tx-white w-100 pa-8 tx-center">No templates available</div>
             ) : (
-              templates.map((template) => (
-                <button 
-                  key={template.id}
-                  className='ma-2 game-list-item block bord-r-10 pointer w-220px h- 400px'
-                  onClick={() => setSelectedTemplate(template)}
-                >
-                  <div data-tooltip-id={`${template.id}-public-template-tooltip`}
-                    className='tx-md opaci- pa-2 pb-3 tx-lg block nodeco  tx-white flex-col'>
-                    <div className='tx-start tx-altfont-4 w-100 tx-md pb-1 mb-1'>{template.description}</div>
-                    <div className="flex-row flex-justify-between flex-align-end w-100">
-                      <div className='tx-altfont-4 bg-white tx-smd bord-r-100 px-2 py-1 opaci-75'>
-                        <div>👤 {template.created_by}</div>
+              <>
+                {templates.map((template) => (
+                  <button 
+                    key={template.id}
+                    className='ma-2 game-list-item block bord-r-10 pointer w-220px h- 400px'
+                    onClick={() => setSelectedTemplate(template)}
+                  >
+                    <div data-tooltip-id={`${template.id}-public-template-tooltip`}
+                      className='tx-md opaci- pa-2 pb-3 tx-lg block nodeco  tx-white flex-col'>
+                      <div className='tx-start tx-altfont-4 w-100 tx-md pb-1 mb-1'>{template.description}</div>
+                      <div className="flex-row flex-justify-between flex-align-end w-100">
+                        <div className='tx-altfont-4 bg-white tx-smd bord-r-100 px-2 py-1 opaci-75'>
+                          <div>👤 {template.created_by}</div>
+                        </div>
+                        <div className='tx-sm opaci-75'> {new Date(template.created_at).toLocaleDateString()}</div>
                       </div>
-                      <div className='tx-sm opaci-75'> {new Date(template.created_at).toLocaleDateString()}</div>
                     </div>
+                  </button>
+                ))}
+                {hasMore && (
+                  <div className="w-100 flex-justify-center pa-4">
+                    <GameButton 
+                      type="alpha" 
+                      classOverride="tx-md"
+                      onClick={handleLoadMore}
+                    >
+                      {loadingMore ? 'Loading...' : 'Load More'}
+                    </GameButton>
                   </div>
-                </button>
-              ))
+                )}
+              </>
             )}
           </div>
       </div>

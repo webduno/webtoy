@@ -14,7 +14,11 @@ interface ObjectRecord {
   storage_key: string;
 }
 
-export async function GET() {
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const limit = parseInt(searchParams.get('limit') || '8');
+  const offset = parseInt(searchParams.get('offset') || '0');
+
   const supabase = createClient(supabaseUrl, supabaseServiceRoleKey);
   try {
     // First, let's get the count of all records
@@ -24,17 +28,19 @@ export async function GET() {
 
     console.log('Total count of records:', count);
 
-    // Query only the existing columns
+    // Query with pagination
     const { data, error } = await supabase
       .from('objects')
-      .select('id, content, created_at, storage_key');
+      .select('id, content, created_at, storage_key')
+      .order('created_at', { ascending: false })
+      .range(offset, offset + limit - 1);
 
     console.log('Query details:', {
       hasError: !!error,
       errorMessage: error?.message,
       dataLength: data?.length,
-      // firstItem: data?.[0],
-      // allData: data,
+      limit,
+      offset,
       countError: countError?.message
     });
 
@@ -48,7 +54,7 @@ export async function GET() {
 
     if (!data || data.length === 0) {
       return NextResponse.json(
-        { success: true, data: [] },
+        { success: true, data: [], hasMore: false },
         { status: 200 }
       );
     }
@@ -79,7 +85,8 @@ export async function GET() {
     
     return NextResponse.json({ 
       success: true, 
-      data: templates
+      data: templates,
+      hasMore: count ? offset + limit < count : false
     });
   } catch (error: any) {
     console.error('Error retrieving templates from Supabase:', error);
