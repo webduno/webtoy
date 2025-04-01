@@ -17,7 +17,7 @@ import { GameEngineNav } from '../molecule/GameEngineNav'
 import { GameButton } from '../atom/game/GameButton'
 import { UsernameInputContainer } from '../molecule/UsernameInputContainer'
 import { Tooltip } from 'react-tooltip'
-
+import Link from 'next/link'
 interface Friend {
   PLAYER_ID: string;
 }
@@ -311,7 +311,13 @@ export default function MultiPlayerPage() {
         </div>
       )}
           
-          
+          {friends.length === 1 &&  !!username && (
+            <div className='pos-abs right-0 bottom-0 mb-8'>
+              <Link className='px-2 tx-center block tx-altfont-1'
+              style={{color:"#4a90e2"}}
+               prefetch={false} href="/public">Public templates</Link>
+            </div>
+          )}
           {/* if only 1 friend (self) show message */}
           {friends.length === 1 &&  !!username && (
             <div style={{textAlign: 'center', }}>

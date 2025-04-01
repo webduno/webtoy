@@ -33,7 +33,7 @@ interface HallOfPortalsProps {
 
 export const formatPortalUrl = (url?: string, params?: PortalParams): string => {
 // only if its multi or single, dont fix the url, since its a relative path
-if (url?.includes("/multi") || url?.includes("/single")) {
+if (url?.includes("/multi") || url?.includes("/single") || url?.includes("/public")) {
   return url;
 }
 
@@ -85,13 +85,40 @@ export const HallOfPortals = ({ portalParams, onPortalCollision }: HallOfPortals
 
 
 
+
+
+      <group scale={[0.75, 0.75, 0.75]} position={[0, 18, 0]}
+      rotation={[0, Math.PI, 0]}
+      >
+        <Box args={[13, 5, 6]} position={[0, -2, 0]}>
+          <meshStandardMaterial color="#ffffff" />
+        </Box>
+        <SinglePortal
+        title='Public Web Toys'
+        textColor='#993300'
+          position={[0, 0, 0]}
+          rotation={[0, Math.PI, 0]}
+          portalMaterial={<meshStandardMaterial color="#ffaa44"  />}
+          url={formatPortalUrl("/public", portalParams)}
+          onCollision={onPortalCollision}
+        />
+      </group>
+
+
+
+
+
+
+
+
+
       <group scale={[0.75, 0.75, 0.75]} position={[0, 0, 40]}>
         <SinglePortal
         title='Go Back'
         textColor='magenta'
           position={[0, 0, 0]}
           rotation={[0, Math.PI, 0]}
-          portalMaterial={<meshStandardMaterial color="#ff00ff" emissive="#ff00ff" emissiveIntensity={0.5} />}
+          portalMaterial={<meshStandardMaterial color="#ff00ff" emissive="#ff00ff" />}
           url={formatPortalUrl(portalParams?.ref, portalParams)}
           onCollision={onPortalCollision}
         />
