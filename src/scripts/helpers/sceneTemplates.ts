@@ -1,5 +1,7 @@
 import BASKETBALL_COURT_JSON from './maps/BASKETBALL_COURT.json';
 import MINECRAFT_PARKOUR_JSON from './maps/MINECRAFT_PARKOUR.json';
+import SHOOTING_RANGE_JSON from './maps/SHOOTING_RANGE.json';
+
 
 // Template definitions for the 3D scene
 const PHYSICS_TEST = [{"position":[0,-0.5611186449722975,0],"rotation":[0,0,0],"scale":[9.475172487582173,0.6155249373422851,9.475172487582173],"color":"777777","hasGravity":false},{"position":[0,0,0],"rotation":[0,0,0],"scale":[1,1,1],"color":"777777","hasGravity":false},{"position":[0,2.472572019683369,0],"rotation":[-0.5884172948570177,0.2210228494883355,0.5884172948570178],"scale":[0.6525083472183528,0.6525083472183528,0.6525083472183528],"color":"777777","hasGravity":false},{"position":[0,3.9631697162337187,0],"rotation":[-0.4693766980066377,0.29156384862405865,0.4693766980066377],"scale":[1,1,1],"color":"ffd500","hasGravity":true},{"position":[0,5.532869935566511,0],"rotation":[0,0,0],"scale":[1,1,1],"color":"ff7300","hasGravity":true}]
@@ -322,9 +324,13 @@ export function getTemplateData(templateName: string | null): any[] | null {
     case 'garden_parkour':
       return GARDEN_PARKOUR;
       
-    case 'mountain_view':
-      return MOUNTAIN_VIEW;
+      case 'mountain_view':
+        return MOUNTAIN_VIEW;
       
+        case 'shooting_range':
+          return SHOOTING_RANGE_JSON;
+      
+
     case 'city_block':
       return CITY_BLOCK;
       
@@ -361,7 +367,7 @@ export const DEFAULT_TEMPLATE_LIST = [
   { name: 'garden_parkour', description: '🌳#Parkour garden' },
   { name: 'minecraft_parkour', description: '🏃‍♂️#Minecraft Parkour' },
   { name: 'bowling_alley', description: '🎳#Bowling alley' },
-  
+  { name: 'shooting_range', description: '🎯#Shooting range' },
   { name: 'castle', description: '🏰#Medieval castle' },
   { name: 'basketball_court', description: '🏀#Basketball court' },
   { name: 'golf_course', description: '⛳#Golf course' },
