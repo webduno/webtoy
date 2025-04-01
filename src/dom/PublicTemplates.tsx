@@ -76,13 +76,15 @@ export default function PublicTemplates() {
   {selectedTemplate && (<>
 <div className="flex-col flex-align-center pos-abs z-1000 block w-100 h-100 bg-glass-10">
   
-            <div className="my-4 bord-r-10 pa-2 h-300px w-300px flex-col gap-4"
+            <div className="my-4 bord-r-10 pa-2 h-400px w-300px flex-col gap-3"
             style={{
-              boxShadow: "0 3px 1px 1px #805300, inset 0 2px 5px 2px #FFD700",
-              background: "linear-gradient(180deg, #F5D67B, #D4A35E)",
+              // boxShadow: "0 3px 1px 1px #805300, inset 0 2px 5px 2px #FFD700",
+  boxShadow: "inset 0 -1px 2px #844703, 0 0 0 2px #F8B507, 0 0 0 3px #B47733",
+              
+              background: "linear-gradient(135deg, #F5D67B, #D4A35E)",
             }}
             >
-            <div className="flex-row gap-2 mb-2">
+            <div className="flex-row gap-2 mb-">
                           <GameButton 
                             type="alpha" 
                             classOverride="tx-lg"
@@ -94,15 +96,31 @@ export default function PublicTemplates() {
                             {didCopy ? `Copied to clipboard! ${didCopy == 0 ? '' : `x${didCopy}`}` : 'Copy to clipboard'}
                           </GameButton>
                           </div>
-              <AIShowcaseResult result={selectedTemplate.content} />
+              <div  className="pa-4 bord-r-10 pos-rel"
+              style={{
+
+                background: "linear-gradient(0deg, #B67B3B, #C78B4B)",
+                boxShadow: "inset 0 -5px 10px #653D2D, 0 0 5px #653D2D",
+              }}
+              >
+                <div  className="ma-2 pos-abs top-0 right-0  pa-1 bord-r-100 box-shadow-5-b" style={{background:"lightgrey"}}></div>
+                <div  className="ma-2 pos-abs top-0 left-0  pa-1 bord-r-100 box-shadow-5-b" style={{background:"lightgrey"}}></div>
+                <div  className="ma-2 pos-abs bottom-0 right-0  pa-1 bord-r-100 box-shadow-5-b" style={{background:"lightgrey"}}></div>
+                <div  className="ma-2 pos-abs bottom-0 left-0  pa-1 bord-r-100 box-shadow-5-b" style={{background:"lightgrey"}}></div>
+                <AIShowcaseResult result={selectedTemplate.content} />
+                </div>
 
 <div className="tx-sm pa-2 opaci-75 flex-col flex-align-start">
-  <div className="tx-altfont-4">Artwork Name: {selectedTemplate.name}</div>
+  <div>Artwork Name:</div>
+  <div className="pb-2 tx-altfont-4"> {selectedTemplate.name}</div>
   Description: {selectedTemplate.description}
   <div className="flex-row gap-2 flex-justify-start">
     <div>Author: {selectedTemplate.created_by}</div>
-    <div className="tx-sm opaci-75">({new Date(selectedTemplate.created_at).toLocaleDateString()})</div>
+    {/* show date in format 2025-04-02 00:00 */}
   </div>
+    <div className="tx-sm opaci-75">
+      ({new Date(selectedTemplate.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' })})
+    </div>
 
 </div>
 
