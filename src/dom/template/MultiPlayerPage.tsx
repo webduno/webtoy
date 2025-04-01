@@ -328,9 +328,9 @@ export default function MultiPlayerPage() {
           
           {friends.length < 2&& (
             <div className='pos-abs right-0 bottom-0 mb-8'>
-              <Link className='px-2 tx-center block tx-altfont-1 tx-bold'
+              <Link className='px-2 tx-center block tx-altfont-1 tx-bold tx-'
               style={{color:"#4a90e2"}}
-               prefetch={false} href="/public">Public templates</Link>
+               prefetch={false} href="/public">Public Maps</Link>
             </div>
           )}
           {/* if only 1 friend (self) show message */}

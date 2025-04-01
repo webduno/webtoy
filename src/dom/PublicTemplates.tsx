@@ -145,7 +145,7 @@ export default function PublicTemplates() {
 
 
           
-      <div className="tx-ls-3 pb-4 tx-altfont-4 game-font-1 tx-lx tx-center">PUBLIC<br />TEMPLATES</div>
+      <div className="tx-ls-3 pb-4 tx-altfont-4 game-font-1 tx-lx tx-center">Public <br /> Community<br />Maps</div>
 
       <div className="w-100  text-center p-4 tx-white bord-r-5 w-max-1080px h-min-300px flex-justify-start flex-col flex-align-center" style={{
         boxShadow: "0 3px 1px 1px #805300, inset 0 2px 5px 2px #FFD700",

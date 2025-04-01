@@ -21,10 +21,13 @@ export function RoomCreate({myip}: {myip: string}) {
         <RoomButtons myip={myip} />
       </div>
 
-      <div className='pos-abs right-0 bottom-0 mb-8'>
-              <Link className='px-2 tx-center block tx-altfont-1 tx-bold'
+      <div className='pos-abs right-0 bottom-0 mb-8 flex-col gap-2 flex-align-end tx-'>
+                       <Link className='px-2 tx-center block tx-altfont-1 tx-bold'
               style={{color:"#4a90e2"}}
-               prefetch={false} href="/public">Public templates</Link>
+               prefetch={false} href="/about">About</Link>
+      <Link className='px-2 tx-center block tx-altfont-1 tx-bold'
+              style={{color:"#4a90e2"}}
+               prefetch={false} href="/public">Public Maps</Link>
             </div>
 
 
