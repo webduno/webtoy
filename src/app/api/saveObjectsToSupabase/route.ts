@@ -5,6 +5,7 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 
 export async function GET(request: Request) {
+  // console.log('GET request received');
   const supabase = createClient(supabaseUrl, supabaseServiceRoleKey);
   try {
     const { searchParams } = new URL(request.url);
@@ -25,6 +26,7 @@ export async function GET(request: Request) {
       const sortedUsers = [...users].reverse().join(',');
       alternativeKey = `${basePart}>>>${sortedUsers}`;
     }
+    // console.log('storageKey', storageKey);
     const response1 = await supabase.from('objects').select().match({ storage_key: storageKey })
     const response2 = await supabase.from('objects').select().match({ storage_key: alternativeKey })
     // console.log("testresponse1", response1);
@@ -32,6 +34,7 @@ export async function GET(request: Request) {
 
     const error = response1.error || response2.error;
     const data = response1?.data?.length ? response1.data : response2.data;
+    // console.log("errorerrorerror??", error);
 
     if (response1.error && response2.error) {
       console.error('Supabase database error:', error);
@@ -48,6 +51,8 @@ export async function GET(request: Request) {
         { status: 404 }
       );
     }
+
+    // console.log("data not reaching here", data);
 
     // Parse the content back to an object
     const content = JSON.parse(data[0].content);
@@ -80,21 +85,25 @@ export async function POST(request: Request) {
         { status: 400 }
       );
     }
-
+    // console.log("storageKey***********************************************************", storageKey);
     // Validate storage key format
     if (storageKey.includes('>>>')) {
+      // console.log("storageKey includes >>>", storageKey);
       const [basePart, usersPart] = storageKey.split('>>>');
       const users = usersPart.split(',');
       
-      // Validate each user ID contains only alphanumeric characters and underscores
-      if (!users.every((user: string) => /^[a-zA-Z0-9_]+$/.test(user))) {
+      const validateion = users.every((user: string) => /^[a-zA-Z0-9_.-]+$/.test(user))
+      // console.log("validateion", users, validateion);
+
+      // Validate each user ID contains only valid email characters 
+      if (!users.every((user: string) => /^[a-zA-Z0-9_.-]+$/.test(user))) {
         return NextResponse.json(
-          { error: 'Invalid user ID format. Only letters, numbers and underscores are allowed.' },
+          { error: 'Invalid user ID format. Only letters, numbers, dots, hyphens and underscores are allowed.' },
           { status: 400 }
         );
       }
     }
-
+    // console.log("storageKey does not include >>>", storageKey);
     // Normalize the storageKey by sorting the user list
     let normalizedStorageKey = storageKey;
     let alternativeKey = null;
@@ -111,16 +120,16 @@ export async function POST(request: Request) {
       const reversedUsers = [...users].reverse().join(',');
       alternativeKey = `${basePart}>>>${reversedUsers}`;
     }
-
+    // console.log("normalizedStorageKey", normalizedStorageKey);
     // Check if either key exists in the database
     const response1 = await supabase.from('objects').select('id').match({ storage_key: normalizedStorageKey });
     const response2 = alternativeKey ? await supabase.from('objects').select('id').match({ storage_key: alternativeKey }) : { data: null };
 
     const existingRecord = response1?.data?.[0] || response2?.data?.[0];
     const existingKey = response1?.data?.[0] ? normalizedStorageKey : (response2?.data?.[0] ? alternativeKey : null);
-
+    // console.log("existingRecord", existingRecord);
     let result;
-    
+    // console.log("existingKey", existingKey);
     if (existingRecord) {
       // Update existing record
       result = await supabase

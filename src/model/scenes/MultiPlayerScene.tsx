@@ -199,6 +199,8 @@ const MultiPlayerScene = forwardRef<MultiPlayerSceneHandle, MultiPlayerSceneProp
     const objects = saveObjects(sceneRef, getStorageKey());
     // also save to supabase
     try {
+      // console.log('saving objects to supabase', getStorageKey());
+      // console.log('objects', objects);
       const res = await saveObjectsToSupabase(objects, getStorageKey());
       // console.log('res', res);
     } catch (error) {
