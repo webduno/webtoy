@@ -144,7 +144,7 @@ export default function NewObjectControls({
       <GameButton classOverride="bord-r-100"
       tooltip='Grab (G)'
       tooltipId='grab-tooltip'
-          type={transformMode === 'move' ? 'delta' : ''}
+          buttonType={transformMode === 'move' ? 'delta' : ''}
           onClick={() => setTransformMode('move')}
         >
           <div className="flex-col tx-mdl">
@@ -154,7 +154,7 @@ export default function NewObjectControls({
         <GameButton classOverride="bord-r-100"
           tooltip='Rotate (R)'
           tooltipId='rotate-tooltip'
-          type={transformMode === 'rotate' ? 'delta' : ''}
+          buttonType={transformMode === 'rotate' ? 'delta' : ''}
           onClick={() => setTransformMode('rotate')}
         >
           <div className="flex-col tx-mdl">
@@ -164,7 +164,7 @@ export default function NewObjectControls({
         <GameButton classOverride="bord-r-100"
           tooltip='Scale (S)'
           tooltipId='scale-tooltip'
-          type={transformMode === 'scale' ? 'delta' : ''}
+          buttonType={transformMode === 'scale' ? 'delta' : ''}
           onClick={() => setTransformMode('scale')}
         >
           <div className="flex-col tx-mdl">
