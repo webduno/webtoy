@@ -33,19 +33,37 @@ export default function PortalsPage() {
 
   useEffect(() => {
     console.log("searchParams", searchParams.get("color"))
+    let username = searchParams.get('username');
+    
+    // If no username in URL, check localStorage or generate random string
+    if (!username) {
+      const storedPlayerId = localStorage.getItem('PLAYER_ID');
+      if (storedPlayerId) {
+        username = storedPlayerId;
+      } else {
+        username = Math.random().toString(36).substring(2, 15);
+        localStorage.setItem('PLAYER_ID', username);
+      }
+      
+      // Update URL with the username
+      const newUrl = new URL(window.location.href);
+      newUrl.searchParams.set('username', username);
+      window.history.replaceState({}, '', newUrl.toString());
+    }
+
     const params: PortalParams = {
-      username: searchParams.get('username') || undefined,
-      color: searchParams.get('color') || undefined,
-      speed: searchParams.get('speed') ? Number(searchParams.get('speed')) : undefined,
+      username: username || undefined,
+      color: searchParams.get('color') || '%2300B30F',
+      speed: searchParams.get('speed') ? Number(searchParams.get('speed')) : 1,
       ref: searchParams.get('ref') || undefined,
       avatar_url: searchParams.get('avatar_url') || undefined,
       team: searchParams.get('team') || undefined,
-      speed_x: searchParams.get('speed_x') ? Number(searchParams.get('speed_x')) : undefined,
-      speed_y: searchParams.get('speed_y') ? Number(searchParams.get('speed_y')) : undefined,
-      speed_z: searchParams.get('speed_z') ? Number(searchParams.get('speed_z')) : undefined,
-      rotation_x: searchParams.get('rotation_x') ? Number(searchParams.get('rotation_x')) : undefined,
-      rotation_y: searchParams.get('rotation_y') ? Number(searchParams.get('rotation_y')) : undefined,
-      rotation_z: searchParams.get('rotation_z') ? Number(searchParams.get('rotation_z')) : undefined,
+      speed_x: searchParams.get('speed_x') ? Number(searchParams.get('speed_x')) : 0.5,
+      speed_y: searchParams.get('speed_y') ? Number(searchParams.get('speed_y')) : 0.5,
+      speed_z: searchParams.get('speed_z') ? Number(searchParams.get('speed_z')) : 0.5,
+      rotation_x: searchParams.get('rotation_x') ? Number(searchParams.get('rotation_x')) : 0,
+      rotation_y: searchParams.get('rotation_y') ? Number(searchParams.get('rotation_y')) : 0,
+      rotation_z: searchParams.get('rotation_z') ? Number(searchParams.get('rotation_z')) : 0,
     };
 
     // Log the parsed parameters for debugging
