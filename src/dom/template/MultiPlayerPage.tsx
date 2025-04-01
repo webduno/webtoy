@@ -49,6 +49,7 @@ export default function MultiPlayerPage() {
   const [isPlaying, setIsPlaying] = useState<boolean>(false)
   const [playPosition, setPlayPosition] = useState<[number, number, number]>([0, 0, 0])
   const [spawnCoords, setSpawnCoords] = useState<string>('2,2,2')
+  const [ballCount, setBallCount] = useState<string>('3')
   
   const handlePlay = () => {
     try {
@@ -197,7 +198,8 @@ export default function MultiPlayerPage() {
         <CanonPOV
           position={playPosition} 
           sceneObjects={stageRef.current?.getSceneObjects() || []}
-          onExit={handleExitPlay} 
+          onExit={handleExitPlay}
+          ballCount={parseInt(ballCount) || 3}
         />
       )}
 
@@ -224,6 +226,8 @@ export default function MultiPlayerPage() {
               onOpenAI={handleToggleAI}
               spawnCoords={spawnCoords}
               setSpawnCoords={setSpawnCoords}
+              ballCount={ballCount}
+              setBallCount={setBallCount}
             />
           )}
           
