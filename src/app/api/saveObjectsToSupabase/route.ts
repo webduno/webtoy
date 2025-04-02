@@ -135,11 +135,11 @@ export async function POST(request: Request) {
       const [basePart, usersPart] = storageKey.split('>>>');
       const users = usersPart.split(',');
       
-      const validateion = users.every((user: string) => /^[a-zA-Z0-9_.-]+$/.test(user))
+      // const validateion = users.every((user: string) => /^[a-zA-Z0-9_.-]+$/.test(user))
       // console.log("validateion", users, validateion);
 
       // Validate each user ID contains only valid email characters 
-      if (!users.every((user: string) => /^[a-zA-Z0-9_.-]+$/.test(user))) {
+      if (!users.every((user: string) => /^[a-zA-Z0-9_.-@]+$/.test(user))) {
         return NextResponse.json(
           { error: 'Invalid user ID format. Only letters, numbers, dots, hyphens and underscores are allowed.' },
           { 
