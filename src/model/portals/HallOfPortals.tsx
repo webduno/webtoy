@@ -57,7 +57,10 @@ if (url?.includes("/multi") || url?.includes("/single") || url?.includes("/publi
   
   // Add all portal parameters to the URL
   Object.entries(params).forEach(([key, value]) => {
-    if (value !== undefined && value !== null) {
+    // if its the username and its en an email, remove the @ and everything after it
+    if (key === 'username' && value !== undefined && value !== null) {
+      urlObj.searchParams.set(key, value.toString().split('@')[0]);
+    } else if (value !== undefined && value !== null) {
       urlObj.searchParams.set(key, value.toString());
     }
   });
