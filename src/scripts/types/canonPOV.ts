@@ -9,6 +9,11 @@ export interface CanonPOVProps {
 
 export interface PhysicsSceneProps extends CanonPOVProps {
   isMobile: boolean
+  playerHeight?: number
+  playerRadius?: number
+  moveSpeed?: number
+  jumpForce?: number
+  maxVelocity?: number
 }
 
 export interface PhysicalBallProps {

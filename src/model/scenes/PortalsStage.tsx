@@ -1,9 +1,6 @@
 "use client"
 import { forwardRef, useRef } from 'react'
-import { Stage } from '@react-three/drei'
-import { useBackgroundMusic } from '@/scripts/contexts/BackgroundMusicContext'
 import { HallOfPortals } from '../portals/HallOfPortals'
-import CameraFlyControls from '../controls/CameraFlyControls'
 
 interface PortalParams {
   username?: string;
@@ -29,10 +26,7 @@ const PortalsStage = forwardRef<any, PortalsStageProps>(({ portalParams, onPorta
   const controlsRef = useRef<any>(null)
 
   return (<>
-      <CameraFlyControls 
-        ref={controlsRef}
-        onPause={() => onPortalCollision()}
-      />
+      
       <HallOfPortals portalParams={portalParams} onPortalCollision={() => {
         controlsRef.current?.pause();
         onPortalCollision();

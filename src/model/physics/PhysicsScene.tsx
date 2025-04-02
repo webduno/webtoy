@@ -50,7 +50,18 @@ const SceneObjects = ({ sceneObjects, isMobile }: { sceneObjects: Object3D[], is
   )
 }
 
-export function PhysicsScene({ position, sceneObjects, onExit, isMobile, ballCount }: PhysicsSceneProps) {
+export function PhysicsScene({ 
+  position, 
+  sceneObjects, 
+  onExit, 
+  isMobile, 
+  ballCount,
+  playerHeight = 0.3,
+  playerRadius = 0.1,
+  moveSpeed = 5,
+  jumpForce = 7,
+  maxVelocity = 30
+}: PhysicsSceneProps) {
   const controlsRef = useRef<any>(null)
   const { camera } = useThree()
   const [isLocked, setIsLocked] = useState(false)
@@ -75,12 +86,7 @@ export function PhysicsScene({ position, sceneObjects, onExit, isMobile, ballCou
   const joystickActive = useRef(false)
   const lastTouchPosition = useRef<{x: number, y: number}>({x: 0, y: 0})
   
-  // Player physics properties
-  const playerHeight = 0.3
-  const playerRadius = 0.1
-  const moveSpeed = 5
-  const jumpForce = 7
-  const maxVelocity = 30 // Increased max horizontal velocity
+  // Player physics properties are now passed as props with defaults
   
   // Use Cannon.js cylinder for player physics
   const [playerRef, playerApi] = useCylinder(
