@@ -15,8 +15,9 @@ export function UsernameInputContainer({ onUsernameChange, autosave = true, user
 
   useEffect(() => {
     if (session) {
-      setUsername(session.user?.email ?? "");
-      onUsernameChange(session.user?.email ?? "");
+      const cleanEmail = session.user?.email?.split('@')[0];
+      setUsername(cleanEmail ?? "");
+      onUsernameChange(cleanEmail ?? "");
     }
   }, [session]);
 

@@ -459,11 +459,11 @@ export default function MultiPlayerPage() {
             </div>
           )}
           {/* put email in the bottom left if its logged with google */}
-          {session && (
+          {/* {session && (
             <div className='opaci-50' style={{ position: 'absolute', bottom: '0', left: '0', margin: '10px', zIndex: 1000 }}>
-              <div className='tx-white tx-shadow-5'>{session.user?.email}</div>
+              <div className='tx-white tx-sm tx-shadow-5'>{session.user?.email?.split('@')[0]}</div>
             </div>
-          )}
+          )} */}
         </>
       )}
     </>

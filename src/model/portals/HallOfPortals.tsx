@@ -64,9 +64,9 @@ if (url?.includes("/multi") || url?.includes("/single") || url?.includes("/publi
       urlObj.searchParams.set(key, value.toString());
     }
   });
-  if (!urlObj.searchParams.has('ref')) {
+  // if (!urlObj.searchParams.has('ref')) {
     urlObj.searchParams.set('ref', 'webtoy.vercel.app');
-  }
+  // }
   return urlObj.toString();
 };
 
