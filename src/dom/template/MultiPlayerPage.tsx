@@ -158,7 +158,7 @@ export default function MultiPlayerPage() {
       alert('Invalid input. Only letters, numbers and underscores are allowed.');
       return;
     }
-    
+    console.log('adding friend', friends, theNewName)
     setFriends([...friends, { PLAYER_ID: theNewName }])
     
     // Save to localStorage
@@ -298,7 +298,11 @@ export default function MultiPlayerPage() {
                 <Tooltip id="username-tooltip">
                   You
                 </Tooltip>
-      <UsernameInputContainer autosave={false} onUsernameChange={setUsername} username={username} />
+      <UsernameInputContainer onUsernameChange={(newUsername)=>{
+        setUsername(newUsername);
+        // set first friend in friends array
+        setFriends([{ PLAYER_ID: newUsername }])
+      }} username={username} />
       </div>
 
       {friends.length === 1 &&  !username && (<>
