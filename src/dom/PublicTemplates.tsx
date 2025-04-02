@@ -175,7 +175,9 @@ export default function PublicTemplates() {
                         <div className='tx-altfont-4 bg-white tx-smd bord-r-100 px-2 py-1 opaci-75'>
                           <div>👤 {template.created_by}</div>
                         </div>
-                        <div className='tx-sm opaci-75'> {new Date(template.created_at).toLocaleDateString()}</div>
+                        <div className='tx-sm opaci-75'>
+                          {new Date(template.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                        </div>
                       </div>
                     </div>
                   </button>

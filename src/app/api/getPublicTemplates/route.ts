@@ -66,7 +66,7 @@ export async function GET(request: Request) {
         if (item.storage_key && item.storage_key.includes('>>>')) {
           const creationKeys = item.storage_key.split('>>>')[1];
           if (creationKeys && creationKeys.includes(',')) {
-            created_by = creationKeys.split(',')[0];
+            created_by = creationKeys.split(',')[1];
           }
         }
       } catch (e) {
