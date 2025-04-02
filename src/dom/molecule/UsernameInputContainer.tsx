@@ -15,18 +15,23 @@ export function UsernameInputContainer({ onUsernameChange, autosave = true, user
 
   useEffect(() => {
     if (session) {
-      setUsername(session.user?.email ?? "");
+      const email = session.user?.email ?? "";
+      setUsername(email);
+      if (autosave) {
+        localStorage.setItem('PLAYER_ID', email);
+      }
+      onUsernameChange(email);
     }
-  }, [session]);
+  }, [session, autosave, onUsernameChange]);
 
   useEffect(() => {
     // Load username from localStorage when component mounts
     const savedUsername = localStorage.getItem('PLAYER_ID');
-    if (savedUsername) {
+    if (savedUsername && !session) {
       setUsername(savedUsername);
       onUsernameChange(savedUsername);
     }
-  }, []);
+  }, [session, onUsernameChange]);
 
   // Update internal state when prop changes
   useEffect(() => {
