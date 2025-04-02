@@ -72,6 +72,7 @@ export async function GET(request: Request) {
       } catch (e) {
         console.error('Error parsing storage_key:', e);
       }
+      const parsedCreatedBy = created_by.split('@')[0];
 
       return {
         id: item.id,
@@ -79,7 +80,7 @@ export async function GET(request: Request) {
         description: 'No description available',
         content: item.content,
         created_at: item.created_at,
-        created_by
+        created_by: parsedCreatedBy
       };
     });
     
