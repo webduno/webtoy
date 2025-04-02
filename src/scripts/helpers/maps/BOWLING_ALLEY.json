@@ -1,0 +1,25 @@
+[
+    {"position":[0,0.15,-2],"rotation":[0,0,0],"scale":[2.25,0.2,13],"color":"d4a76a","hasGravity":false},
+    {"position":[0,0.16,-4],"rotation":[0,0,0],"scale":[1.8,0.01,0.1],"color":"000000","hasGravity":false},
+    {"position":[0,0.16,-6],"rotation":[0,0,0],"scale":[1.8,0.01,0.1],"color":"000000","hasGravity":false},
+    {"position":[0,0.16,-8],"rotation":[0,0,0],"scale":[1.8,0.01,0.1],"color":"000000","hasGravity":false},
+    {"position":[1.2,0.05,-2],"rotation":[0,0,0],"scale":[0.3,0.1,15],"color":"222222","hasGravity":false},
+    {"position":[-1.2,0.05,-2],"rotation":[0,0,0],"scale":[0.3,0.1,15],"color":"222222","hasGravity":false},
+    {"position":[0,0.6,-9.5],"rotation":[0,0,0],"scale":[0.1,0.95,0.1],"color":"ffffff","hasGravity":true},
+    {"position":[0.3,0.6,-9.8],"rotation":[0,0,0],"scale":[0.1,0.95,0.1],"color":"ffffff","hasGravity":true},
+    {"position":[-0.3,0.6,-9.8],"rotation":[0,0,0],"scale":[0.1,0.95,0.1],"color":"ffffff","hasGravity":true},
+    {"position":[0.6,0.6,-10.1],"rotation":[0,0,0],"scale":[0.1,0.95,0.1],"color":"ffffff","hasGravity":true},
+    {"position":[0,0.6,-10.1],"rotation":[0,0,0],"scale":[0.1,0.95,0.1],"color":"ffffff","hasGravity":true},
+    {"position":[-0.6,0.6,-10.1],"rotation":[0,0,0],"scale":[0.1,0.95,0.1],"color":"ffffff","hasGravity":true},
+    {"position":[0.9,0.6,-10.4],"rotation":[0,0,0],"scale":[0.1,0.95,0.1],"color":"ffffff","hasGravity":true},
+    {"position":[0.3,0.6,-10.4],"rotation":[0,0,0],"scale":[0.1,0.95,0.1],"color":"ffffff","hasGravity":true},
+    {"position":[-0.3,0.6,-10.4],"rotation":[0,0,0],"scale":[0.1,0.95,0.1],"color":"ffffff","hasGravity":true},
+    {"position":[-0.9,0.6,-10.4],"rotation":[0,0,0],"scale":[0.1,0.95,0.1],"color":"ffffff","hasGravity":true},
+    {"position":[0,-0.4757091232797994,-3.649876459484724],"rotation":[0,0,0],"scale":[6.628786182670685,1,19.485644319265116],"color":"777777","hasGravity":false},
+    {"position":[0,-0.47830627143617066,6.408085915382304],"rotation":[0,0,0],"scale":[10.889132533864196,1.2757985957753937,4.977105205470304],"color":"b0b0b0","hasGravity":false},
+    {"position":[0,0.583056724797393,-13.62530357437102],"rotation":[-0.554502935930237,0,0],"scale":[21.484232637500515,2.2292547646173113,0.5156925828674114],"color":"b0b0b0","hasGravity":false},
+    {"position":[0,-0.4041575013420554,-10.076663198634124],"rotation":[0,0,0],"scale":[3.5763432117431773,0.9247051524065331,3.5763432117431773],"color":"88551b","hasGravity":false},
+  
+    {"position":[0,-0.3468488011928468,-2.27100479054715],"rotation":[0,0,0],"scale":[23.646840297588522,0.6492659413722207,23.646840297588522],"color":"6aad34","hasGravity":false}
+  
+  ]

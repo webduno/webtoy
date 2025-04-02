@@ -1,0 +1,15 @@
+[
+    {"position":[-5.4,0.5,0],"rotation":[0,0,0],"scale":[0.15,1,0.5],"color":"ffffff","hasGravity":true},
+    {"position":[-4.5,0.5,0],"rotation":[0,0,0],"scale":[0.15,1,0.5],"color":"ffffff","hasGravity":true},
+    {"position":[-3.6,0.5,0],"rotation":[0,0,0],"scale":[0.15,1,0.5],"color":"ffffff","hasGravity":true},
+    {"position":[-2.7,0.5,0],"rotation":[0,0,0],"scale":[0.15,1,0.5],"color":"ffffff","hasGravity":true},
+    {"position":[-1.8,0.5,0],"rotation":[0,0,0],"scale":[0.15,1,0.5],"color":"ffffff","hasGravity":true},
+    {"position":[-0.9,0.5,0],"rotation":[0,0,0],"scale":[0.15,1,0.5],"color":"ffffff","hasGravity":true},
+    {"position":[0,0.5,0],"rotation":[0,0,0],"scale":[0.15,1,0.5],"color":"ffffff","hasGravity":true},
+    {"position":[0.9,0.5,0],"rotation":[0,0,0],"scale":[0.15,1,0.5],"color":"ffffff","hasGravity":true},
+    {"position":[1.8,0.5,0],"rotation":[0,0,0],"scale":[0.15,1,0.5],"color":"ffffff","hasGravity":true},
+    {"position":[2.7,0.5,0],"rotation":[0,0,0],"scale":[0.15,1,0.5],"color":"ffffff","hasGravity":true},
+    {"position":[3.6,0.5,0],"rotation":[0,0,0],"scale":[0.15,1,0.5],"color":"ffffff","hasGravity":true},
+    {"position":[4.5,0.5,0],"rotation":[0,0,0],"scale":[0.15,1,0.5],"color":"ffffff","hasGravity":true},
+    {"position":[0,-0.3295779100115177,0],"rotation":[0,0,0],"scale":[14.961500813770753,0.5,8.17454926985879],"color":"cea455","hasGravity":false}
+  ]
