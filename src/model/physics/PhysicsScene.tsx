@@ -263,6 +263,7 @@ export function PhysicsScene({ position, sceneObjects, onExit, isMobile, ballCou
     if (isMobile) return // Skip for mobile
     
     const handleLockChange = () => {
+      console.log('handleLockChangehandleLockChange', )
       if (document.pointerLockElement) {
         setIsLocked(true)
       } else {

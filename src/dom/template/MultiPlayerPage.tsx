@@ -5,7 +5,6 @@ import MultiPlayerStage, { MultiPlayerStageHandle } from '@/model/scenes/MultiPl
 import Logo from '@/dom/atom/logo/Logo'
 import { signIn, useSession } from 'next-auth/react'
 import GoogleLoginButton from '@/dom/atom/auth/GoogleLoginButton'
-import FirstPersonView from '@/model/controller/FirstPersonView'
 import CanonPOV from '@/model/controller/CanonPOV'
 import { DEFAULT_TEMPLATE_LIST } from '@/scripts/helpers/sceneTemplates'
 import SettingsModal from '@/dom/molecule/SettingsModal'
@@ -29,7 +28,11 @@ export const MP_STORAGE_KEY = 'multiplayer_scene'
 export default function MultiPlayerPage() {
   const [myip, setMyip] = useState<string>()
   const [lastFriend, setLastFriend] = useState<string>('')
+  const hasFetchedMyip = useRef(false)
   const fetchMyip = async () => {
+    console.log('fetchMyip', hasFetchedMyip.current)
+    if (hasFetchedMyip.current) return;
+    
     // console.log("fetchMyip")
     const response = await fetch('/api/single')
     const data = await response.json()
@@ -37,18 +40,27 @@ export default function MultiPlayerPage() {
       alert('No IP found')
       return
     }
+    console.log('fetchMyip', data.ip)
     setMyip(data.ip)
-    setFriends([
-      { PLAYER_ID: data.ip }, // myself
-    ])
-    
+    // setFriends([
+    //   { PLAYER_ID: data.ip }, // myself
+    // ])
+    // loadplayerid from localStorage
+    const playerId = localStorage.getItem('PLAYER_ID')
+    if (playerId) {
+      console.log('fetchMyip setfriendlist again', playerId)
+      setFriends([{ PLAYER_ID: playerId }])
+    }
+    console.log('fetchMyip', friends)
     // Load last friend from localStorage
     const savedFriend = localStorage.getItem('lastFriend')
     if (savedFriend) {
       setLastFriend(savedFriend)
     }
     
+    hasFetchedMyip.current = true;
     // console.log("fetchMyip", data.ip)
+    
   }
   const [isPlaying, setIsPlaying] = useState<boolean>(false)
   const [playPosition, setPlayPosition] = useState<[number, number, number]>([0, 0, 0])
@@ -79,11 +91,14 @@ export default function MultiPlayerPage() {
   }
   
   const handleExitPlay = () => {
+    console.log('final callback')
     setIsPlaying(false)
     clearPhysicsState()
   }
   useEffect(() => {
+    console.log('45h156sdgr5useEffectuseEffectuseEffect ')
     fetchMyip()
+    console.log('useEffectuseEffectuseEffect ')
     // Load username from localStorage if it exists
     const savedUsername = localStorage.getItem('username')
     if (savedUsername) {
@@ -197,19 +212,15 @@ export default function MultiPlayerPage() {
 
   return (
     <>
-      {/* {isPlaying && (
-        <FirstPersonView 
-          position={playPosition} 
-          sceneObjects={stageRef.current?.getSceneObjects() || []}
-          onExit={handleExitPlay} 
-        />
-      )} */}
 
       {isPlaying && (
         <CanonPOV
           position={playPosition} 
           sceneObjects={stageRef.current?.getSceneObjects() || []}
-          onExit={handleExitPlay}
+          onExit={()=>{
+            console.log('handleExitPlayhandleExitPlayhandleExitPlayhandleExitPlay')
+            handleExitPlay()
+          }}
           ballCount={parseInt(ballCount) || 3}
         />
       )}
@@ -300,8 +311,10 @@ export default function MultiPlayerPage() {
                 </Tooltip>
       <UsernameInputContainer onUsernameChange={(newUsername)=>{
         setUsername(newUsername);
-        // set first friend in friends array
-        setFriends([{ PLAYER_ID: newUsername }])
+        // Only set first friend if there are no friends yet
+        if (friends.length < 2) {
+          setFriends([{ PLAYER_ID: newUsername }])
+        }
       }} username={username} />
       </div>
 

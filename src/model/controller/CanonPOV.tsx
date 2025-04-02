@@ -51,7 +51,10 @@ export default function CanonPOV({ position, sceneObjects, onExit, ballCount }: 
           <PhysicsScene 
             position={position} 
             sceneObjects={sceneObjects} 
-            onExit={onExit} 
+            onExit={()=>{
+              console.log('onExit onExit onExit', onExit)
+              onExit()
+            }} 
             isMobile={isMobileDevice} 
             ballCount={ballCount}
           />
