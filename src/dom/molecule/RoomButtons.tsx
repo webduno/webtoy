@@ -76,10 +76,10 @@ export function RoomButtons({myip}: {myip: string}) {
             if (!confirm) {
               return;
             }
-            console.log('generating random string');
+            // console.log('generating random string');
             // generat random 10 character string
             const randomString = Math.random().toString(36).substring(2, 15);
-            console.log('random string', randomString);
+            // console.log('random string', randomString);
             setUsername(randomString);
             handleNavigation('portals', randomString);
             window.location.href = `/portals?${new URLSearchParams({

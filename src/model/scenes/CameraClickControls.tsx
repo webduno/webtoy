@@ -25,11 +25,11 @@ export const CameraClickControls = ({sceneRef, mapControlsRef, deleteMode, maink
       if (intersects.length > 0) {
         const object = intersects[0].object
         if (object instanceof Mesh) {
-          console.log('object is a mesh', deleteMode)
+          // console.log('object is a mesh', deleteMode)
           // if isdeleting then delete the object
           if (deleteMode) {
             object.parent?.remove(object)
-            console.log('object is a mesh', object)
+            // console.log('object is a mesh', object)
             // Save the scene after deletion
             if (sceneRef.current) {
               saveObjects(sceneRef, mainkey);

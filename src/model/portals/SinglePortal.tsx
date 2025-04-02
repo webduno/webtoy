@@ -39,7 +39,7 @@ export const SinglePortal = ({
         const distance = camera.position.distanceTo(portalPosition);
 
         if (distance < collisionRadius) {
-          console.log("portal clicked", url)
+          // console.log("portal clicked", url)
           if (onCollision) {
             onCollision();
           }

@@ -37,7 +37,7 @@ export function UsernameInputContainer({ onUsernameChange, autosave = true, user
 
   const handleUsernameChange = (newUsername: string) => {
     setUsername(newUsername);
-    console.log('newUsername', newUsername)
+    // console.log('newUsername', newUsername)
     if (autosave) {
       localStorage.setItem('PLAYER_ID', newUsername);
     }

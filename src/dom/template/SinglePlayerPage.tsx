@@ -39,22 +39,20 @@ export default function SinglePlayerPage() {
       const urlParams = new URLSearchParams(window.location.search);
       const templateParam = urlParams.get('template');
       if (templateParam) {
-        console.log(`Template parameter found: ${templateParam}`);
+        // console.log(`Template parameter found: ${templateParam}`);
         // Add a small delay to ensure canvas is loaded
         setTimeout(() => {
           if (stageRef.current) {
-            console.log('Stage reference available, checking template...');
+            // console.log('Stage reference available, checking template...');
             // Check if template exists in DEFAULT_TEMPLATE_LIST
             const templateExists = templates.some(t => t.name === templateParam);
             if (templateExists) {
-              console.log('Template exists, loading...');
+              // console.log('Template exists, loading...');
               stageRef.current.loadTemplate(templateParam);
               setHasObjects(true);
             } else {
-              console.log('Template not found in list');
+              // console.log('Template not found in list');
             }
-          } else {
-            console.log('Stage reference not available yet');
           }
         }, 1000); // 1 second delay
       }
@@ -110,7 +108,7 @@ export default function SinglePlayerPage() {
   }
 
   const handleLoadTemplate = (templateName: string) => {
-    console.log(`Loading template: ${templateName}`)
+    // console.log(`Loading template: ${templateName}`)
     // Call loadTemplate directly with the template name
     stageRef.current?.loadTemplate(templateName)
     setShowTemplates(false)

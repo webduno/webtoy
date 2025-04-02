@@ -32,7 +32,7 @@ export default function PortalsPage() {
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    console.log("searchParams", searchParams.get("color"))
+    // console.log("searchParams", searchParams.get("color"))
     let username = searchParams.get('username');
     
     // If no username in URL, check localStorage or generate random string
@@ -67,7 +67,7 @@ export default function PortalsPage() {
     };
 
     // Log the parsed parameters for debugging
-    console.log('Parsed URL parameters:', params);
+    // console.log('Parsed URL parameters:', params);
     
     setPortalParams(params);
   }, [searchParams]);

@@ -38,7 +38,7 @@ export const createObject = (
     ...mesh.userData,
     hasGravity
   }
-  console.log("mesh", mesh)
+  // console.log("mesh", mesh)
   // Add the mesh to the scene
   sceneRef.current?.add(mesh)
   setSelectedObject(mesh)

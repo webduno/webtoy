@@ -47,8 +47,8 @@ export const AiModal = ({ onClose }: AiModalProps) => {
       const promptRes = choices[0].message.content
       const scene = JSON.parse(promptRes)
 
-      console.log("Generated prompt:", promptRes)
-      console.log("Generated scene:", scene)
+      // console.log("Generated prompt:", promptRes)
+      // console.log("Generated scene:", scene)
 
       // The scene data is already in the correct format from the API
       const sceneData = scene.data.scene

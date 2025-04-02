@@ -26,7 +26,7 @@ export async function GET(request: Request) {
       .from('objects')
       .select('*', { count: 'exact', head: true });
 
-    console.log('Total count of records:', count);
+    // console.log('Total count of records:', count);
 
     // Query with pagination
     const { data, error } = await supabase
@@ -35,14 +35,14 @@ export async function GET(request: Request) {
       .order('created_at', { ascending: false })
       .range(offset, offset + limit - 1);
 
-    console.log('Query details:', {
-      hasError: !!error,
-      errorMessage: error?.message,
-      dataLength: data?.length,
-      limit,
-      offset,
-      countError: countError?.message
-    });
+    // console.log('Query details:', {
+    //   hasError: !!error,
+    //   errorMessage: error?.message,
+    //   dataLength: data?.length,
+    //   limit,
+    //   offset,
+    //   countError: countError?.message
+    // });
 
     if (error) {
       console.error('Supabase database error:', error);

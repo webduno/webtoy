@@ -30,7 +30,7 @@ export default function MultiPlayerPage() {
   const [lastFriend, setLastFriend] = useState<string>('')
   const hasFetchedMyip = useRef(false)
   const fetchMyip = async () => {
-    console.log('fetchMyip', hasFetchedMyip.current)
+    // console.log('fetchMyip', hasFetchedMyip.current)
     if (hasFetchedMyip.current) return;
     
     // console.log("fetchMyip")
@@ -40,7 +40,7 @@ export default function MultiPlayerPage() {
       alert('No IP found')
       return
     }
-    console.log('fetchMyip', data.ip)
+    // console.log('fetchMyip', data.ip)
     setMyip(data.ip)
     // setFriends([
     //   { PLAYER_ID: data.ip }, // myself
@@ -48,10 +48,10 @@ export default function MultiPlayerPage() {
     // loadplayerid from localStorage
     const playerId = localStorage.getItem('PLAYER_ID')
     if (playerId) {
-      console.log('fetchMyip setfriendlist again', playerId)
+      // console.log('fetchMyip setfriendlist again', playerId)
       setFriends([{ PLAYER_ID: playerId }])
     }
-    console.log('fetchMyip', friends)
+    // console.log('fetchMyip', friends)
     // Load last friend from localStorage
     const savedFriend = localStorage.getItem('lastFriend')
     if (savedFriend) {
@@ -91,14 +91,14 @@ export default function MultiPlayerPage() {
   }
   
   const handleExitPlay = () => {
-    console.log('final callback')
+    // console.log('final callback')
     setIsPlaying(false)
     clearPhysicsState()
   }
   useEffect(() => {
-    console.log('45h156sdgr5useEffectuseEffectuseEffect ')
+    // console.log('45h156sdgr5useEffectuseEffectuseEffect ')
     fetchMyip()
-    console.log('useEffectuseEffectuseEffect ')
+    // console.log('useEffectuseEffectuseEffect ')
     // Load username from localStorage if it exists
     const savedUsername = localStorage.getItem('username')
     if (savedUsername) {
@@ -158,7 +158,7 @@ export default function MultiPlayerPage() {
     setShowTutorial(false)
   }
   const handleLoadTemplate = (templateName: string) => {
-    console.log(`Loading template: ${templateName}`)
+    // console.log(`Loading template: ${templateName}`)
     // Call loadTemplate directly with the template name
     stageRef.current?.loadTemplate(templateName)
     setShowTemplates(false)
@@ -173,7 +173,7 @@ export default function MultiPlayerPage() {
       alert('Invalid input. Only letters, numbers and underscores are allowed.');
       return;
     }
-    console.log('adding friend', friends, theNewName)
+    // console.log('adding friend', friends, theNewName)
     setFriends([...friends, { PLAYER_ID: theNewName }])
     
     // Save to localStorage
@@ -218,7 +218,7 @@ export default function MultiPlayerPage() {
           position={playPosition} 
           sceneObjects={stageRef.current?.getSceneObjects() || []}
           onExit={()=>{
-            console.log('handleExitPlayhandleExitPlayhandleExitPlayhandleExitPlay')
+            // console.log('handleExitPlayhandleExitPlayhandleExitPlayhandleExitPlay')
             handleExitPlay()
           }}
           ballCount={parseInt(ballCount) || 3}
@@ -324,7 +324,7 @@ export default function MultiPlayerPage() {
         buttonType='alpha'
         classOverride='tx-altfont-4 tx-lg opaci-chov--50 nowrap px-4 mt-2 '
         onClick={() => {
-          console.log('continue as guest', friends[0].PLAYER_ID)
+          // console.log('continue as guest', friends[0].PLAYER_ID)
          const randomusername = Math.random().toString(36).substring(2, 15);
          setUsername(randomusername)
          localStorage.setItem('PLAYER_ID', randomusername)

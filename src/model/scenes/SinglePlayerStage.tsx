@@ -111,21 +111,21 @@ const SinglePlayerStage = forwardRef<SinglePlayerStageHandle, {
       const sceneData = sceneRef.current?.getSceneData();
       if (sceneData) {
         navigator.clipboard.writeText(JSON.stringify(sceneData.objects));
-        console.log('Scene content copied to clipboard');
+        // console.log('Scene content copied to clipboard');
       }
     },
     pasteContent: async () => {
       // Try to paste from clipboard
       try {
         const clipboardText = await navigator.clipboard.readText();
-        console.log("clipboardText", clipboardText)
+        // console.log("clipboardText", clipboardText)
         const sceneData = JSON.parse(clipboardText);
         // Handle both array format and objects format
         const objects = Array.isArray(sceneData) ? sceneData : sceneData.objects;
-        console.log("objects", objects)
+        // console.log("objects", objects)
         if (objects) {
           sceneRef.current?.loadSceneData({ objects });
-          console.log('Scene content pasted from clipboard');
+          // console.log('Scene content pasted from clipboard');
         }
       } catch (error) {
         console.error('Failed to paste content from clipboard:', error);
@@ -138,7 +138,7 @@ const SinglePlayerStage = forwardRef<SinglePlayerStageHandle, {
     loadTemplate: (templateName: string) => {
       // Load the template from scene templates
       sceneRef.current?.loadTemplate(templateName);
-      console.log(`Template loaded: ${templateName}`);
+      // console.log(`Template loaded: ${templateName}`);
       
       // Clear selection and adding state after loading template
       setSelectedObject(null);

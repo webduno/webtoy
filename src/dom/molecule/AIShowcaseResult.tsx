@@ -17,12 +17,12 @@ export const AIShowcaseResult = ({ result }: { result: any; }) => {
         return;
       }
 
-      console.log("ShowcaseResult - Full result:", result);
-      console.log("ShowcaseResult - Result type:", typeof result);
-      console.log("ShowcaseResult - Is Array?", Array.isArray(result));
-      if (result && typeof result === 'object') {
-        console.log("ShowcaseResult - Result keys:", Object.keys(result));
-      }
+      // console.log("ShowcaseResult - Full result:", result);
+      // console.log("ShowcaseResult - Result type:", typeof result);
+      // console.log("ShowcaseResult - Is Array?", Array.isArray(result));
+      // if (result && typeof result === 'object') {
+      //   console.log("ShowcaseResult - Result keys:", Object.keys(result));
+      // }
 
       if (!result) return;
 
@@ -34,9 +34,9 @@ export const AIShowcaseResult = ({ result }: { result: any; }) => {
 
       // Create objects from the result data
       if (Array.isArray(result)) {
-        console.log("Processing array result with length:", result.length);
+        // console.log("Processing array result with length:", result.length);
         result.forEach((object: any) => {
-          console.log("Creating object from array:", object);
+          // console.log("Creating object from array:", object);
           createObject(
             object.position,
             object.scale,
@@ -50,9 +50,9 @@ export const AIShowcaseResult = ({ result }: { result: any; }) => {
           );
         });
       } else if (result.data && result.data.scene) {
-        console.log("Processing nested result with scene length:", result.data.scene.length);
+        // console.log("Processing nested result with scene length:", result.data.scene.length);
         result.data.scene.forEach((object: any) => {
-          console.log("Creating object from nested data:", object);
+          // console.log("Creating object from nested data:", object);
           createObject(
             object.position,
             object.scale,
