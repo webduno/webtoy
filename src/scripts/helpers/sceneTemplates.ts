@@ -11,7 +11,7 @@ import BOWLING_ALLEY_JSON from './maps/BOWLING_ALLEY.json'
 import FOOTBALL_FIELD_JSON from './maps/FOOTBALL_FIELD.json'
 import SOCCER_FIELD_JSON from './maps/SOCCER_FIELD.json'
 import DOMINOES_JSON from './maps/DOMINOES.json'
-
+import CARDBOX_WAREHOUSE_JSON from './maps/CARDBOX_WAREHOUSE.json'
 
 
 const GOLF_COURSE = GOLF_COURSE_JSON
@@ -24,7 +24,6 @@ const BOWLING_ALLEY = BOWLING_ALLEY_JSON
 const FOOTBALL_FIELD = FOOTBALL_FIELD_JSON
 const SOCCER_FIELD = SOCCER_FIELD_JSON
 const DOMINOES = DOMINOES_JSON
-
 
 /**
  * Get template data based on the template name
@@ -48,7 +47,7 @@ export function getTemplateData(templateName: string | null): any[] | null {
     case 'soccer_field': return SOCCER_FIELD;
     case 'dominoes': return DOMINOES;
     case 'minecraft_parkour': return MINECRAFT_PARKOUR_JSON;
-    
+    case 'cardbox_warehouse': return CARDBOX_WAREHOUSE_JSON
     default:
       return null;
   }
@@ -60,6 +59,7 @@ export const DEFAULT_TEMPLATE_LIST = [
   { name: 'minecraft_parkour', description: '🏃‍♂️#Minecraft Parkour' },
   { name: 'shooting_range', description: '🎯#Shooting range' },
   { name: 'bowling_alley', description: '🎳#Bowling alley' },
+  { name: 'cardbox_warehouse', description: '🎲#Cardbox warehouse' },
   { name: 'castle', description: '🏰#Medieval castle' },
   { name: 'basketball_court', description: '🏀#Basketball court' },
   { name: 'golf_course', description: '⛳#Golf course' },
