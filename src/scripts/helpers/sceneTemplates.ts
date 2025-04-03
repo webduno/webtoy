@@ -59,7 +59,7 @@ export const DEFAULT_TEMPLATE_LIST = [
   { name: 'minecraft_parkour', description: '🏃‍♂️#Minecraft Parkour' },
   { name: 'shooting_range', description: '🎯#Shooting range' },
   { name: 'bowling_alley', description: '🎳#Bowling alley' },
-  { name: 'cardbox_warehouse', description: '🎲#Cardbox warehouse' },
+  { name: 'cardbox_warehouse', description: '📦#Cardbox warehouse' },
   { name: 'castle', description: '🏰#Medieval castle' },
   { name: 'basketball_court', description: '🏀#Basketball court' },
   { name: 'golf_course', description: '⛳#Golf course' },
