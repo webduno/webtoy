@@ -291,6 +291,7 @@ export default function MultiPlayerPage() {
           Enter Your <br /> Username 
         </div>
       )}
+      {friends.length === 1 &&  !username && (
               <div className='tx-altfont-4 tx-white tx-shadow-5 tx-lg pa-2 flex-row gap-2 pr-3 bord-r-5'
                 data-tooltip-id="username-tooltip"
                 data-tooltip-place='bottom'
@@ -317,6 +318,7 @@ export default function MultiPlayerPage() {
         }
       }} username={username} />
       </div>
+      )}
 
       {friends.length === 1 &&  !username && (<>
       {/* <div className='tx-white tx-altfont-4 tx-lgx game-font-1'>or</div> */}
