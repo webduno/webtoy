@@ -57,7 +57,7 @@ export function PhysicsScene({
   isMobile, 
   ballCount,
   playerHeight = 0.3,
-  playerRadius = 0.1,
+  playerRadius = 0.15,
   moveSpeed = 5,
   jumpForce = 7,
   maxVelocity = 30
