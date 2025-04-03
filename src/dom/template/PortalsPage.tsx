@@ -1,5 +1,5 @@
 "use client"
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState, useEffect, useCallback } from 'react'
 import { useSearchParams } from 'next/navigation'
 import styles from '../app/portals/page.module.css'
 import Logo from '@/dom/atom/logo/Logo'
@@ -14,6 +14,11 @@ import { Physics, usePlane } from '@react-three/cannon'
 import { PhysicsScene } from '@/model/physics/PhysicsScene'
 import { GameButton } from '@/dom/atom/game/GameButton'
 import { Box } from '@react-three/drei'
+import ConnectedUsers from '@/dom/atom/ConnectedUsers'
+import ConnectedUserAvatars from '@/dom/molecule/ConnectedUserAvatars'
+
+// Define Position type if not already globally available
+type Position = [number, number, number];
 
 interface PortalParams {
   username?: string;
@@ -30,39 +35,44 @@ interface PortalParams {
   rotation_z?: number;
 }
 
+const INITIAL_POSITION: Position = [-0, 5, 28]; // Define initial position constant
+
 export default function PortalsPage() {
   const [portalParams, setPortalParams] = useState<PortalParams>({});
   const [isLoading, setIsLoading] = useState(false);
   const [showControls, setShowControls] = useState(true);
   const [isMobileDevice, setIsMobileDevice] = useState(false);
   const searchParams = useSearchParams();
+  const [username, setUsername] = useState<string>('');
+  const currentUserPositionRef = useRef<Position>(INITIAL_POSITION); // Use ref for position
 
   useEffect(() => {
     setIsMobileDevice(isMobile());
   }, []);
 
   useEffect(() => {
-    // console.log("searchParams", searchParams.get("color"))
-    let username = searchParams.get('username');
+    let currentUsername = searchParams.get('username');
     
     // If no username in URL, check localStorage or generate random string
-    if (!username) {
+    if (!currentUsername) {
       const storedPlayerId = localStorage.getItem('PLAYER_ID');
       if (storedPlayerId) {
-        username = storedPlayerId;
+        currentUsername = storedPlayerId;
       } else {
-        username = Math.random().toString(36).substring(2, 15);
-        localStorage.setItem('PLAYER_ID', username);
+        currentUsername = Math.random().toString(36).substring(2, 15);
+        localStorage.setItem('PLAYER_ID', currentUsername);
       }
       
       // Update URL with the username
       const newUrl = new URL(window.location.href);
-      newUrl.searchParams.set('username', username);
+      newUrl.searchParams.set('username', currentUsername);
       window.history.replaceState({}, '', newUrl.toString());
     }
 
+    setUsername(currentUsername || '');
+
     const params: PortalParams = {
-      username: username || undefined,
+      username: currentUsername || undefined,
       color: searchParams.get('color') || '%2300B30F',
       speed: searchParams.get('speed') ? Number(searchParams.get('speed')) : 1,
       ref: searchParams.get('ref') || undefined,
@@ -75,12 +85,28 @@ export default function PortalsPage() {
       rotation_y: searchParams.get('rotation_y') ? Number(searchParams.get('rotation_y')) : 0,
       rotation_z: searchParams.get('rotation_z') ? Number(searchParams.get('rotation_z')) : 0,
     };
-
-    // Log the parsed parameters for debugging
-    // console.log('Parsed URL parameters:', params);
     
     setPortalParams(params);
   }, [searchParams]);
+
+  // Callback passed to PhysicsScene to update the position ref
+  const handlePositionChange = useCallback((position: Position) => {
+    // --- DEBUG --- 
+    // console.log(`PortalsPage: handlePositionChange received:`, JSON.stringify(position)); 
+    // --- END DEBUG ---
+    currentUserPositionRef.current = position;
+    // --- DEBUG --- 
+    // console.log(`PortalsPage: currentUserPositionRef updated to:`, JSON.stringify(currentUserPositionRef.current)); 
+    // --- END DEBUG ---
+  }, []);
+
+  // Callback provided to ConnectedUserAvatars to get the current position
+  const getCurrentUserPosition = useCallback((): Position => {
+    // --- DEBUG --- 
+    // console.log(`PortalsPage: getCurrentUserPosition called, returning:`, JSON.stringify(currentUserPositionRef.current)); 
+    // --- END DEBUG ---
+    return currentUserPositionRef.current;
+  }, []);
 
   return (
     <>
@@ -110,6 +136,7 @@ export default function PortalsPage() {
           </div>
         </div>
       )}
+      {username && <ConnectedUsers currentUsername={username} />}
       <div style={{ width: '100vw', height: '100vh', position: 'absolute', top: 0, left: 0 }}>
         <Canvas camera={{ position: [-0, 10, 28], fov: 125 }} shadows>
           <Physics 
@@ -122,16 +149,25 @@ export default function PortalsPage() {
             <PhysicsScene 
               playerHeight={1}
               playerRadius={0.3}
-              moveSpeed={14}
-              jumpForce={20}
-              maxVelocity={80}
-              position={[-0, 5, 28]} 
+              moveSpeed={15}
+              jumpForce={1000}
+              // maxVelocity={80}
+              position={INITIAL_POSITION} 
               sceneObjects={[]} 
               onExit={() => {}} 
               isMobile={isMobileDevice} 
               ballCount={0}
+              onPositionChange={handlePositionChange}
             />
             <PortalsStage portalParams={portalParams} onPortalCollision={() => setIsLoading(true)} />
+            
+            {/* Render avatars if username is available */}
+            {username && (
+              <ConnectedUserAvatars 
+                currentUsername={username} 
+                getPosition={getCurrentUserPosition}
+              />
+            )}
           </Physics>
         </Canvas>
       </div>

@@ -20,6 +20,16 @@ export default function SimpleScene({ children, cameraSettings, noLights }: Simp
       // merge cameraSettings with default camera settings
       camera={{ position: [-10, 10, 10], fov: 30, ...cameraSettings }}
       shadows
+      gl={{
+        antialias: true,
+        alpha: true,
+        powerPreference: "high-performance",
+        failIfMajorPerformanceCaveat: false,
+        preserveDrawingBuffer: true
+      }}
+      onError={(error) => {
+        console.error('WebGL Error:', error);
+      }}
     >
       {!noLights && (
         <>

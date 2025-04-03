@@ -7,6 +7,9 @@ import { Physics, useCylinder, usePlane } from '@react-three/cannon'
 import { PhysicalBall, PhysicalBox } from './PhysicalObjects'
 import { PhysicsSceneProps } from '@/scripts/types/canonPOV'
 
+// Define the position type
+type Position = [number, number, number];
+
 // Move SceneObjects outside the main component
 const SceneObjects = ({ sceneObjects, isMobile }: { sceneObjects: Object3D[], isMobile: boolean }) => {
   return (
@@ -59,14 +62,16 @@ export function PhysicsScene({
   playerHeight = 0.3,
   playerRadius = 0.1,
   moveSpeed = 5,
-  jumpForce = 7,
-  maxVelocity = 30
-}: PhysicsSceneProps) {
+  jumpForce = 500,
+  maxVelocity = 30,
+  onPositionChange
+}: PhysicsSceneProps & { onPositionChange?: (position: Position) => void }) {
   const controlsRef = useRef<any>(null)
   const { camera } = useThree()
   const [isLocked, setIsLocked] = useState(false)
   const [showHitbox, setShowHitbox] = useState(true)
   const [isOnGround, setIsOnGround] = useState(false)
+  const [currentPlayerPosition, setCurrentPlayerPosition] = useState<Position>(position); // Initialize with start position
   
   // Multiple balls state
   const [balls, setBalls] = useState<Array<{
@@ -88,6 +93,10 @@ export function PhysicsScene({
   
   // Player physics properties are now passed as props with defaults
   
+  // Define maximum climb angle (e.g., 45 degrees)
+  const maxClimbAngle = Math.PI / 4; 
+  const minGroundNormalY = Math.cos(maxClimbAngle); // Minimum Y component for a walkable normal
+
   // Use Cannon.js cylinder for player physics
   const [playerRef, playerApi] = useCylinder(
     () => ({
@@ -98,25 +107,30 @@ export function PhysicsScene({
       linearDamping: 0, // No resistance to movement
       material: 'player',
       onCollide: (e) => {
-        // Check if collision is with ground or other objects below player
         const contactNormal = e.contact.ni;
         
-        // If the normal's Y component is positive, we're hitting something from below
-        // which means we're standing on it
-        if (contactNormal[1] > 0.5) {
+        // Check if the collision is with a surface below the player
+        // that is flat enough to be considered ground.
+        if (contactNormal[1] > minGroundNormalY) {
+          // console.log(`PhysicsScene: Ground contact detected. Normal Y: ${contactNormal[1].toFixed(3)} > ${minGroundNormalY.toFixed(3)}`); // Optional Debug
           setIsOnGround(true);
+        } else {
+          // Optional: If colliding with something below that's too steep, 
+          // ensure we know we aren't grounded, although gravity should handle sliding.
+          // if (contactNormal[1] > 0) { // Check if it's generally below
+          //   setIsOnGround(false);
+          // }
         }
         
-        // We also check for side collisions which could be stairs or slopes
-        // where the player can still jump from
+        // Keep the side collision check as is for now, as it helps with stairs/small obstacles
+        // This allows jumping even if the main ground check fails, provided we're near the initial height.
         if (Math.abs(contactNormal[1]) < 0.25 && 
             (Math.abs(contactNormal[0]) > 0.5 || 
              Math.abs(contactNormal[2]) > 0.5)) {
-          // Check if we're near the ground by casting a short ray downward
           const currentPos = e.body?.position;
-          // Handle both array and Vector3 type cases
           const posY = Array.isArray(currentPos) ? currentPos[1] || 0 : currentPos?.y || 0;  
-          if (posY < position[1] + 0.5) { // If we're close to initial height or lower
+          if (posY < position[1] + 0.5) { 
+            // console.log("PhysicsScene: Side contact near ground detected, allowing jump."); // Optional Debug
             setIsOnGround(true);
           }
         }
@@ -368,13 +382,16 @@ export function PhysicsScene({
   
   // Connect player mesh to camera
   useEffect(() => {
-    if (playerRef.current) {
-      // Add a listener to update the camera position based on the player physics body
-      playerApi.position.subscribe((pos) => {
-        if (camera) {
-          // Set camera position with an offset for eye level (top of cylinder)
-          camera.position.set(pos[0], pos[1] + (playerHeight/1.1), pos[2])
-        }
+    if (playerRef.current && camera) {
+      // console.log("PhysicsScene: Setting up direct camera position subscription."); // CLEANED
+      const unsubscribePos = playerApi.position.subscribe((pos) => {
+        // const timeNow = performance.now(); // CLEANED
+        // --- DEBUG: Log position update from physics engine --- 
+        // console.log(`PhysicsScene Pos Sub [${timeNow.toFixed(2)}]: Received physics pos: [${pos.map(p=>p.toFixed(3)).join(',')}]`); // CLEANED
+        // --- END DEBUG ---
+        
+        // Ensure there's no lerp here - direct set:
+        camera.position.set(pos[0], pos[1] + playerHeight * 0.75, pos[2])
       })
       
       // Reset falling state detection for more reliable ground detection
@@ -387,128 +404,173 @@ export function PhysicsScene({
         }
       }, 100);
       
-      return () => clearInterval(interval);
+      return () => {
+        // console.log("PhysicsScene: Cleaning up direct camera position subscription."); // CLEANED
+        unsubscribePos(); 
+        clearInterval(interval); // Clear existing interval
+      }
     }
   }, [camera, playerApi, playerHeight])
   
   // Track velocity for jump mechanics
   const velocityRef = useRef<[number, number, number]>([0, 0, 0])
-  const positionRef = useRef<[number, number, number]>([position[0], position[1], position[2]])
+  const positionRef = useRef<Position>(position); // Ensure positionRef starts with initial position
   useEffect(() => {
     // Subscribe to velocity changes for jump detection
-    playerApi.velocity.subscribe((v) => {
+    const unsubscribeVel = playerApi.velocity.subscribe((v) => {
+      // --- DEBUG: Log velocity updates from subscription --- 
+      if (Math.abs(v[0]) > 0.01 || Math.abs(v[1]) > 0.01 || Math.abs(v[2]) > 0.01) { // Log only if non-zero
+        // console.log(`PhysicsScene: Velocity Subscription Update - x: ${v[0].toFixed(2)}, y: ${v[1].toFixed(2)}, z: ${v[2].toFixed(2)}`);
+      }
+      // --- END DEBUG ---
       velocityRef.current = v
     })
     
     // Subscribe to position changes to detect reset condition
-    playerApi.position.subscribe((p) => {
+    const unsubscribePos = playerApi.position.subscribe((p) => {
       positionRef.current = p
     })
+    
+    return () => {
+        unsubscribeVel();
+        unsubscribePos();
+    }
   }, [playerApi])
   
-  // Player movement using physics
-  useFrame(() => {
-    // Reset position if player falls below -15 on any axis
-    const currentPosition = positionRef.current
-    if (currentPosition[1] < -15) {
-      // Reset to initial position
-      playerApi.position.set(position[0], position[1] + playerHeight / 2, position[2])
-      playerApi.velocity.set(0, 0, 0)
+  // Effect to call the callback when position changes
+  useEffect(() => {
+    if (onPositionChange) {
+      // --- DEBUG: Log position being sent by the effect --- 
+      // console.log(`PhysicsScene Effect: Calling onPositionChange with state:`, JSON.stringify(currentPlayerPosition));
+      // --- END DEBUG ---
+      onPositionChange(currentPlayerPosition);
     }
+  }, [currentPlayerPosition, onPositionChange]);
+  
+  // Physics and Rendering loop
+  useFrame((state, delta) => {
+    // --- DEBUG: Log velocity at start of frame --- 
+    // console.log(`PhysicsScene: Start of Frame - Velocity Ref: x: ${velocityRef.current[0].toFixed(2)}, y: ${velocityRef.current[1].toFixed(2)}, z: ${velocityRef.current[2].toFixed(2)}`);
+    // --- END DEBUG ---
+
+    if (!playerRef.current) {
+      // console.log("PhysicsScene: playerRef.current is null");
+      return;
+    }
+    // Update currentPlayerPosition state based on physics subscription ref
+    const newPosition = positionRef.current; // <-- USE positionRef FROM SUBSCRIPTION
+    
+    // --- DEBUG: Log values before comparison ---
+    const statePos = currentPlayerPosition;
+    const diffX = Math.abs(newPosition[0] - statePos[0]);
+    const diffY = Math.abs(newPosition[1] - statePos[1]);
+    const diffZ = Math.abs(newPosition[2] - statePos[2]);
+    if (diffX > 1e-6 || diffY > 1e-6 || diffZ > 1e-6) {
+        // console.log(`PhysicsScene Compare: State=[${statePos.map(p=>p.toFixed(3)).join(',')}] PhysicsRef=[${newPosition.map(p=>p.toFixed(3)).join(',')}] Diffs=(${diffX.toFixed(3)}, ${diffY.toFixed(3)}, ${diffZ.toFixed(3)})`); // Changed log label
+    }
+    // --- END DEBUG ---
+
+    if (diffX > 0.01 || diffY > 0.01 || diffZ > 0.01) {
+      // --- DEBUG: Log inside the state update condition --- 
+      // console.log(`PhysicsScene useFrame: Position changed! Current state: ${JSON.stringify(currentPlayerPosition)}, New position from ref: ${JSON.stringify(newPosition)}`); // Changed log label
+      // console.log(`PhysicsScene useFrame: Calling setCurrentPlayerPosition with new position.`);
+      // --- END DEBUG ---
+      setCurrentPlayerPosition(newPosition);
+    }
+
+    // Calculate movement direction based on camera orientation
+    const cameraDirection = new Vector3()
+    camera.getWorldDirection(cameraDirection)
+    cameraDirection.y = 0 // Keep movement horizontal
+    cameraDirection.normalize()
+    
+    const cameraRight = new Vector3()
+    cameraRight.crossVectors(camera.up, cameraDirection).normalize().negate() // Negate because cross(up, forward) points left
+    
+    // Determine movement intent from controls
+    let inputX = 0
+    let inputZ = 0
     
     if (isMobile) {
-      // Mobile controls logic
-      const direction = new Vector3()
-      
-      // Use joystick input for movement direction
-      const frontVector = new Vector3(0, 0, touchMove.y)
-      const sideVector = new Vector3(-touchMove.x, 0, 0)
-      
-      direction
-        .subVectors(frontVector, sideVector)
-        .normalize()
-        .multiplyScalar(moveSpeed)
-        .applyEuler(camera.rotation)
-      
-      const currentVelocity = velocityRef.current
-      
-      // Only change velocity if there's input
-      if (Math.abs(touchMove.x) > 0.1 || Math.abs(touchMove.y) > 0.1) {
-        // Apply smoothing factor for gradual acceleration
-        const smoothFactor = 0.3 // Increased for faster acceleration
-        const targetVelX = Math.max(Math.min(direction.x, maxVelocity), -maxVelocity)
-        const targetVelZ = Math.max(Math.min(direction.z, maxVelocity), -maxVelocity)
-        
-        // Blend current velocity with target velocity for smoother acceleration
-        const newVelX = currentVelocity[0] + (targetVelX - currentVelocity[0]) * smoothFactor
-        const newVelZ = currentVelocity[2] + (targetVelZ - currentVelocity[2]) * smoothFactor
-        
-        playerApi.velocity.set(newVelX, currentVelocity[1], newVelZ)
-      } else if (Math.abs(currentVelocity[0]) > 0.1 || Math.abs(currentVelocity[2]) > 0.1) {
-        // Apply friction/deceleration when no input is given
-        const frictionFactor = 0.5 // Almost no deceleration
-        playerApi.velocity.set(
-          currentVelocity[0] * frictionFactor,
-          currentVelocity[1],
-          currentVelocity[2] * frictionFactor
-        )
-      }
-      
-      // Handle jumping with touch button
-      if (touchJump && isOnGround) {
-        playerApi.velocity.set(currentVelocity[0], jumpForce, currentVelocity[2])
-        setIsOnGround(false)
-      }
+      inputX = touchMove.x
+      inputZ = touchMove.y // Forward/backward from joystick Y
     } else {
-      // Desktop controls logic
-      if (!isLocked || !controlsRef.current) return
-      
-      // Calculate movement direction based on camera rotation
-      const direction = new Vector3()
-      const frontVector = new Vector3(0, 0, moveBackward ? 1 : moveForward ? -1 : 0)
-      const sideVector = new Vector3(moveLeft ? 1 : moveRight ? -1 : 0, 0, 0)
-      
-      direction
-        .subVectors(frontVector, sideVector)
-        .normalize()
-        .multiplyScalar(moveSpeed)
-        .applyEuler(camera.rotation)
-      
-      // Apply horizontal movement with max speed limit and smoothing
-      const currentVelocity = velocityRef.current
-      
-      // Only change velocity if there's input
-      if (frontVector.length() > 0 || sideVector.length() > 0) {
-        // Apply smoothing factor for gradual acceleration
-        const smoothFactor = 0.3 // Increased for faster acceleration
-        const targetVelX = Math.max(Math.min(direction.x, maxVelocity), -maxVelocity)
-        const targetVelZ = Math.max(Math.min(direction.z, maxVelocity), -maxVelocity)
-        
-        // Blend current velocity with target velocity for smoother acceleration
-        const newVelX = currentVelocity[0] + (targetVelX - currentVelocity[0]) * smoothFactor
-        const newVelZ = currentVelocity[2] + (targetVelZ - currentVelocity[2]) * smoothFactor
-        
-        playerApi.velocity.set(newVelX, currentVelocity[1], newVelZ)
-      } else if (Math.abs(currentVelocity[0]) > 0.1 || Math.abs(currentVelocity[2]) > 0.1) {
-        // Apply friction/deceleration when no input is given
-        const frictionFactor = 0.5 // Almost no deceleration
-        playerApi.velocity.set(
-          currentVelocity[0] * frictionFactor,
-          currentVelocity[1],
-          currentVelocity[2] * frictionFactor
-        )
-      }
-      
-      // Handle jumping - check if on ground using collision detection
-      if (jump && isOnGround) {
-        playerApi.velocity.set(currentVelocity[0], jumpForce, currentVelocity[2])
-        setIsOnGround(false)
-      }
+      inputX = (moveRight ? 1 : 0) - (moveLeft ? 1 : 0)
+      inputZ = (moveForward ? 1 : 0) - (moveBackward ? 1 : 0) // Forward is +1, Backward is -1
     }
     
-    // If falling, we're definitely not on ground
-    if (velocityRef.current[1] < -0.1) {
-      setIsOnGround(false)
+    // --- DEBUG --- 
+    if(inputX !== 0 || inputZ !== 0) {
+      // console.log(`PhysicsScene: Controls Input - inputX: ${inputX}, inputZ: ${inputZ}`);
+    }
+    // --- END DEBUG ---
+    
+    // Combine movement directions: Scale camera vectors by input
+    const moveDirection = new Vector3()
+    const forwardMovement = cameraDirection.clone().multiplyScalar(inputZ);
+    const sidewaysMovement = cameraRight.clone().multiplyScalar(inputX);
+    moveDirection.add(forwardMovement).add(sidewaysMovement);
+    
+    // Normalize only if there is movement to prevent normalizing a zero vector
+    if (moveDirection.lengthSq() > 0) {
+      moveDirection.normalize()
+    }
+
+    // --- DEBUG --- 
+    if(inputX !== 0 || inputZ !== 0) {
+        // console.log(`PhysicsScene: Move Direction - x: ${moveDirection.x.toFixed(2)}, y: ${moveDirection.y.toFixed(2)}, z: ${moveDirection.z.toFixed(2)}`);
+    }
+    // --- END DEBUG ---
+    
+    // Calculate TARGET velocity directly from input direction and moveSpeed
+    // No delta here, as we want the target speed instantly.
+    const targetHorizontalVelocity = moveDirection.multiplyScalar(moveSpeed);
+
+    // Get current vertical velocity from the physics engine (ref)
+    const currentVerticalVelocity = velocityRef.current[1];
+    
+    // Construct the final target velocity vector
+    let targetVelocity = new Vector3(
+        targetHorizontalVelocity.x,
+        currentVerticalVelocity, // Preserve gravity/jump velocity
+        targetHorizontalVelocity.z
+    );
+
+    // --- DEBUG --- 
+    // if(targetHorizontalVelocity.lengthSq() > 0.001) { // Log only if attempting to move
+    //     console.log(`PhysicsScene: Target Velocity (Direct) - x: ${targetVelocity.x.toFixed(2)}, y: ${targetVelocity.y.toFixed(2)}, z: ${targetVelocity.z.toFixed(2)}`);
+    // }
+    // --- END DEBUG ---
+
+    // Clamp horizontal velocity to maxVelocity
+    const horizontalMagnitudeSq = targetVelocity.x * targetVelocity.x + targetVelocity.z * targetVelocity.z;
+    if (horizontalMagnitudeSq > maxVelocity * maxVelocity) {
+      const horizontalMagnitude = Math.sqrt(horizontalMagnitudeSq);
+      targetVelocity.x = (targetVelocity.x / horizontalMagnitude) * maxVelocity;
+      targetVelocity.z = (targetVelocity.z / horizontalMagnitude) * maxVelocity;
+      // Keep targetVelocity.y as is (currentVerticalVelocity)
+    }
+    
+    // Apply the calculated target velocity DIRECTLY to the player
+    playerApi.velocity.set(targetVelocity.x, targetVelocity.y, targetVelocity.z)
+    
+    // Handle jumping
+    const isTryingToJump = isMobile ? touchJump : jump
+    // --- DEBUG --- 
+    if (isTryingToJump) {
+      // console.log(`PhysicsScene: Jump Attempt - isOnGround: ${isOnGround}`);
+    }
+    // --- END DEBUG ---
+    if (isTryingToJump && isOnGround) {
+      // console.log("PhysicsScene: Applying Jump Impulse"); // --- DEBUG ---
+      playerApi.applyImpulse([0, jumpForce, 0], [0, 0, 0])
+      setIsOnGround(false) // Prevent multi-jump
+    }
+
+    // Handle exit via ESC key for non-mobile
+    if (!isMobile && controlsRef.current && !controlsRef.current.isLocked) {
+      // If pointer lock is lost (e.g., ESC pressed), call onExit
+      // onExit()
     }
   })
   
@@ -522,15 +584,20 @@ export function PhysicsScene({
   
   return (
     <>
+      {/* Render PointerLockControls for non-mobile, attach ref */}
       {!isMobile && (
-        <PointerLockControls 
-          ref={controlsRef}
-          // Vertical rotation enabled for desktop
-        />
+        <PointerLockControls ref={controlsRef} onLock={() => setIsLocked(true)} onUnlock={() => setIsLocked(false)} />
       )}
+      
+      {/* {showHitbox && playerRef.current && (
+        <mesh position={currentPlayerPosition}>
+          <cylinderGeometry args={[playerRadius, playerRadius, playerHeight, 16]} />
+          <meshBasicMaterial color="lime" wireframe />
+        </mesh>
+      )} */}
+
       <SceneObjects sceneObjects={sceneObjects} isMobile={isMobile} />
       
-      {/* Multiple balls */}
       {balls.map((ball) => (
         <PhysicalBall 
           key={ball.id}
