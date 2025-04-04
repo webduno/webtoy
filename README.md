@@ -143,3 +143,89 @@ but its always reocmmended to also use the git protocol for versioning
 
 
 #script
+
+
+
+
+
+
+
+
+
+
+
+
+---
+---
+---
+---
+---
+---
+
+
+
+
+
+
+
+
+march 20
+	base nextjs project
+	ip config
+	google auth api
+march 21
+	add loading state transitions
+	add base 3d scene
+	basic ui buttons
+	map builder
+	save to progress browser
+march 22
+	delete mode
+	fix more ui
+	collaborative mode
+	mobile controllers
+	more scene settings	
+march 23
+	limits to gameplay
+	added templates
+	throw ball behavior
+	new tempaltes to test
+		bowling, soccer, basket, golf
+	genera ui fix
+march 24
+	added sfx
+	simplified mobile for performance
+	added complexity (gravity) to builder
+	reorg files
+march 26
+	ui rebrand for consistency
+	added portals
+	more sfx 
+	fixed portals for mobile
+march 27
+	continued portals params settings
+	add details to portals lobby
+	fixed general errors on all pages
+	added ingame ai-generation for maps
+	refined clipboard behavior for sharing
+march 28
+	fix delete mode
+march 29
+	added maps to test gravity
+	prepare for deploy
+		fixed critical bugs 
+		reorg files
+		refine ui
+march 30
+	continued ui enhancements
+	fix bugs of data persistance
+	added more settings to builder
+	new templates
+april 1
+	improved performance 
+	new templates
+	portals page fixes
+	fixed login bugs
+	added public maps built by players page
+	added analitycs and about page
+	final reorg
