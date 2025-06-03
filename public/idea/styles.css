@@ -283,3 +283,39 @@ body {
     font-size: 0.75rem;
     white-space: nowrap;
 }
+
+.go-to-top-btn {
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.go-to-top-btn:hover {
+    background-color: #357abd;
+}
+
+.go-to-top-btn i {
+    font-size: 16px;
+}
+
+/* Make the buttons container flex */
+.result-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.result-card .button-container {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}

@@ -1,4 +1,7 @@
 $(document).ready(function() {
+    // Initialize confetti
+    const jsConfetti = new JSConfetti();
+    
     // Game data storage
     let gameData = {};
     
@@ -117,6 +120,13 @@ $(document).ready(function() {
         const idea = buildGameSentence(values);
         $('#gameIdea').html(`<p class="generated-text">${idea}</p>`);
         $('#copyIdea').show();
+
+        // Trigger confetti when all fields are filled
+        jsConfetti.addConfetti({
+            emojis: ['🎮', '🎲', '🎯', '🎨', '🎭', '🎪'],
+            emojiSize: 50,
+            confettiNumber: 30,
+        });
     }
     
     // Build the game sentence with proper formatting
@@ -249,6 +259,34 @@ $(document).ready(function() {
             </style>
         `);
     }
+    
+    // Add scroll to bottom functionality for Randomize All button
+    document.querySelector('.scroll-to-bottom').addEventListener('click', function() {
+        setTimeout(() => {
+            window.scrollTo({
+                top: document.body.scrollHeight,
+                behavior: 'smooth'
+            });
+        }, 100);
+    });
+
+    // Add go to top functionality
+    document.getElementById('goToTop').addEventListener('click', function() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+
+    // Show/hide go to top button based on scroll position
+    window.addEventListener('scroll', function() {
+        const goToTopBtn = document.getElementById('goToTop');
+        if (window.scrollY > 300) {
+            goToTopBtn.style.display = 'flex';
+        } else {
+            goToTopBtn.style.display = 'none';
+        }
+    });
     
     // Initialize the application
     loadGameData();
