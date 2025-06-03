@@ -319,3 +319,61 @@ body {
     gap: 10px;
     margin-top: 15px;
 }
+
+.additional-actions {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    text-align: center;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.additional-actions .action-btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+    background: #e9ecef;
+    color: #495057;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.additional-actions .action-btn:hover {
+    background: #dee2e6;
+    transform: translateY(-2px);
+}
+
+.additional-actions .coming-soon {
+    position: relative;
+    opacity: 0.8;
+}
+
+.additional-actions .coming-soon::after {
+    content: 'Coming Soon';
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #ff6b6b;
+    color: white;
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: normal;
+}
+
+.additional-actions .randomize-btn {
+    background: #4dabf7;
+    color: white;
+}
+
+.additional-actions .randomize-btn:hover {
+    background: #339af0;
+}

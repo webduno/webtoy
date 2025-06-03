@@ -290,4 +290,24 @@ $(document).ready(function() {
     
     // Initialize the application
     loadGameData();
+
+    // Add event listeners for additional action buttons
+    document.addEventListener('DOMContentLoaded', function() {
+        // Randomize bottom button
+        const randomizeBottom = document.getElementById('randomizeBottom');
+        if (randomizeBottom) {
+            randomizeBottom.addEventListener('click', function() {
+                document.getElementById('randomizeAll').click();
+            });
+        }
+
+        // Coming soon buttons
+        const comingSoonButtons = document.querySelectorAll('.coming-soon');
+        comingSoonButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                alert('Coming soon!');
+            });
+        });
+    });
 });

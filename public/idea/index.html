@@ -119,11 +119,11 @@
                     <i class="fas fa-dice"></i>
                     Randomize Again
                 </button>
-                <button id="generateImage" class="action-btn" disabled onclick="alert('Coming soon!')">
+                <button id="generateImage" class="action-btn coming-soon" onclick="alert('Coming soon!')">
                     <i class="fas fa-image"></i>
                     Generate Image
                 </button>
-                <button id="generateGame" class="action-btn" disabled onclick="alert('Coming soon!')">
+                <button id="generateGame" class="action-btn coming-soon" onclick="alert('Coming soon!')">
                     <i class="fas fa-gamepad"></i>
                     Generate Game
                 </button>
@@ -132,5 +132,11 @@
     </div>
 
     <script src="/idea/script.js"></script>
+    <script>
+        // Add event listener for the bottom randomize button
+        document.getElementById('randomizeBottom').addEventListener('click', function() {
+            document.getElementById('randomizeAll').click();
+        });
+    </script>
 </body>
 </html>
